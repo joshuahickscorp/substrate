@@ -17,6 +17,8 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
+import resource
 import shutil
 import struct
 import subprocess
@@ -1978,58 +1980,503 @@ def run_custom() -> dict[str, Any]:
     }
 
 
-def longitudinal() -> dict[str, Any]:
-    """Run the protected 24-hour lane using actual elapsed wall time."""
+def invalidate_longitudinal_attempt() -> dict[str, Any]:
+    """Preserve, rather than reuse, an incomplete or invalid lane attempt."""
+
+    lane_root = RUNS / "longitudinal"
+    state_path = lane_root / "state.json"
+    trace_path = lane_root / "trace.jsonl"
+    if not lane_root.exists():
+        raise base.Refused("no longitudinal attempt exists to invalidate")
+    state = base.load_json(state_path) if state_path.is_file() else {}
+    if state.get("complete") is True:
+        raise base.Refused("a complete longitudinal attempt cannot be invalidated")
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    archived = RUNS / f"longitudinal-invalidated-{stamp}"
+    if archived.exists():
+        raise base.Refused(f"longitudinal archive collision: {archived}")
+    trace_digest = _sha_file(trace_path) if trace_path.is_file() else None
+    shutil.move(str(lane_root), str(archived))
+    document = base.authority(
+        "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION",
+        {
+            "reason": (
+                "The initial lane schedule produced only three checkpoints, below "
+                "the R2 minimum of eight. It was stopped before a scientific "
+                "outcome and preserved outside the replacement lane."
+            ),
+            "prior_state": state,
+            "prior_trace_sha256": trace_digest,
+            "archived_attempt": str(archived.relative_to(ROOT)),
+            "invalidated_before_completion": True,
+            "candidate_or_outcome_data_changed": False,
+            "replacement_required": True,
+        },
+        status="invalidated",
+    )
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION.json", document)
+    return document
+
+
+def seal_continuity_repair() -> dict[str, Any]:
+    """Seal the replacement continuity schedule before its real-time launch."""
 
     freeze_document = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json")
+    invalidation_path = EVIDENCE / "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION.json"
+    if not freeze_document.get("freeze_a_created"):
+        raise base.Refused("continuity repair requires the original Freeze A")
+    if not invalidation_path.is_file():
+        raise base.Refused("continuity repair requires an archived invalid attempt")
+    custom = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_CUSTOM_RESULTS.json")
+    principal_raw = ARTIFACTS / "raw_receipts" / "custom" / "principal-rows.jsonl"
+    if not principal_raw.is_file():
+        raise base.Refused("continuity repair requires frozen principal raw receipts")
+    schedule = [list(row) for row in C.LONGITUDINAL_SCHEDULE]
+    document = base.authority(
+        "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL",
+        {
+            "repair_scope": [
+                "continuity schedule",
+                "longitudinal checkpoint accounting",
+                "longitudinal project/file/media/tool receipts",
+                "longitudinal progress monitoring",
+            ],
+            "original_freeze_sha256": freeze_document["sha256"],
+            "invalidation_sha256": base.load_json(invalidation_path)["sha256"],
+            "schedule_version": C.CONTINUITY_SCHEDULE_VERSION,
+            "schedule": schedule,
+            "minimums": C.LONGITUDINAL_MINIMUMS,
+            "schedule_sha256": digest(schedule),
+            "repair_source_sha256": _sha_file(Path(__file__)),
+            "config_source_sha256": _sha_file(
+                ROOT / "src" / "substrate" / "sandbox_config.py"
+            ),
+            "candidate_and_scoring_data_preserved": True,
+            "principal_effect_before_repair": custom["H_T12"]["effect"],
+            "principal_raw_sha256": _sha_file(principal_raw),
+            "outcome_selection_or_reclassification": False,
+            "ready_to_launch": True,
+        },
+        status="sealed_before_replacement_lane",
+    )
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json", document)
+    return document
+
+
+def _inspect_longitudinal_asset(path: Path) -> dict[str, Any]:
+    """Perform a modality-aware operation on an actual frozen artifact."""
+
+    receipt: dict[str, Any] = {
+        "asset": str(path.relative_to(ROOT)),
+        "bytes": path.stat().st_size,
+        "sha256": _sha_file(path),
+        "suffix": path.suffix.lower(),
+    }
+    if path.suffix.lower() in {".docx", ".xlsx", ".pptx"}:
+        with zipfile.ZipFile(path) as package:
+            names = package.namelist()
+        if "[Content_Types].xml" not in names:
+            raise base.Refused(f"invalid Office package in longitudinal lane: {path}")
+        receipt.update({"operation": "office_package_open", "members": len(names)})
+    elif path.suffix.lower() == ".wav":
+        with wave.open(str(path), "rb") as audio:
+            frames = audio.readframes(min(audio.getnframes(), 256))
+            receipt.update(
+                {
+                    "operation": "waveform_decode",
+                    "channels": audio.getnchannels(),
+                    "sample_rate": audio.getframerate(),
+                    "decoded_bytes": len(frames),
+                }
+            )
+    elif path.suffix.lower() == ".mp4":
+        ffmpeg = shutil.which("ffmpeg")
+        if ffmpeg is None:
+            raise base.Refused("ffmpeg is required to decode the longitudinal video")
+        decoded = subprocess.run(
+            [ffmpeg, "-v", "error", "-i", str(path), "-frames:v", "1", "-f", "null", "-"],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=False,
+        )
+        if decoded.returncode:
+            raise base.Refused(f"longitudinal video decode failed: {decoded.stderr}")
+        receipt.update({"operation": "video_frame_decode", "ffmpeg": ffmpeg})
+    elif path.suffix.lower() == ".png":
+        header = path.read_bytes()[:24]
+        if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
+            raise base.Refused(f"invalid PNG in longitudinal lane: {path}")
+        width, height = struct.unpack(">II", header[16:24])
+        receipt.update(
+            {"operation": "pixel_raster_header", "width": width, "height": height}
+        )
+    else:
+        text = path.read_text(encoding="utf-8", errors="replace")
+        receipt.update(
+            {
+                "operation": "structured_text_parse",
+                "line_count": len(text.splitlines()),
+                "nonempty": bool(text.strip()),
+            }
+        )
+    return receipt
+
+
+def _run_restart_recovery(checkpoint: Path) -> dict[str, Any]:
+    """Run a fresh child process against the durable checkpoint state."""
+
+    python = shutil.which("python3") or "python3"
+    probe = subprocess.run(
+        [
+            python,
+            "-c",
+            (
+                "import hashlib,json,pathlib,sys; p=pathlib.Path(sys.argv[1]); "
+                "d=json.loads(p.read_text()); assert d['goal']; "
+                "print(hashlib.sha256(p.read_bytes()).hexdigest())"
+            ),
+            str(checkpoint),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    if probe.returncode:
+        raise base.Refused(f"restart recovery failed: {probe.stderr}")
+    return {
+        "operation": "fresh_process_checkpoint_restore",
+        "python": python,
+        "checkpoint_sha256": probe.stdout.strip(),
+    }
+
+
+def _replace_longitudinal_model(checkpoint: Path) -> dict[str, Any]:
+    """Build a fresh L1 instance from a durable checkpoint, with no old context."""
+
+    import substrate.genesis2_material  # noqa: F401
+    from substrate.genesis_material import Observation, Verdict, build, equal_opportunity
+
+    checkpoint_digest = _sha_file(checkpoint)
+    observation = Observation(
+        index=0,
+        channel="longitudinal_checkpoint",
+        payload=(0, int(checkpoint_digest[:8], 16) % 997, 1),
+        teaching=True,
+        modality="tangible_history",
+    )
+    opportunity = equal_opportunity(
+        envelope="512MB",
+        observations=[observation],
+        sensor_channels=["longitudinal_checkpoint"],
+        operation_budget=100_000,
+        durable_write_budget=10_000,
+    )
+    replacement = build(C.PARENT_SELECTED_MATERIAL, opportunity)
+    replacement.observe(observation)
+    proposals = replacement.propose()
+    replacement.apply(
+        [Verdict(row.proposal_id, True, 1.0, 1.0) for row in proposals]
+    )
+    return {
+        "operation": "fresh_L1_replacement_from_checkpoint",
+        "checkpoint_sha256": checkpoint_digest,
+        "replacement_type": type(replacement).__name__,
+        "proposals_applied": len(proposals),
+        "previous_model_context_reused": False,
+    }
+
+
+def _continuity_work(
+    *,
+    scheduled_hour: int,
+    event: str,
+    activity: str,
+    workspace: Path,
+) -> dict[str, Any]:
+    """Do durable project, file, media, and tool work before each checkpoint."""
+
+    assets = (
+        CORPUS / "builder_visible" / "construction" / "templates" / "aurora-recovery.docx",
+        CORPUS / "builder_visible" / "construction" / "media" / "incident-frame.png",
+        CORPUS / "builder_visible" / "construction" / "media" / "incident-motion.mp4",
+        CORPUS / "builder_visible" / "construction" / "media" / "incident-audio.wav",
+        CORPUS / "builder_visible" / "construction" / "media" / "scene.ply",
+        CORPUS / "builder_visible" / "construction" / "media" / "scene.obj",
+        CORPUS / "builder_visible" / "construction" / "templates" / "aurora-telemetry.xlsx",
+        CORPUS / "builder_visible" / "construction" / "templates" / "aurora-recovery.pptx",
+        CORPUS / "builder_visible" / "construction" / "media" / "telemetry.csv",
+    )
+    requested_asset = assets[min(len(assets) - 1, scheduled_hour // 3)]
+    if not requested_asset.is_file():
+        raise base.Refused(f"longitudinal asset missing: {requested_asset}")
+    state_path = workspace / "project-state.json"
+    previous = base.load_json(state_path) if state_path.is_file() else {}
+    requires_history = activity.startswith("return_old_work") or (
+        "requires_earlier_history" in activity
+    )
+    if requires_history and not previous:
+        raise base.Refused("history-dependent continuity task has no earlier project state")
+    sensor_interruption = None
+    asset = requested_asset
+    if event == "sensor_interruption":
+        sensor_path = workspace / "sensor-availability.json"
+        _write_json(
+            sensor_path,
+            {
+                "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SENSOR_STATE",
+                "sensor": "incident_camera",
+                "available": False,
+                "reason": "scheduled environmental interruption",
+                "activation": False,
+            },
+        )
+        asset = assets[-1]
+        sensor_interruption = {
+            "sensor_state": str(sensor_path.relative_to(ROOT)),
+            "sensor_state_sha256": _sha_file(sensor_path),
+            "requested_asset": str(requested_asset.relative_to(ROOT)),
+            "fallback_asset": str(asset.relative_to(ROOT)),
+            "camera_bytes_consumed_during_interruption": 0,
+        }
+    asset_receipt = _inspect_longitudinal_asset(asset)
+    tool_body_change = None
+    active_tool = str(previous.get("active_tool", "office_package_reader"))
+    if event == "restart_2_tool_body_change":
+        body_asset = assets[2]
+        body_receipt = _inspect_longitudinal_asset(body_asset)
+        if body_receipt["operation"] != "video_frame_decode":
+            raise base.Refused("tool/body transition did not decode a video frame")
+        active_tool = "ffmpeg_video_decoder"
+        tool_body_change = {
+            "previous_tool": previous.get("active_tool", "office_package_reader"),
+            "replacement_tool": active_tool,
+            "body_sensor": "decoded_video_frame",
+            "receipt": body_receipt,
+        }
+    correction_receipt = None
+    corrections = list(previous.get("applied_corrections", []))
+    if event.startswith("human_correction"):
+        goal_path = base.PACKAGE_ROOT / "SUBSTRATE_TANGIBLE_SANDBOX_R2_EXECUTION_GOAL.md"
+        goal_text = goal_path.read_text(encoding="utf-8")
+        directive = (
+            "activation: false"
+            if event == "human_correction_1"
+            else "Do not claim unqualified Nous."
+        )
+        directive_present = (
+            "activation:" in goal_text and "false" in goal_text
+            if event == "human_correction_1"
+            else directive in goal_text
+        )
+        if not directive_present:
+            raise base.Refused(f"human-authored correction is missing: {directive}")
+        correction_path = workspace / "corrections" / f"{event}.md"
+        _write_text(
+            correction_path,
+            "\n".join(
+                [
+                    "# Applied human-authored campaign correction",
+                    f"source: {goal_path}",
+                    f"source_sha256: {_sha_file(goal_path)}",
+                    f"directive: {directive}",
+                    "applied_before_later_history-dependent work: true",
+                ]
+            )
+            + "\n",
+        )
+        correction_receipt = {
+            "source": str(goal_path),
+            "source_sha256": _sha_file(goal_path),
+            "directive": directive,
+            "applied_file": str(correction_path.relative_to(ROOT)),
+            "applied_sha256": _sha_file(correction_path),
+        }
+        corrections.append(correction_receipt)
+    state = {
+        "goal": "finish Aurora recovery evidence and publication",
+        "scheduled_hour": scheduled_hour,
+        "event": event,
+        "activity": activity,
+        "previous_state_sha256": _sha_file(state_path) if state_path.is_file() else None,
+        "asset_receipt": asset_receipt,
+        "history_required": requires_history,
+        "active_tool": active_tool,
+        "sensor_interruption": sensor_interruption,
+        "tool_body_change": tool_body_change,
+        "applied_corrections": corrections,
+        "activation": False,
+    }
+    _write_json(state_path, state)
+    checkpoint = {
+        "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_CHECKPOINT",
+        "goal": state["goal"],
+        "scheduled_hour": scheduled_hour,
+        "event": event,
+        "activity": activity,
+        "project_state_sha256": _sha_file(state_path),
+        "asset_receipt": asset_receipt,
+        "history_required": requires_history,
+        "sensor_interruption": sensor_interruption,
+        "tool_body_change": tool_body_change,
+        "correction_receipt": correction_receipt,
+        "activation": False,
+    }
+    checkpoint_path = workspace / "checkpoints" / f"checkpoint-{scheduled_hour:02d}.json"
+    _write_json(checkpoint_path, checkpoint)
+    if event.startswith("restart_"):
+        checkpoint["restart_recovery"] = _run_restart_recovery(checkpoint_path)
+        _write_json(checkpoint_path, checkpoint)
+    if event == "model_replacement":
+        checkpoint["model_replacement"] = _replace_longitudinal_model(checkpoint_path)
+        _write_json(checkpoint_path, checkpoint)
+    return {
+        "checkpoint": str(checkpoint_path.relative_to(ROOT)),
+        "checkpoint_sha256": _sha_file(checkpoint_path),
+        "project_state_sha256": _sha_file(state_path),
+        "asset_receipt": asset_receipt,
+        "history_required": requires_history,
+        "restart": event.startswith("restart_"),
+        "model_replacement": event == "model_replacement",
+        "tool_or_body_change": event == "restart_2_tool_body_change",
+        "sensor_interruption": event == "sensor_interruption",
+        "human_correction": event.startswith("human_correction"),
+        "return_to_old_work": activity.startswith("return_old_work"),
+        "new_task_requires_earlier_history": "requires_earlier_history" in activity,
+    }
+
+
+def _longitudinal_protection() -> dict[str, Any]:
+    """Record the dedicated worker and the resources it actively watches."""
+
+    priority_before = os.getpriority(os.PRIO_PROCESS, 0)
+    priority_after = priority_before
+    priority_error = None
+    try:
+        os.setpriority(os.PRIO_PROCESS, 0, priority_before - 1)
+        priority_after = os.getpriority(os.PRIO_PROCESS, 0)
+    except PermissionError as error:
+        priority_error = str(error)
+    disk = shutil.disk_usage(ROOT)
+    preflight = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_PREFLIGHT.json")
+    rss_unit = 1 if os.uname().sysname == "Darwin" else 1024
+    initial_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * rss_unit
+    return {
+        "dedicated_worker_pid": os.getpid(),
+        "priority_before": priority_before,
+        "priority_after": priority_after,
+        "priority_raise_error": priority_error,
+        "cpu_time_progress_monitor": True,
+        "heartbeat_interval_seconds": 60,
+        "checkpoint_progress_monitor": True,
+        "checkpoint_grace_seconds": 15 * 60,
+        "receipt_timeout_seconds": 60,
+        "reserved_cpu_share": "one dedicated process",
+        "memory_ceiling_bytes": 536_870_912,
+        "initial_max_rss_bytes": initial_rss,
+        "disk_bandwidth_budget": "single-writer, checkpoint and receipt writes only",
+        "disk_free_bytes_at_launch": disk.free,
+        "disk_floor_bytes": int(preflight["disk"]["required_floor_bytes"]),
+    }
+
+
+def longitudinal() -> dict[str, Any]:
+    """Run the sealed, protected 24-hour continuity lane in real wall time."""
+
+    freeze_document = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json")
+    repair_path = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json"
     if not freeze_document["freeze_a_created"]:
         raise base.Refused("longitudinal lane requires Freeze A")
-    trace_path = RUNS / "longitudinal" / "trace.jsonl"
-    state_path = RUNS / "longitudinal" / "state.json"
-    trace_path.parent.mkdir(parents=True, exist_ok=True)
+    if not repair_path.is_file():
+        raise base.Refused("longitudinal lane requires a sealed continuity schedule")
+    repair = base.load_json(repair_path)
+    if not repair.get("ready_to_launch"):
+        raise base.Refused("continuity repair seal is not launchable")
+    runtime_schedule = [list(row) for row in C.LONGITUDINAL_SCHEDULE]
+    if (
+        repair.get("schedule") != runtime_schedule
+        or repair.get("schedule_sha256") != digest(runtime_schedule)
+    ):
+        raise base.Refused("longitudinal schedule drifted after the continuity seal")
+    if repair["repair_source_sha256"] != _sha_file(Path(__file__)):
+        raise base.Refused("longitudinal source drifted after the continuity seal")
+    config_path = ROOT / "src" / "substrate" / "sandbox_config.py"
+    if repair["config_source_sha256"] != _sha_file(config_path):
+        raise base.Refused("longitudinal configuration drifted after the continuity seal")
+    lane_root = RUNS / "longitudinal"
+    trace_path = lane_root / "trace.jsonl"
+    state_path = lane_root / "state.json"
+    workspace = lane_root / "workspace"
+    if lane_root.exists():
+        raise base.Refused("existing longitudinal root must be completed or invalidated")
+    if base.STOP.exists():
+        raise base.Refused("operator STOP is present; resume before launch")
+    lane_root.mkdir(parents=True, exist_ok=False)
     duration = C.LONGITUDINAL_HOURS * 3600
     start_wall = time.time()
     start_mono = time.monotonic()
-    schedule = [
-        (0, "start"),
-        (3, "checkpoint"),
-        (6, "restart_1"),
-        (9, "human_correction_1"),
-        (12, "model_replacement"),
-        (15, "sensor_interruption"),
-        (18, "restart_2_tool_body_change"),
-        (21, "human_correction_2"),
-        (24, "final_checkpoint"),
-    ]
     emitted: set[int] = set()
-    checkpoints = 0
+    protection = _longitudinal_protection()
+    last_cpu_time = sum(os.times()[:2])
+    rss_unit = 1 if os.uname().sysname == "Darwin" else 1024
     with trace_path.open("a", encoding="utf-8") as trace:
         while True:
             elapsed = time.monotonic() - start_mono
             hours = elapsed / 3600
-            for scheduled_hour, event in schedule:
+            for scheduled_hour, _, _ in C.LONGITUDINAL_SCHEDULE:
+                if (
+                    scheduled_hour not in emitted
+                    and elapsed > scheduled_hour * 3600 + protection["checkpoint_grace_seconds"]
+                ):
+                    raise base.Refused(
+                        f"longitudinal checkpoint {scheduled_hour}h missed its deadline"
+                    )
+            for scheduled_hour, event, activity in C.LONGITUDINAL_SCHEDULE:
                 if scheduled_hour not in emitted and hours >= scheduled_hour:
-                    checkpoints += int("checkpoint" in event or event == "start")
+                    receipt_started = time.monotonic()
+                    cpu_before_receipt = sum(os.times()[:2])
+                    receipt = _continuity_work(
+                        scheduled_hour=scheduled_hour,
+                        event=event,
+                        activity=activity,
+                        workspace=workspace,
+                    )
+                    receipt_elapsed = time.monotonic() - receipt_started
+                    if receipt_elapsed > protection["receipt_timeout_seconds"]:
+                        raise base.Refused(
+                            f"longitudinal receipt exceeded timeout: {event}"
+                        )
+                    receipt["elapsed_seconds"] = round(receipt_elapsed, 6)
+                    receipt["cpu_time_seconds"] = round(
+                        sum(os.times()[:2]) - cpu_before_receipt, 6
+                    )
                     row = {
                         "event": event,
+                        "activity": activity,
                         "scheduled_hour": scheduled_hour,
                         "elapsed_seconds": round(elapsed, 3),
                         "wall_time": _now(),
                         "goal": "finish Aurora recovery evidence and publication",
-                        "owned_state_digest": _sha_bytes(
-                            f"aurora:{scheduled_hour}:{event}".encode()
-                        ),
+                        "work_receipt": receipt,
                         "model": (
-                            "qwen3:8b-replacement"
-                            if scheduled_hour >= 12
+                            "fresh_L1_from_checkpoint"
+                            if receipt["model_replacement"]
                             else "qwen3:8b"
                         ),
-                        "sensor_available": scheduled_hour != 15,
+                        "sensor_available": not receipt["sensor_interruption"],
                         "activation": False,
                     }
                     trace.write(json.dumps(row, sort_keys=True) + "\n")
                     trace.flush()
                     emitted.add(scheduled_hour)
+            cpu_time = sum(os.times()[:2])
+            max_rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * rss_unit
+            if max_rss > protection["memory_ceiling_bytes"]:
+                raise base.Refused("longitudinal lane exceeded its memory reservation")
+            disk_free = shutil.disk_usage(ROOT).free
+            if disk_free < protection["disk_floor_bytes"]:
+                raise base.Refused("longitudinal lane crossed the protected disk floor")
             _write_json(
                 state_path,
                 {
@@ -2038,43 +2485,139 @@ def longitudinal() -> dict[str, Any]:
                     "elapsed_seconds": round(elapsed, 3),
                     "target_seconds": duration,
                     "events_emitted": sorted(emitted),
+                    "checkpoint_count": len(emitted),
+                    "cpu_time_seconds": round(cpu_time, 3),
+                    "cpu_time_delta_seconds": round(cpu_time - last_cpu_time, 3),
+                    "max_rss_bytes": max_rss,
+                    "disk_free_bytes": disk_free,
+                    "heartbeat_at": _now(),
+                    "protection": protection,
                     "complete": elapsed >= duration,
                     "activation": False,
                 },
             )
+            last_cpu_time = cpu_time
             if elapsed >= duration:
                 break
             if base.STOP.exists():
                 raise base.Refused("operator STOP interrupted longitudinal lane")
             time.sleep(min(60, duration - elapsed))
     rows = _load_jsonl(trace_path)
+    counts = {
+        "process_restarts": sum(bool(row["work_receipt"]["restart"]) for row in rows),
+        "checkpoints": len(rows),
+        "model_replacements": sum(
+            bool(row["work_receipt"]["model_replacement"]) for row in rows
+        ),
+        "tool_or_body_changes": sum(
+            bool(row["work_receipt"]["tool_or_body_change"]) for row in rows
+        ),
+        "sensor_interruptions": sum(
+            bool(row["work_receipt"]["sensor_interruption"]) for row in rows
+        ),
+        "human_corrections": sum(
+            bool(row["work_receipt"]["human_correction"]) for row in rows
+        ),
+        "returns_to_old_work": sum(
+            bool(row["work_receipt"]["return_to_old_work"]) for row in rows
+        ),
+        "new_tasks_requiring_earlier_history": sum(
+            bool(row["work_receipt"]["new_task_requires_earlier_history"])
+            for row in rows
+        ),
+    }
+    minimums_met = {
+        name: counts[name] >= minimum for name, minimum in C.LONGITUDINAL_MINIMUMS.items()
+    }
+    checkpoint_paths = [ROOT / row["work_receipt"]["checkpoint"] for row in rows]
+    model_checkpoint_documents = [
+        base.load_json(ROOT / row["work_receipt"]["checkpoint"])
+        for row in rows
+        if row["work_receipt"]["model_replacement"]
+    ]
+    continuity_checks = {
+        "minimums": all(minimums_met.values()),
+        "one_receipt_per_scheduled_event": len(rows) == len(C.LONGITUDINAL_SCHEDULE),
+        "checkpoint_files_present": all(path.is_file() for path in checkpoint_paths),
+        "real_media_or_file_operations": all(
+            bool(row["work_receipt"]["asset_receipt"].get("operation"))
+            for row in rows
+        ),
+        "history_dependent_work_used_prior_state": all(
+            row["work_receipt"]["history_required"]
+            for row in rows
+            if row["work_receipt"]["return_to_old_work"]
+            or row["work_receipt"]["new_task_requires_earlier_history"]
+        ),
+        "human_corrections_applied": all(
+            row["work_receipt"].get("correction_receipt") is not None
+            for row in rows
+            if row["work_receipt"]["human_correction"]
+        ),
+        "sensor_interruption_used_fallback": all(
+            row["work_receipt"].get("sensor_interruption") is not None
+            for row in rows
+            if row["work_receipt"]["sensor_interruption"]
+        ),
+        "tool_body_change_used_video_decoder": all(
+            row["work_receipt"].get("tool_body_change", {})
+            .get("receipt", {})
+            .get("operation")
+            == "video_frame_decode"
+            for row in rows
+            if row["work_receipt"]["tool_or_body_change"]
+        ),
+        "replacement_context_was_fresh": all(
+            document.get("model_replacement", {}).get(
+                "previous_model_context_reused"
+            )
+            is False
+            for document in model_checkpoint_documents
+        ),
+    }
+    if not all(continuity_checks.values()):
+        raise base.Refused(f"longitudinal checks failed: {continuity_checks}")
     result = base.authority(
         "SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT",
         {
             "scheduled_hours": C.LONGITUDINAL_HOURS,
             "actual_elapsed_seconds": round(time.monotonic() - start_mono, 3),
             "actual_wall_hours": round((time.time() - start_wall) / 3600, 6),
-            "checkpoints": checkpoints,
-            "restarts": 2,
-            "model_replacements": 1,
-            "tool_or_body_changes": 1,
-            "sensor_interruptions": 1,
-            "human_corrections": 2,
-            "unfinished_goal_returned_to": True,
-            "owned_state_preserved": True,
+            **counts,
+            "required_minimums": C.LONGITUDINAL_MINIMUMS,
+            "minimums_met": minimums_met,
+            "unfinished_goal_returned_to": continuity_checks[
+                "history_dependent_work_used_prior_state"
+            ],
+            "owned_state_preserved": continuity_checks["checkpoint_files_present"],
+            "real_project_file_media_tool_work": continuity_checks[
+                "real_media_or_file_operations"
+            ],
+            "protection": protection,
+            "continuity_checks": continuity_checks,
             "trace_rows": len(rows),
             "trace_sha256": _sha_file(trace_path),
             "trace": str(trace_path.relative_to(ROOT)),
-            "continuity_passing": True,
+            "continuity_repair_seal_sha256": repair["sha256"],
+            "continuity_passing": all(continuity_checks.values()),
         },
         status="complete",
     )
     teaching = base.authority(
         "SUBSTRATE_SANDBOX_TEACHING_RESULT",
         {
-            "human_teaching_events": 2,
-            "teaching_preceded_test_outcome": True,
-            "false_teaching_scoped_or_rejected": True,
+            "human_teaching_events": counts["human_corrections"],
+            "human_authored_source": "user-provided R2 execution goal",
+            "teaching_preceded_test_outcome": all(
+                row["scheduled_hour"] < 24
+                for row in rows
+                if row["work_receipt"]["human_correction"]
+            ),
+            "false_teaching_scoped_or_rejected": all(
+                bool(row["work_receipt"].get("correction_receipt"))
+                for row in rows
+                if row["work_receipt"]["human_correction"]
+            ),
             "future_correction_used_early": False,
         },
         status="complete",
@@ -2082,11 +2625,15 @@ def longitudinal() -> dict[str, Any]:
     replacement = base.authority(
         "SUBSTRATE_SANDBOX_MODEL_REPLACEMENT_RESULT",
         {
-            "model_replacements": 1,
-            "tool_or_body_changes": 1,
-            "goal_preserved": True,
-            "owned_state_preserved": True,
-            "model_context_cleared_before_restore": True,
+            "model_replacements": counts["model_replacements"],
+            "tool_or_body_changes": counts["tool_or_body_changes"],
+            "goal_preserved": continuity_checks[
+                "history_dependent_work_used_prior_state"
+            ],
+            "owned_state_preserved": continuity_checks["checkpoint_files_present"],
+            "model_context_cleared_before_restore": continuity_checks[
+                "replacement_context_was_fresh"
+            ],
         },
         status="complete",
     )

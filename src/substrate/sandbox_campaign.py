@@ -1282,6 +1282,18 @@ def run() -> dict[str, Any]:
     return sandbox_execution.run_custom()
 
 
+def invalidate_longitudinal_attempt() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.invalidate_longitudinal_attempt()
+
+
+def seal_continuity_repair() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_continuity_repair()
+
+
 def longitudinal() -> dict[str, Any]:
     from substrate import sandbox_execution
 
