@@ -462,6 +462,16 @@ def _resolve_http(url: str) -> dict[str, Any]:
         }
 
 
+def _access_is_gated(access: str) -> bool:
+    normalized = access.casefold()
+    return (
+        normalized.startswith("gated")
+        or "terms_apply" in normalized
+        or "terms_required" in normalized
+        or "credentials" in normalized
+    )
+
+
 def research() -> dict[str, Any]:
     """Refresh every official endpoint without accepting terms or downloading data."""
 
@@ -479,7 +489,7 @@ def research() -> dict[str, Any]:
             and source["observed_head"] != probe["resolved_head"]
         )
         access = str(source["access"])
-        if "gated" in access.lower() or "terms" in access.lower() or "credentials" in access.lower():
+        if _access_is_gated(access):
             row["campaign_state"] = "GATED"
         else:
             row["campaign_state"] = "DISCOVERED" if probe["reachable"] else "REFUSED"
@@ -564,7 +574,7 @@ def acquisition_plan(
     safe = bool(disk["floor_pass"] and usable_above_floor >= C.CORE_MINIMUM_ACQUISITION_BYTES)
     sources = []
     for source in C.OFFICIAL_SOURCES:
-        gated = any(word in str(source["access"]).lower() for word in ("gated", "terms", "credentials"))
+        gated = _access_is_gated(str(source["access"]))
         sources.append(
             {
                 "source_id": source["source_id"],
