@@ -1282,10 +1282,10 @@ def run() -> dict[str, Any]:
     return sandbox_execution.run_custom()
 
 
-def invalidate_longitudinal_attempt() -> dict[str, Any]:
+def invalidate_longitudinal_attempt(*, reason: str | None = None) -> dict[str, Any]:
     from substrate import sandbox_execution
 
-    return sandbox_execution.invalidate_longitudinal_attempt()
+    return sandbox_execution.invalidate_longitudinal_attempt(reason=reason)
 
 
 def seal_continuity_repair() -> dict[str, Any]:
@@ -1294,10 +1294,34 @@ def seal_continuity_repair() -> dict[str, Any]:
     return sandbox_execution.seal_continuity_repair()
 
 
-def longitudinal() -> dict[str, Any]:
+def seal_continuity_supervision_repair() -> dict[str, Any]:
     from substrate import sandbox_execution
 
-    return sandbox_execution.longitudinal()
+    return sandbox_execution.seal_continuity_supervision_repair()
+
+
+def longitudinal(*, supervision_manifest: Path | None = None) -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.longitudinal(supervision_manifest=supervision_manifest)
+
+
+def launch_longitudinal_supervised() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.launch_longitudinal_supervised()
+
+
+def supervised_longitudinal(manifest_path: Path) -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.supervised_longitudinal(manifest_path)
+
+
+def longitudinal_supervision_status() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.longitudinal_supervision_status()
 
 
 def _not_run(schema: str, *, reason: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
