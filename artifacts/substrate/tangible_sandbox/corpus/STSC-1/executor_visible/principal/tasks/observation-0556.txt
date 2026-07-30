@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0556
+family=android_control
+sensor_reading=613
+instruction=return the verified reading, applying prior teaching when required

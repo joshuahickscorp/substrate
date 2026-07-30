@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AbandonProcessGroup</key>
+	<false/>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/Users/scammermike/.grok/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/usr/local/MacGPG2/bin:/usr/local/go/bin:/Users/scammermike/.codex/tmp/arg0/codex-arg0FRdUPW:/Users/scammermike/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/scammermike/.grok/bin:/Users/scammermike/.orbstack/bin:/Users/scammermike/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/scammermike/.orbstack/bin</string>
+		<key>PYTHONPATH</key>
+		<string>/Users/scammermike/Downloads/substrate/src</string>
+		<key>SUBSTRATE_LONGITUDINAL_SUPERVISOR</key>
+		<string>launchd</string>
+		<key>SUBSTRATE_REPOSITORY_ROOT</key>
+		<string>/Users/scammermike/Downloads/substrate</string>
+	</dict>
+	<key>KeepAlive</key>
+	<false/>
+	<key>Label</key>
+	<string>org.substrate.tangible-sandbox-r2.r2-9933b8de074942ed88eec55a71949576</string>
+	<key>ProcessType</key>
+	<string>Adaptive</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/scammermike/Downloads/substrate/.venv/bin/python</string>
+		<string>-m</string>
+		<string>substrate.sandbox</string>
+		<string>supervised-longitudinal</string>
+		<string>--supervision-manifest</string>
+		<string>/Users/scammermike/Downloads/substrate/runs/substrate/tangible_sandbox/longitudinal-supervision/r2-9933b8de074942ed88eec55a71949576/manifest.json</string>
+	</array>
+	<key>RunAtLoad</key>
+	<false/>
+	<key>StandardErrorPath</key>
+	<string>/Users/scammermike/Downloads/substrate/runs/substrate/tangible_sandbox/longitudinal-supervision/r2-9933b8de074942ed88eec55a71949576/stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/scammermike/Downloads/substrate/runs/substrate/tangible_sandbox/longitudinal-supervision/r2-9933b8de074942ed88eec55a71949576/stdout.log</string>
+	<key>ThrottleInterval</key>
+	<integer>60</integer>
+	<key>WorkingDirectory</key>
+	<string>/Users/scammermike/Downloads/substrate</string>
+</dict>
+</plist>

@@ -113,6 +113,9 @@ jobs:
           assert not classification["external_activation"]
           assert not classification["unqualified_nous"]
           PY
+      - name: Tangible Sandbox R2 terminal evidence gate
+        run: |
+          substrate sandbox verify
       - name: Genesis instruments can still fail
         run: |
           python - <<'PY'
