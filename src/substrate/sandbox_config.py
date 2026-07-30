@@ -466,6 +466,140 @@ OFFICIAL_SOURCES: tuple[dict[str, Any], ...] = (
     },
 )
 
+# Core binary acquisition is deliberately limited to public, directly
+# downloadable archives with an official checksum. FSD50K is retained locally
+# until clip-level licenses are filtered; LibriSpeech is CC-BY-4.0. The
+# selection is 80.13 GiB and therefore falls inside the frozen 60-100 GiB
+# preferred Core envelope before Docker layers and generated outputs.
+CORE_BINARY_ASSETS: tuple[dict[str, Any], ...] = (
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.eval_audio.z01",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.eval_audio.z01/content",
+        "bytes": 3221225472,
+        "md5": "3090670eaeecc013ca1ff84fe4442aeb",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.z05",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.z05/content",
+        "bytes": 3221225472,
+        "md5": "81356521aa159accd3c35de22da28c7f",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.ground_truth.zip",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.ground_truth.zip/content",
+        "bytes": 334701,
+        "md5": "ca27382c195e37d2269c4c866dd73485",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.eval_audio.zip",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.eval_audio.zip/content",
+        "bytes": 3037675767,
+        "md5": "6fa47636c3a3ad5c7dfeba99f2637982",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.zip",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.zip/content",
+        "bytes": 2306663327,
+        "md5": "c480d119b8f7a7e32fdb58f3ea4d6c5a",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.z04",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.z04/content",
+        "bytes": 3221225472,
+        "md5": "d088ac4e11ba53daf9f7574c11cccac9",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.metadata.zip",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.metadata.zip/content",
+        "bytes": 6700838,
+        "md5": "b9ea0c829a411c1d42adb9da539ed237",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.z02",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.z02/content",
+        "bytes": 3221225472,
+        "md5": "8f9b66153e68571164fb1315d00bc7bc",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.doc.zip",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.doc.zip/content",
+        "bytes": 6984,
+        "md5": "3516162b82dc2945d3e7feba0904e800",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.z01",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.z01/content",
+        "bytes": 3221225472,
+        "md5": "faa7cf4cc076fc34a44a479a5ed862a3",
+    },
+    {
+        "source_id": "fsd50k",
+        "filename": "FSD50K.dev_audio.z03",
+        "url": "https://zenodo.org/api/records/4060432/files/FSD50K.dev_audio.z03/content",
+        "bytes": 3221225472,
+        "md5": "1196ef47d267a993d30fa98af54b7159",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "dev-clean.tar.gz",
+        "url": "https://www.openslr.org/resources/12/dev-clean.tar.gz",
+        "bytes": 337926286,
+        "md5": "42e2234ba48799c1f50f24a7926300a1",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "dev-other.tar.gz",
+        "url": "https://www.openslr.org/resources/12/dev-other.tar.gz",
+        "bytes": 314305928,
+        "md5": "c8d0bcc9cca99d4f8b62fcc847357931",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "test-clean.tar.gz",
+        "url": "https://www.openslr.org/resources/12/test-clean.tar.gz",
+        "bytes": 346663984,
+        "md5": "32fa31d27d2e1cad72775fee3f4849a9",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "test-other.tar.gz",
+        "url": "https://www.openslr.org/resources/12/test-other.tar.gz",
+        "bytes": 328757843,
+        "md5": "fb5a50374b501bb3bac4815ee91d3135",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "train-clean-100.tar.gz",
+        "url": "https://www.openslr.org/resources/12/train-clean-100.tar.gz",
+        "bytes": 6387309499,
+        "md5": "2a93770f6d5c6c964bc36631d331a522",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "train-clean-360.tar.gz",
+        "url": "https://www.openslr.org/resources/12/train-clean-360.tar.gz",
+        "bytes": 23049477885,
+        "md5": "c0e676e450a7ff2f54aeade5171606fa",
+    },
+    {
+        "source_id": "librispeech",
+        "filename": "train-other-500.tar.gz",
+        "url": "https://www.openslr.org/resources/12/train-other-500.tar.gz",
+        "bytes": 30593501606,
+        "md5": "d1a0fd59409feb2c614ce4d30c387708",
+    },
+)
+
 
 def disk_floor_bytes(capacity_bytes: int) -> int:
     """Return the R2 protected free-space floor for a filesystem."""

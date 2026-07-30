@@ -4,6 +4,7 @@ from pathlib import Path
 
 from substrate import sandbox_campaign as campaign
 from substrate import sandbox_config as C
+from substrate import sandbox_execution as execution
 from substrate.final_revision_io import digest
 
 
@@ -71,7 +72,11 @@ def test_core_admission_requires_floor_plus_reservation() -> None:
 
     admitted = campaign.acquisition_plan(
         _preflight_fixture(
-            free=floor + C.CORE_MINIMUM_ACQUISITION_BYTES,
+            free=floor
+            + max(
+                C.CORE_MINIMUM_ACQUISITION_BYTES,
+                sum(row["bytes"] for row in C.CORE_BINARY_ASSETS),
+            ),
             total=total,
         ),
         persist=False,
@@ -106,6 +111,13 @@ def test_acquisition_state_machine_and_four_pools_are_complete() -> None:
     }
     assert C.ACQUISITION_STATES[-3:] == ("QUARANTINED", "GATED", "REFUSED")
     assert len(set(C.ACQUISITION_STATES)) == len(C.ACQUISITION_STATES)
+    selected_bytes = sum(row["bytes"] for row in C.CORE_BINARY_ASSETS)
+    assert selected_bytes >= C.CORE_MINIMUM_ACQUISITION_BYTES
+    assert selected_bytes <= C.CORE_PREFERRED_ACQUISITION_BYTES
+    assert {row["source_id"] for row in C.CORE_BINARY_ASSETS} == {
+        "fsd50k",
+        "librispeech",
+    }
 
 
 def test_required_arms_include_strengthened_practical_controls() -> None:
@@ -199,3 +211,42 @@ def test_publication_paths_stay_inside_repository() -> None:
     assert campaign.PUBLICATION.is_relative_to(campaign.ROOT)
     assert campaign.CORPUS.is_relative_to(campaign.ROOT)
     assert isinstance(campaign.ROOT, Path)
+
+
+def test_admitted_custom_design_meets_counts_and_history_floors() -> None:
+    assert execution.SPLIT_COUNTS["principal"] == 1024
+    assert execution.SPLIT_COUNTS["replication"] >= (
+        execution.SPLIT_COUNTS["principal"] + 2
+    ) // 3
+    assert execution.SPLIT_COUNTS["hidden_composition"] >= (
+        execution.SPLIT_COUNTS["principal"] + 2
+    ) // 3
+    assert execution.HISTORY_COUNTS == {
+        "principal": 64,
+        "replication": 24,
+        "hidden_composition": 24,
+    }
+    assert sum(execution.SPLIT_COUNTS.values()) == 2000
+
+
+def test_preoutcome_review_has_48_distinct_roles_in_all_cells() -> None:
+    assert len(execution.GROK_ROLES) == 48
+    assert len(set(execution.GROK_ROLES)) == 48
+    assert len({role.rsplit("-", 1)[0] for role in execution.GROK_ROLES}) == 12
+
+
+def test_strong_project_database_is_not_weakened() -> None:
+    assert set(C.REQUIRED_ARMS) == execution.DIRECT_ARMS
+    assert "project_state_database" in execution.PERSISTENT_ARMS
+    assert "L1_full" in execution.PERSISTENT_ARMS
+    assert "L1_no_development" not in execution.PERSISTENT_ARMS
+    assert "fresh_model" not in execution.PERSISTENT_ARMS
+
+
+def test_webarena_subset_is_preregistered_across_four_sites() -> None:
+    assert set(execution.WEBARENA_ENDPOINTS) == {
+        "shopping",
+        "shopping_admin",
+        "reddit",
+        "gitlab",
+    }
