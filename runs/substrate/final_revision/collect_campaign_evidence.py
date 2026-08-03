@@ -27,7 +27,7 @@ from substrate import final_revision_io as io
 
 WORKTREE = Path("/private/tmp/substrate-fr-ready-afeb")
 RUN_LOG = Path(
-    "/private/tmp/claude-503/-Users-scammermike-Downloads-substrate/"
+    "/private/tmp/substrate-final-revision/"
     "8c9149d6-a426-4202-a16d-64a9f03f70f2/scratchpad/runlogs/run.log"
 )
 ALLOWED_NONDETERMINISM = ("runtime_seconds", "sha256")
