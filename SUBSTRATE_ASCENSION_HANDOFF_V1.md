@@ -32,16 +32,34 @@ mistake. Free: ~342 GiB SSD, ~4,540 GiB bulk.
 The drive also carries a **second full checkout** of the repo at the same HEAD. It is a
 stale backup, not the architecture. Do not work in it.
 
-## 3. Branch / HEAD
+## 3. Branch / HEAD — CONSOLIDATED ONTO MAIN
 
 ```
-branch  codex/odyssey-preflight-repair
-HEAD    4f66230735dd067d076b8e87388ee006994b31d7
-main    c7343c75  (57 behind / 5 ahead of this branch)
+branch  main   (tracking origin/main, 0 ahead / 0 behind)
+HEAD    17cbc9ad  "Land the pre-Ascension closeout"
 ```
 
-Merging this branch into `main` conflicts in exactly one path,
-`tests/substrate/test_sandbox_r2.py`.
+The work was landed on `origin/main` as **one commit on top of the real
+`c7343c75`** — a plain fast-forward, no force-push, and the other 29 remote
+branches are untouched.
+
+**Why not the branch's own history:** `codex/odyssey-preflight-repair` contained
+commit `6dc1e066`, which added sixteen unencrypted Ed25519 private keys, plus a
+Lean toolchain with two blobs above GitHub's 100 MB hard limit (`libLean.a` at
+202 MB, `libleanshared.dylib` at 165 MB). That history was never pushed and never
+will be. `git filter-repo` stripped both path families locally, taking `.git`
+from **2.2 GB to 213 MB**; `origin/main` has **zero** key blobs reachable and
+zero oversized blobs.
+
+Backup of the pre-rewrite repository:
+`/Volumes/corpdrive/substrate-git-backup-20260824-190835.tar` (2.18 GiB,
+verified). Ref mapping: `receipts/PRE_REWRITE_REFS.txt` and
+`.git/filter-repo/commit-map` (867 mappings).
+
+**Note:** `ODYSSEY_READY_BASELINE_V1.json` binds `git_head: 4f662307`, which no
+longer exists after the rewrite. The record's *content* digests all still
+re-resolve; only the commit reference is stale. Regenerate it early in the next
+session.
 
 ## 4. Current git state
 
@@ -249,7 +267,10 @@ objects, round-trip verified), `G086_G087_DISCRIMINATION_DESIGN.md`,
 3. **That blast radius equals descriptor binding.** It also includes module digest,
    frozen-build, environment, generated-artifact and transitive gate bindings. I made
    exactly this mistake and broke 12 tests with a one-key rename.
-4. **That the working tree equals HEAD.** They differ by ~24,832 paths, deliberately.
+4. **That `make test` leaves the tree clean.** `test_odyssey_rehearsal.py` writes
+   into `artifacts/substrate/odyssey7d/v1/rehearsal/`, so a full run dirties ~38
+   tracked files. `git checkout -- artifacts/substrate/odyssey7d/v1/rehearsal`
+   restores them.
 5. **That `data/` is on the SSD.** It is a symlink to a removable USB volume that must
    stay mounted.
 6. **That a green test suite means the science works.** It does not. The experiment
