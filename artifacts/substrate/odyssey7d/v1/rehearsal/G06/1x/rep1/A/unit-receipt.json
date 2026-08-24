@@ -1,0 +1,10 @@
+{
+  "activation": false,
+  "cpu_work_sha256": "0dd436b82cc78bc3865cf1bc2c02346da2e484e4efcad3c98f1a611d2d9ee4ae",
+  "hash_rounds": 96,
+  "receipt_bytes": 262144,
+  "schema": "SUBSTRATE_ODYSSEY_CALIBRATION_UNIT_RECEIPT/v1",
+  "seed": "complete_paired_frontier_cell",
+  "sha256": "c08e5fda004efd91fb823a4f7048c746f1e81baf9425d2ac1151b801d9d5752c",
+  "unit": "complete_paired_frontier_cell"
+}

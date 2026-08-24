@@ -1,0 +1,98 @@
+{
+  "active_camera": "cam_a",
+  "cameras": [
+    {
+      "camera_id": "cam_a",
+      "fov_y_deg": 40.0,
+      "look_at": [
+        0.0,
+        0.2,
+        0.0
+      ],
+      "position": [
+        0.0,
+        1.2,
+        5.0
+      ]
+    },
+    {
+      "camera_id": "cam_b",
+      "fov_y_deg": 40.0,
+      "look_at": [
+        0.0,
+        0.2,
+        0.0
+      ],
+      "position": [
+        0.0,
+        1.2,
+        -5.0
+      ]
+    }
+  ],
+  "canary_id": "viewpoint_change",
+  "height": 96,
+  "objects": [
+    {
+      "color": [
+        55,
+        60,
+        70
+      ],
+      "object_id": "floor",
+      "position": [
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "scale": [
+        6.0,
+        1.0,
+        6.0
+      ],
+      "shape": "plane"
+    },
+    {
+      "color": [
+        240,
+        200,
+        40
+      ],
+      "object_id": "marker_near",
+      "position": [
+        0.0,
+        0.0,
+        1.5
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "shape": "box"
+    },
+    {
+      "color": [
+        40,
+        200,
+        180
+      ],
+      "object_id": "marker_far",
+      "position": [
+        0.0,
+        0.2,
+        -1.5
+      ],
+      "scale": [
+        0.8,
+        0.9,
+        0.8
+      ],
+      "shape": "pyramid"
+    }
+  ],
+  "schema": "SUBSTRATE_SPATIAL3D_SEED/v1",
+  "seed": 1704,
+  "seed_id": "canary_viewpoint_change_v1",
+  "width": 96
+}

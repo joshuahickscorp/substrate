@@ -1,0 +1,357 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "checks": {
+    "clean_baselines_accepted": true,
+    "frozen_build_bound": true,
+    "guard_coverage_complete": true,
+    "no_pending_mutations": true,
+    "runtime_mutants_detected": true,
+    "runtime_mutants_injected": true,
+    "source_maps_bound": true
+  },
+  "clean_clone": {
+    "clone_head": "0764f0596230ec69c9b3a1caa6f575e9c11c82be",
+    "exact_commit_checkout": true,
+    "method": "git_clone_no_local_no_hardlinks",
+    "source_commit": "0764f0596230ec69c9b3a1caa6f575e9c11c82be"
+  },
+  "clean_failures": [],
+  "declared_mutation_count": 16,
+  "detected_count": 16,
+  "evidence_scope": "isolated_synthetic_control_plane_fault_injection_only",
+  "external_activation": false,
+  "frozen_build_sha256": "f9f94c4458ac0606feb09bf3595bfa15a4fd6e6131347052e9c71c1cd4e2b130",
+  "implementation_sha256": {
+    "frontier_renderer": "1d253cc1c155da9ace3f6eabe8f01813658e04ee6338d12aee01fb87ca6e498f",
+    "manifest_materializer": "0311c630f87fa09d63e05577834a5487c3192e215e130aaa4a4235c2a54bbb7d",
+    "odyssey_authority": "2aeb995943ef85940911dadbeb596ee2b22555ce46b175b4fdf932fa28578457",
+    "odyssey_clean_clone": "7cec204c5e5072dab118b18add9679b97caf511f9f2b0b16f88abebd149994e8",
+    "odyssey_mutations": "714fc3178b5ee7f004c6a3d3bdf79002ecd13be67a17172a582cf408d6f2c20f",
+    "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+    "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+    "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+    "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+    "telegram_notifier": "fb1e5d9a7b8d27930903a42b97f5b6f55aae57f04e6f768ce85e9c0f04976e58",
+    "telegram_probe": "59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28",
+    "transition_controller": "a9ab9bcb4cfbda2ceadadb0f2f183d20d18ec3741cd2d959c78e258c68fead0e"
+  },
+  "injected_count": 16,
+  "input_sha256": {
+    "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+    "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "hardened_design": "f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5",
+    "rendered_build_index": "55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b",
+    "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+    "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+  },
+  "mutations": [
+    {
+      "category": "custody_boundary",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/answer_leakage.clean.96412357f12ab4f21bfb52283f0c9ba0170ef2e68f19eb5bfe1c43688e68b982.json",
+        "sha256": "48e96c4216bcb1064bdbeb265202dc2f521a6b32cee635a7f8d8363cf64b0344"
+      },
+      "description": "Inject evaluator-only answer material into a candidate-visible task.",
+      "detected": true,
+      "id": "answer_leakage",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/answer_leakage.mutant.5720da0ec737bb3b4b7540e6335bc1d6cd808ecb5bfa96cb19a1c34f5a91beba.json",
+        "sha256": "b975eeb0688f30f8f9fc94a1c4f79435b4af2603e75dbee336a2c7ab3f1d9a3f"
+      },
+      "survived": false,
+      "target": "candidate-visible task manifest"
+    },
+    {
+      "category": "lane_isolation",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/shared_mutable_cache.clean.130df7b2ee79afb79b3cd21a9b67c97409c2240e660e2e52fc7d81211f51e35d.json",
+        "sha256": "7caee0ebc7cbc44685362d77ac732db4a5751a00c8c9e44b47cd39623bbe074c"
+      },
+      "description": "Alias candidate and control mutable cache roots inside one paired cell.",
+      "detected": true,
+      "id": "shared_mutable_cache",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/shared_mutable_cache.mutant.69872f6486cdef0e207d6809e479de30fda8916b37a2bbdc1904f5eca142d4f8.json",
+        "sha256": "e923a5045b61223981ba2e5206b666d67027b9ba766f4513bbcde44def1b5ec2"
+      },
+      "survived": false,
+      "target": "G06 private-state layout"
+    },
+    {
+      "category": "lane_isolation",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/cross_lane_model_context.clean.29e618c30535da0bf227407e218b74186b3812cfb6bc711ff4cdf8f148822aac.json",
+        "sha256": "4df786d93ce4b59662ae4ce0094ef7f393ac283b4d5923496f46699a8332a9d1"
+      },
+      "description": "Alias candidate and control model-context roots across a paired cell.",
+      "detected": true,
+      "id": "cross_lane_model_context",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/cross_lane_model_context.mutant.69ed80fe45ba7b0e1694f6d9a3aa3f880462f4bf964ff9ca3033d5f9786fa113.json",
+        "sha256": "6a774e86f004aa5ea5e44e5835b4ee5516658bc31c6b780bc651b0f6962483ee"
+      },
+      "survived": false,
+      "target": "G06 model-context layout"
+    },
+    {
+      "category": "single_writer",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/duplicate_writer.clean.71e1f768f8fbe92ee6e3ebdaa20a1d14d572f0b994ed71b1c93c6b2ab265af4d.json",
+        "sha256": "7b792e545dfab23df7a81cec672fa70e81bf84aad8b9b1627500b03f25aaafae"
+      },
+      "description": "Hold a worker lock while a second worker admission attempts the same run root.",
+      "detected": true,
+      "id": "duplicate_writer",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/duplicate_writer.mutant.8625eb319bb752f418d121a205e629b3f5e62673776e1f6de4ec2965f52506fc.json",
+        "sha256": "ddcfeb1d0cd2950e9346b641f14befbec90a3047ef6dad23fe60f1931daee9d5"
+      },
+      "survived": false,
+      "target": "Odyssey worker lock"
+    },
+    {
+      "category": "receipt_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/forged_receipt.clean.9f20ecbf3cfcbb505caabf8798b5c43146c5837d96cdb164d070b28e6edc86d1.json",
+        "sha256": "54f78107f9e3617863b92bdad9ea87e9d4b061421a7c5d59ce610fb5e1629d33"
+      },
+      "description": "Forge the request binding in an otherwise shaped adapter receipt.",
+      "detected": true,
+      "id": "forged_receipt",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/forged_receipt.mutant.d3e49ef6a6c9d71dd72fdee56a2d0dd86bad84e86c59d17beb152209ed39c59b.json",
+        "sha256": "791d64ec3966ba0930157ef5e151a708b291289a6eb484f37e56b3a7c35476c9"
+      },
+      "survived": false,
+      "target": "Odyssey adapter receipt"
+    },
+    {
+      "category": "durability_boundary",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/missing_checkpoint.clean.32835faae69ecad7222bdcfb2db0a4be4cb6567b38a9849b135600416eff7f87.json",
+        "sha256": "cce98b7f81bae994779b47f2b2a95c2f2d9105708c50236d087f9148c6c2b414"
+      },
+      "description": "Remove a required delta checkpoint from a recovery chain.",
+      "detected": true,
+      "id": "missing_checkpoint",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/missing_checkpoint.mutant.748c9a4b604c3a2537b874127e9cadcb55a687fc055c15c4d936127a6f096809.json",
+        "sha256": "23481fd75c0bc92b597fac75315b811b9642014ec6fb101f084d34cebb4b6c05"
+      },
+      "survived": false,
+      "target": "G09 recovery rehearsal"
+    },
+    {
+      "category": "source_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/wrong_source_digest.clean.23b2b6ee612e060f32cd10a0cbcd7d8f0eecd1ed02df86dafc48e1513f0b4ef3.json",
+        "sha256": "88025d9c3eba69e9d297aa253b2fcd7d76f1364a3c13e3160be8a21a9aea7608"
+      },
+      "description": "Change a frozen worker source file after its source map was sealed.",
+      "detected": true,
+      "id": "wrong_source_digest",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/wrong_source_digest.mutant.03195e468515d0c26663ab81b60fc580896d4609dfa6b750ff53082706a0ba10.json",
+        "sha256": "bb1e3d75d3e6200905b215c57c37406a514ea698a475dfcb729c300791a9dfb2"
+      },
+      "survived": false,
+      "target": "src/substrate/odyssey_worker.py"
+    },
+    {
+      "category": "task_selection",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/result_dependent_task_selection.clean.cdfa0098bd14a6ca13731873eef730e11176266d376245bb258d5a61ab50ad63.json",
+        "sha256": "5fd7b5f45e22375be9fba4522035d6e58e3fffe8399e1f2bef5eae2c47245432"
+      },
+      "description": "Inject result-dependent task selection metadata before candidate execution.",
+      "detected": true,
+      "id": "result_dependent_task_selection",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/result_dependent_task_selection.mutant.deb567a6f1510b1afc37c94654c0ba18741919a4c9bafcb8ba77f1e0be4b376a.json",
+        "sha256": "3cb3bfb396d02449f440eba51cede8cbe5144e4a596db73d160845d9d93238a7"
+      },
+      "survived": false,
+      "target": "candidate-visible task manifest"
+    },
+    {
+      "category": "resource_parity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/control_under_resourcing.clean.b62dc3cced6af6ca1dfa184286035a8310aa369a233846a2ef04be6c804ab5ad.json",
+        "sha256": "9ef47d399f93299068050417eccc6547286a587a6082f5d7c7729744d07edd22"
+      },
+      "description": "Reduce the control arm's resource allocation below the candidate allocation.",
+      "detected": true,
+      "id": "control_under_resourcing",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/control_under_resourcing.mutant.171f282598daa292f103adcda0c457d04a8d5abcb13bf992e7b3e01089756cd0.json",
+        "sha256": "2ec73dd245c904283aaa839734aac1b7f48ec287ea96930c22b2250926adb29d"
+      },
+      "survived": false,
+      "target": "G06 paired-cell resource map"
+    },
+    {
+      "category": "statistical_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/pseudo_replication_analysis.clean.24669515f09baad2f7ca159f4740fe8f33b06cb634f37c8c3be40b322e726d33.json",
+        "sha256": "2352c7c0e606e38009e245b852c4adfa35a4511c7b5bcd6d7af81b34ef1b7b3d"
+      },
+      "description": "Substitute event-level scoring for the paired-frontier primary unit.",
+      "detected": true,
+      "id": "pseudo_replication_analysis",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/pseudo_replication_analysis.mutant.a55c1873176ee7b6d3fd86467d46b8d14ed8b5c0cc10c768fe216d94846bef85.json",
+        "sha256": "2a5b8ec7a6084b1d90f4797c28b3393ea64762baa65752326897f8015303bfcd"
+      },
+      "survived": false,
+      "target": "Odyssey hardened design"
+    },
+    {
+      "category": "schedule_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_frontier_omission.clean.2acca66907da0791d4fdff8a520fb63b9a23f30a0769d75492f9294e7ffe923d.json",
+        "sha256": "85a020f7c50c48761b7e2b1851ef1e18fd5b8fef738f2a67fccaf05b96b018f8"
+      },
+      "description": "Attempt to admit a seven-frontier full Odyssey schedule.",
+      "detected": true,
+      "id": "full_program_frontier_omission",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_frontier_omission.mutant.afa9242b57e170aa2738f8649496fd13ddb82951a80bd6709dcd6cac21bd2d62.json",
+        "sha256": "28cbf11c2b00d1a0204007c0cad5de61ca560a40098867b77d994dc979408fdc"
+      },
+      "survived": false,
+      "target": "full-program worker authority"
+    },
+    {
+      "category": "schedule_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_width_reduction.clean.2c294824af59604ef20df373b40a642761c0e6aa2b8a39de93358f3e627e2c1e.json",
+        "sha256": "1889c2dda777d910583b2067e2913ddbf609b4cacc2dc162895e8d460e79b73a"
+      },
+      "description": "Attempt to admit full Odyssey at width seven rather than calibrated width eight.",
+      "detected": true,
+      "id": "full_program_width_reduction",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_width_reduction.mutant.efa41ce4f207f3c0c4625fe80dc96e6123c8881703719f20f0feb71b5defc422.json",
+        "sha256": "9a285da0ba7678ab9c59bd1193d3eddbf5937aec977dd9aa0f659a6641d78277"
+      },
+      "survived": false,
+      "target": "full-program worker authority"
+    },
+    {
+      "category": "durability_boundary",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_checkpoint_cadence_drift.clean.5608e40eba511e9d24a2d2c687ea50b85892b85f282d019f42a1423b92a04e5b.json",
+        "sha256": "585dfa0af9fec23ea5f1ed54545c13c1798b141ab3b0377d22d85cbea2f8859a"
+      },
+      "description": "Alter the sealed two-hour / twelve-hour checkpoint cadence.",
+      "detected": true,
+      "id": "full_program_checkpoint_cadence_drift",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/full_program_checkpoint_cadence_drift.mutant.32a169f0b09eef40add1f67510427e9230f69dbdb6e55463c7009222f5ecb2cf.json",
+        "sha256": "8c792a2b8c845fd8ff73399aaf56d9346bf3531956965692c7bd7215fe9914bc"
+      },
+      "survived": false,
+      "target": "full-program worker authority"
+    },
+    {
+      "category": "manifest_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/candidate_manifest_digest_tamper.clean.81c0b51bf5668cc064d250ef088b5738518bc4d613493c4f7ca302173255be72.json",
+        "sha256": "6da8d252a8bc0ebcc16e94b01cf63de03f90638ede33bc28825ba40909cc8c0d"
+      },
+      "description": "Supply an incorrect digest for an otherwise valid candidate manifest.",
+      "detected": true,
+      "id": "candidate_manifest_digest_tamper",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/candidate_manifest_digest_tamper.mutant.80817dacfc80fd90bd06cd9c212da1a7191ba4e9566ffdfdd9637951d2aa61f4.json",
+        "sha256": "712726eab5e5cf6253d8551f539da24ba42d380e991535814f41ff3fc2fe8808"
+      },
+      "survived": false,
+      "target": "candidate-visible manifest digest"
+    },
+    {
+      "category": "custody_boundary",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/authority_evaluator_input_injection.clean.119fe11eca47fa15fac20d26a59d4ef287ce22f365e308a3e16de635832ae876.json",
+        "sha256": "7b606a5a3aa3dd5eef514bfdb17090065c804da4b3edc3e57aa9deff9f8fa690"
+      },
+      "description": "Inject evaluator-only authority material before worker admission.",
+      "detected": true,
+      "id": "authority_evaluator_input_injection",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/authority_evaluator_input_injection.mutant.b61d31caa80f591ad732b067a667b789712d24c314c0d2ac991950258a1a118b.json",
+        "sha256": "eb222b213517087d2810f18f1a0fa21ac025d4eb41d3177a4747c0015b9de8f5"
+      },
+      "survived": false,
+      "target": "test worker authority"
+    },
+    {
+      "category": "authority_integrity",
+      "clean_case_passed": true,
+      "clean_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/authority_self_digest_forgery.clean.df957f3b7100671422682d3ff99b405a5239f2576dd2241afe9b45374a8feb84.json",
+        "sha256": "e18773c4b85f2736664e2e59e61a0767bb7c566023e2200379c1d9dd117272d0"
+      },
+      "description": "Forge a sealed authority self-digest.",
+      "detected": true,
+      "id": "authority_self_digest_forgery",
+      "injected": true,
+      "mutant_receipt": {
+        "path": "evidence/substrate/odyssey/mutations/G12.0764f059.receipts/authority_self_digest_forgery.mutant.aba2b25a43b74ec04f0182076a96dec7b1fc299b6f254dc6cec7b53955182083.json",
+        "sha256": "952d5da03b43fe891b4ca51603c7ba682e45aedb1f04c605fd827eae270c4ad3"
+      },
+      "survived": false,
+      "target": "test worker authority"
+    }
+  ],
+  "non_claims": [
+    "no model, external tool, corpus, or evaluator was invoked",
+    "only disposable synthetic candidate fixtures were materialized",
+    "no evaluator-owned answer material was persisted or consumed",
+    "this receipt is not scientific, model, task, or outcome evidence"
+  ],
+  "pending_count": 0,
+  "program": "substrate-odyssey-7d-v1",
+  "runner_source_key": "odyssey_mutations",
+  "runner_source_sha256": "714fc3178b5ee7f004c6a3d3bdf79002ecd13be67a17172a582cf408d6f2c20f",
+  "schema": "SUBSTRATE_ODYSSEY_MUTATION_REPORT/v1",
+  "scientific_evidence": false,
+  "sha256": "9c43903f9cdae13ea1051dcd530851023509fe5e4e3bad45141d6db42433946b",
+  "source_commit": "0764f0596230ec69c9b3a1caa6f575e9c11c82be",
+  "status": "pass",
+  "survivor_count": 0,
+  "survivors": [],
+  "uncovered": [],
+  "undeclared": []
+}

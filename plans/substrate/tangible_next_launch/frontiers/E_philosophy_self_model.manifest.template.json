@@ -1,0 +1,48 @@
+{
+  "activation": false,
+  "candidate": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "candidate/E"
+  },
+  "control": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "control/E"
+  },
+  "custody": {
+    "answer_commitment": "EVALUATOR_ONLY",
+    "scorer_commitment": "EVALUATOR_ONLY",
+    "seed_commitment": "REPLACE_WITH_COMMITMENT",
+    "task_commitment": "REPLACE_WITH_COMMITMENT"
+  },
+  "frontier": {
+    "id": "E",
+    "name": "Philosophy, epistemology, and functional self-model",
+    "slug": "philosophy_self_model"
+  },
+  "parity": [
+    "task_schedule",
+    "allowed_observations",
+    "models",
+    "tools",
+    "token_budget",
+    "compute_ceiling",
+    "storage_ceiling",
+    "wall_time"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_FRONTIER_MANIFEST_TEMPLATE/v1",
+  "status": "template_unsealed",
+  "task_contract": {
+    "evaluator_only_rule": "normative distractor assignment, evidence conflict map and scoring key stay evaluator-only",
+    "id": "E",
+    "parity_rule": "same evidence packet, dialogue history, revision opportunity and scoring rubric",
+    "source_policy": "custodian-authored original cases and licensed excerpts only; no proprietary philosophy scrape",
+    "task_families": [
+      "epistemic_commitment_revision",
+      "argument_map_repair",
+      "perspective_and_evidence_conflict_tracking"
+    ]
+  }
+}

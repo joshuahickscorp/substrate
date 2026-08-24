@@ -1,0 +1,8070 @@
+{
+  "activation": false,
+  "entries": [
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 0
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 7200
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 14400
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 21600
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 28800
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 36000
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 43200
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 50400
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 57600
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 64800
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 72000
+    },
+    {
+      "day": 1,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 1,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 79200
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 86400
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 93600
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 100800
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 108000
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 115200
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 122400
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 129600
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 136800
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 144000
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 151200
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 158400
+    },
+    {
+      "day": 2,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 2,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 165600
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 172800
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 180000
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 187200
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 194400
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 201600
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 208800
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 216000
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 223200
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 230400
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 237600
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 244800
+    },
+    {
+      "day": 3,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 3,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 252000
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 259200
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 266400
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 273600
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 280800
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 288000
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 295200
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 302400
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 309600
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 316800
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 324000
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 331200
+    },
+    {
+      "day": 4,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 4,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 338400
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 345600
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 352800
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 360000
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 367200
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 374400
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 381600
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 388800
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 396000
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 403200
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 410400
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 417600
+    },
+    {
+      "day": 5,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 5,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 424800
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 432000
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 439200
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 446400
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 453600
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 460800
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 468000
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 475200
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 482400
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 489600
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 496800
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 504000
+    },
+    {
+      "day": 6,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 6,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 511200
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 1,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 518400
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 2,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 525600
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 3,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 532800
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 4,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 540000
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 5,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 547200
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 6,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 554400
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 7,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 561600
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 8,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 568800
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 9,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 576000
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 10,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 583200
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 11,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 590400
+    },
+    {
+      "day": 7,
+      "frontier": "A",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "B",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "C",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "D",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "E",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "F",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "G",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    },
+    {
+      "day": 7,
+      "frontier": "H",
+      "microcycle": 12,
+      "phases": [
+        "retrieval",
+        "exposure",
+        "transfer",
+        "repair_checkpoint"
+      ],
+      "start_seconds": 597600
+    }
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SCHEDULE_TEMPLATE/v1"
+}

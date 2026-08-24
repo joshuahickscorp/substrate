@@ -1,0 +1,478 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "canary_template_sha256": "1770b1738aa8bff92e969c60c797f29f020bc4f846d385305e2e00cc85510b6a",
+  "candidates": [
+    {
+      "base_model": {
+        "id": "gpt-oss:20b",
+        "quantization": "MXFP4",
+        "revision": "ollama:17052f91a42e9793",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "f3b241b44c2d36d81789a79892f2e40d83544139903728530d4c637aa0844d09",
+        "weight_sha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": "11",
+            "id": "A1",
+            "latency_ms": 10178.221,
+            "passed": true,
+            "response_sha256": "e6fc8c523d22e697fe0f7b474de8cf638375e369b040ba4279eabcc39056490e"
+          },
+          {
+            "answer": "green,red,blue",
+            "id": "A2",
+            "latency_ms": 2010.918,
+            "passed": false,
+            "response_sha256": "9ca773f26625da72001d062a0a9e13af81e09d0d1bc069d934364db5cf98137f"
+          },
+          {
+            "answer": "4572",
+            "id": "B1",
+            "latency_ms": 1387.387,
+            "passed": true,
+            "response_sha256": "e9b201e43e25c5420ed803531a1499ac5e2080b297896cd17532808b4fb973c8"
+          },
+          {
+            "answer": "11/8",
+            "id": "B2",
+            "latency_ms": 1419.91,
+            "passed": true,
+            "response_sha256": "fb3ec30ade6de3e0587d512248b89d95e72bbbee41b0c56536d79d0323289656"
+          },
+          {
+            "answer": "no",
+            "id": "C1",
+            "latency_ms": 3918.725,
+            "passed": true,
+            "response_sha256": "1e5bab19c4732bd912bf6d857b1d1ed27190f574863388ab9d16982e797edb7f"
+          },
+          {
+            "answer": "unsatisfiable",
+            "id": "C2",
+            "latency_ms": 3638.57,
+            "passed": true,
+            "response_sha256": "9681f3c011fcb10e362270a1ecb8dd2102a75277a54e6e6e95ff4cce244b527b"
+          },
+          {
+            "answer": "14",
+            "id": "D1",
+            "latency_ms": 1489.74,
+            "passed": true,
+            "response_sha256": "7dfbb774d322dbd8947f31b4c8e6395df5ff15547744fc951c6a1b0e475c6ad9"
+          },
+          {
+            "answer": "ssyd",
+            "id": "D2",
+            "latency_ms": 1964.36,
+            "passed": true,
+            "response_sha256": "32269330fb06fe7186d57ccf7cd365f3b9d68eeb11c4a72da1d596dfde070e77"
+          },
+          {
+            "answer": "no",
+            "id": "E1",
+            "latency_ms": 1278.572,
+            "passed": true,
+            "response_sha256": "1e5bab19c4732bd912bf6d857b1d1ed27190f574863388ab9d16982e797edb7f"
+          },
+          {
+            "answer": "no",
+            "id": "E2",
+            "latency_ms": 1306.15,
+            "passed": true,
+            "response_sha256": "1e5bab19c4732bd912bf6d857b1d1ed27190f574863388ab9d16982e797edb7f"
+          },
+          {
+            "answer": "2metres",
+            "id": "F1",
+            "latency_ms": 1483.979,
+            "passed": false,
+            "response_sha256": "dc7b686ea61807d02b62930c9d02632a24b79e1da9d20800805f508a83edcf75"
+          },
+          {
+            "answer": "2000",
+            "id": "F2",
+            "latency_ms": 1235.336,
+            "passed": true,
+            "response_sha256": "e2a95e134d23fef70014e5d9478c88fde62f0136868c9055d72355d957be6ea4"
+          },
+          {
+            "answer": "2,2",
+            "id": "G1",
+            "latency_ms": 1173.769,
+            "passed": true,
+            "response_sha256": "20a7af7d36ea144afcb9e335dee8754ded138d1a58331e59b11416c7ea109bb7"
+          },
+          {
+            "answer": "8",
+            "id": "G2",
+            "latency_ms": 1934.743,
+            "passed": true,
+            "response_sha256": "48cc04257df6300587189625fbdaa52cd9d74aa06261a9c92bd993692db2e10e"
+          },
+          {
+            "answer": "3units",
+            "id": "H1",
+            "latency_ms": 1232.051,
+            "passed": false,
+            "response_sha256": "91a91e473644124133effda360fc2ad830bd8184ea17be65bb4856e01c79167c"
+          },
+          {
+            "answer": "0.1",
+            "id": "H2",
+            "latency_ms": 1337.129,
+            "passed": true,
+            "response_sha256": "f97bac725c3ed5acb6e3bf78c55d10313c34c0290479ff75bd165275e6d1d153"
+          }
+        ],
+        "median_latency_ms": 1451.945,
+        "passed": 13,
+        "total": 16
+      },
+      "eligible": true,
+      "errors": [],
+      "model_size_bytes": 13793441244,
+      "service_peak_bytes": 13793441244,
+      "swap_pageout_delta_bytes": 0,
+      "width_eight": {
+        "all_responses_valid": true,
+        "completed": 8,
+        "requests": 8
+      }
+    },
+    {
+      "base_model": {
+        "id": "qwen3:30b",
+        "quantization": "Q4_K_M",
+        "revision": "ollama:ad815644918f0eaa",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "27b1fe636a04016514d2aa83b89792da06437beef1fcb9cfda669ddfd94b784d",
+        "weight_sha256": "ad815644918f0eaab341c12b67837cc6dd4562342cdaf118f83d5d554cb37226"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": "11",
+            "id": "A1",
+            "latency_ms": 9677.391,
+            "passed": true,
+            "response_sha256": "e6fc8c523d22e697fe0f7b474de8cf638375e369b040ba4279eabcc39056490e"
+          },
+          {
+            "answer": null,
+            "id": "A2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          }
+        ],
+        "median_latency_ms": 9677.391,
+        "passed": 1,
+        "total": 16
+      },
+      "eligible": false,
+      "errors": [
+        "shared model service footprint exceeds 25769803776 bytes"
+      ],
+      "model_size_bytes": 18556699314,
+      "service_peak_bytes": 45593615400,
+      "swap_pageout_delta_bytes": 0,
+      "width_eight": {
+        "all_responses_valid": false,
+        "completed": 0,
+        "requests": 8
+      }
+    },
+    {
+      "base_model": {
+        "id": "deepseek-r1:32b",
+        "quantization": "Q4_K_M",
+        "revision": "ollama:edba8017331d1523",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "516567208fc40981480d7a8a15748a54b0087a72f2cfd8f404a57814245b829c",
+        "weight_sha256": "edba8017331d15236e57480eb45406c0d721db77a4cdcf234df500fc2ad3960c"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": null,
+            "id": "A1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "A2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          }
+        ],
+        "median_latency_ms": null,
+        "passed": 0,
+        "total": 16
+      },
+      "eligible": false,
+      "errors": [
+        "Ollama returned no textual response for public canary A1",
+        "shared model service footprint exceeds 25769803776 bytes"
+      ],
+      "model_size_bytes": 19851337809,
+      "service_peak_bytes": 54092219022,
+      "swap_pageout_delta_bytes": 1605632,
+      "width_eight": {
+        "all_responses_valid": false,
+        "completed": 0,
+        "requests": 8
+      }
+    }
+  ],
+  "checks": {
+    "all_candidates_accounted": true,
+    "all_configured_candidates_eligible": false,
+    "frozen_template_bound": true,
+    "no_hidden_seed_commitments": true,
+    "no_swap": true,
+    "public_only": true,
+    "selected_candidate_eligible": true,
+    "selection_rule_applied": true,
+    "shared_service_footprint_within_24_gib": true,
+    "width_eight_admitted": true
+  },
+  "completed_at": "2026-08-03T06:07:04.886096+00:00",
+  "conversation_policy": "fresh_request_context_per_case; keep_alive_only_for_weights; no_cross_case_state",
+  "evidence_scope": "frozen_public_model_selection_canaries_only",
+  "external_activation": false,
+  "frozen_build_sha256": "b91a326d4c817758f1cc160d7fe1c1c2644d1eec3d506e90994aef055038fd3e",
+  "hidden_seed_commitments_materialized": false,
+  "max_output_tokens": 512,
+  "model_service_cap_bytes": 25769803776,
+  "neutral_organ_prompt_sha256": "755f9aa107a69ee5596ee2e3b502dd59b2693a901d1dd40cce37688b4d314639",
+  "non_claims": [
+    "No hidden task seed, answer, scorer, or evaluator material was read or created.",
+    "This receipt selects only a candidate base-model body under the frozen public rule.",
+    "This receipt does not select a treatment arm, control arm, corpus, custodian, or scientific outcome.",
+    "This command never seals G02 and never starts an Odyssey worker."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "reasoning_effort_policy": "fixed_default_no_frontier_override",
+  "required_concurrent_clients": 8,
+  "runtime": {
+    "id": "ollama",
+    "sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+    "version": "0.32.1"
+  },
+  "schema": "SUBSTRATE_ODYSSEY_PUBLIC_MODEL_CANARY/v1",
+  "scientific_evidence": false,
+  "selected_base_model": {
+    "id": "gpt-oss:20b",
+    "quantization": "MXFP4",
+    "revision": "ollama:17052f91a42e9793",
+    "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+    "tokenizer_sha256": "f3b241b44c2d36d81789a79892f2e40d83544139903728530d4c637aa0844d09",
+    "weight_sha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7"
+  },
+  "selection_rule": "highest_public_canary_score_then_lower_service_peak_then_lower_median_latency_then_lexical_weight_digest",
+  "sha256": "35bc3d9be2b4b9822ab976fdd67ef7455f82b465c8db44a282928cbd8046e90d",
+  "status": "pass",
+  "unqualified_nous": false
+}

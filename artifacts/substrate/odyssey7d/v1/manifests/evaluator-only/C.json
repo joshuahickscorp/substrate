@@ -1,0 +1,4377 @@
+{
+  "activation": false,
+  "answers": [
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0000",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0001",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0002",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0003",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0004",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0005",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0006",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0007",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0008",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0009",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0010",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0011",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0012",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0013",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0014",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0015",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0016",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0017",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0018",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0019",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0020",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0021",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0022",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0023",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0024",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0025",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0026",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0027",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0028",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0029",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0030",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0031",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0032",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0033",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0034",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0035",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0036",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0037",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0038",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0039",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0040",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0041",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0042",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0043",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0044",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0045",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0046",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0047",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0048",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0049",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0050",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0051",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0052",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0053",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0054",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0055",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0056",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0057",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0058",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0059",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0060",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0061",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0062",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0063",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0064",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0065",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0066",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0067",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0068",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0069",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0070",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0071",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0072",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0073",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0074",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0075",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0076",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0077",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0078",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0079",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0080",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0081",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0082",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0083",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0084",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0085",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0086",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0087",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0088",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0089",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0090",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0091",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0092",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0093",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0094",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0095",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0096",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0097",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0098",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0099",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0100",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0101",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0102",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0103",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0104",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0105",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0106",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0107",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0108",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0109",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0110",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0111",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0112",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0113",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0114",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0115",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0116",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0117",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0118",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0119",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0120",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0121",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0122",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0123",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0124",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0125",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0126",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0127",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0128",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0129",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0130",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0131",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0132",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0133",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0134",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0135",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0136",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0137",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0138",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0139",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0140",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0141",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0142",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0143",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0144",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0145",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0146",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0147",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0148",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0149",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0150",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0151",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0152",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0153",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0154",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0155",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0156",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0157",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0158",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0159",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0160",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0161",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0162",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0163",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0164",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0165",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0166",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0167",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0168",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0169",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0170",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0171",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0172",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0173",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0174",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0175",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0176",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0177",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0178",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0179",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0180",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0181",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0182",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0183",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0184",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0185",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0186",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0187",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0188",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0189",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0190",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0191",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0192",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0193",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0194",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0195",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0196",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0197",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0198",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0199",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0200",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0201",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0202",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0203",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0204",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0205",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0206",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0207",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0208",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0209",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0210",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0211",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0212",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0213",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0214",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0215",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0216",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0217",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0218",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0219",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0220",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0221",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0222",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0223",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0224",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0225",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0226",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0227",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0228",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0229",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0230",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0231",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0232",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0233",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0234",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0235",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0236",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0237",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0238",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0239",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0240",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0241",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0242",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0243",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0244",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0245",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0246",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0247",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0248",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0249",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0250",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0251",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0252",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0253",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0254",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0255",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0256",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0257",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0258",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0259",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0260",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0261",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0262",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0263",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0264",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0265",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0266",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0267",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0268",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0269",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0270",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0271",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0272",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0273",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0274",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0275",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0276",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0277",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0278",
+      "witness_assignment": {
+        "C": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0279",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0280",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0281",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0282",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0283",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0284",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0285",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0286",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0287",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0288",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0289",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0290",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0291",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0292",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0293",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0294",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0295",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0296",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0297",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0298",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0299",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0300",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0301",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0302",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "C": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0303",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0304",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0305",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0306",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0307",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0308",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0309",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0310",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0311",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0312",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0313",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "E",
+        "E -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0314",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0315",
+      "witness_assignment": {
+        "A": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0316",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0317",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0318",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0319",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0320",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0321",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0322",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0323",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0324",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0325",
+      "witness_assignment": {
+        "A": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0326",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "D": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0327",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0328",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0329",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0330",
+      "witness_assignment": {
+        "B": false,
+        "D": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0331",
+      "witness_assignment": {
+        "A": false,
+        "B": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0332",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": null,
+      "satisfiable": true,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0333",
+      "witness_assignment": {
+        "B": false,
+        "C": false,
+        "E": false
+      }
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0334",
+      "witness_assignment": null
+    },
+    {
+      "activation": false,
+      "minimal_unsat_core": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "satisfiable": false,
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_ANSWER/v1",
+      "scoring": "verify all visible rules under submitted assignment; compare the visible unsat core only if unsatisfiable",
+      "task_id": "C-0335",
+      "witness_assignment": null
+    }
+  ],
+  "frontier": "C",
+  "schema": "SUBSTRATE_ODYSSEY_EVALUATOR_ANSWER_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "fa1cf9a44f3b6e6055b29adfd2622a36c1b9dd8ac673b8cee74150b7416ade9f"
+}

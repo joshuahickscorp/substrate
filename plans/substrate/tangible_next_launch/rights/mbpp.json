@@ -1,0 +1,21 @@
+{
+  "acquired_at": "2026-08-03T18:06:24.951023+00:00",
+  "acquired_bytes": 564658,
+  "dataset": "mbpp",
+  "evaluator_only_separated": false,
+  "file_count": 2,
+  "frontier": "D",
+  "license": "CC-BY-4.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mbpp/licenses/LICENSE.txt",
+  "license_url": "https://huggingface.co/datasets/google-research-datasets/mbpp",
+  "notes": [
+    "MBPP mostly-basic Python problems. Solutions embedded in JSONL.",
+    "License taken from HF dataset card metadata (cc-by-4.0), not a LICENSE file in the google-research tree."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "mbpp.jsonl from google-research master at acquisition time",
+  "source_url": "https://github.com/google-research/google-research/tree/master/mbpp",
+  "upstream_checksum_verified": false
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_SHARED_STORAGE_RESERVE_DRAFT/v1",
+  "activation": false,
+  "status": "draft_post_r2_only",
+  "decision": "R2 retains its sealed live free-space floor unchanged. After R2 has terminal independent verification, replace that retired R2-only floor with one Odyssey preflight reservation; do not reserve shared retained data twice.",
+  "measurement_at_2026_08_01": {
+    "filesystem_capacity_bytes": 994662584320,
+    "shared_retained_archives_physical_bytes": 86036697088,
+    "shared_public_data_bytes": 1199864357,
+    "shared_pinned_source_bytes": 4078002176,
+    "r2_generated_runs_artifacts_evidence_bytes": 32731136,
+    "r2_invalid_attempt_bytes": 16563,
+    "accounting_note": "archive cache entries are hard links to the archive objects and consume zero additional physical bytes; both must be counted once."
+  },
+  "prefetch": {
+    "current_public_queue_expected_bytes": 83143230397,
+    "sources": ["MATH", "AI2 ARC", "SWE-bench multimodal metadata", "MOVi-A 128px", "CLEVR v1"],
+    "shared_read_only_after_completion": true
+  },
+  "shared_post_r2_capacity_policy": {
+    "formula": "runtime_free_floor + P95_total_measured_private_growth, where runtime_free_floor = 25_GiB_device_free_floor + explicit_model_storage_reserve + width_8*largest_measured_transient + terminal_allowance",
+    "protected_dynamic_floor_policy": "After verified R2, retain a fixed 25 GiB device-wide free-space floor. Do not derive a second percentage-of-volume reservation: Substrate is the primary storage consumer and the rest of the Odyssey envelope is measured at G07.",
+    "protected_floor_is_shared_once": "The historical sealed R2 floor is not changed. After R2 terminal verification, Odyssey uses one 25 GiB device floor; it is not added to an obsolete R2 floor or counted twice.",
+    "model_storage_reservation_policy": "A locally present, pinned model artifact is already reflected in df and has zero additional storage reserve. Reserve exact bytes only for a separately staged artifact not yet present; do not turn the 24 GiB model-service RAM cap into a duplicate disk reservation.",
+    "odyssey_capacity_mode": "G07 derives actual P95 growth from the eight-cell rehearsal and live preflight refuses if it no longer fits either observed dynamic capacity or the 120 GiB maximum private-write cap; the worker holds before the runtime floor is crossed.",
+    "simultaneous_use_rule": "Full Odyssey may be admitted only when the live launch formula passes. If a separately staged model artifact or another project consumes capacity, re-run preflight; do not borrow the device floor or silently change the full-program identity.",
+    "initial_generated_task_material_upper_budget_bytes": 107374182400,
+    "largest_transient_window_bytes": 8589934592,
+    "terminal_allowance_bytes": 4294967296,
+    "device_free_floor_bytes": 26843545600,
+    "private_write_cap_bytes": 128849018880,
+    "private_write_cap_policy": "G07-measured P95 growth bounded by a 120 GiB maximum private-write cap",
+    "output_optimization_policy": {
+      "immutable_shared_inputs": "reference manifest-pinned corpus objects in place; do not copy source media or archives into frontier roots",
+      "content_addressing": "store each private blob once by sha256 and record references in receipts; duplicate artifacts must be links, never second payloads",
+      "checkpointing": "two-hour delta checkpoints, twelve-hour full checkpoints, daily verified compaction; retain only the current full checkpoint plus its valid delta chain",
+      "structured_receipts": "canonical JSONL with content digests and aggregate telemetry; no duplicate pretty-printed status copies or unbounded debug logs",
+      "media_derivatives": "generate deterministic bounded derivatives only when required by a task; verify digest then remove transient work files before the next boundary",
+      "rehearsal_requirement": "the eight-cell rehearsal must measure P95 durable growth, the largest transient, and an observed dynamic capacity; P95 must remain at or below 120 GiB and the rehearsal cannot lower the 25 GiB device floor"
+    },
+    "transient_allowance": "measured in mandatory eight-cell rehearsal; no guessed value authorizes launch",
+    "explicit_user_reserve": "the 25 GiB device floor and 120 GiB maximum private-write cap are the standing storage bounds. A separately staged model artifact is additive only when it is not already represented in df; no model-ladder envelope is double-counted",
+    "shared_lake_treatment": "represented once by actual df free bytes; never added again as pending acquisition or private growth"
+  },
+  "transition_gate": [
+    "R2 terminal receipt complete",
+    "R2 independent verification pass",
+    "R2 watcher reports terminal delivery",
+    "public prefetch receipt finalized or cleanly paused at its floor",
+    "fresh filesystem measurement",
+    "eight-cell Odyssey storage rehearsal",
+    "Odyssey source, custody, and task manifests sealed"
+  ],
+  "prohibited": [
+    "changing active R2 minimum free bytes",
+    "counting hard-linked cache bytes twice",
+    "launching Odyssey based on this draft before its rehearsal and gates"
+  ]
+}

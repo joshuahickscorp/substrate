@@ -1,0 +1,145 @@
+{
+  "schema_version": "substrate-product-continuation-preflight-v1",
+  "document_status": "planning-and-verification inventory; not a launch, activation, or execution authorization",
+  "scope": {
+    "product_phase": "post-odyssey foundation",
+    "execution_permitted": false,
+    "external_side_effects_authorized": false,
+    "odyssey_modified": false,
+    "activation_authorized": false
+  },
+  "repository_snapshot": {
+    "observed_head": "a7761bdc9b28426fcc66b70b09acf38c7df16e5e",
+    "observed_origin_main": "78b4720dbb0ff23ed9ed0bbf2dbc5ac57496af38",
+    "observed_branch": "codex/odyssey-preflight-repair",
+    "worktree_caution": {
+      "tracked_changes_present_when_documented": true,
+      "untracked_files_present_when_documented": true,
+      "scope_is_mixed_and_must_be_reviewed_before_staging": true,
+      "exact_status_is_intentionally_not_frozen": true,
+      "refresh_command": "git status --short"
+    }
+  },
+  "unrelated_program_status": {
+    "program": "substrate-tangible-sandbox-r2",
+    "classification": "terminal_tangible_sandbox_null",
+    "observed_blocker": "protected_disk_floor",
+    "evidence_path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION.json",
+    "scope_effect": "Preserved as unrelated scientific-program evidence. It neither authorizes product execution nor blocks an independently clean focused product suite.",
+    "retested_by_this_preflight": false
+  },
+  "implemented_product_scope": {
+    "portable_entity_and_planning_modules": [
+      "src/substrate/product/contracts.py",
+      "src/substrate/product/entity.py",
+      "src/substrate/product/apprenticeship.py",
+      "src/substrate/product/packs.py",
+      "src/substrate/product/sources.py",
+      "src/substrate/product/source_adapters.py",
+      "src/substrate/product/tool_bundles.py",
+      "src/substrate/product/backends.py",
+      "src/substrate/product/cli.py"
+    ],
+    "signed_pack_and_cache_modules": [
+      "src/substrate/product/pack_artifacts.py",
+      "src/substrate/product/cache.py"
+    ],
+    "native_policy_package": {
+      "path": "native/substrate-sandbox",
+      "crate": "substrate-sandbox",
+      "schema_version": "substrate-sandbox-body-v1",
+      "execution_capability": "none; policy and dry-run validation only"
+    },
+    "capability_pack_ids": [
+      "engineering",
+      "research",
+      "media",
+      "browser",
+      "formal-math",
+      "3d",
+      "desktop",
+      "data-science",
+      "robotics",
+      "mathematics (legacy identifier)",
+      "three-d (legacy identifier)"
+    ],
+    "upstream_tool_boundary": "No upstream browser, downloader, media, compiler, simulation, or model component is vendored, rewritten, installed, or executed by this foundation. Such components remain operator-provided or verified-image dependencies subject to separate provenance, SBOM, license, and security review."
+  },
+  "schema_versions": {
+    "entity_and_product": "substrate-product-v1",
+    "capability_pack_artifact": "substrate-capability-pack-v1",
+    "capability_pack_signature": "substrate-capability-pack-signature-v1",
+    "capability_pack_trust": "substrate-capability-pack-trust-v1",
+    "capability_pack_install_receipt": "substrate-capability-pack-install-v1",
+    "artifact_cache": "substrate-artifact-cache-v1",
+    "artifact_cache_attestation": "substrate-artifact-cache-attestation-v1",
+    "artifact_cache_verifier_trust": "substrate-artifact-cache-verifier-trust-v1",
+    "artifact_cache_verification_receipt": "substrate-artifact-cache-verification-v1",
+    "sandbox_body": "substrate-sandbox-body-v1",
+    "source_adapter_observation_plan": "substrate-source-adapter-plan-v1",
+    "tool_bundle_manifest": "substrate-tool-bundle-manifest-v1"
+  },
+  "current_security_posture": {
+    "network_default": "none",
+    "portable_mounts": [
+      "content-addressed-inputs:read-only",
+      "task-workspace:ephemeral-write",
+      "untrusted-output:quarantine-write"
+    ],
+    "pack_installation": "verified manifest reference only",
+    "cache_ingestion": "local operator-supplied regular files only; promotion and every trusted verified-object read require a signed, expiry-bound attestation from a locally trusted verifier",
+    "source_acquisition": "sealed planning and receipt validation; one typed cache-attested evidence bridge may assimilate verified local cache evidence without source/tool execution",
+    "worker_execution": "not implemented",
+    "browser_media_repository_adapters": "cache-digest-bound, non-executing observation-plan contracts and operator-tool bundle manifests only; no live adapter implementation"
+  },
+  "product_cli_surface": [
+    "packs",
+    "pack build/keygen/sign/inspect/trust/verify/install/remove",
+    "cache init/status/add/trust-verifier/attest/verify/explain/quarantine/pin/gc",
+    "tool-bundle inspect",
+    "init/status/validate/recover",
+    "plan-apprenticeship/plan-source/backends/dry-run-backend"
+  ],
+  "verification_commands_to_run": [
+    {
+      "command": "uv lock --check",
+      "purpose": "verify the Python dependency lock matches the signed-pack/cache cryptography dependency declaration"
+    },
+    {
+      "command": "uv run ruff check src/substrate/product tests/substrate/test_product_pack_cache.py tests/substrate/test_product_scaffold.py tests/substrate/test_product_assimilation_hardening.py tests/substrate/test_entity_integrity.py tests/substrate/test_source_adapters.py tests/substrate/test_product_tool_bundles.py",
+      "purpose": "lint the product foundation and focused tests"
+    },
+    {
+      "command": "uv run mypy src/substrate/product",
+      "purpose": "type-check the product foundation"
+    },
+    {
+      "command": "uv run pytest tests/substrate/test_product_pack_cache.py tests/substrate/test_product_scaffold.py tests/substrate/test_product_assimilation_hardening.py tests/substrate/test_entity_integrity.py tests/substrate/test_source_adapters.py tests/substrate/test_product_tool_bundles.py -q",
+      "purpose": "run focused Python product tests"
+    },
+    {
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo fmt --check --manifest-path native/substrate-sandbox/Cargo.toml",
+      "purpose": "check native policy formatting without creating an in-repository target directory"
+    },
+    {
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo test --manifest-path native/substrate-sandbox/Cargo.toml",
+      "purpose": "run native policy tests"
+    },
+    {
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo clippy --manifest-path native/substrate-sandbox/Cargo.toml -- -D warnings",
+      "purpose": "lint the native policy package as warnings-as-errors"
+    }
+  ],
+  "verification_results": {
+    "recorded_by_this_preflight": false,
+    "reason": "This documentation artifact lists required commands but does not fabricate or freeze test results; record results with the exact working-tree revision after they are run."
+  },
+  "continuation_order": [
+    "Review the mixed worktree and isolate intended product changes before staging.",
+    "Verify signed pack, trust-store, quarantine, and promotion behavior with focused tests.",
+    "Review the native policy contract and its fail-closed tests.",
+    "Design and independently review an enforceable task backend before enabling any execution.",
+    "Add source-specific repository, media, browser, or simulation adapters only through that broker and only with rights/provenance controls.",
+    "Use a bounded apprenticeship evaluation with hidden tasks and controls before making specialist-performance claims."
+  ]
+}

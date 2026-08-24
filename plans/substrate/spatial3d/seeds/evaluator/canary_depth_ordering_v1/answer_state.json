@@ -1,0 +1,12 @@
+{
+  "answer": "near_block",
+  "canary_id": "depth_ordering",
+  "capability": "depth_ordering",
+  "farther": "far_block",
+  "from_camera": "cam_front",
+  "nearer": "near_block",
+  "question": "From cam_front depth buffer, which object is nearer?",
+  "rationale": "Min finite depth over near_block pixels is smaller than far_block.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1"
+}

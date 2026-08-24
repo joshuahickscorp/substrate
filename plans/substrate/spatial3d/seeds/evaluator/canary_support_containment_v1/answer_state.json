@@ -1,0 +1,16 @@
+{
+  "answer": "cup",
+  "canary_id": "support_containment",
+  "capability": "support_or_containment",
+  "contained_object": "token",
+  "container_sides": [
+    "wall_left",
+    "wall_right"
+  ],
+  "question": "Which object rests on the table (support_parent=table): cup or wall_left?",
+  "rationale": "Cup is centered above table top; walls stand beside. Visible stack in render.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1",
+  "support_surface": "table",
+  "supported_object": "cup"
+}

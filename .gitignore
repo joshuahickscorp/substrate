@@ -1,5 +1,29 @@
-.venv/
+# Serena symbol index: local tool cache, regenerated on demand.
+.serena/
+
+# G10 isolation probe: a live runtime tree whose whole point is that it is
+# owned by nobody and unreadable by the operator. Not committable, and git
+# cannot descend into it.
+artifacts/substrate/odyssey/isolation-probe/
 __pycache__/
+
+# Private key material must never enter the index.  Commit 6dc1e066 added sixteen
+# unencrypted Ed25519 verifier private keys explicitly, so an ignore rule alone would
+# not have stopped it -- tests/substrate/test_no_private_keys_tracked.py is the enforcement.
+*.private
+*.pem
+**/keys/verifier.ed25519.private
+
+# Odyssey tool sandboxes: regenerable Lean toolchain copies and content-addressed
+# tool cache. 9.42 GiB, bound by no receipt, and the cache held private verifier keys.
+artifacts/substrate/odyssey7d/tool-work/
+artifacts/substrate/odyssey7d/tool-cache/
+
+# Finder metadata
+.DS_Store
+
+# --- from main ---
+.venv/
 *.pyc
 .pytest_cache/
 .mypy_cache/
@@ -9,19 +33,11 @@ data/
 runs/
 *.npy
 *.memmap
-.DS_Store
-
 runs/cpu_campaign/ckpt/
 runs/studio_rehearsal/
 reports/telegram_notifier/
-
-# durability: track the load-bearing verdict evidence in place (the rest of runs/ stays ignored).
-# git cannot re-include a file whose parent dir is excluded, so re-include the dirs, re-exclude their
-# contents, then re-include the specific curated files. See STUDIO_RUN_REPORT.md durability note.
 !runs/
 runs/*
-# Historical receipts are already tracked and remain in Git through the migration manifest. New mutable
-# state is admitted only under the active Substrate run root.
 !runs/substrate/
 runs/substrate/*
 !runs/substrate/v1/
@@ -29,11 +45,6 @@ runs/substrate/v1/*
 !runs/substrate/v1/result_ledger.json
 !runs/substrate/v1/experiments/
 !runs/substrate/v1/experiments/**
-
-# Final-revision supplementary receipts. These are post-freeze checks, not
-# required deliverables, but published documents cite them by path, so they must
-# exist for a reader of a clean clone. The scripts are tracked beside their
-# receipts so a reviewer can re-run them rather than take the JSON on its word.
 !runs/substrate/final_revision/
 runs/substrate/final_revision/*
 !runs/substrate/final_revision/instrument_liveness_check.json
@@ -47,7 +58,6 @@ runs/substrate/final_revision/*
 !runs/substrate/final_revision/blocker_batch_1.json
 !runs/substrate/final_revision/blocker_batch_2.json
 !runs/substrate/final_revision/terminal_handoff_20260728.md
-
 !runs/pre_studio/
 runs/pre_studio/*
 !runs/pre_studio/close_e7_sparse.json
@@ -60,17 +70,11 @@ runs/pre_studio/*
 !runs/mot/
 runs/mot/*
 !runs/mot/dr13_predictor_fidelity.json
-
-# model weights and local AI go-prompt
 *.pt
 *.pth
 *.safetensors
 *.bin
 **/.DS_Store
 GO.md
-
-# Accretion Collapse scratch working area
 .collapse/
-
-# Execution Forge isolated benchmark roots are disposable; only the sealed matrix and reports are tracked.
 artifacts/substrate/execution-forge/.benchmark-*/

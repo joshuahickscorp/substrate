@@ -1,0 +1,8 @@
+{
+  "activation": false,
+  "arm": "control",
+  "cell": "G",
+  "cursor": 1,
+  "schema": "SUBSTRATE_ODYSSEY_REHEARSAL_STATE/v1",
+  "sha256": "95d5acf39eeb06877f6845d7b12789549e7c78496a36ba0d5103b28beee48319"
+}

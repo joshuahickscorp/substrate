@@ -1,0 +1,2361 @@
+{
+  "activation": false,
+  "answers": [
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0000"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0001"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0002"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0003"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0004"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0005"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0006"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0007"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0008"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0009"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0010"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0011"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0012"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0013"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0014"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0015"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0016"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0017"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0018"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0019"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0020"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0021"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0022"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0023"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0024"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0025"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0026"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0027"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0028"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0029"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0030"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0031"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0032"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0033"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0034"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0035"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0036"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0037"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0038"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0039"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0040"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0041"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0042"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0043"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0044"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0045"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0046"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0047"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0048"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0049"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0050"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0051"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0052"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0053"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0054"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0055"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0056"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0057"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0058"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0059"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0060"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0061"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0062"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0063"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0064"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0065"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0066"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0067"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0068"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0069"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0070"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0071"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0072"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0073"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0074"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0075"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0076"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0077"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0078"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0079"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0080"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0081"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0082"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0083"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0084"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0085"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0086"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0087"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0088"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0089"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0090"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0091"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0092"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0093"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0094"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0095"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0096"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0097"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0098"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0099"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0100"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0101"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0102"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0103"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0104"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0105"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0106"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0107"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0108"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0109"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0110"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0111"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0112"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0113"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0114"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0115"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0116"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0117"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0118"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0119"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0120"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0121"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0122"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0123"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0124"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0125"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0126"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0127"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0128"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0129"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0130"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0131"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0132"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0133"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0134"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0135"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0136"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0137"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0138"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0139"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0140"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0141"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0142"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0143"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0144"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0145"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0146"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0147"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0148"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0149"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0150"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0151"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0152"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0153"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0154"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0155"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0156"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0157"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0158"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0159"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0160"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0161"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0162"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0163"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0164"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0165"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0166"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0167"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0168"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0169"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0170"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0171"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0172"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0173"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0174"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0175"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0176"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0177"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0178"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0179"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0180"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0181"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0182"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0183"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0184"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0185"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0186"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0187"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0188"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0189"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0190"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0191"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0192"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0193"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0194"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0195"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0196"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0197"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0198"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0199"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0200"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0201"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0202"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0203"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0204"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0205"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0206"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0207"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0208"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0209"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0210"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0211"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0212"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0213"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0214"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0215"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0216"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0217"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0218"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0219"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0220"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0221"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0222"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0223"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0224"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0225"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0226"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0227"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0228"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0229"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0230"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0231"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0232"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0233"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0234"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0235"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0236"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0237"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0238"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0239"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0240"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0241"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0242"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0243"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0244"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0245"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0246"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0247"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0248"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0249"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0250"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0251"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0252"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0253"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0254"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0255"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0256"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0257"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0258"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0259"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0260"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0261"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0262"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0263"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0264"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0265"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0266"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0267"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0268"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0269"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0270"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0271"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0272"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0273"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0274"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0275"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0276"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0277"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0278"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0279"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0280"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0281"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0282"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0283"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0284"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0285"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0286"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0287"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0288"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0289"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0290"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0291"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0292"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0293"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0294"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0295"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0296"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0297"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0298"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0299"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0300"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0301"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0302"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0303"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0304"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0305"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0306"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0307"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0308"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0309"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0310"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0311"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0312"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0313"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0314"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0315"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0316"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0317"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0318"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0319"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0320"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0321"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0322"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0323"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0324"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0325"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "confound",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0326"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0327"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0328"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0329"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0330"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0331"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0332"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0333"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "measurement_error",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0334"
+    },
+    {
+      "activation": false,
+      "hidden_generator_class": "causal_shift",
+      "schema": "SUBSTRATE_ODYSSEY_SCIENCE_ANSWER/v1",
+      "scoring": "causal discrimination and calibrated revision",
+      "task_id": "H-0335"
+    }
+  ],
+  "frontier": "H",
+  "schema": "SUBSTRATE_ODYSSEY_EVALUATOR_ANSWER_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "1316bd58e5819b44f29b28f6ea5be003752591b8e1e35fdbb4f07fc5ec1c66b6"
+}

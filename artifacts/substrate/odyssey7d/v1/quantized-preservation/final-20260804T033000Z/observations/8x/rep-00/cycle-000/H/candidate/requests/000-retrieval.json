@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "4ea420caa909c7fdf0b57c777cd92ecb9864651139cf35a86c931db3b6c1f0f9",
+  "cycle": 0,
+  "frontier": "H",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/H/candidate/receipts/000-retrieval.json",
+  "request_sha256": "e7941327bba07b0fa79c68e35a1e5a3818d9f22ff999afa94b4bc5c348a13411",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "H",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "Two independent events have probabilities 0.2 and 0.5. What is the probability that both occur?",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "H-PUBLIC-0000-H2"
+  }
+}

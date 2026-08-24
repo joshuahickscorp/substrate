@@ -1,0 +1,88 @@
+{
+  "activation": false,
+  "adapter_sha256": "26a31f1a0ca5636762bf01962ec4799abbfb8cc87b6e51c54b36e5fa0e59dc19",
+  "changed": [
+    {
+      "affects_cognition": false,
+      "affects_transport_reliability": true,
+      "after": 1024,
+      "before": 64,
+      "name": "num_predict",
+      "reason": "cover reasoning tokens charged against generation budget"
+    },
+    {
+      "affects_cognition": false,
+      "affects_transport_reliability": false,
+      "after": "explicit post-parse semantic token count on required fields",
+      "before": "implicit via num_predict truncation",
+      "name": "substantive_bound_enforcement",
+      "note": "makes the frozen 64-token answer envelope an answer property, not a generation crash"
+    },
+    {
+      "affects_cognition": false,
+      "affects_transport_reliability": true,
+      "after": "transport gate then semantic gate with separate failure classes",
+      "before": "single JSON parse + required-field check",
+      "name": "transport_semantic_gate_split"
+    }
+  ],
+  "claim": "Protocol v2 alters transport reliability only. It does not change the cognitive treatment of either arm, does not expand the substantive answer bound, and keeps candidate/control budgets byte-identical.",
+  "invariant_preserved": [
+    {
+      "after": 64,
+      "before": 64,
+      "equal": true,
+      "name": "substantive_token_budget"
+    },
+    {
+      "equal": true,
+      "name": "candidate_control_num_predict",
+      "value": 1024
+    },
+    {
+      "equal": true,
+      "name": "candidate_control_timeout",
+      "value": 900.0
+    },
+    {
+      "equal": true,
+      "name": "candidate_control_attempts",
+      "value": 1
+    },
+    {
+      "equal": true,
+      "name": "candidate_control_temperature",
+      "value": 0
+    },
+    {
+      "equal": true,
+      "name": "candidate_control_seed_pairing"
+    },
+    {
+      "name": "candidate_treatment",
+      "value": "flat_exact_associative_monolith"
+    },
+    {
+      "name": "control_treatment",
+      "value": "append_only_history_retrieval"
+    },
+    {
+      "name": "context_window_bytes",
+      "value": 8192
+    },
+    {
+      "name": "format_json",
+      "value": true
+    }
+  ],
+  "non_claims": [
+    "does not claim improved scientific score on any frontier",
+    "does not claim width-8 admission without measured G06 pass",
+    "does not reinterpret historical refusals as computational inadmissibility",
+    "does not authorize adapter answer substitution"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "recorded_at": "2026-08-04T10:23:50Z",
+  "schema": "ODYSSEY_ARM_PROTOCOL_V2_EQUIVALENCE/v1",
+  "sha256": "34f427fd041ca1bc5b88d758f4c93dc01b29637822676802ad1447af01d911ab"
+}

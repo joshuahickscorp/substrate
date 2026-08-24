@@ -1,0 +1,12 @@
+{
+  "activation": false,
+  "authority_sha256": "99d6bcf299dcb7bf19c694debb09175a406c4c394744e52868981142475bdb54",
+  "completed_paired_events": 4,
+  "completed_phase_count": 4,
+  "cycle": 0,
+  "event_chain_sha256": "4d67c2a9a4b2b22e2877e01ed011a991c9c7067bf7b58c310abf705d44951d8e",
+  "kind": "delta",
+  "parent_checkpoint_sha256": "",
+  "schema": "SUBSTRATE_ODYSSEY_CHECKPOINT/v1",
+  "sha256": "6eed01a6208504d6d3aa5ece41f7320cd2e618f57dd0b20e7721a26c47c75b2d"
+}

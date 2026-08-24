@@ -1,0 +1,32 @@
+{
+  "activation": false,
+  "full_phase_seconds": 1800,
+  "full_program_requires_width": 8,
+  "hash_rounds": 96,
+  "max_slowdown_ratio": 1.35,
+  "measurement_basis": "active_paired_dispatch_wall_with_deadline_guard",
+  "minimum_width_eight_scheduled_seconds": 450,
+  "paired_adapter_dispatches_per_cell": 2,
+  "phase_boundary_guard_interval_seconds": 30,
+  "receipt_bytes": 262144,
+  "repetitions": 3,
+  "requirements": {
+    "distinct_run_roots": true,
+    "no_shared_writable_evaluator_or_data_root": true,
+    "parent_global_dwell": true,
+    "production_paired_adapters": true,
+    "receipt_invariance": true,
+    "record_cpu_memory_io": true,
+    "record_external_disk_drift": true,
+    "source_bundle_pre_dispatch_revalidation": true,
+    "strict_dispatch_deadline": true
+  },
+  "scale_factor": 12,
+  "schema": "SUBSTRATE_ODYSSEY_RESOURCE_CALIBRATION_SPEC_DRAFT/v1",
+  "scheduling_mode": "initial_release_only;per_frontier_candidate_then_control;no_global_role_barrier;parent_global_dwell",
+  "status": "pending_after_r2_and_pinned_runtime",
+  "strict_dispatch_budget_seconds": 150,
+  "unit": "complete_paired_frontier_cell",
+  "unit_count": 8,
+  "widths": [1, 2, 4, 6, 8]
+}

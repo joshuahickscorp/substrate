@@ -1,0 +1,14 @@
+{
+  "answer": {
+    "cam_a": "marker_near",
+    "cam_b": "marker_far"
+  },
+  "cam_a_nearest": "marker_near",
+  "cam_b_nearest": "marker_far",
+  "canary_id": "viewpoint_change",
+  "capability": "viewpoint_change",
+  "question": "Which marker is nearest under cam_a vs cam_b?",
+  "rationale": "Opposite cameras reverse depth order of the two markers.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1"
+}

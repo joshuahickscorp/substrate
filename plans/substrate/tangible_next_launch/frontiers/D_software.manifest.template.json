@@ -1,0 +1,48 @@
+{
+  "activation": false,
+  "candidate": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "candidate/D"
+  },
+  "control": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "control/D"
+  },
+  "custody": {
+    "answer_commitment": "EVALUATOR_ONLY",
+    "scorer_commitment": "EVALUATOR_ONLY",
+    "seed_commitment": "REPLACE_WITH_COMMITMENT",
+    "task_commitment": "REPLACE_WITH_COMMITMENT"
+  },
+  "frontier": {
+    "id": "D",
+    "name": "Code and software systems",
+    "slug": "software"
+  },
+  "parity": [
+    "task_schedule",
+    "allowed_observations",
+    "models",
+    "tools",
+    "token_budget",
+    "compute_ceiling",
+    "storage_ceiling",
+    "wall_time"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_FRONTIER_MANIFEST_TEMPLATE/v1",
+  "status": "template_unsealed",
+  "task_contract": {
+    "evaluator_only_rule": "hidden test or holdout issue mapping stays evaluator-only",
+    "id": "D",
+    "parity_rule": "same base commit, test trace, issue text and execution limits",
+    "source_policy": "SWE metadata and per-repository license-allowed pinned source/test traces",
+    "task_families": [
+      "issue_history_reconstruction",
+      "patch_and_test_repair",
+      "tool_state_recovery"
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_G06_DEADLINE_CAPACITY_TRANSITION/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "activation": false,
+  "status": "scientific_transition_argument",
+  "from_gate": "G06",
+  "to_gate": "G06-DC",
+  "transition_class": "measurement_variable_change_not_threshold_edit",
+  "prohibited_non_transition": {
+    "description": "Raising max_slowdown_ratio from 1.35 to a number large enough to pass the measured 4.39x would be gate-weakening, not a scientific transition. That path is refused.",
+    "frozen_max_slowdown_ratio_remains": 1.35,
+    "g06_validator_intact": true
+  },
+  "preserved_historical_result": {
+    "width_8_max_slowdown": 4.392411013227944,
+    "width_8_max_slowdown_rounded": 4.39,
+    "source": "evidence/substrate/odyssey/ODYSSEY_ARM_PROTOCOL_V2_WIDTH_CALIBRATION.json",
+    "limitation_record": "evidence/substrate/odyssey/ODYSSEY_G06_SIMULTANEITY_LIMITATION.json"
+  },
+  "frozen_schedule_authority": {
+    "source": "plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json",
+    "timeline": {
+      "phase_seconds": 1800,
+      "microcycle_seconds": 7200,
+      "phases_per_microcycle": 4,
+      "microcycles_per_frontier": 84,
+      "days": 7
+    },
+    "resources": {
+      "resident_cap_gib": 85,
+      "full_program_requires_width": 8,
+      "widths_to_calibrate": [1, 2, 4, 6, 8],
+      "calibration_repetitions": 3
+    }
+  },
+  "claim_boundary": {
+    "source": "plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json",
+    "permitted": [
+      "week_long_continuity",
+      "developmental_learning",
+      "near_transfer",
+      "far_transfer",
+      "interference_recovery",
+      "cold_retention",
+      "cross_modal_grounding",
+      "formal_reasoning",
+      "long_project_coherence"
+    ],
+    "prohibited": [
+      "consciousness",
+      "phenomenal_experience",
+      "sentience",
+      "personhood",
+      "moral_status",
+      "human_equivalence",
+      "unrestricted_autonomy",
+      "safe_physical_deployment"
+    ],
+    "argument": "None of the permitted claims requires that concurrent cells generate tokens at the same wall-clock rate as a solitary cell. Continuity, transfer, retention, and coherence require that each paired cell complete its scheduled work before phase and microcycle deadlines with equal candidate/control resources, no leakage, and durable state. Simultaneous generation latency is an implementation congestion symptom on a shared GPU, not a treatment factor."
+  },
+  "treatment_variable_boundary": {
+    "treatment": "endogenous developmental memory difference between candidate and control under equal queues, calls, tools, retries, and compute",
+    "not_treatment": [
+      "exact simultaneous token generation latency",
+      "per-cell slowdown relative to width-1 under shared-GPU contention",
+      "matching single-cell generation wall time at full width"
+    ],
+    "capacity_variable": "whether every frontier cell finishes tool-bearing and model work before its phase, microcycle, event, and checkpoint deadlines at width eight"
+  },
+  "reframing_numbers": {
+    "width1_active_dispatch_wall_seconds": 12.91,
+    "phase_seconds": 1800,
+    "width8_active_dispatch_order_seconds": 57.0,
+    "approximate_deadline_headroom_at_width8": 31.0,
+    "tools_fraction_of_phase": 0.0039,
+    "tool_window_seconds": 6.74,
+    "gpu_idle_within_tool_window_seconds": 6.58,
+    "interpretation": "A single shared GPU cannot make eight concurrent cells as fast as one; Odyssey does not require that. It requires every cell to finish before its deadline. Measured headroom is large under the real schedule."
+  },
+  "what_is_gained": [
+    "Capacity admission aligned to the frozen Odyssey schedule (1800 s phase, 7200 s microcycle) rather than an auxiliary simultaneity ratio.",
+    "Explicit reporting of both slowdown (historical congestion) and deadline utilization (load-bearing capacity) side by side.",
+    "Mandatory real tool-bearing work and per-frontier tool proof at full width.",
+    "Mutation surface against synthetic work, suppressed tools, cache replay, unfair queues, wrong denominators, missing cells, dropped failures, and pageout reset."
+  ],
+  "what_is_given_up": [
+    "G06-DC does not claim that concurrent generation is free of slowdown; the 4.39x fact remains.",
+    "G06-DC does not establish seven-day scientific outcomes, model quality, or claim-boundary success on the permitted dimensions.",
+    "G06-DC does not replace G06's historical evidence; G06 remains sealable and _validate_g06 remains unchanged including the 1.35 limit.",
+    "G06-DC is not yet a member of the frozen G01-G15 launch_gates list in the hardened design; integrating it into launch requires a separate design freeze (see sealed_gate_set_note)."
+  ],
+  "sealed_gate_set_note": {
+    "problem": "The frozen hardened design and operator-input path require exactly the G01-G15 launch set. Renaming G06 or expanding that set inside this transition would either rewrite frozen launch_gates or force a 16th operator-input evidence slot without a design freeze.",
+    "minimum_change_chosen": "Register G06-DC as a sealable side machine gate (SIDE_MACHINE_GATE_SPECS) with full validator and seal_machine_gate support, without altering GATE_SPECS G01-G15 or the frozen hardened design.",
+    "future_design_freeze_options": [
+      "Replace G06's launch-gate role with G06-DC while keeping G06 historical-only, or",
+      "Add G06-DC as an additional launch gate after regenerating the frozen build and operator-input templates."
+    ]
+  },
+  "fail_closed_policy": "If the tool-bearing workload misses deadlines at width 8, G06-DC must refuse. Do not tune deadline limits until a genuine measurement passes. A capacity refusal against real work is a legitimate scientific outcome.",
+  "limits_not_chosen_to_pass": {
+    "p95_active_dispatch_fraction_of_phase": 0.5,
+    "worst_active_dispatch_fraction_of_phase": 0.75,
+    "minimum_deadline_headroom": 2.0,
+    "derivation": "Limits are frozen from the real schedule (phase 1800 s, microcycle 7200 s) with explicit headroom factors stated in the task contract. They are not back-fit from the 4.39x slowdown."
+  }
+}

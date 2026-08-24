@@ -1,0 +1,98 @@
+{
+  "activation": false,
+  "external_activation": false,
+  "custody_independence": "single_operator",
+  "custody_limitations": [
+    "Early reveal of answer or scorer material is detectable via pre-launch commitment-digest mismatch or seal break, but is not prevented: a single operator holds every key, and no independent party holds reveal authority. This seal does not provide multi-party custody or double-blind reveal impossibility."
+  ],
+  "frozen_build_sha256": "REPLACE_WITH_ODYSSEY_FROZEN_BUILD_SHA256",
+  "gate_evidence": {
+    "G01": {
+      "file_sha256": "REPLACE_WITH_G01_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G01_GATE_EVIDENCE_PATH"
+    },
+    "G02": {
+      "file_sha256": "REPLACE_WITH_G02_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G02_GATE_EVIDENCE_PATH"
+    },
+    "G03": {
+      "file_sha256": "REPLACE_WITH_G03_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G03_GATE_EVIDENCE_PATH"
+    },
+    "G04": {
+      "file_sha256": "REPLACE_WITH_G04_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G04_GATE_EVIDENCE_PATH"
+    },
+    "G05": {
+      "file_sha256": "REPLACE_WITH_G05_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G05_GATE_EVIDENCE_PATH"
+    },
+    "G06": {
+      "file_sha256": "REPLACE_WITH_G06_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G06_GATE_EVIDENCE_PATH"
+    },
+    "G07": {
+      "file_sha256": "REPLACE_WITH_G07_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G07_GATE_EVIDENCE_PATH"
+    },
+    "G08": {
+      "file_sha256": "REPLACE_WITH_G08_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G08_GATE_EVIDENCE_PATH"
+    },
+    "G09": {
+      "file_sha256": "REPLACE_WITH_G09_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G09_GATE_EVIDENCE_PATH"
+    },
+    "G10": {
+      "file_sha256": "REPLACE_WITH_G10_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G10_GATE_EVIDENCE_PATH"
+    },
+    "G11": {
+      "file_sha256": "REPLACE_WITH_G11_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G11_GATE_EVIDENCE_PATH"
+    },
+    "G12": {
+      "file_sha256": "REPLACE_WITH_G12_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G12_GATE_EVIDENCE_PATH"
+    },
+    "G13": {
+      "file_sha256": "REPLACE_WITH_G13_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G13_GATE_EVIDENCE_PATH"
+    },
+    "G14": {
+      "file_sha256": "REPLACE_WITH_G14_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G14_GATE_EVIDENCE_PATH"
+    },
+    "G15": {
+      "file_sha256": "REPLACE_WITH_G15_GATE_EVIDENCE_FILE_SHA256",
+      "path": "REPLACE_WITH_G15_GATE_EVIDENCE_PATH"
+    }
+  },
+  "input_status": "template_unsealed",
+  "operator_approval": {
+    "actor": "REPLACE_WITH_OPERATOR_ID",
+    "attested_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+    "scope": "I approve sealing only if the referenced evidence remains exact and all gates pass."
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "run_id": "REPLACE_WITH_UNIQUE_ODYSSEY_RUN_ID",
+  "schema": "SUBSTRATE_ODYSSEY_OPERATOR_INPUTS/v1",
+  "storage_admission": {
+    "explicit_model_reserve_bytes": "REPLACE_WITH_CURRENT_MODEL_RESERVATION_INTEGER",
+    "largest_transient_bytes": "REPLACE_WITH_MEASURED_INTEGER",
+    "p95_private_growth_bytes": "REPLACE_WITH_MEASURED_INTEGER",
+    "private_write_cap_bytes": "REPLACE_WITH_G07_MEASURED_DYNAMIC_CAP_INTEGER",
+    "terminal_allowance_bytes": "REPLACE_WITH_MEASURED_INTEGER"
+  },
+  "worker": {
+    "argv": [
+      "REPLACE_WITH_ABSOLUTE_WORKER_EXECUTABLE"
+    ],
+    "source_files": [
+      {
+        "path": "src/substrate/odyssey_worker.py",
+        "sha256": "REPLACE_WITH_WORKER_SOURCE_SHA256"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_PUBLIC_MODEL_CANARY_TEMPLATE/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "status": "template_unsealed",
+  "activation": false,
+  "external_activation": false,
+  "visibility": "public_only",
+  "neutral_organ_prompt": "You are a stateless reasoning organ for a public deterministic canary. Use only this system message and the current user message. Do not retain, retrieve, or infer hidden context; do not call tools. Reply with exactly one final line in the form FINAL: <answer>.",
+  "reasoning_effort_policy": "fixed_default_no_frontier_override",
+  "conversation_policy": "fresh_request_context_per_case; keep_alive_only_for_weights; no_cross_case_state",
+  "max_output_tokens": 512,
+  "candidate_aliases": [
+    "gpt-oss:20b",
+    "qwen3:30b",
+    "deepseek-r1:32b"
+  ],
+  "model_service_cap_bytes": 25769803776,
+  "required_concurrent_clients": 8,
+  "selection_rule": "highest_public_canary_score_then_lower_service_peak_then_lower_median_latency_then_lexical_weight_digest",
+  "hidden_seed_policy": "No hidden task seed, answer, scorer, or evaluator commitment may be materialized before the selected public-canary result is sealed and factually reviewed.",
+  "case_set": [
+    {"id": "A1", "frontier": "A", "seed": 1101, "prompt": "A ledger begins with 7 items. It adds 5 items, removes 3 items, then duplicates 2 remaining items exactly once. How many items remain?", "answer": "11"},
+    {"id": "A2", "frontier": "A", "seed": 1102, "prompt": "A tracker contains red,blue,red. Remove the first red, append green, then reverse the tracker. Give the comma-separated final order.", "answer": "green,blue,red"},
+    {"id": "B1", "frontier": "B", "seed": 1201, "prompt": "Compute 127 multiplied by 36.", "answer": "4572"},
+    {"id": "B2", "frontier": "B", "seed": 1202, "prompt": "Compute three quarters plus five eighths. Give the reduced fraction.", "answer": "11/8"},
+    {"id": "C1", "frontier": "C", "seed": 1301, "prompt": "All P are Q. No Q are R. Can one object be both P and R? Answer yes or no.", "answer": "no"},
+    {"id": "C2", "frontier": "C", "seed": 1302, "prompt": "Is the formula '(A implies B) and A' satisfiable when A is true and B is false? Answer satisfiable or unsatisfiable.", "answer": "unsatisfiable"},
+    {"id": "D1", "frontier": "D", "seed": 1401, "prompt": "In Python, what integer is returned by sum(i*i for i in range(4))?", "answer": "14"},
+    {"id": "D2", "frontier": "D", "seed": 1402, "prompt": "In Python, let s='odyssey'. What string is s[1:5][::-1]?", "answer": "ssyd"},
+    {"id": "E1", "frontier": "E", "seed": 1501, "prompt": "A rule says a claim is supported only if it has evidence. A claim has no evidence. Is it supported under that rule? Answer yes or no.", "answer": "no"},
+    {"id": "E2", "frontier": "E", "seed": 1502, "prompt": "A policy chooses an action only if it is reversible. Action X is irreversible. Does the policy choose X? Answer yes or no.", "answer": "no"},
+    {"id": "F1", "frontier": "F", "seed": 1601, "prompt": "Sound travels at 340 metres per second and has frequency 170 hertz. What is its wavelength in metres?", "answer": "2"},
+    {"id": "F2", "frontier": "F", "seed": 1602, "prompt": "An audio stream has 8000 samples per second for 0.25 seconds. How many samples are recorded?", "answer": "2000"},
+    {"id": "G1", "frontier": "G", "seed": 1701, "prompt": "Start at grid coordinate (0,0). Move east 3, north 2, then west 1. Give the final coordinate as x,y.", "answer": "2,2"},
+    {"id": "G2", "frontier": "G", "seed": 1702, "prompt": "A cube is painted on all outer faces and cut into 27 equal small cubes in a 3 by 3 by 3 grid. How many small cubes have exactly 3 painted faces?", "answer": "8"},
+    {"id": "H1", "frontier": "H", "seed": 1801, "prompt": "A treatment group improves by 5 units and an otherwise matched control group improves by 2 units. What is the estimated treatment difference in units?", "answer": "3"},
+    {"id": "H2", "frontier": "H", "seed": 1802, "prompt": "Two independent events have probabilities 0.2 and 0.5. What is the probability that both occur?", "answer": "0.1"}
+  ]
+}

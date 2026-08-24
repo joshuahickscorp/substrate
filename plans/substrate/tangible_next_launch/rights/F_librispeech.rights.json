@@ -1,0 +1,22 @@
+{
+  "activation": false,
+  "frontier": "F",
+  "license": "CC-BY-4.0",
+  "license_text_local_path": "data/substrate/tangible_sandbox/processed/librispeech/dev-clean/LibriSpeech/LICENSE.TXT",
+  "notes": [
+    "The local LICENSE.TXT reads: LibriSpeech (c) 2014 by Vassil Panayotov, licensed under a Creative Commons Attribution 4.0 International License. The license ledger's librispeech row independently records CC-BY-4.0, redistributable_with_attribution, ungated.",
+    "The dev-clean tier is selected. The train tiers and the test tier are deliberately left out of candidate view.",
+    "dev-clean.tar.gz is the exact acquired archive; CHAPTERS.TXT is the corpus index for the extracted copy of that same tier, both are candidate-visible corpus material and neither carries an Odyssey answer or scoring field.",
+    "The ledger records an access condition of at most four concurrent connections for acquisition. No further acquisition is performed by this selection.",
+    "Not legal advice; recorded rights review only."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "review_status": "recorded_not_legal_advice",
+  "rights_basis_local_paths": [
+    "data/substrate/tangible_sandbox/processed/librispeech/dev-clean/LibriSpeech/LICENSE.TXT",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LICENSE_LEDGER.json"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
+  "source": "LibriSpeech ASR corpus, dev-clean tier",
+  "upstream_revision": "OpenSLR-12 dev-clean release; no upstream VCS revision applies"
+}

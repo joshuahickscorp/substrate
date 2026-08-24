@@ -1,0 +1,98 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_HUMAN_EVIDENCE_PACK_SPEC/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "status": "template_unsealed",
+  "activation": false,
+  "external_activation": false,
+  "unqualified_nous": false,
+  "never_a_gate_receipt": true,
+  "never_an_attestation": true,
+  "custody_independence": "single_operator",
+  "custody_limitations": [
+    "Early reveal of answer or scorer material is detectable via pre-launch commitment-digest mismatch or seal break, but is not prevented: a single operator holds every key, and no independent party holds reveal authority. This seal does not provide multi-party custody or double-blind reveal impossibility."
+  ],
+  "generation": {
+    "command": "python -m substrate.odyssey_authority human-evidence-pack --root <repository-root> --out <root-relative-output>",
+    "precondition": "The current ODYSSEY_FROZEN_BUILD.json must validate before generation.",
+    "result": "A read-only declaration that G02/G04/G05/G10/G11 are machine-generated; multi-human custody fields are absent."
+  },
+  "completion_requirements": {
+    "machine_subjects": [
+      "Generate with: python -m substrate.odyssey_machine_subjects <g02|g04|g05|g10|g11> --root . --out <path>",
+      "Seal with: python -m substrate.odyssey_authority seal-machine-gate --gate <ID> --subject <path> --out <path>",
+      "Subjects must remain activation=false and external_activation=false",
+      "Subjects must use status=pass and self-digest",
+      "G04 must declare custody_independence=single_operator and non-empty custody_limitations stating early reveal is detectable but not prevented"
+    ],
+    "removed_multi_human_custody": [
+      "four_human_task_custodians",
+      "two_independent_day7_answer_signatories",
+      "eight_lane_custody_identities",
+      "two_custodian_reveal",
+      "human_attestation wrappers for G02/G04/G05/G10/G11"
+    ]
+  },
+  "subjects": {
+    "G02": {
+      "schema": "SUBSTRATE_ODYSSEY_ARM_SELECTION/v1",
+      "kind": "machine_verified",
+      "required_fields": [
+        "selection_id",
+        "public_model_canary path/sha256 receipt",
+        "base_model pin matching public-canary selection",
+        "candidate and controls_by_frontier A-H pins on the one shared base body",
+        "parity_by_frontier A-H",
+        "selection_checks all true"
+      ]
+    },
+    "G04": {
+      "schema": "SUBSTRATE_ODYSSEY_CUSTODY_SEAL/v1",
+      "kind": "machine_verified",
+      "required_fields": [
+        "custody_independence=single_operator",
+        "custody_limitations non-empty with detectable-but-not-prevented statement",
+        "answers_evaluator_only/trace_lock_before_answer_reveal/daily_scores_hidden",
+        "roots.builder_visible_root/candidate_visible_root/evaluator_only_root/publication_safe_root",
+        "frontiers.A-H task/answer/scorer commitment hashes and G03 candidate_manifest_sha256",
+        "pre_launch_commitment_seal with sealed_before_launch and commitment digests",
+        "day7_reveal gated_on_trace_lock with frozen trace_lock_recipe",
+        "custody_checks: commitments_sealed_before_launch, commitment_digests_distinct, reveal_gated_on_trace_lock, single_operator_custody_declared, no_task_seed_answer_role_overlap, evaluator_only_answers, trace_lock_before_reveal, daily_scores_hidden"
+      ]
+    },
+    "G05": {
+      "schema": "SUBSTRATE_ODYSSEY_MODEL_TOOL_PANEL/v1",
+      "kind": "machine_verified",
+      "required_fields": [
+        "panel_id",
+        "models id/revision/artifact_sha256/adapter_sha256",
+        "tools id/version/artifact_sha256 over real tool bytes",
+        "stateless gateway pin",
+        "frontier_assignments A-H with candidate/control tool parity",
+        "panel_checks"
+      ]
+    },
+    "G10": {
+      "schema": "SUBSTRATE_ODYSSEY_ISOLATION_ATTESTATION/v1",
+      "kind": "machine_verified",
+      "required_fields": [
+        "isolation_mode separate_uid or mount_isolation",
+        "four denied evaluator-boundary accesses with attempted=true and EACCES/EPERM",
+        "same four logical roots as G04",
+        "candidate/evaluator/builder principals with evaluator-distinct UID",
+        "five distinct self-digested isolation observations including topology",
+        "isolation_checks"
+      ]
+    },
+    "G11": {
+      "schema": "SUBSTRATE_ODYSSEY_STATISTICS_AUTHORITY/v1",
+      "kind": "machine_verified",
+      "required_fields": [
+        "statistics_authority_id and analysis_plan_sha256",
+        "finite positive weights and pinned rubrics for all four score dimensions",
+        "primary_unit and independent_unit_count matching frozen design",
+        "repeated_observations_are_independent_replicates=false",
+        "analysis_checks"
+      ]
+    }
+  }
+}

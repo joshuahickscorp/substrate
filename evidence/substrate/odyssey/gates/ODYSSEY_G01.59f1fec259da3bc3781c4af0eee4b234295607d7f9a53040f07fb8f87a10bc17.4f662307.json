@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+  "gate_id": "G01",
+  "gate_name": "R2 terminal and independently verified",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "ca44d41da83bec647bde901ca453c964510be68caecbc535949b5fe70f3b116d",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "366ddf04026712434964975133072058c2a0f6f662d02617541be9b1d1d821e3",
+    "path": "runs/substrate/odyssey_transition/R2_VERIFIED_ODYSSEY_PREFLIGHT_AUTHORIZATION.json",
+    "schema": "SUBSTRATE_ODYSSEY_R2_TRANSITION_RECEIPT/v1"
+  },
+  "unqualified_nous": false
+}

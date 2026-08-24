@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639",
+  "gate_id": "G15",
+  "gate_name": "source and protocol digests frozen",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "c507231c29497a49495e342d33c7ea53c34dabd2f566b742531bd6539bc3f67c",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "92f0e217cc2068e273f02a3885f78ddb9d1ba92173338ae25dd08967db530be2",
+    "path": "evidence/substrate/odyssey/gates/ODYSSEY_G15_PROTOCOL_DIGESTS_GATE.0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_PROTOCOL_DIGESTS/v1"
+  },
+  "unqualified_nous": false
+}

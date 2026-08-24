@@ -1,0 +1,14 @@
+[package]
+name = "substrate-sandbox"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+description = "Policy and validation types for Substrate sandbox body plans (no execution)"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]
+
+[lib]
+path = "src/lib.rs"

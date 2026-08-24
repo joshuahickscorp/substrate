@@ -1,0 +1,39 @@
+{
+  "schema": "SUBSTRATE_R2_REMEDIATION_TO_ODYSSEY_BRIDGE_DRAFT/v1",
+  "status": "draft_requires_fresh_remediation_run",
+  "activation": false,
+  "invalid_r2_trace": {
+    "run_id": "r2-32aff05267f84812b59a8ce35b030db0",
+    "terminal_status": "worker_failed",
+    "trace_sha256": "6b28a898857f6240fb405c8122d60c6599868f426745615787281680efd4714f",
+    "classification": "invalid_diagnostic_not_scientific_evidence",
+    "do_not_reuse": ["elapsed_time", "candidate_state", "outcome", "scores", "answer_mappings"]
+  },
+  "observed_checkpoint_evidence": {
+    "human_correction_1_checkpoint_sha256": "45f1db2bc3f20b15328a189953ff23fe1f806e0b82265cdb2067bf064dcb49ab",
+    "sensor_interruption_checkpoint_sha256": "4fac4f7673e75bef36250aa24df36a8fc9672c875b5f4537050b92a95e395028",
+    "tool_body_change_checkpoint_sha256": "b74557895f79cfebb2c93868023968162f10abaff67716d6bbdcf179d8183049"
+  },
+  "repair": {
+    "cause": "terminal validator required concrete correction, sensor, and tool evidence in compact trace receipts; checkpoint evidence existed but was omitted or overwritten during trace serialization",
+    "source_fix": "compact receipt now carries correction_receipt, sensor_interruption object, and tool_body_change object; sensor evidence is no longer overwritten by a boolean",
+    "fresh_run_required": true,
+    "fresh_run_rules": ["new run identifier", "new workspace and trace", "full 24-hour schedule", "same frozen R2 hypothesis unless separately amended", "no elapsed-time concatenation", "independent terminal verification"]
+  },
+  "odyssey_carry_forward": {
+    "read_only_diagnostic_inputs": ["failure classification", "checkpoint evidence digests", "serialization regression test"],
+    "mandatory_odyssey_requirements": [
+      "two human corrections with trace-level receipts",
+      "sensor_or_source interruption with concrete fallback receipt",
+      "tool_or_body replacement with declared tool-operation receipt",
+      "trace-to-checkpoint evidence cross-check before evaluator release",
+      "mutation test for evidence omission or boolean overwrite"
+    ],
+    "mapped_odyssey_arc": {"day_3": "human correction and revision receipt", "day_4": "interruption and recovery", "day_5": "tool/body change and far transfer", "day_7": "trace/checkpoint reconciliation before blind reveal"}
+  },
+  "odyssey_gate_effect": {
+    "G01_R2_terminal_and_independently_verified": "pending_until_fresh_remediation_run_passes",
+    "invalid_trace_can_satisfy_G01": false,
+    "odyssey_authority_may_not_seal": true
+  }
+}

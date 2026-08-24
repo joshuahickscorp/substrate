@@ -1,0 +1,21 @@
+{
+  "activation": false,
+  "frontier": "F",
+  "license": "CC-BY-4.0 at the corpus level; per-clip licenses vary (CC0, CC-BY, CC-BY-NC, Sampling+)",
+  "license_text_local_path": "data/substrate/tangible_sandbox/processed/fsd50k/FSD50K.doc.zip/FSD50K.doc/LICENSE-DATASET",
+  "notes": [
+    "The local LICENSE-DATASET reads: FSD50K as a whole is released under license Attribution 4.0 International (CC BY 4.0). The license ledger's fsd50k row records the same corpus-level license and additionally records a required clip-level filter to CC0 and CC-BY only.",
+    "ONLY the ground-truth annotation tables and the label vocabulary are selected. The FSD50K audio archives are deliberately NOT selected, because the ledger's clip_level_filter_required condition (restrict to CC0 and CC-BY clips) has not been executed against them in this repository.",
+    "dev.csv and vocabulary.csv are the corpus's public annotations and label taxonomy. Under the frontier F parity rule (\"same audio slices, annotations, transforms and recovery budget\") annotations are parity-shared, candidate-visible material. They carry no Odyssey answer or scoring field; the Odyssey F held-out recovery target is generated separately and stays evaluator-only.",
+    "Not legal advice; recorded rights review only."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "review_status": "recorded_not_legal_advice",
+  "rights_basis_local_paths": [
+    "data/substrate/tangible_sandbox/processed/fsd50k/FSD50K.doc.zip/FSD50K.doc/LICENSE-DATASET",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LICENSE_LEDGER.json"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
+  "source": "FSD50K ground-truth annotations and label vocabulary",
+  "upstream_revision": "FSD50K Zenodo release as acquired; no upstream VCS revision applies"
+}

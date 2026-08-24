@@ -1,0 +1,99 @@
+{
+  "schema": "SUBSTRATE_MULTI_BLIND_FRONTIER_LATTICE_DRAFT/v1",
+  "status": "draft_post_r2_requires_fabric_calibration",
+  "activation": false,
+  "campaign_wall_clock_hours": 24,
+  "initial_concurrent_candidate_cells": 8,
+  "hidden_synthesis_cell": "J",
+  "analysis_unit": "one separately custodian-seeded, held-out history per cell",
+  "common_measurement": {
+    "primary_event_hours": [0, 8, 16, 24],
+    "scored_dimensions": ["state_recall", "causal_repair", "transfer"],
+    "scored_observations_per_cell": 12,
+    "candidate_trace_locked_before_evaluation": true
+  },
+  "cells": [
+    {
+      "id": "A_integrated_continuity",
+      "frontier": ["cross_modal", "longitudinal_continuity"],
+      "episode_count": 1,
+      "required_modalities": ["document", "image_or_video", "audio_or_telemetry", "structured_project_state"],
+      "priority": "P0",
+      "resident_cap_gib": 8,
+      "admission": "protected_control_pool"
+    },
+    {
+      "id": "B_math",
+      "frontier": ["mathematics", "symbolic_reasoning"],
+      "episode_count": 1,
+      "required_modalities": ["formal_problem", "derivation_state", "verification_trace"],
+      "priority": "P1",
+      "resident_cap_gib": 3,
+      "admission": "linux_vm"
+    },
+    {
+      "id": "C_logic",
+      "frontier": ["logic", "constraint_reasoning"],
+      "episode_count": 1,
+      "required_modalities": ["rule_system", "stateful_counterexample", "proof_or_decision_trace"],
+      "priority": "P1",
+      "resident_cap_gib": 3,
+      "admission": "linux_vm"
+    },
+    {
+      "id": "D_code",
+      "frontier": ["software_engineering", "tool_use"],
+      "episode_count": 1,
+      "required_modalities": ["pinned_repository", "issue_history", "test_or_build_trace"],
+      "priority": "P1",
+      "resident_cap_gib": 7,
+      "admission": "linux_vm"
+    },
+    {
+      "id": "E_reflective_selfhood",
+      "frontier": ["philosophy", "self_model", "perspective_tracking"],
+      "episode_count": 1,
+      "required_modalities": ["dialogue_or_position_history", "commitment_ledger", "blinded_revision_prompt"],
+      "priority": "P1",
+      "resident_cap_gib": 2,
+      "admission": "light_reasoning_pool"
+    },
+    {
+      "id": "F_sound_audio",
+      "frontier": ["sound", "speech", "temporal_signal"],
+      "episode_count": 1,
+      "required_modalities": ["audio", "timestamped_annotation", "recovery_or_edit_task"],
+      "priority": "P1",
+      "resident_cap_gib": 2,
+      "admission": "light_reasoning_pool"
+    },
+    {
+      "id": "G_vision_spatial_embodied",
+      "frontier": ["vision", "3d", "proprioception_or_action"],
+      "episode_count": 1,
+      "required_modalities": ["image_or_video", "scene_or_simulator_state", "action_trace"],
+      "priority": "P1",
+      "resident_cap_gib": 8,
+      "admission": "macos_media_pool",
+      "extra_gate": "simulator_or_media_asset_manifest_and_replayability_attested"
+    },
+    {
+      "id": "I_science_multimodal",
+      "frontier": ["science", "measurement", "multimodal_inference"],
+      "episode_count": 1,
+      "required_modalities": ["data_table_or_telemetry", "instrument_or_image_evidence", "hypothesis_revision_trace"],
+      "priority": "P1",
+      "resident_cap_gib": 4,
+      "admission": "linux_vm"
+    }
+  ],
+  "aggregate": {
+    "candidate_histories": 8,
+    "primary_events": 32,
+    "scored_observations": 96,
+    "independent_histories_if_all_cells_admitted": 8,
+    "not_independent": ["three dimensions within one event", "four events within one cell"]
+  },
+  "admission_order": ["A_integrated_continuity", "B_math", "C_logic", "D_code", "E_reflective_selfhood", "F_sound_audio", "G_vision_spatial_embodied", "I_science_multimodal"],
+  "defer_until_later_calibration": ["separate_windows_gui_cell", "android_or_osworld_cell", "additional_second_episode_per_frontier", "remote_accelerator_cell"]
+}

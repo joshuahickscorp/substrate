@@ -1,0 +1,6 @@
+{
+  "activation": false,
+  "context_policy": "fresh_request_context_per_arm; no_cross_lane_state; model_weights_only_keep_alive",
+  "frontier": "C",
+  "role": "candidate"
+}

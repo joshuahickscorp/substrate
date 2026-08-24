@@ -1,0 +1,70 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_G06_DC_SPEC/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "activation": false,
+  "gate_id": "G06-DC",
+  "gate_name": "width eight deadline capacity admitted",
+  "kind": "machine_verified",
+  "subject_schema": "SUBSTRATE_ODYSSEY_DEADLINE_CAPACITY_CALIBRATION/v1",
+  "registration": "SIDE_MACHINE_GATE_SPECS (sealable; not yet in frozen G01-G15 launch set)",
+  "historical_g06": {
+    "gate_id": "G06",
+    "subject_schema": "SUBSTRATE_ODYSSEY_WIDTH_CALIBRATION/v1",
+    "max_slowdown_ratio": 1.35,
+    "preserved_width8_slowdown": 4.392411013227944,
+    "validator": "_validate_g06 intact"
+  },
+  "required_conditions": {
+    "all_eight_paired_frontier_cells_run": true,
+    "real_tool_bearing_work": true,
+    "transport_valid_and_semantically_valid": true,
+    "zero_new_pageouts_in_clean_window": true,
+    "no_sustained_swap_growth": true,
+    "peak_resident_memory_below_85_gib": true,
+    "candidate_control_equal_queues_calls_tools_retries_compute": true,
+    "no_missed_phase_microcycle_event_or_checkpoint_deadline": true,
+    "no_cross_lane_model_context": true,
+    "no_evaluator_leakage": true,
+    "sustained_soak_no_memory_creep_or_thermal_collapse": true
+  },
+  "deadline_limits": {
+    "phase_seconds": 1800,
+    "microcycle_seconds": 7200,
+    "p95_active_dispatch_fraction_of_phase": 0.5,
+    "p95_active_dispatch_seconds": 900.0,
+    "worst_active_dispatch_fraction_of_phase": 0.75,
+    "worst_active_dispatch_seconds": 1350.0,
+    "all_microcycle_work_complete_before_seconds": 7200,
+    "minimum_deadline_headroom": 2.0,
+    "resident_cap_gib": 85,
+    "resident_cap_bytes": 91268055040
+  },
+  "width_ladder": {
+    "widths": [1, 2, 4, 6, 8],
+    "repetitions_per_width": 3,
+    "report_side_by_side": ["per_cell_slowdown_ratio", "deadline_utilization_of_phase", "deadline_headroom"]
+  },
+  "tool_proof_required_fields_per_frontier": [
+    "operation",
+    "tool_revision",
+    "artifact_digest"
+  ],
+  "mutations_refused": [
+    "synthetic_workload_substituted",
+    "suppressed_model_or_tool_work",
+    "cached_outputs_replayed_as_fresh",
+    "unfair_candidate_control_queues",
+    "wrong_deadline_denominator",
+    "missing_frontier_cell",
+    "dropped_failures",
+    "pageout_counter_reset"
+  ],
+  "still_cannot_establish": [
+    "seven-day developmental learning outcomes",
+    "permitted claim-boundary success on transfer/retention/coherence",
+    "that concurrent generation has no slowdown (4.39x remains true)",
+    "multi-party custody or double-blind reveal impossibility",
+    "safety for physical deployment"
+  ],
+  "fail_closed": true
+}

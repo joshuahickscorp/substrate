@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "7564ab82b4bb46e93f945af538685d48cd4e056ab310b5651f613e71464ec6da",
+  "cycle": 0,
+  "frontier": "A",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/A/candidate/receipts/000-retrieval.json",
+  "request_sha256": "56935913c4080a11ccc21d2a8d623c061e66dbe27899aea55a63a1d72f129071",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "A",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "A ledger begins with 7 items. It adds 5 items, removes 3 items, then duplicates 2 remaining items exactly once. How many items remain?",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "A-PUBLIC-0000-A1"
+  }
+}

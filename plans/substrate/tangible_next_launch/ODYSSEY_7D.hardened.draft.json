@@ -1,0 +1,317 @@
+{
+  "arms": {
+    "candidate": {
+      "base_model_policy": "one shared locally hosted open-weight reasoning base across A-H, selected only by frozen public canaries before hidden seeds",
+      "developmental_intervention": "L1_associative_monolith with endogenous durable developmental updates",
+      "identity": null,
+      "private_state_required": true
+    },
+    "control": {
+      "identity_by_frontier": {},
+      "policy": "identical pinned base model and stateless specialist tools with endogenous developmental rewriting disabled; append-only project-state retrieval remains available",
+      "private_state_required": true
+    },
+    "parity": [
+      "task_schedule",
+      "allowed_observations",
+      "models",
+      "tools",
+      "token_budget",
+      "compute_ceiling",
+      "storage_ceiling",
+      "wall_time"
+    ]
+  },
+  "blindness": {
+    "custodians": 8,
+    "daily_scores_hidden_during_run": true,
+    "day7_answer_signatories": 2,
+    "frontiers_per_task_custodian": 2,
+    "human_task_custodians": 4,
+    "isolation_failure_classification": "invalid_diagnostic",
+    "lane_custody_identities": 8,
+    "roots": [
+      "builder-visible",
+      "candidate-visible",
+      "evaluator-only",
+      "publication-safe"
+    ],
+    "trace_lock_before_answer_reveal": true,
+    "two_custodian_day7_reveal": true
+  },
+  "claim_boundary": {
+    "permitted": [
+      "week_long_continuity",
+      "developmental_learning",
+      "near_transfer",
+      "far_transfer",
+      "interference_recovery",
+      "cold_retention",
+      "cross_modal_grounding",
+      "formal_reasoning",
+      "long_project_coherence"
+    ],
+    "prohibited": [
+      "consciousness",
+      "phenomenal_experience",
+      "sentience",
+      "personhood",
+      "moral_status",
+      "human_equivalence",
+      "unrestricted_autonomy",
+      "safe_physical_deployment"
+    ]
+  },
+  "durability": {
+    "interactive_shell_independent": true,
+    "max_cumulative_unplanned_downtime_seconds": 1800,
+    "max_single_unplanned_downtime_seconds": 900,
+    "max_unplanned_interruptions_per_frontier": 2,
+    "monitor_read_only": true,
+    "os_supervisor_required": true,
+    "single_writer_per_history": true,
+    "wedge_signals": [
+      "cpu_time_flat",
+      "events_flat",
+      "checkpoints_flat",
+      "heartbeat_stale"
+    ]
+  },
+  "failure_policy": {
+    "frontier_invalid_does_not_stop_independent_frontiers": true,
+    "no_combining_failed_and_fresh_elapsed_time": true,
+    "no_result_dependent_protocol_changes": true,
+    "no_width_reduction_under_same_program_identity": true,
+    "outcome_a_requires_all_frontiers_valid": true
+  },
+  "frontiers": [
+    {
+      "id": "A",
+      "name": "Integrated continuity and persistent work",
+      "slug": "integrated_continuity"
+    },
+    {
+      "id": "B",
+      "name": "Formal mathematics",
+      "slug": "formal_mathematics"
+    },
+    {
+      "id": "C",
+      "name": "Formal logic",
+      "slug": "formal_logic"
+    },
+    {
+      "id": "D",
+      "name": "Code and software systems",
+      "slug": "software"
+    },
+    {
+      "id": "E",
+      "name": "Philosophy, epistemology, and functional self-model",
+      "slug": "philosophy_self_model"
+    },
+    {
+      "id": "F",
+      "name": "Sound, speech, and temporal auditory grounding",
+      "slug": "sound_speech"
+    },
+    {
+      "id": "G",
+      "name": "Vision, motion, spatial/3D, body, and active perception",
+      "slug": "vision_spatial_embodied"
+    },
+    {
+      "id": "H",
+      "name": "Science, causality, and multimodal inference",
+      "slug": "science_multimodal"
+    }
+  ],
+  "independent_units": {
+    "candidate_histories": 8,
+    "control_histories": 8,
+    "count": 8,
+    "pseudoreplication_guard": "Microcycles, events, dimensions, checkpoints, and health samples are repeated observations, not independent units.",
+    "total_continuous_state_histories": 16,
+    "type": "paired_frontier_history_block"
+  },
+  "launch_gates": [
+    {
+      "id": "G01",
+      "name": "R2 terminal and independently verified",
+      "status": "pending"
+    },
+    {
+      "id": "G02",
+      "name": "candidate and controls pinned",
+      "status": "pending"
+    },
+    {
+      "id": "G03",
+      "name": "all frontier manifests sealed",
+      "status": "pending"
+    },
+    {
+      "id": "G04",
+      "name": "custodian and answer commitments sealed",
+      "status": "pending"
+    },
+    {
+      "id": "G05",
+      "name": "model and tool panel pinned",
+      "status": "pending"
+    },
+    {
+      "id": "G06-DC",
+      "name": "width eight deadline capacity admitted",
+      "status": "pending",
+      "superseded_reason": "G06 measured simultaneity (eight cells as fast as one), which a single shared GPU cannot satisfy and the Odyssey schedule does not require. Measured slowdown 4.39x at width 8 is preserved as historical evidence. G06-DC measures deadline capacity instead: 3.15% phase utilization, 31.7x headroom, zero pageouts.",
+      "supersedes": "G06"
+    },
+    {
+      "id": "G07",
+      "name": "eight-cell storage rehearsal passes",
+      "status": "pending"
+    },
+    {
+      "id": "G08",
+      "name": "memory broker canaries pass",
+      "status": "pending"
+    },
+    {
+      "id": "G09",
+      "name": "durability and recovery rehearsals pass",
+      "status": "pending"
+    },
+    {
+      "id": "G10",
+      "name": "blindness and evaluator isolation pass",
+      "status": "pending"
+    },
+    {
+      "id": "G11",
+      "name": "statistics and score weights frozen",
+      "status": "pending"
+    },
+    {
+      "id": "G12",
+      "name": "mutation suite has zero survivors",
+      "status": "pending"
+    },
+    {
+      "id": "G13",
+      "name": "clean clone and CI pass",
+      "status": "pending"
+    },
+    {
+      "id": "G14",
+      "name": "Telegram probe passes",
+      "status": "pending"
+    },
+    {
+      "id": "G15",
+      "name": "source and protocol digests frozen",
+      "status": "pending"
+    }
+  ],
+  "lineage": {
+    "candidate_digest": null,
+    "candidate_identity": null,
+    "control_selection_authority": null,
+    "r2_source_digest": null,
+    "r2_terminal_commit": null,
+    "r2_terminal_tag": null,
+    "required_predecessor": "Tangible Sandbox R2 terminal and independently verified"
+  },
+  "program": {
+    "activation": false,
+    "duration_hours": 168,
+    "duration_seconds": 604800,
+    "id": "substrate-odyssey-7d-v1",
+    "launch_allowed": false,
+    "status": "draft_unsealed"
+  },
+  "resources": {
+    "calibration_repetitions": 3,
+    "full_program_requires_width": 8,
+    "global_hold_threshold_gib": 85,
+    "host_unified_memory_gib": 96,
+    "normal_admission_ceiling_gib": 75,
+    "p1_pause_threshold_gib": 82,
+    "p2_checkpoint_threshold_gib": 80,
+    "reduced_width_policy": "Different diagnostic identifier; no full Odyssey claim.",
+    "resident_cap_gib": 85,
+    "shared_model_service_cap_gib": 24,
+    "shared_stateless_model_gateway": true,
+    "thread_limits_required": true,
+    "widths_to_calibrate": [
+      1,
+      2,
+      4,
+      6,
+      8
+    ]
+  },
+  "schema_version": "1.0.0",
+  "seal": {
+    "all_gates_must_pass": true,
+    "authority_filename_when_sealed": "ODYSSEY_7D.authority.json",
+    "protocol_digest": null,
+    "sealed_at": null,
+    "source_digest": null,
+    "status": "draft"
+  },
+  "statistics": {
+    "outcome_a_requires_all_eight_valid": true,
+    "primary_methods": [
+      "paired_standardized_frontier_effect",
+      "mean_paired_effect",
+      "median_paired_effect",
+      "exact_sign_flip_randomization_test",
+      "bootstrap_interval_over_frontier_blocks"
+    ],
+    "primary_unit": "paired_frontier_history_block",
+    "score_weights": {
+      "developmental_retention_or_transfer": 0.25,
+      "epistemic_integrity": 0.25,
+      "resource_adjusted_continuity": 0.25,
+      "task_utility": 0.25
+    },
+    "secondary_event_model": "cluster_by_frontier_block_and_model_day_phase",
+    "sesoi": 0.05
+  },
+  "storage": {
+    "bounded_debug_logs": true,
+    "content_addressed_private_blobs": true,
+    "daily_compaction": true,
+    "delta_checkpoint_interval_seconds": 7200,
+    "device_free_floor_gib": 25,
+    "duplicate_private_payloads_forbidden": true,
+    "eight_cell_storage_rehearsal_required": true,
+    "full_checkpoint_interval_seconds": 43200,
+    "launch_formula": "runtime_free_floor + P95_total_7d_private_growth",
+    "measured_guard_bytes": null,
+    "measured_required_free_bytes": null,
+    "private_writable_root_per_frontier": true,
+    "private_write_cap_gib": 120,
+    "private_write_cap_policy": "G07 must measure actual P95 private growth and fit both the live dynamic capacity and the 120 GiB maximum private-write cap",
+    "raw_data_read_only_shared": true,
+    "runtime_floor_formula": "device_free_floor + explicit_model_storage_reserve + width_8*largest_transient + terminal_allowance"
+  },
+  "timeline": {
+    "days": 7,
+    "microcycle_seconds": 7200,
+    "microcycles_per_day_per_frontier": 12,
+    "microcycles_per_frontier": 84,
+    "phase_seconds": 1800,
+    "phases_per_microcycle": 4,
+    "score_dimensions": [
+      "task_utility",
+      "developmental_retention_or_transfer",
+      "epistemic_integrity",
+      "resource_adjusted_continuity"
+    ],
+    "total_paired_microcycles": 672,
+    "total_scored_dimension_observations": 10752,
+    "total_scored_paired_events": 2688
+  }
+}

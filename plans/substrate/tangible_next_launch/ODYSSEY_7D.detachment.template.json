@@ -1,0 +1,63 @@
+{
+  "activation": false,
+  "authority_required": "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json",
+  "label": "org.substrate.odyssey7d.v1",
+  "launchd": {
+    "AbandonProcessGroup": false,
+    "EnvironmentVariables": {
+      "SUBSTRATE_ODYSSEY_POWER_ASSERTION": "caffeinate-current-user-v1",
+      "SUBSTRATE_ODYSSEY_SUPERVISOR": "launchd"
+    },
+    "KeepAlive": false,
+    "Label": "org.substrate.odyssey7d.v1",
+    "ProcessType": "Adaptive",
+    "ProgramArguments": [
+      "/usr/bin/caffeinate",
+      "-i",
+      "-s",
+      "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+      "-m",
+      "substrate.odyssey7d",
+      "supervise",
+      "--root",
+      "/Users/scammermike/Downloads/substrate",
+      "--authority",
+      "REPLACE_WITH_SEALED_AUTHORITY"
+    ],
+    "RunAtLoad": false,
+    "StandardErrorPath": "/Users/scammermike/Downloads/substrate/runs/substrate/odyssey7d/v1/launchd.stderr.log",
+    "StandardOutPath": "/Users/scammermike/Downloads/substrate/runs/substrate/odyssey7d/v1/launchd.stdout.log",
+    "ThrottleInterval": 60,
+    "WorkingDirectory": "/Users/scammermike/Downloads/substrate"
+  },
+  "must_require": [
+    "all_gates_pass",
+    "sealed_authority_digest",
+    "worker_source_digest",
+    "launchd_environment",
+    "current_user_caffeinate_assertion",
+    "one_supervisor_per_run",
+    "read_only_monitor"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "power_resilience": {
+    "executable": "/usr/bin/caffeinate",
+    "flags": [
+      "-i",
+      "-s"
+    ],
+    "mode": "current_user_caffeinate_child",
+    "runtime_marker": {
+      "environment": "SUBSTRATE_ODYSSEY_POWER_ASSERTION",
+      "value": "caffeinate-current-user-v1"
+    },
+    "scope": "The LaunchAgent current user owns caffeinate and the supervisor; caffeinate execs the supervisor and its assertion ends when that supervisor exits."
+  },
+  "schema": "SUBSTRATE_ODYSSEY_DETACHED_SUPERVISOR_TEMPLATE/v1",
+  "telegram": {
+    "health_bucket_seconds": 1800,
+    "interval_seconds": 120,
+    "label": "org.substrate.odyssey7d.telegram",
+    "secrets": "macOS Keychain at send time only"
+  }
+}

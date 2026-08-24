@@ -1,0 +1,53 @@
+{
+  "authority_checks": {
+    "blind_custody": true,
+    "durable_checkpoints": true,
+    "eight_paired_units": true,
+    "event_accounting": true,
+    "fifteen_pending_gates": true,
+    "frontier_set": true,
+    "hard_memory_envelope": true,
+    "inactive_draft": true,
+    "pseudoreplication_guard": true,
+    "seven_day_duration": true,
+    "width_eight_required": true
+  },
+  "authority_sha256": "072f5476d07e9544b4a089bfd5e6e64709675d28ee448f208ca252eb07ccd394",
+  "broker_actions": {
+    "74.9": "admit_or_resume",
+    "75": "deny_new_work",
+    "80": "checkpoint_reduce_p2",
+    "82": "pause_p1_checkpoint_p2",
+    "85": "safe_hold_non_p0"
+  },
+  "checkpoint_chain": {
+    "clean": true,
+    "forged_parent_rejected": true
+  },
+  "evaluator_mount": {
+    "candidate_mode": 448,
+    "same_uid_requires_real_account_or_mount_isolation": true,
+    "structural_mode": 448
+  },
+  "launch_allowed": false,
+  "monitor": {
+    "live_progress": true,
+    "wedge_detected": true
+  },
+  "mutation_rejections": {
+    "forged_receipt": true,
+    "result_dependent_task": true,
+    "shared_root": true,
+    "under_resourced_control": true
+  },
+  "schema": "SUBSTRATE_ODYSSEY_PREFLIGHT_CANARIES/v1",
+  "storage": {
+    "formula": "runtime_free_floor + P95_total_7d_private_growth",
+    "free_bytes_now": 315021713408,
+    "measurement_missing": true
+  },
+  "telegram_payload": {
+    "clean": true,
+    "missing_field_rejected": true
+  }
+}

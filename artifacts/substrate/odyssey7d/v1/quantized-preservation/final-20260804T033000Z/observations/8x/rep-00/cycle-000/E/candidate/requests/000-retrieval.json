@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "5bef0a95159810989ca7e7d662bdb197764a386609659c33b925603d214e67b4",
+  "cycle": 0,
+  "frontier": "E",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/E/candidate/receipts/000-retrieval.json",
+  "request_sha256": "2da0fa3c85825cb439e0db865944ccddf93a2785a22b414e87dc2ddb831d30f0",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "E",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "A rule says a claim is supported only if it has evidence. A claim has no evidence. Is it supported under that rule? Answer yes or no.",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "E-PUBLIC-0000-E1"
+  }
+}

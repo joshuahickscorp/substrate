@@ -1,0 +1,5 @@
+{
+  "error": "Refused: local Ollama response is not the required JSON object",
+  "frontier": "B",
+  "ok": false
+}

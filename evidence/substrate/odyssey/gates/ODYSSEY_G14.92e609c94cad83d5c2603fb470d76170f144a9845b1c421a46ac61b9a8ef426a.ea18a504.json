@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G14",
+  "gate_name": "Telegram probe passes",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "a924756b1be4591091b9bd1333868b357387b82b94673e54b2fc7c00d8a8c824",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "89aafb004107063b7d312eb7f6429d3c8b01ed5bdf24376dfcf0084b7c065157",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G14.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_TELEGRAM_PROBE/v1"
+  },
+  "unqualified_nous": false
+}

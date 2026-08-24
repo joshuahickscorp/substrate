@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "4fcd5697514068c99c567117c97d23de653e68beb2ef39ddc4505089f9480f94",
+  "gate_id": "G07",
+  "gate_name": "eight-cell storage rehearsal passes",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "87b6562b92be61e1f5e6f3ee346c095ce1603b9de8cc32a36e3151bda9ca6417",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "da1e3900b25b33e9a6484732c08164b8958781e04cf1c24b33ae3ca2fab57095",
+    "path": "artifacts/substrate/odyssey7d/refresh-4fcd56975140-12e7cd7c/subjects/G07.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_STORAGE_REHEARSAL/v1"
+  },
+  "unqualified_nous": false
+}

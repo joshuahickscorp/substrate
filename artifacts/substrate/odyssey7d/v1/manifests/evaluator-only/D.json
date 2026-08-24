@@ -1,0 +1,2361 @@
+{
+  "activation": false,
+  "answers": [
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0000"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0001"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0002"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0003"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0004"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0005"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0006"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0007"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0008"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0009"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0010"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0011"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0012"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0013"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0014"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0015"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0016"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0017"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0018"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0019"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0020"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0021"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0022"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0023"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0024"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0025"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0026"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0027"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0028"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0029"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0030"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0031"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0032"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0033"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0034"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0035"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0036"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0037"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0038"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0039"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0040"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0041"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0042"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0043"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0044"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0045"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0046"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0047"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0048"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0049"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0050"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0051"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0052"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0053"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0054"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0055"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0056"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0057"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0058"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0059"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0060"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0061"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0062"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0063"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0064"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0065"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0066"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0067"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0068"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0069"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0070"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0071"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0072"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0073"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0074"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0075"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0076"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0077"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0078"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0079"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0080"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0081"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0082"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0083"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0084"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0085"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0086"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0087"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0088"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0089"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0090"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0091"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0092"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0093"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0094"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0095"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0096"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0097"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0098"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0099"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0100"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0101"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0102"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0103"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0104"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0105"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0106"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0107"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0108"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0109"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0110"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0111"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0112"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0113"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0114"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0115"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0116"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0117"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0118"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0119"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0120"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0121"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0122"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0123"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0124"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0125"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0126"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0127"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0128"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0129"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0130"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0131"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0132"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0133"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0134"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0135"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0136"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0137"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0138"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0139"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0140"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0141"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0142"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0143"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0144"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0145"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0146"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0147"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0148"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0149"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0150"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0151"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0152"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0153"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0154"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0155"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0156"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0157"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0158"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0159"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0160"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0161"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0162"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0163"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0164"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0165"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0166"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0167"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0168"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0169"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0170"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0171"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0172"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0173"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0174"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0175"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0176"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0177"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0178"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0179"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0180"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0181"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0182"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0183"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0184"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0185"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0186"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0187"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0188"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0189"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0190"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0191"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0192"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0193"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0194"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0195"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0196"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0197"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0198"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0199"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0200"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0201"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0202"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0203"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0204"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0205"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0206"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0207"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0208"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0209"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0210"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0211"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0212"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0213"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0214"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0215"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0216"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0217"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0218"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0219"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0220"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0221"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0222"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0223"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0224"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0225"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0226"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0227"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0228"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0229"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0230"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0231"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0232"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0233"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0234"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0235"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0236"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0237"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0238"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0239"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0240"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0241"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0242"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0243"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0244"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0245"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0246"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0247"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0248"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0249"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0250"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0251"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0252"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0253"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0254"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0255"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0256"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0257"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0258"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0259"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0260"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0261"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0262"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0263"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0264"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0265"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0266"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0267"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0268"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0269"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0270"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0271"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0272"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0273"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0274"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0275"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0276"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0277"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0278"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0279"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0280"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0281"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0282"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0283"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0284"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0285"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0286"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0287"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0288"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0289"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0290"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0291"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0292"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0293"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0294"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0295"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0296"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0297"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0298"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0299"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0300"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0301"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0302"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0303"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0304"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0305"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0306"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0307"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0308"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0309"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0310"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0311"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0312"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0313"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0314"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0315"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0316"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0317"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0318"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0319"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0320"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0321"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0322"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0323"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0324"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0325"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0326"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0327"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0328"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0329"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0330"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0331"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0332"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0333"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0334"
+    },
+    {
+      "activation": false,
+      "hidden_test_class": "regression_and_backward_compatibility",
+      "schema": "SUBSTRATE_ODYSSEY_CODE_ANSWER/v1",
+      "scoring": "pinned-base and hidden-test trace",
+      "task_id": "D-0335"
+    }
+  ],
+  "frontier": "D",
+  "schema": "SUBSTRATE_ODYSSEY_EVALUATOR_ANSWER_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "50e7e7c12a70b89088e987abcd890bf09a81fe54f7d1ac5cc969afd32a0085cb"
+}

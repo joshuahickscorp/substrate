@@ -1,0 +1,115 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_OPERATOR_DECISION/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "status": "user_policy_recorded_not_a_gate_receipt",
+  "activation": false,
+  "external_activation": false,
+  "recorded_from": "user-supplied decision response on 2026-08-03",
+  "storage_revision": {
+    "precedence": "This docket is the current authoritative Odyssey policy record; the explicit 120 GiB private-write cap is retained alongside the 25 GiB device free floor.",
+    "standing_device_reserve_gib": 25,
+    "private_write_cap_gib": 120,
+    "private_write_cap": "120 GiB maximum private-write envelope; G07 must measure actual P95 growth and remain below this cap",
+    "admission_formula": "runtime_free_floor plus P95 total projected 7-day growth across all eight lanes",
+    "runtime_floor_formula": "25 GiB device floor plus any separately staged model bytes plus width-eight concurrent transient bound plus terminal allowance"
+  },
+  "model_selection": {
+    "policy": "one shared locally hosted open-weight reasoning base across A-H; no frontier-specific base models",
+    "selection_rule": "choose the strongest eligible locally available model on frozen public canaries before hidden seeds are generated",
+    "eligibility": [
+      "pinned weight, tokenizer, runtime, and quantization digests",
+      "shared model-service footprint at or below 24 GiB",
+      "no swap",
+      "full width-eight admission under the 85 GiB resident campaign cap",
+      "stable local availability for the full seven days"
+    ],
+    "selection_state": "waiting_for_public_canary_inventory"
+  },
+  "arms": {
+    "candidate_treatment": "L1_associative_monolith with endogenous durable developmental updates: associative writes, correction assimilation, competence updates, unfinished-task persistence, owned cognitive-state consolidation, and checkpointed continuation across model/tool/body/process replacement",
+    "matched_control": "the identical pinned base model, observations, schedules, specialist tools, token and compute budgets, storage allowance, and append-only project-state/history retrieval, with endogenous developmental rewriting disabled",
+    "causal_difference": "the ability to transform experience into owned persistent associative developmental state"
+  },
+  "tool_policy": {
+    "candidate_control_parity": true,
+    "stateless_shared_gateway_required": true,
+    "lane_scoped_receipt_logging_required": true,
+    "tools": [
+      "Lean_or_proof_checker",
+      "SMT_or_SAT_solver",
+      "Python_and_code_execution",
+      "repository_tests",
+      "document_and_spreadsheet_tools",
+      "image_video_audio_decoders",
+      "speech_tools",
+      "Blender_3D_simulation_tools",
+      "retrieval_and_embedding_service"
+    ]
+  },
+  "source_policy": {
+    "adopt_frontiers": ["A", "B", "C", "D", "E", "F", "G", "H"],
+    "decisive_day7_and_transfer_tasks": "post-freeze custom or generator-held-out instances",
+    "requirements": [
+      "license, hash, causal-role, split, and leakage card for every source",
+      "raw data shared read-only",
+      "hidden answers evaluator-only",
+      "original cases and public-domain abstractions for philosophy",
+      "bounded selected real trajectories plus generated scenes for robotics/3D"
+    ]
+  },
+  "custody_policy": {
+    "lane_custody_identity_count": 8,
+    "independent_human_task_custodian_count": 4,
+    "frontiers_per_human_task_custodian": 2,
+    "independent_day7_answer_signature_custodian_count": 2,
+    "rules": [
+      "no person may hold both the task seed and evaluator answer material for the same frontier",
+      "Day-7 signatories may not sign frontiers whose task materials they held",
+      "do not claim eight independent humans when lane custody identities map to four real task custodians",
+      "if genuine independence cannot be obtained, downgrade to single-operator cryptographic blinding and prohibit the strongest independent-custody claim"
+    ],
+    "identity_state": "real human identities and commitments still required"
+  },
+  "isolation_policy": {
+    "primary": "separate_uid",
+    "defense_in_depth": "mount_or_ACL_isolation",
+    "required_per_frontier": [
+      "separate candidate and control UID",
+      "separate writable run root",
+      "separate random stream",
+      "separate model context",
+      "no evaluator mount",
+      "pre-launch denied-access probes"
+    ]
+  },
+  "statistics": {
+    "score_weights": {
+      "task_utility": 0.25,
+      "developmental_retention_or_transfer": 0.25,
+      "epistemic_integrity": 0.25,
+      "resource_adjusted_continuity": 0.25
+    },
+    "primary_unit": "paired_frontier_history_block",
+    "primary_methods": [
+      "paired_frontier_effects",
+      "exact_sign_flip_inference",
+      "median_and_mean_effect"
+    ],
+    "secondary_analysis": "clustered repeated-measure model only"
+  },
+  "limits": {
+    "duration_hours": 168,
+    "frontier_cells": 8,
+    "full_program_width": 8,
+    "resident_memory_thresholds_gib": [75, 80, 82, 85],
+    "telegram_interval_minutes": 30,
+    "result_dependent_task_or_curriculum_change": false,
+    "storage_policy": "25 GiB device-free floor plus measured dynamic private-write capacity bounded by a 120 GiB maximum private-write cap"
+  },
+  "non_claims": [
+    "This policy record is not a human gate attestation.",
+    "No candidate or control model has been selected or pinned.",
+    "No real custodian identity, seed, answer material, rights acceptance, or isolation observation has been created.",
+    "No scientific worker is authorized or launched."
+  ]
+}

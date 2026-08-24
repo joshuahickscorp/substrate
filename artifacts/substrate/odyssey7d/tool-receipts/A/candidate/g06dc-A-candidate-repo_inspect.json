@@ -1,0 +1,67 @@
+{
+  "admitted": true,
+  "detail": {
+    "result_keys": [
+      "exit_code",
+      "ls_files_exit",
+      "operation",
+      "repo_root",
+      "status",
+      "stderr",
+      "tracked_files"
+    ]
+  },
+  "error_class": "ok",
+  "operation": "repo.inspect",
+  "output_digests": [
+    "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb"
+  ],
+  "provenance": {
+    "arm": "candidate",
+    "budget_sha256": "59f4185ba8209d19c85ec8b2bededeaafcd14ee19e402b00ba75e08d414d0a2b",
+    "cache_id": "cache-4b1c57054235432d93282a5130b8d5b0",
+    "compact_outputs": [
+      {
+        "digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+        "path": "artifacts/substrate/odyssey7d/tool-work/A/candidate/g06dc-A-candidate/output/repo_inspect.json",
+        "producer": "repo.inspect:git",
+        "resource_use": {
+          "arm": "candidate",
+          "lane_id": "A"
+        },
+        "schema": "SUBSTRATE_ODYSSEY_COMPACT_ARTIFACT_RECEIPT/v1",
+        "sha256": "561c95132b9782c46799a4ae67de303d4cc74a55cfb023eec2aa847a4a5c9f2a",
+        "size": 147,
+        "type": "application/x-substrate-tool-result+json"
+      }
+    ],
+    "exec_mode": null,
+    "frontier": "A",
+    "input_artifact_digests": [],
+    "lane_id": "A",
+    "request_sha256": "253948cfe39bdb855cd4099da967826e9dcebf7b4177e1d263504d7dd976c9a3",
+    "resource_class": "medium",
+    "result_summary_sha256": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+    "sandbox_root": "artifacts/substrate/odyssey7d/tool-work/A/candidate/g06dc-A-candidate",
+    "task_id": "g06dc-A-candidate",
+    "tool_pin_sha256": "807220473e7b047b3eaa28da2a54d6ebfd5a739b906f8732973539e334f12365"
+  },
+  "receipt_sha256": "ee7d34c6607d95acced0dd01aed9ea40751015ceb69a448656ae033f4af41c6a",
+  "resource_use": {
+    "attempts": 1,
+    "elapsed_seconds": 0.039337,
+    "exec_mode": null,
+    "resource_class": "medium",
+    "wall_seconds_budget": 120
+  },
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_RECEIPT/v1",
+  "status": "ok",
+  "stderr_digest": null,
+  "stdout_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+  "tool_revision": {
+    "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+    "path": "/usr/bin/git",
+    "tool_id": "git",
+    "version": "git version 2.54.0 (Apple Git-156)"
+  }
+}

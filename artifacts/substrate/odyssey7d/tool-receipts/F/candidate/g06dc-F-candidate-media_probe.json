@@ -1,0 +1,65 @@
+{
+  "admitted": true,
+  "detail": {
+    "result_keys": [
+      "exit_code",
+      "input_sha256",
+      "operation",
+      "probe",
+      "stderr"
+    ]
+  },
+  "error_class": "ok",
+  "operation": "media.probe",
+  "output_digests": [
+    "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150"
+  ],
+  "provenance": {
+    "arm": "candidate",
+    "budget_sha256": "59f4185ba8209d19c85ec8b2bededeaafcd14ee19e402b00ba75e08d414d0a2b",
+    "cache_id": "cache-b1471d7d87164727899ad6a4c27144f6",
+    "compact_outputs": [
+      {
+        "digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+        "path": "artifacts/substrate/odyssey7d/tool-work/F/candidate/g06dc-F-candidate/output/media_probe.json",
+        "producer": "media.probe:ffprobe",
+        "resource_use": {
+          "arm": "candidate",
+          "lane_id": "F"
+        },
+        "schema": "SUBSTRATE_ODYSSEY_COMPACT_ARTIFACT_RECEIPT/v1",
+        "sha256": "2fe61313a2f0cc7c9c4fec057fc471585a47bb0ea53e49614f7b2ebb5bc143e4",
+        "size": 1189,
+        "type": "application/x-substrate-tool-result+json"
+      }
+    ],
+    "exec_mode": null,
+    "frontier": "F",
+    "input_artifact_digests": [],
+    "lane_id": "F",
+    "request_sha256": "2eacade0ac48d9b953549f25e1bba0810773d6d17e46869bc47481fe05a4c1db",
+    "resource_class": "heavy",
+    "result_summary_sha256": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+    "sandbox_root": "artifacts/substrate/odyssey7d/tool-work/F/candidate/g06dc-F-candidate",
+    "task_id": "g06dc-F-candidate",
+    "tool_pin_sha256": "66e52f09541f363d43159443e1c2bba5ca5ad85f4e2d3df1cb0d4a88c3ecc50c"
+  },
+  "receipt_sha256": "ccce782295b358d535daa9f7f3e5799a88aba45f433da889ff5384727097386d",
+  "resource_use": {
+    "attempts": 1,
+    "elapsed_seconds": 0.042038,
+    "exec_mode": null,
+    "resource_class": "heavy",
+    "wall_seconds_budget": 120
+  },
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_RECEIPT/v1",
+  "status": "ok",
+  "stderr_digest": null,
+  "stdout_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+  "tool_revision": {
+    "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+    "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+    "tool_id": "ffprobe",
+    "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  }
+}

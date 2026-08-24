@@ -1,0 +1,262 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_CONTINUATION_PREFLIGHT/v1",
+  "recorded_at_utc": "2026-08-04T02:05:03Z",
+  "purpose": "Final host/model admission continuation record; this is a diagnostic preflight, not gate evidence or launch authority.",
+  "activation": false,
+  "launch_allowed": false,
+  "status": "blocked_no_admission_passing_host_model",
+  "repository": {
+    "root": "/Users/scammermike/Downloads/substrate",
+    "head": "a7761bdc9b28426fcc66b70b09acf38c7df16e5e",
+    "branch": "codex/odyssey-preflight-repair",
+    "branch_upstream": null,
+    "origin_main": "78b4720dbb0ff23ed9ed0bbf2dbc5ac57496af38",
+    "merge_base_with_origin_main": "e381aa687e9b9788646cc9b0b528425cc157d6af",
+    "ahead_of_origin_main": 42,
+    "behind_origin_main": 3,
+    "worktree_clean": false,
+    "observed_dirty_tracked_entries": 3,
+    "observed_untracked_entries_before_this_preflight": 132,
+    "this_preflight_is_untracked": true,
+    "seal_implication": "The branch divergence and dirty worktree prevent a final authority seal until they are reconciled without discarding user-owned changes."
+  },
+  "frozen_build": {
+    "path": "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json",
+    "frozen_build_sha256": "2ca55080e46ebe45a5e2c64aa0195b7e44c365d8d3ad84a5b0f196fbcb949404",
+    "file_sha256": "84b1e9c93da1d2e16cb37b831fb43dffd0d38b621b7abbaf6d80be2c377d0aa5",
+    "authority_implementation_sha256": "a518afd3f38ea5287b8bbf2e8383d0e90c8ce9737620843ea7dede6bd112784b",
+    "hardened_design_sha256": "76a400444e046616985e75c7caee533c883f4be2dfe3fa05c241d95795a9a6ba",
+    "scientific_status": "frozen_waiting_for_verified_r2",
+    "sealed_authority_present": false
+  },
+  "gate_state": {
+    "current_valid_gate_ids": [],
+    "invalid_or_missing_for_current_frozen_build": [
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "G07",
+      "G08",
+      "G09",
+      "G10",
+      "G11",
+      "G12",
+      "G13",
+      "G14",
+      "G15"
+    ],
+    "historical_bundle_binding": {
+      "frozen_build_sha256": "4fcd5697514068c99c567117c97d23de653e68beb2ef39ddc4505089f9480f94",
+      "source_commit_for_g02_through_g14": "12e7cd7c",
+      "admission_status": "stale_and_not_authorizing"
+    },
+    "g06_current_build_diagnostic": {
+      "path": "artifacts/substrate/odyssey7d/v1/rehearsal/test_G06_reduced.subject.json",
+      "launch_subject": false,
+      "width_observations": [
+        1
+      ],
+      "production_paired_adapter_calls": 0,
+      "admission_status": "diagnostic_only_not_gate_evidence"
+    }
+  },
+  "g06_admission": {
+    "status": "pending_no_eligible_host_model_binding",
+    "required_schedule": "widths 1/2/4/6/8, three runs each, with the frozen 64-token paired-arm contract and width-8 soak",
+    "required_pass_conditions": {
+      "width_8_actually_ran": true,
+      "all_paired_arm_json_valid": true,
+      "pageouts": 0,
+      "sustained_swap": false,
+      "maximum_slowdown_ratio": 1.35
+    },
+    "required_current_gate_inputs": [
+      "G02 final model/runtime/gateway binding",
+      "G03 final frontier manifests"
+    ],
+    "current_best_g06": {
+      "status": "not_run_on_current_frozen_build",
+      "width_8_slowdown_ratio": null,
+      "pageouts": null,
+      "json_validity": null,
+      "reason": "No host/model pair has a current G02/G03 binding and full authority prerequisites. The available materially different MLX/Qwen diagnostic was rejected at width 8, and no remote GPU host is reachable."
+    },
+    "closest_width_8_diagnostic": {
+      "status": "failed_not_g06_evidence",
+      "host_runtime": "local macOS Apple silicon / MLX-LM HTTP server",
+      "model": "mlx-community/Qwen3.6-27B-4bit@c000ac2c2057d94be3fa931000c31723aac53282",
+      "request_shape": "eight public paired cells, 16 simultaneous seeded requests, temperature 0, max_tokens 64, prompt cache disabled",
+      "width_1_pair_wall_seconds": 4.482,
+      "width_8_wall_seconds": 18.294,
+      "raw_width_8_wall_ratio_to_width_1": 4.08166,
+      "width_8_successful_json_object_requests": 7,
+      "width_8_failed_requests": 9,
+      "width_8_failure_classes": {
+        "EINVAL": 3,
+        "EPIPE": 2,
+        "ECONNRESET": 4
+      },
+      "pageout_delta_observed": 0,
+      "swap_state": "nonzero pre-existing macOS swap remained in use",
+      "rejection_reason": "The 16-request width-8 diagnostic did not return valid JSON for every request, and its raw wall ratio is far above 1.35. It omits the production adapters, source revalidation, full schedule, and soak, so it is not G06 evidence."
+    },
+    "historical_local_measurement": {
+      "source": "operator_directive_authoritative_unsealed_historical_measurement",
+      "repository_primary_receipt_found": false,
+      "host_runtime": "current Mac direct llama.cpp path",
+      "measured_width": 2,
+      "slowdown_ratio_approx": 1.51,
+      "interpretation": "Fails the 1.35 threshold and the same Mac/direct-llama.cpp path is prohibited as the primary solution. It is not current G06 evidence."
+    },
+    "current_gateway_implementation": {
+      "binding": "loopback Ollama only",
+      "remote_gateway_admission": "not implemented or frozen; it must be designed and pinned only after an actual eligible host and authenticated endpoint are available."
+    }
+  },
+  "candidate_model_set": [
+    {
+      "priority": 1,
+      "candidate": "Qwen3.6-27B",
+      "required_form": "reproducible high-quality 4-bit or 5-bit quantization",
+      "local_public_diagnostic": {
+        "runtime": "MLX 0.31.2 / MLX-LM 0.31.3",
+        "quantized_model_repository": "mlx-community/Qwen3.6-27B-4bit",
+        "quantized_model_revision": "c000ac2c2057d94be3fa931000c31723aac53282",
+        "config_sha256": "ede24666ac51e6d5ab948a8a1e6c72fc6effd941ba3aabb6dd942eb517c78043",
+        "tokenizer_sha256": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4",
+        "result": "A public width-1 pair returned valid JSON objects under a 64-token cap, but the width-8 seeded paired diagnostic failed 9 of 16 requests."
+      },
+      "current_status": "rejected_on_local_mlx_diagnostic; not selected or frozen"
+    },
+    {
+      "priority": 2,
+      "candidate": "Qwen3.5-35B-A3B",
+      "required_form": "reproducible high-quality 4-bit or 5-bit quantization",
+      "current_status": "not_downloaded_or_evaluated_on_an_eligible_host"
+    },
+    {
+      "priority": 3,
+      "candidate": "gpt-oss-20b",
+      "required_form": "pinned native quantized form",
+      "current_status": "historically selected under an obsolete canary; not selected for this frozen build"
+    },
+    {
+      "priority": 4,
+      "candidate": "Qwen3-30B-A3B",
+      "required_form": "secondary reference only",
+      "current_status": "local secondary reference; no current eligible-host canary"
+    },
+    {
+      "priority": 5,
+      "candidate": "DeepSeek-R1-Distill-Qwen-32B",
+      "required_form": "secondary reference only",
+      "current_status": "local secondary reference; no current eligible-host canary"
+    }
+  ],
+  "runtime_host_inventory": [
+    {
+      "host_class": "local macOS Apple silicon",
+      "accelerator": "Apple M3 Ultra integrated Metal GPU",
+      "host_ram_gib": 96,
+      "free_filesystem_gib_observed": 179,
+      "runtime": "Ollama 0.32.1; local llama.cpp tools installed",
+      "pageout_swap_observability": "macOS vm_stat and vm.swapusage available; 4.51 GiB swap was in use at inventory time",
+      "concurrency_and_structured_output": "Ollama configured locally; no current admitted full-width result",
+      "seven_day_availability": "local control plane only",
+      "custody_security": "local-only gateway; no frozen remote gateway",
+      "eligibility": "rejected",
+      "rejection_reason": "The directive prohibits the same Mac/direct-llama.cpp primary path after the historical approximately 1.51x width-2 result."
+    },
+    {
+      "host_class": "local macOS Apple silicon, materially different MLX execution path",
+      "accelerator": "Apple M3 Ultra integrated Metal GPU",
+      "host_ram_gib": 96,
+      "runtime": "MLX 0.31.2 / MLX-LM 0.31.3 HTTP server with prompt/decode concurrency configured to 8 and prompt cache disabled",
+      "model_format_support": "MLX 4-bit safetensors; Qwen3.6-27B public candidate at exact revision c000ac2c2057d94be3fa931000c31723aac53282",
+      "pageout_swap_observability": "macOS vm_stat and vm.swapusage; observed diagnostic pageout delta was zero but pre-existing swap was nonzero",
+      "structured_output_reliability": "width-1 public pair returned valid JSON under the 64-token cap; width-8 seeded diagnostic failed 9 of 16 requests",
+      "concurrency_support": "The installed server only batches requests when seed is absent. Frozen Odyssey arms provide paired seeds, so its seeded mode is not batchable.",
+      "seven_day_availability": "local only",
+      "custody_security": "loopback diagnostic only; not a frozen production gateway",
+      "eligibility": "rejected",
+      "rejection_reason": "It is materially different from direct llama.cpp, but it fails the public width-8 seeded diagnostic. The current gateway also is not the frozen Odyssey gateway."
+    },
+    {
+      "host_class": "local Colima Linux VM",
+      "accelerator": "none",
+      "host_ram_gib": 8,
+      "filesystem_gib": 60,
+      "runtime": "Ubuntu 24.04 arm64 Docker",
+      "pageout_swap_observability": "guest observable",
+      "seven_day_availability": "local only",
+      "eligibility": "rejected",
+      "rejection_reason": "4 vCPU, 8 GiB, and no NVIDIA/other accelerator cannot support the required width-8 model service."
+    },
+    {
+      "host_class": "local Windows VM or configured Colab runtime",
+      "eligibility": "not available",
+      "rejection_reason": "No Windows VM, active Colab runtime, or compatible hosted notebook path was discovered."
+    },
+    {
+      "host_class": "configured SSH remotes",
+      "eligibility": "not reachable",
+      "rejection_reason": "Two configured aliases were safely probed with BatchMode: one had no route and one did not resolve. Capacity and authorization therefore cannot be demonstrated."
+    },
+    {
+      "host_class": "cloud GPU accounts",
+      "eligibility": "not available",
+      "rejection_reason": "AWS has no profiles and read-only identity failed; the discovered RunPod API-key field is empty; no usable GPU-cloud credential or account was demonstrated. No resource was started or reserved."
+    },
+    {
+      "host_class": "GitHub runners",
+      "eligibility": "not available",
+      "rejection_reason": "GitHub authentication exists, but no self-hosted runner/GPU path or seven-day compatible runner was found."
+    }
+  ],
+  "active_processes": {
+    "odyssey_or_calibration": "none observed",
+    "model_pull": "none observed",
+    "relevant_services": [
+      "local Ollama loopback service",
+      "local Colima service",
+      "inactive Odyssey-related Telegram LaunchAgent labels"
+    ]
+  },
+  "blocking_conditions": [
+    "No host/model pair currently passes the required width-8 JSON and slowdown conditions. The materially different local MLX/Qwen diagnostic failed 9 of 16 seeded requests and measured a raw 4.08166x wall ratio.",
+    "No final host/model/runtime/gateway pin, so the public canary, G02, G03, and real G06 cannot run.",
+    "No valid current-build G01-G15 receipts and no sealed authority.",
+    "Current loopback-only G06 gateway cannot be used as a remote authoritative gateway without a host-specific, authenticated, frozen implementation.",
+    "Branch divergence and the dirty worktree prevent final sealing after technical admission."
+  ],
+  "billable_resource_request": {
+    "approval_required_before_any_purchase_or_start": true,
+    "proposed_provider": "RunPod on-demand Pod or an equivalently durable, authenticated NVIDIA host",
+    "minimum_host": {
+      "accelerator": "one NVIDIA H100 SXM with 80 GiB VRAM",
+      "host_ram_gib": 125,
+      "vcpus": 20,
+      "operating_system": "Ubuntu 24.04 LTS",
+      "storage": "at least 200 GiB encrypted working storage; retain only gateway/model artifacts remotely and keep authoritative Odyssey state on the local control plane",
+      "network": "authenticated, allowlisted tunnel or equivalent private gateway; no evaluator material transferred"
+    },
+    "why_this_is_the_closest_plausible_configuration": "80 GiB VRAM gives substantial headroom above the frozen 24 GiB shared model-service cap for a pinned 27B/35B quantized candidate, concurrent KV cache, and real width-8 admission. It is not a passing configuration until its public canary and full G06 pass.",
+    "estimated_admission_window_hours": 12,
+    "expected_g06_duration_minutes": 38,
+    "listed_compute_rate_usd_per_hour": 2.99,
+    "estimated_admission_compute_usd": 35.88,
+    "estimated_168_hour_compute_usd": 502.32,
+    "estimated_total_compute_usd": 538.2,
+    "storage_budget_note": "At the cited $0.10/GB/month running volume-disk rate, 200 GiB for seven days is approximately $4.67; provider pricing and availability must be reconfirmed in-console before approval.",
+    "estimated_total_with_200_gib_running_volume_usd": 542.87,
+    "pricing_sources": [
+      "https://www.runpod.io/pricing",
+      "https://docs.runpod.io/pods/pricing"
+    ],
+    "activation_boundary": "Do not create, reserve, fund, start, or download onto this host until the operator explicitly approves this spend and provides a usable authorized access path."
+  },
+  "admissible_next_action_after_approval": "Provision the approved host; implement and freeze an authenticated receipt-producing gateway; pin and public-canary the candidate tournament; run the complete G06 schedule; only then refresh G01-G15 and attempt an authority seal."
+}

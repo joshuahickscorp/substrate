@@ -1,0 +1,21 @@
+{
+  "acquired_at": "2026-08-03T18:06:13.244919+00:00",
+  "acquired_bytes": 375691058,
+  "dataset": "longbench",
+  "evaluator_only_separated": true,
+  "file_count": 90,
+  "frontier": "A",
+  "license": "MIT",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/longbench/licenses/LICENSE.txt",
+  "license_url": "https://github.com/THUDM/LongBench/blob/main/LICENSE",
+  "notes": [
+    "LongBench long-context benchmark (THUDM). Any answer-path tokens relocated.",
+    "Added HF data.zip (113932529 bytes) containing task JSONL; not present in GitHub code archive alone."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub main archive + HF data.zip (THUDM/LongBench) at acquisition time",
+  "source_url": "https://github.com/THUDM/LongBench + https://huggingface.co/datasets/THUDM/LongBench",
+  "upstream_checksum_verified": false
+}

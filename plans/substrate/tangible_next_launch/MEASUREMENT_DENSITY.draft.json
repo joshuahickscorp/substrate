@@ -1,0 +1,61 @@
+{
+  "schema": "SUBSTRATE_TANGIBLE_MEASUREMENT_DENSITY_DRAFT/v1",
+  "status": "draft_post_r2_no_launch_authority",
+  "activation": false,
+  "parent_design": "tangible-blind-shadow-r1",
+  "wall_clock_hours": 24,
+  "longitudinal_writer_count": 1,
+  "measurement": {
+    "resource_sample_interval_minutes": 30,
+    "expected_resource_samples": 49,
+    "primary_event_hours": [0, 3, 6, 9, 12, 15, 18, 21, 24],
+    "scored_dimensions_per_event": ["state_recall", "causal_repair", "cross_modal_transfer"],
+    "expected_scored_observations": 27,
+    "trace_lock_before_scoring": true,
+    "all_probe_keys_evaluator_only": true
+  },
+  "stimulus_packs": [
+    {
+      "id": "stsc_recomposition_a",
+      "role": "primary held-out tangible history",
+      "new_download_bytes": 0,
+      "selected": false,
+      "manifest_sha256": "REPLACE_WITH_CUSTODIAN_MANIFEST_SHA256"
+    },
+    {
+      "id": "audio_telemetry_recovery_b",
+      "role": "cross-modal disturbance and recovery",
+      "new_download_bytes": 0,
+      "selected": false,
+      "manifest_sha256": "REPLACE_WITH_CUSTODIAN_MANIFEST_SHA256"
+    },
+    {
+      "id": "structured_project_transfer_c",
+      "role": "project-state transfer and correction",
+      "new_download_bytes": 0,
+      "selected": false,
+      "manifest_sha256": "REPLACE_WITH_CUSTODIAN_MANIFEST_SHA256"
+    },
+    {
+      "id": "multimodal_incident_d",
+      "role": "novel incident handling",
+      "new_download_bytes": "REPLACE_WITH_MEASURED_BYTES_OR_ZERO",
+      "selected": false,
+      "manifest_sha256": "REPLACE_WITH_CUSTODIAN_MANIFEST_SHA256"
+    }
+  ],
+  "analysis_boundary": {
+    "within_run_scored_observations_are_independent_replicates": false,
+    "independent_unit": "a separately custodian-seeded held-out tangible history",
+    "minimum_independent_replications_for_breadth_claim": "REPLACE_WITH_PREREGISTERED_COUNT",
+    "do_not_pool_without_hierarchical_analysis": true
+  },
+  "selection_gate": [
+    "r2_terminal_and_independently_verified",
+    "shadow_design_sealed",
+    "custodian_selects_exactly_one_primary_pack",
+    "candidate_control_parity_attested",
+    "all_answer_keys_evaluator_only",
+    "fresh_memory_and_storage_preflight_admitted"
+  ]
+}

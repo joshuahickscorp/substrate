@@ -1,0 +1,567 @@
+{
+  "activation": false,
+  "corpus_roots": [
+    {
+      "byte_size": 1223709,
+      "dataset": "ai2_arc",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ai2_arc"
+    },
+    {
+      "byte_size": 1090379251,
+      "dataset": "clevr_questions_only",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "e36bd4bae41a5fd874e0f0a69319ab60953b9fd447a9dd1a38c721a5a83ef0a0",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_questions_only/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_questions_only"
+    },
+    {
+      "byte_size": 19021600724,
+      "dataset": "clevr_v1",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_v1"
+    },
+    {
+      "byte_size": 884796251,
+      "dataset": "esc50",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "faf180ab59dfc0f2b41dbb39385c666d9d34872fa0cbd36bed881321874d2adf",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/esc50/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/esc50"
+    },
+    {
+      "byte_size": 35568070,
+      "dataset": "ethics",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "d465f33c16cbc9befa888d6c13605c4282809c0d3b66bcd9d77b236f1010c055",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ethics/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ethics"
+    },
+    {
+      "byte_size": 12857667,
+      "dataset": "gpqa",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "78d929169c90716108d327045b58ce5cf2bec447e6e023b49d6526b07840d67c",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gpqa/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gpqa"
+    },
+    {
+      "byte_size": 14359814,
+      "dataset": "gsm8k",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "23de67f453daaaf10e09217b333dc710733a577cf5ac12437395489553ab5f55",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gsm8k/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gsm8k"
+    },
+    {
+      "byte_size": 12919600,
+      "dataset": "gutenberg_philosophy",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "067997d0c892cb590ffb6aaec1b84f3ca2458729f93e190ce65a5d5e2df88266",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gutenberg_philosophy/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gutenberg_philosophy"
+    },
+    {
+      "byte_size": 67572,
+      "dataset": "humaneval",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "832fb36c8dda10cba4c85ff0aca63fb398b16a43ff9dee3b3c6db57fc425e72c",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/humaneval/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/humaneval"
+    },
+    {
+      "byte_size": 360598560,
+      "dataset": "librispeech_dev_clean",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "f2d06619d2d76e07e5d5e4dcf7049bf76cf756a52976a5b65f277780a5695440",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_dev_clean/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_dev_clean"
+    },
+    {
+      "byte_size": 6621832732,
+      "dataset": "librispeech_train_clean_100",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "e9badaac0a0955887bc4a5303ba9b89663ec74d9f06a3af546b69b473db40e25",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_train_clean_100/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_train_clean_100"
+    },
+    {
+      "byte_size": 375699455,
+      "dataset": "longbench",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "324aafb18c8c58b0277f6499a3091e0e5548d7549278086f51b482ae960c446a",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/longbench/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/longbench"
+    },
+    {
+      "byte_size": 211016301,
+      "dataset": "math",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/math"
+    },
+    {
+      "byte_size": 601667270,
+      "dataset": "mathlib4",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mathlib4"
+    },
+    {
+      "byte_size": 564822,
+      "dataset": "mbpp",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "c89dfb336efed870cdb3b2ffe9c3e5e973f3d645a091470d729f1b66cd39e95c",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mbpp/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mbpp"
+    },
+    {
+      "byte_size": 380465,
+      "dataset": "minif2f",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "07bb9ea4bae8fc3a2c84a64d84bc7861cd5e6da4e1393908a79bac7847a375f2",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/minif2f/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/minif2f"
+    },
+    {
+      "byte_size": 63909546451,
+      "dataset": "movi_a_128",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/movi_a_128"
+    },
+    {
+      "byte_size": 6476225,
+      "dataset": "openbookqa",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "652f1a082b5442fdaef7ef0992c756fc560e83c93d3e7f107d8ec8c3f26f2c1f",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/openbookqa/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/openbookqa"
+    },
+    {
+      "byte_size": 40234893,
+      "dataset": "prontoqa",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "2b12c11fdca8ab74529ec86616756d7fad4dc613c4743984e53dfa57b778d119",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa"
+    },
+    {
+      "byte_size": 66026979,
+      "dataset": "proofnet",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "216b572a5357638a00282badcb28c873246f370eec84a8c412a482d341d18767",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/proofnet/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/proofnet"
+    },
+    {
+      "byte_size": 11988125,
+      "dataset": "sciq",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "5abb84caae28b4cbabc433fa2150b04e62c37c99792fc849b2752b8220f5089a",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/sciq/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/sciq"
+    },
+    {
+      "byte_size": 3349843292,
+      "dataset": "speech_commands_v0_02",
+      "has_integrity_manifest": true,
+      "manifest_file_sha256": "a3d0554ac7e98b75abcbc4cecf4de5299a2652151cf6b8a9f79fed5485ee99dc",
+      "manifest_sha256_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/speech_commands_v0_02/MANIFEST.sha256",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/speech_commands_v0_02"
+    },
+    {
+      "byte_size": 1840346,
+      "dataset": "swe_bench_multimodal",
+      "has_integrity_manifest": false,
+      "manifest_sha256_path": "",
+      "root_relative": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/swe_bench_multimodal"
+    }
+  ],
+  "generated_at": "2026-08-04T15:36:21Z",
+  "notes": {
+    "corpus_travel": "data/ is gitignored (~176 GiB). A restorable copy must include it. Integrity is checked against each dataset MANIFEST.sha256; manifests are never regenerated here.",
+    "external_tools": "Lean, z3, ffmpeg, Blender, and the Ollama app live outside the repo. restore prints reinstall commands and does not run sudo or app installers.",
+    "ollama_travel": "Ollama model weights live under ~/.ollama and do not travel with the folder. restore will `ollama pull` any missing pinned model.",
+    "venv_shebangs": ".venv embeds absolute shebangs; after a path change run `python -m substrate.portability restore` to recreate it"
+  },
+  "ollama_models": [
+    {
+      "blob_path": "/Users/scammermike/.ollama/models/blobs/sha256-e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb",
+      "digest": "sha256:e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb",
+      "layer_digests": [
+        "sha256:e7b273f9636059a689e3ddcab3716e4f65abe0143ac978e46673ad0e52d09efb",
+        "sha256:fa6710a93d78da62641e192361344be7a8c0a1c3737f139cf89f20ce1626b99c",
+        "sha256:f60356777647e927149cbd4c0ec1314a90caba9400ad205ddc4ce47ed001c2d6",
+        "sha256:d8ba2f9a17b3bbdeb5690efaa409b3fcb0b56296a777c7a69c78aa33bbddf182"
+      ],
+      "name": "gpt-oss:20b",
+      "present_at_generation": true,
+      "pull_command": "ollama pull gpt-oss:20b",
+      "size_bytes": 13793440755
+    },
+    {
+      "blob_path": "/Users/scammermike/.ollama/models/blobs/sha256-58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+      "digest": "sha256:58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+      "layer_digests": [
+        "sha256:58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+        "sha256:2d54db2b9bb29ce7db54fea63a891f5859603813c555b1f88b5e0994652897f9",
+        "sha256:d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12",
+        "sha256:cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb"
+      ],
+      "name": "qwen3:30b",
+      "present_at_generation": true,
+      "pull_command": "ollama pull qwen3:30b",
+      "size_bytes": 18556698820
+    },
+    {
+      "blob_path": "/Users/scammermike/.ollama/models/blobs/sha256-6150cb382311b69f09cc0f9a1b69fc029cbd742b66bb8ec531aa5ecf5c613e93",
+      "digest": "sha256:6150cb382311b69f09cc0f9a1b69fc029cbd742b66bb8ec531aa5ecf5c613e93",
+      "layer_digests": [
+        "sha256:6150cb382311b69f09cc0f9a1b69fc029cbd742b66bb8ec531aa5ecf5c613e93",
+        "sha256:c5ad996bda6eed4df6e3b605a9869647624851ac248209d22fd5e2c0cc1121d3",
+        "sha256:6e4c38e1172f42fdbff13edf9a7a017679fb82b0fde415a3e8b3c31c6ed4a4e4",
+        "sha256:f4d24e9138dd4603380add165d2b0d970bef471fac194b436ebd50e6147c6588"
+      ],
+      "name": "deepseek-r1:32b",
+      "present_at_generation": true,
+      "pull_command": "ollama pull deepseek-r1:32b",
+      "size_bytes": 19851337321
+    },
+    {
+      "blob_path": "/Users/scammermike/.ollama/models/blobs/sha256-970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+      "digest": "sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+      "layer_digests": [
+        "sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+        "sha256:c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "sha256:ce4a164fc04605703b485251fe9f1a181688ba0eb6badb80cc6335c0de17ca0d"
+      ],
+      "name": "nomic-embed-text:latest",
+      "present_at_generation": true,
+      "pull_command": "ollama pull nomic-embed-text",
+      "size_bytes": 274302030
+    }
+  ],
+  "program": "substrate-odyssey-portability-v1",
+  "python": {
+    "install_base_command": "uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e \".[dev]\"",
+    "install_extras": [
+      "openai-whisper",
+      "openpyxl",
+      "pypdf",
+      "python-docx",
+      "torch"
+    ],
+    "interpreter_path": "/Users/scammermike/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/bin/python3.12",
+    "interpreter_version": "3.12.13",
+    "lockfile": "uv.lock",
+    "lockfile_sha256": "a19dea483d29e326f25d644a153a76e74619b9148c1b36955b3febbc6af53cca",
+    "preferred_python": "3.12",
+    "requires_python": ">=3.11",
+    "resolved_dependencies": [
+      {
+        "name": "ast-serialize",
+        "version": "0.6.0"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22"
+      },
+      {
+        "name": "cffi",
+        "version": "2.1.1"
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.4.9"
+      },
+      {
+        "name": "cryptography",
+        "version": "45.0.7"
+      },
+      {
+        "name": "et-xmlfile",
+        "version": "2.0.0"
+      },
+      {
+        "name": "filelock",
+        "version": "3.32.2"
+      },
+      {
+        "name": "fsspec",
+        "version": "2026.7.0"
+      },
+      {
+        "name": "idna",
+        "version": "3.18"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0"
+      },
+      {
+        "name": "jinja2",
+        "version": "3.1.6"
+      },
+      {
+        "name": "librt",
+        "version": "0.13.0"
+      },
+      {
+        "name": "llvmlite",
+        "version": "0.48.0"
+      },
+      {
+        "name": "lxml",
+        "version": "6.1.1"
+      },
+      {
+        "name": "markupsafe",
+        "version": "3.0.3"
+      },
+      {
+        "name": "more-itertools",
+        "version": "11.1.0"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      },
+      {
+        "name": "mypy",
+        "version": "2.2.0"
+      },
+      {
+        "name": "mypy-extensions",
+        "version": "1.1.0"
+      },
+      {
+        "name": "networkx",
+        "version": "3.6.1"
+      },
+      {
+        "name": "numba",
+        "version": "0.66.0"
+      },
+      {
+        "name": "numpy",
+        "version": "2.4.6"
+      },
+      {
+        "name": "openai-whisper",
+        "version": "20250625"
+      },
+      {
+        "name": "openpyxl",
+        "version": "3.1.5"
+      },
+      {
+        "name": "packaging",
+        "version": "26.2"
+      },
+      {
+        "name": "pathspec",
+        "version": "1.1.1"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "pycparser",
+        "version": "3.0"
+      },
+      {
+        "name": "pygments",
+        "version": "2.20.0"
+      },
+      {
+        "name": "pypdf",
+        "version": "6.14.2"
+      },
+      {
+        "name": "pytest",
+        "version": "9.1.1"
+      },
+      {
+        "name": "python-docx",
+        "version": "1.2.0"
+      },
+      {
+        "name": "regex",
+        "version": "2026.7.19"
+      },
+      {
+        "name": "requests",
+        "version": "2.34.2"
+      },
+      {
+        "name": "ruff",
+        "version": "0.15.21"
+      },
+      {
+        "name": "setuptools",
+        "version": "83.0.0"
+      },
+      {
+        "name": "substrate",
+        "version": "1.0.0"
+      },
+      {
+        "name": "sympy",
+        "version": "1.14.0"
+      },
+      {
+        "name": "tiktoken",
+        "version": "0.13.0"
+      },
+      {
+        "name": "torch",
+        "version": "2.13.0"
+      },
+      {
+        "name": "tqdm",
+        "version": "4.70.0"
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.7.0"
+      }
+    ]
+  },
+  "repo": {
+    "frozen_build_digest": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+    "frozen_build_file_sha256": "ca254ccf2922ff1d9981c2173c87bc832df6b4312077f2026bcdad70dea7d482",
+    "frozen_build_path": "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json",
+    "git_head": "4f66230735dd067d076b8e87388ee006994b31d7",
+    "source_selection_digest": "cad094d9975aefad51553adf6f625015edbc6867363340182c84b05f335794cc",
+    "source_selection_file_sha256": "85f1fc99d646ee230d3bcfa5a0b022cc92f6e5f561bf3e9c719afce672f8bd68",
+    "source_selection_path": "plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.sealed.v2.json"
+  },
+  "schema": "SUBSTRATE_PORTABILITY_MANIFEST/v1",
+  "tools": [
+    {
+      "absolute_path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+      "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "human_reason": "elan toolchain install requires network and an interactive elan bootstrap on a rebuilt machine",
+      "id": "Lean_or_proof_checker",
+      "in_repo": false,
+      "install_method": "elan",
+      "needs_human": true,
+      "present_at_generation": true,
+      "reinstall_command": "curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh && elan toolchain install leanprover/lean4:v4.33.0-rc1",
+      "repo_relative_path": "",
+      "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+    },
+    {
+      "absolute_path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+      "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+      "human_reason": "homebrew install requires network; not executed by restore",
+      "id": "SMT_or_SAT_solver",
+      "in_repo": false,
+      "install_method": "homebrew_formula",
+      "needs_human": true,
+      "present_at_generation": true,
+      "reinstall_command": "brew install z3",
+      "repo_relative_path": "",
+      "version": "Z3 version 4.16.0 - 64 bit"
+    },
+    {
+      "absolute_path": "/Users/scammermike/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/bin/python3.12",
+      "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+      "human_reason": "",
+      "id": "Python_and_code_execution",
+      "in_repo": true,
+      "install_method": "venv_package",
+      "needs_human": false,
+      "present_at_generation": true,
+      "reinstall_command": "python -m substrate.portability restore",
+      "repo_relative_path": "",
+      "version": "Python 3.12.13"
+    },
+    {
+      "absolute_path": "/Users/scammermike/Downloads/substrate/.venv/lib/python3.12/site-packages/pytest-9.1.1.dist-info/RECORD",
+      "artifact_sha256": "8791b796cfed4cfe2ec2e4656d0c5bc202fa599d8266bcc3843b16974ab7b0a7",
+      "human_reason": "",
+      "id": "repository_tests",
+      "in_repo": true,
+      "install_method": "venv_package",
+      "needs_human": false,
+      "present_at_generation": true,
+      "reinstall_command": "python -m substrate.portability restore",
+      "repo_relative_path": ".venv/lib/python3.12/site-packages/pytest-9.1.1.dist-info/RECORD",
+      "version": "pytest 9.1.1"
+    },
+    {
+      "absolute_path": "/Users/scammermike/Downloads/substrate/.venv/lib/python3.12/site-packages/python_docx-1.2.0.dist-info/RECORD",
+      "artifact_sha256": "12c3f5a29037038240513972e67e26bd2ffbbdd56e23dd93a05b6e49423f5cbc",
+      "human_reason": "",
+      "id": "document_and_spreadsheet_tools",
+      "in_repo": true,
+      "install_method": "venv_package",
+      "needs_human": false,
+      "present_at_generation": true,
+      "reinstall_command": "python -m substrate.portability restore",
+      "repo_relative_path": ".venv/lib/python3.12/site-packages/python_docx-1.2.0.dist-info/RECORD",
+      "version": "python-docx==1.2.0; openpyxl==3.1.5; pypdf==6.14.2"
+    },
+    {
+      "absolute_path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+      "artifact_sha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+      "human_reason": "homebrew install requires network; not executed by restore",
+      "id": "image_video_audio_decoders",
+      "in_repo": false,
+      "install_method": "homebrew_formula",
+      "needs_human": true,
+      "present_at_generation": true,
+      "reinstall_command": "brew install ffmpeg",
+      "repo_relative_path": "",
+      "version": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "absolute_path": "/Users/scammermike/Downloads/substrate/.venv/lib/python3.12/site-packages/openai_whisper-20250625.dist-info/RECORD",
+      "artifact_sha256": "a610dda9fa1e72567a8ee0d0ed828dc3d2f18e70ee03a3e675cae37c520a0489",
+      "human_reason": "",
+      "id": "speech_tools",
+      "in_repo": true,
+      "install_method": "venv_package",
+      "needs_human": false,
+      "present_at_generation": true,
+      "reinstall_command": "python -m substrate.portability restore",
+      "repo_relative_path": ".venv/lib/python3.12/site-packages/openai_whisper-20250625.dist-info/RECORD",
+      "version": "openai-whisper==20250625"
+    },
+    {
+      "absolute_path": "/Applications/Blender.app/Contents/MacOS/Blender",
+      "artifact_sha256": "b5737da97b0e164cc18e227be115c4ea2791d11e9577f7e302c73f4871f9249c",
+      "human_reason": "app bundle install is interactive and may require admin rights",
+      "id": "Blender_3D_simulation_tools",
+      "in_repo": false,
+      "install_method": "app_bundle",
+      "needs_human": true,
+      "present_at_generation": true,
+      "reinstall_command": "Install Blender 4.2.1 LTS (Apple Silicon) from https://www.blender.org/download/lts/4-2/ and place the app at /Applications/Blender.app",
+      "repo_relative_path": "",
+      "version": "Blender 4.2.1 LTS"
+    },
+    {
+      "absolute_path": "/Applications/Ollama.app/Contents/Resources/ollama",
+      "artifact_sha256": "6bfd1b58ebfdbc2f2a15b6646993b01e94b42f2e76aa2f3af6b71e89dde503c9",
+      "human_reason": "app bundle install is interactive; models are restored separately via ollama pull",
+      "id": "retrieval_and_embedding_service",
+      "in_repo": false,
+      "install_method": "app_bundle",
+      "needs_human": true,
+      "present_at_generation": true,
+      "reinstall_command": "Install Ollama from https://ollama.com/download and ensure `ollama` is on PATH",
+      "repo_relative_path": "",
+      "version": "ollama version is 0.32.1"
+    }
+  ]
+}

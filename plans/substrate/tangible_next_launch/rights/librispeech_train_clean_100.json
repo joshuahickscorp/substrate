@@ -1,0 +1,21 @@
+{
+  "acquired_at": "2026-08-03T17:58:34.083176+00:00",
+  "acquired_bytes": 6618477409,
+  "dataset": "librispeech_train_clean_100",
+  "evaluator_only_separated": true,
+  "file_count": 29131,
+  "frontier": "F",
+  "license": "CC BY 4.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_train_clean_100/licenses/LICENSE.txt",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "notes": [
+    "LibriSpeech train-clean-100 (100h). Transcripts (*.trans.txt) moved to evaluator-only/ as scoring labels.",
+    "Upstream MD5 verified."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "OpenSLR SLR12 train-clean-100.tar.gz; md5 2a93770f6d5c6c964bc36631d331a522 from published md5sum.txt",
+  "source_url": "https://www.openslr.org/12/",
+  "upstream_checksum_verified": true
+}

@@ -1,0 +1,3199 @@
+{
+  "activation": false,
+  "admitted_width": 8,
+  "aggregates": {
+    "min_deadline_headroom": 31.74486466547908,
+    "p95_active_dispatch_seconds": 56.70208454085514,
+    "width8_max_deadline_utilization": 0.03150115807825286,
+    "width8_max_slowdown": 4.392411013227944,
+    "width8_min_deadline_headroom": 31.74486466547908,
+    "worst_active_dispatch_seconds": 56.70208454085514
+  },
+  "all_pass": true,
+  "by_width": {
+    "1": {
+      "active_dispatch_seconds": [
+        12.909102624980733,
+        9.550119833089411,
+        9.645825125044212
+      ],
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "deadline_utilizations": [
+        0.007171723680544852,
+        0.005305622129494117,
+        0.005358791736135673
+      ],
+      "max_deadline_utilization": 0.007171723680544852,
+      "max_slowdown": 1.0,
+      "min_deadline_headroom": 139.43649317008095,
+      "p95_active_dispatch_seconds": 12.909102624980733,
+      "peak_resident_memory_bytes": 53262464476,
+      "repetitions": 3,
+      "slowdowns": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "worst_active_dispatch_seconds": 12.909102624980733
+    },
+    "2": {
+      "active_dispatch_seconds": [
+        24.40188687480986,
+        15.698922875104472,
+        15.60595979099162
+      ],
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "deadline_utilizations": [
+        0.013556603819338812,
+        0.008721623819502484,
+        0.00866997766166201
+      ],
+      "max_deadline_utilization": 0.013556603819338812,
+      "max_slowdown": 1.2161126401400735,
+      "min_deadline_headroom": 73.7647875033035,
+      "p95_active_dispatch_seconds": 24.40188687480986,
+      "peak_resident_memory_bytes": 54548329948,
+      "repetitions": 3,
+      "slowdowns": [
+        1.0954577746376093,
+        1.2161126401400735,
+        1.2089112810050893
+      ],
+      "worst_active_dispatch_seconds": 24.40188687480986
+    },
+    "4": {
+      "active_dispatch_seconds": [
+        25.486034374916926,
+        31.114761042175815,
+        29.157267834059894
+      ],
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "deadline_utilizations": [
+        0.014158907986064959,
+        0.01728597835676434,
+        0.016198482130033276
+      ],
+      "max_deadline_utilization": 0.01728597835676434,
+      "max_slowdown": 2.4102962030811383,
+      "min_deadline_headroom": 57.85035589892894,
+      "p95_active_dispatch_seconds": 31.114761042175815,
+      "peak_resident_memory_bytes": 58228012508,
+      "repetitions": 3,
+      "slowdowns": [
+        1.9742684766947511,
+        2.4102962030811383,
+        2.258659542890063
+      ],
+      "worst_active_dispatch_seconds": 31.114761042175815
+    },
+    "6": {
+      "active_dispatch_seconds": [
+        46.021767124999315,
+        43.28057554201223,
+        47.168606125051156
+      ],
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "deadline_utilizations": [
+        0.025567648402777397,
+        0.024044764190006795,
+        0.026204781180583975
+      ],
+      "max_deadline_utilization": 0.026204781180583975,
+      "max_slowdown": 3.6539027921099634,
+      "min_deadline_headroom": 38.160975018594485,
+      "p95_active_dispatch_seconds": 47.168606125051156,
+      "peak_resident_memory_bytes": 61843158492,
+      "repetitions": 3,
+      "slowdowns": [
+        3.5650632318889017,
+        3.3527175977560892,
+        3.6539027921099634
+      ],
+      "worst_active_dispatch_seconds": 47.168606125051156
+    },
+    "8": {
+      "active_dispatch_seconds": [
+        51.9155571248848,
+        56.70208454085514,
+        52.66638691700064
+      ],
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "deadline_utilizations": [
+        0.028841976180491554,
+        0.03150115807825286,
+        0.02925910384277813
+      ],
+      "max_deadline_utilization": 0.03150115807825286,
+      "max_slowdown": 4.392411013227944,
+      "min_deadline_headroom": 31.74486466547908,
+      "p95_active_dispatch_seconds": 56.70208454085514,
+      "peak_resident_memory_bytes": 56731514332,
+      "repetitions": 3,
+      "slowdowns": [
+        4.021624014702748,
+        4.392411013227944,
+        4.079786833136223
+      ],
+      "worst_active_dispatch_seconds": 56.70208454085514
+    }
+  },
+  "calibration_widths": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ],
+  "checks": {
+    "candidate_control_parity": true,
+    "frozen_schedule_bound": true,
+    "historical_4_39x_preserved": true,
+    "microcycle_work_complete_before_deadline": true,
+    "minimum_deadline_headroom_met": true,
+    "no_cross_lane_model_context": true,
+    "no_evaluator_leakage": true,
+    "no_missed_phase_deadline": true,
+    "no_sustained_swap_growth": true,
+    "p95_active_dispatch_within_limit": true,
+    "peak_rss_under_ceiling": true,
+    "slowdown_reported_not_gated": true,
+    "soak_no_memory_creep": true,
+    "soak_no_thermal_collapse": true,
+    "tool_bearing_real": true,
+    "transport_and_semantic_valid": true,
+    "width_eight_all_frontiers": true,
+    "width_ladder_complete": true,
+    "worst_active_dispatch_within_limit": true,
+    "zero_pageouts_clean_window": true
+  },
+  "deadline_limits": {
+    "microcycle_seconds": 7200,
+    "minimum_deadline_headroom": 2.0,
+    "p95_active_dispatch_fraction_of_phase": 0.5,
+    "phase_seconds": 1800,
+    "resident_cap_bytes": 91268055040,
+    "worst_active_dispatch_fraction_of_phase": 0.75
+  },
+  "gate_id": "G06-DC",
+  "observations": [
+    {
+      "active_dispatch_wall_seconds": 12.909102624980733,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 12.909102624980733,
+        "deadline_headroom": 139.43649317008095,
+        "deadline_utilization_of_phase": 0.007171723680544852,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 12.909102624980733,
+      "per_cell_slowdown_ratio": 1.0,
+      "repetition": 1,
+      "resident_memory_bytes": 51184940508,
+      "semantic_valid_arms": 2,
+      "serial_model_plus_tool_seconds": 13.304459541803226,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "3461e4a3cd0cc889f0543412507a4644c156ac0a0ed26b638bdee7698df91133",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "71168ee7e48483ad6a66b847d73dbd853c36469a74670d4461a15abcd988eb3b",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.3953569168224931,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 9.550119833089411,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 9.550119833089411,
+        "deadline_headroom": 188.47931036041356,
+        "deadline_utilization_of_phase": 0.005305622129494117,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 9.550119833089411,
+      "per_cell_slowdown_ratio": 1.0,
+      "repetition": 2,
+      "resident_memory_bytes": 51746797020,
+      "semantic_valid_arms": 2,
+      "serial_model_plus_tool_seconds": 9.638995666056871,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "0161195c24e3dfcc2b199f0631ee7c87051dcf837ad1b9c756089c9c64d9ce28",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "8c9ae3bf4e5a6db7b02e8b57a3f641bbf3b6089e21ee0aa2141a3549e119443b",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.08887583296746016,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 9.645825125044212,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 9.645825125044212,
+        "deadline_headroom": 186.60923007265797,
+        "deadline_utilization_of_phase": 0.005358791736135673,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 9.645825125044212,
+      "per_cell_slowdown_ratio": 1.0,
+      "repetition": 3,
+      "resident_memory_bytes": 53262464476,
+      "semantic_valid_arms": 2,
+      "serial_model_plus_tool_seconds": 9.734475624980405,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "0a0dece8ce6aff9d3a55809037fc784cb25410ec45bbb09a6e14ca8dab109e0e",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "0134f124b93c1bb019f5f901ff5371a1b8d4a66c40c088e9ba8d67883343d847",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.08865049993619323,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 24.40188687480986,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 24.40188687480986,
+        "deadline_headroom": 73.7647875033035,
+        "deadline_utilization_of_phase": 0.013556603819338812,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 14.141376834129915,
+      "per_cell_slowdown_ratio": 1.0954577746376093,
+      "repetition": 1,
+      "resident_memory_bytes": 54548329948,
+      "semantic_valid_arms": 4,
+      "serial_model_plus_tool_seconds": 38.543263708939776,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "b4f4859109f9bee4a4dc0a5d666a22e449a83485350cd100977f64dbbbbaab55",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "4d672a8085781399844f59755a9719fa511b6eac4059e0ae2cfeae32b9361d72",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "26ad42765d21aa0b58a6bf2b0580c5b4b6e305fd43b0cfce4f3534e68e362b3a",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "4a03b7983aad958c3795e99d250ed0b5d2d545a4c655fec268eca1f12df915a6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "af6d42d3761561b6d6c21dd77697675a0db2d20e4a75110fc79c9640a639bc99",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "1da45ed632938ee50e0884a136236956e7a6618ceb8e90e4dabffafdeeb594d8",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 24.40188687480986,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 15.698922875104472,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 15.698922875104472,
+        "deadline_headroom": 114.65754780249671,
+        "deadline_utilization_of_phase": 0.008721623819502484,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 15.698922875104472,
+      "per_cell_slowdown_ratio": 1.2161126401400735,
+      "repetition": 2,
+      "resident_memory_bytes": 53223273948,
+      "semantic_valid_arms": 4,
+      "serial_model_plus_tool_seconds": 16.280999165959656,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "76782a911c083d91e1831f80e6deefb70780202e7515e19c7d2681c31a15eddd",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "f2ff668df9637e4431523c56f697a025acb86342db21801fcb195ddc2b8f24c2",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "4ace0d89eddb423f18f9ee7628ac4bcdbe7420b62469019e7abb20d84765c3ad",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "cf7d2e5387cd025d840bf357f1e2a57956ae683065cb08cc492fd019facdbddd",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.5820762908551842,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 15.60595979099162,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 15.60595979099162,
+        "deadline_headroom": 115.34055092459174,
+        "deadline_utilization_of_phase": 0.00866997766166201,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 15.60595979099162,
+      "per_cell_slowdown_ratio": 1.2089112810050893,
+      "repetition": 3,
+      "resident_memory_bytes": 53706454492,
+      "semantic_valid_arms": 4,
+      "serial_model_plus_tool_seconds": 16.17419504118152,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "0e7ef84463dd21ceb4e3d815dbe6485695ff9cf86e7098ff136b4aab768e86bf",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "14414096ffef7def0a46a9623c4ea09a26d85fcbdbf9a3d4ce66ac9b08c243ea",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "6315b37772788ad352cd8b3ca43c0961f3e38022797e0077929fbdf13c2aa53d",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "6231b85d15a6b3680ebbe3b9f93d36c0223eb3cd346005d39eef35141beda4c0",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.5682352501899004,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 25.486034374916926,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 25.486034374916926,
+        "deadline_headroom": 70.626915648028,
+        "deadline_utilization_of_phase": 0.014158907986064959,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 25.486034374916926,
+      "per_cell_slowdown_ratio": 1.9742684766947511,
+      "repetition": 1,
+      "resident_memory_bytes": 54543726044,
+      "semantic_valid_arms": 8,
+      "serial_model_plus_tool_seconds": 26.144733999855816,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "68181c173794726cf9987db7ccac136c3738b65af97f8857331e0613e14f3590",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "ae835bfde60c6149403ffadcbb4f174eaa0621a47de361eadf9b68b072cfc6a3",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "9a8deaf36ea50adf18527cb64bff7b1088ebf9ff7e3a37aa6ffc306ddd3d455d",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "29cd9cbd765df090a1803af6af4d75f0a2d405df4221996db85277c29874e291",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "e8d37a5f2e95fd6a6ca17289ba1e84a4ae0f87d8ccf7504b71b47cc64806869f",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "2ac1dbeb12f095bcaf35759f750be20891f1378c933d8afa18e76ae22d957ff9",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "0be4a6df1831854aa84bcbde5edaf994d20451125d2d9f7d5945eff72b58bdfb",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "c1a33b518b59e4d2d515e613dab8886888a409dad7ac71a7660ccab67e6745c5",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.6586996249388903,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 31.114761042175815,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 31.114761042175815,
+        "deadline_headroom": 57.85035589892894,
+        "deadline_utilization_of_phase": 0.01728597835676434,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 31.114761042175815,
+      "per_cell_slowdown_ratio": 2.4102962030811383,
+      "repetition": 2,
+      "resident_memory_bytes": 55584208348,
+      "semantic_valid_arms": 8,
+      "serial_model_plus_tool_seconds": 31.721009750152007,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "b3e8290029faea22594c29bc78fc15eed925e14c504a91b4690547e071a78ddf",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "b432c2479f8a5ae14437c57f3b0ab3150f77ece913db78242c4b51d2948c469b",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "9d4efdbab2c2bb419f06aea5fdcd88df71fc0b18d6e4fa681da66808229a9d9f",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "74cf7965d2b3c2871c7e6d1c3e73e8ea87dac9aa253fb1d82a50beb4959e76ce",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "33338da32c35348ab8af7598ae888a433cc557d8bc4a1886f81dd6fb9923b7c6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "8e3427d0d10fb6b43ebcec5abeba6c920c23f64a35f2af215fad32a67cd3d1cf",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "2d4b46c16fe4a37e16f71c27c304a9502bbf264a90ce65fd50538519137cd4f6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "d282eba3b8c99cbfd4cb2513cfdd1f1a47d58e65094681fe3367f0ee42f297c1",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.6062487079761922,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 29.157267834059894,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 29.157267834059894,
+        "deadline_headroom": 61.7341792874482,
+        "deadline_utilization_of_phase": 0.016198482130033276,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 29.157267834059894,
+      "per_cell_slowdown_ratio": 2.258659542890063,
+      "repetition": 3,
+      "resident_memory_bytes": 58228012508,
+      "semantic_valid_arms": 8,
+      "serial_model_plus_tool_seconds": 29.77777370903641,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "fc468cad89351d9a8629942c53d4ab4030278a70c303ec7b770f52337765fdcf",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "9b22ca43d93f2ed10b7546da87752daa3addf2bc101b05675aabbc9633070775",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "a67d7dedaf1eeec77118c4c97dcb45c9a28a0e09f4e88a1f2ebc23c7771eee60",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "63a3ed2e77f6cb2011b58dd5a297d1c93a0b91a556bc3092d24595f2f132b9ba",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "e053eeb3818428cc4595ffe822d08cf30deca1a4c2d451998d7bad3ba8c09f0f",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "cbe8f9a464570273c260c7a07da1047b4374467dd9affad3d28a61d509367e81",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "ab8fc8ed80bfce79dba13b9932ccbc6fb6609a9d25c7d560618d1e65f754af1b",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "f7d76fad6f9d0ab3f230b09f177a3d465efa7bbb5eff8aed97a847b49314a2f9",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.6205058749765158,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 46.021767124999315,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 46.021767124999315,
+        "deadline_headroom": 39.11192708248329,
+        "deadline_utilization_of_phase": 0.025567648402777397,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 46.021767124999315,
+      "per_cell_slowdown_ratio": 3.5650632318889017,
+      "repetition": 1,
+      "resident_memory_bytes": 61843158492,
+      "semantic_valid_arms": 12,
+      "serial_model_plus_tool_seconds": 46.76285287481733,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "8024035d525fa584f488d2235e6045ff495539c3a56e21d119c12a5f62869c7d",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "fc5a1d85ba96a3b5578f3fd09827b731ea52d14ed96e7b6c977169e8a48ee0f6",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "7c060dc3bf968112d636ab27c9d015a7c3541527fd7992ccd9f29dabba0e4c47",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "e0ec45b143c59530093979589153c60f59bda233db32be2fc9a002ac771c5072",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "c510b9df0bad9e1b96dd4564532af37f7319187084db5107d8acdce90699db4f",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "fc54d649c2a073f0506c38c8e023bc583ba4a2ecf6c786378f1cbe9dcda8f2af",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "79c10832655faecf83beecaefc60926ee2cbbed6cd85b4f3abf85618e72de3e6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "a84119ca961459e74c3a03d99e692fc4cb1ea7cf634e9b59673c16ce35eba07a",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "cb695eb4435e6689fdd779f96c14537bb464d7ad050c7a2f0767c5d53d20fab5",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "3ec4ce24ebb7aaebf52ca2af6d18b9eaaa20ff1ec592cbcf14ce24eb51510ee6",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "ad00eab6ec2f3b1aae883dd5e6b2e583b06ad14cee1babebefba9b6155309bd3",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "82d32f19eb3e623bfbf7e3d2aa892e4345a6cc1de8c604cbd3c06aa01508dc42",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.7410857498180121,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 43.28057554201223,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 43.28057554201223,
+        "deadline_headroom": 41.589095742332475,
+        "deadline_utilization_of_phase": 0.024044764190006795,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 43.28057554201223,
+      "per_cell_slowdown_ratio": 3.3527175977560892,
+      "repetition": 2,
+      "resident_memory_bytes": 56174032348,
+      "semantic_valid_arms": 12,
+      "serial_model_plus_tool_seconds": 43.93289045919664,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "64fe184889df2aab0282c265c02e711ffa0e477750be3bafd86f0d2361d2ae40",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "37966be9d6548b62fd6f49566505422423a4a544a7bcfcb41dc19a353602584d",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "f465e396f594b1f3dd01812ce4b5f0c907a3aafc6ac31e28de659e54a7fe4d2e",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "bf25fe81e103bca15c213ce6677eeb2c5615ec1486d3cefca7e2c837b7b9f61a",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "3c30a2b5c29c674844aa6dc6aa65bf8472e415bdfe8960dd888838c2bf1378cb",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "e7a79a1b458487eb1523527da7c9132f57abaf5d67bdfaa3ed7eb0f515094737",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "5acdd9fddff2c1615f9f61be710e76de015f517ce5e4d7dabfed2f224497192c",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "e8dfe64f12d0bb0fbb05566eb5ea9352fb684065e78d569811996b5629d86764",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "ca273845e1acf527b22c333466e8981e721618b2338f67bed2a0ee2ba2b66b7a",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "d3f2d1f9c01f8e3581c53e0bde01ac8dec34a149e3d3745a4628503dd054fd84",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "7cfabbfc003ca20b91f97bde332ef2e00db532e492af58192993b72de60524b2",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "0cea6667be67af0b2f0ac42df8aeffa17efbd7d0d54fac60bef34d074f060204",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.6523149171844125,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 47.168606125051156,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 47.168606125051156,
+        "deadline_headroom": 38.160975018594485,
+        "deadline_utilization_of_phase": 0.026204781180583975,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 47.168606125051156,
+      "per_cell_slowdown_ratio": 3.6539027921099634,
+      "repetition": 3,
+      "resident_memory_bytes": 57797096924,
+      "semantic_valid_arms": 12,
+      "serial_model_plus_tool_seconds": 47.84696854208596,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "b65d4544b2fd4157c8a38166aff7a17a0e5fdc2592c104445a510838f6a07ad6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "8e8cb8ca06ec48513eabe319bb12a58410db974041b98e96b5d896a09336656c",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "f4764241cf34597e24f68cfedb363b663b69da254da976061fa60a70c94171a1",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "ef474148bcbbe848dc25d54f3166e462c1592db1d9d17891383c25e73eeeb79b",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "5bc017f0f7ba5d7136986ad0e11f4727b3a0d834c2e48e98176868fc94f56c17",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "5b83dc1ab29aea34cb4e80d51be5526d4a351b1f291213f449bd8c7a50fb145b",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "9b03f225d35b3d0f76d88d38d4490a67609a93af16fd69ea3beee676ab5f62a5",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "217910dd7ab95c7940b22f9c3be1524ad35de9c850bf140c7835118a80c673c1",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "fe366aee12326f84f771d4d5df216efe699a03da0125ca837692fc338c51c2cf",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "0cb51c4e6cc19b3feee2401c2df575ded6d88bf2aae2cb50df12e7ee45cf49c3",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "61e821a6841b09dd80fe3744891473c5abb20519fed71c97fd1c668edfab234a",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "f75c0d3a4049687121d6f12c320d6288a8761fd8f76a7efbab8bc47ce9a1ace1",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.6783624170348048,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 51.9155571248848,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 51.9155571248848,
+        "deadline_headroom": 34.67168801964377,
+        "deadline_utilization_of_phase": 0.028841976180491554,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 51.9155571248848,
+      "per_cell_slowdown_ratio": 4.021624014702748,
+      "repetition": 1,
+      "resident_memory_bytes": 55885247964,
+      "semantic_valid_arms": 16,
+      "serial_model_plus_tool_seconds": 54.05985899991356,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "8be36e15723563c624512fa3184c9588e7cfba4e3f70f39f8930f1ab6b4520d6",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "39b9c60bee6271dfb93aedb8f7c45679dc91aae491665778ece2d8b12af14331",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "3602a6f93ec4dc1663473dbba72a10095750aa0ac71611702b0825effe8de6f8",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "c16d80bd3758badc1b7ceafbf2b1e5e3bba54108ff7d4641e1a32851beb7b8d9",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "0c8b3b0856a9439e8867eb62f95039113e8bfa12c368a3408ee2252e575b41f0",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "3a9c6c7f6eca7cbceedece5876a9e3b348c861975d1cfcdf12390a7e91162256",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "9dce2ba9bae39e0207e983d2625c7dd4bbc5f42eec3f78c15b8c4e32b1119488",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "6789501379b40475c5a9e43cfe10a2a9f88773e1bf7ca0fb276fc560c71cd939",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "8bd63a2de0300b02e88ed915b36ecec1dd03be6e91052820ba27c3749df12246",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "227d13fc8b8272fa4c1a030021a43d50cbe2acbf0007049d281ebd1faddbfe10",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "cc63387ab29dbba130d503799268ccea41825cafb934e8ec66ffb1665d72a93c",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "6f5a09ab182b853d8ff79e2beeb4cc4166e88dc0507337d9f304c0de7721c51a",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "fd25156760dee8f57a5da79217671fbb1b309d902b3c940ed7acac4fb12d7078",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "7ca0e61413c6d793de3612d8ddace506bab7707aefd42d284d3f498814402617",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "8d951fad607996730cd921bfcd47e08b0f44de689ffb578109412128368d8a17",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "a3aa17261ed6565dca68508001947f37a6785cd9e09352161d8131f4ad28b2b4",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        }
+      ],
+      "tool_wall_seconds": 2.1443018750287592,
+      "transport_valid_arms": 16,
+      "width": 8
+    },
+    {
+      "active_dispatch_wall_seconds": 56.70208454085514,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 56.70208454085514,
+        "deadline_headroom": 31.74486466547908,
+        "deadline_utilization_of_phase": 0.03150115807825286,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 56.70208454085514,
+      "per_cell_slowdown_ratio": 4.392411013227944,
+      "repetition": 2,
+      "resident_memory_bytes": 56731514332,
+      "semantic_valid_arms": 16,
+      "serial_model_plus_tool_seconds": 57.517242124071345,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "f1b8e3a6a30d2f6a3f47e614b41955da198974bc9eae391adb34b697ec562747",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "7bddf97edf09487d1765561113a82b966c67692bb5f42c6c25c7464e2aed4e10",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "8de90356d8e82e5bb1274b929c7af800be2398f407e25c2b67470a154d9386a4",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "1c8beab12a8b0d1c2b4d0428caca5aaf59c28b52685ff2c82ff51046449d7d71",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "a43dc3db74949c4b17196ab7e458f469dc6879468bd82152519512d380e01f48",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "f858a48dc5d9af221f7a66242c7f2f92393df4b62b939be312826cdf57d0eb57",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "6b655aa9083dc6b70eefeda5f4750f30bbe7d05ea135510d5ef9f903de9aefcf",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "49fe7184ff242e7be488151ef0fadd63cc076a541532b9f0290c7ab945245a68",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "571d02af6be902be2bc442e740df28431358f070c922f6e9587fdf6419cde5d5",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "7eca088faca31d452fb188a954ccb31e0a56761cc8ed4e8b415453a3c0ed5290",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "a334b410735b8482cd353e9df35993a80853beb51e757e4fa03cf15875d7f8b9",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "90b58d0305b81ab2652119e5922fdc112d7fe569b1f1c9c3443df7f4ea518586",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "975ada6bc269c4c86eaad72caf01747627f5429004e72243f2643275f42738d9",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "34cf09a82c1e7b73d8535c1239b9044593b41e8ec536a154ede573af95de63b7",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "96054c2ccc62bd64ceb63d61e82045c2e5a81d065026240bc87170ecdbcbe67b",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "1f750a62d81011941b1b0cf72c4c39b0c91f1e9898ac93cce45c174eecdd0b6e",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.8151575832162052,
+      "transport_valid_arms": 16,
+      "width": 8
+    },
+    {
+      "active_dispatch_wall_seconds": 52.66638691700064,
+      "all_objects_valid": true,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "checks": {
+        "all_frontiers_present": true,
+        "candidate_control_parity": true,
+        "deadline_denominator_is_phase_1800": true,
+        "failures_not_dropped": true,
+        "headroom_meets_minimum": true,
+        "no_cached_replay": true,
+        "no_cross_lane_model_context": true,
+        "no_evaluator_leakage": true,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "no_suppressed_tool_work": true,
+        "no_synthetic_workload": true,
+        "pageout_counter_not_reset": true,
+        "peak_rss_under_ceiling": true,
+        "tool_bearing_real": true,
+        "transport_and_semantic_valid": true,
+        "within_p95_dispatch_limit": true,
+        "within_worst_dispatch_limit": true,
+        "zero_pageouts": true
+      },
+      "deadline": {
+        "active_dispatch_wall_seconds": 52.66638691700064,
+        "deadline_headroom": 34.17739673003774,
+        "deadline_utilization_of_phase": 0.02925910384277813,
+        "headroom_meets_minimum": true,
+        "microcycle_complete_before_deadline": true,
+        "microcycle_seconds": 7200.0,
+        "no_missed_microcycle_deadline": true,
+        "no_missed_phase_deadline": true,
+        "p95_limit_seconds": 900.0,
+        "phase_seconds": 1800.0,
+        "within_p95_limit": true,
+        "within_worst_limit": true,
+        "worst_limit_seconds": 1350.0
+      },
+      "model_active_dispatch_wall_seconds": 52.66638691700064,
+      "per_cell_slowdown_ratio": 4.079786833136223,
+      "repetition": 3,
+      "resident_memory_bytes": 55708612060,
+      "semantic_valid_arms": 16,
+      "serial_model_plus_tool_seconds": 53.50120875099674,
+      "swap_pageout_delta_bytes": 0,
+      "tool_proof": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "ee7d34c6607d95acced0dd01aed9ea40751015ceb69a448656ae033f4af41c6a",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "A",
+          "operation": "repo.inspect",
+          "receipt_sha256": "54d4ea9a5f7895841c4ce76578c6f0fde797cf3f783403af592a9bfd8a343593",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "9b3345d7eb4fa3a7e2e76fce4855fab93f5083f730a3a2178e2e4ba3729e5fc9",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "B",
+          "operation": "formal.check_lean",
+          "receipt_sha256": "ecd74d1ac17699c8954dad3b246b277d55ec0ad1a2480a7522858ea972dcbbb7",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "b9e435f4528465b97d77848d5f5baa56b9a622e9f5fd5de10a67f23737200fdd",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "C",
+          "operation": "formal.solve_smt",
+          "receipt_sha256": "0a620715a9fb05957aedb2d5a016744470722c3d584f05fd589272022ed9a93d",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "06015511330953221f6c507de369636e49c73acfe37f4a856a595c6fef7d46f5",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "D",
+          "operation": "repo.test",
+          "receipt_sha256": "8f709996e665922bb51516de74294d6ce5558337dc099645c19285ec9d85004f",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "52b4fe6fa38ba369caf96885670dbf619b593d14ff67a7abb19daa9702aca93e",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "E",
+          "operation": "document.extract_structure",
+          "receipt_sha256": "dd0ef64a6c10aa9353f7a44982350edb92e0babd303cb95a6f6966791becc647",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "ccce782295b358d535daa9f7f3e5799a88aba45f433da889ff5384727097386d",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "F",
+          "operation": "media.probe",
+          "receipt_sha256": "148e029fa719d3942ac1d6091db0118e5adbc2c671eacb8633eb610a97142a14",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "4fc1f078cfe85b059102cbea2a43c8c69bc3cced9450d895373a0d3b4edb76f5",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "G",
+          "operation": "three_d.render",
+          "receipt_sha256": "bbe937eadf900ab510efeaa57b54729da5c9b95895bdc4e901ad88ab5482af30",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "50469df77441220ef51a4532c3de4227e58d8fa7b109fc359f1206f10e7bc34f",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "cached_replay": false,
+          "fresh": true,
+          "frontier": "H",
+          "operation": "compute.sympy",
+          "receipt_sha256": "774bfc1dfcd3749792f3bef591921cb2eff944daea9ea61cde445e22a5f6b139",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        }
+      ],
+      "tool_wall_seconds": 0.8348218339961022,
+      "transport_valid_arms": 16,
+      "width": 8
+    }
+  ],
+  "per_frontier_tool_proof": {
+    "A": {
+      "arms": [
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "operation": "repo.inspect",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        },
+        {
+          "artifact_digest": "31d42d24d075515f799e767e01ddf107051dab353e93b5db3fdcf58e5023fcdb",
+          "operation": "repo.inspect",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "31ec19f3253cc0044133c892bf65183a9fdb0cca36dfe04074a46d7201417da5",
+            "path": "/usr/bin/git",
+            "tool_id": "git",
+            "version": "git version 2.54.0 (Apple Git-156)"
+          }
+        }
+      ],
+      "frontier": "A"
+    },
+    "B": {
+      "arms": [
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "operation": "formal.check_lean",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        },
+        {
+          "artifact_digest": "d936229e1a001793d70c5109eb2b1f0699b9f189e206ff26a5a8ec2c8bca3a9d",
+          "operation": "formal.check_lean",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+            "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+            "tool_id": "lean",
+            "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+          }
+        }
+      ],
+      "frontier": "B"
+    },
+    "C": {
+      "arms": [
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "operation": "formal.solve_smt",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        },
+        {
+          "artifact_digest": "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45",
+          "operation": "formal.solve_smt",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+            "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+            "tool_id": "z3",
+            "version": "Z3 version 4.16.0 - 64 bit"
+          }
+        }
+      ],
+      "frontier": "C"
+    },
+    "D": {
+      "arms": [
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "operation": "repo.test",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        },
+        {
+          "artifact_digest": "0176d2072cda2cdb423863026df1512a7b8f96e6fd7599c158374e04556bc11b",
+          "operation": "repo.test",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+            "tool_id": "pytest",
+            "version": "pytest 9.1.1"
+          }
+        }
+      ],
+      "frontier": "D"
+    },
+    "E": {
+      "arms": [
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "operation": "document.extract_structure",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+          "operation": "document.extract_structure",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        }
+      ],
+      "frontier": "E"
+    },
+    "F": {
+      "arms": [
+        {
+          "artifact_digest": "81202d882df3fd994695c7ce5cbf1cb67746a3acb8818266393b7e2b274f0150",
+          "operation": "media.probe",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        },
+        {
+          "artifact_digest": "af4737fad46041600af27296096d6352451046e2e7da5c29a800ba57376e476c",
+          "operation": "media.probe",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "cfeefcc9207eb3fa424679228fe3848db2921b15537d26c1ccc4a7a61de95d00",
+            "path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffprobe",
+            "tool_id": "ffprobe",
+            "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+          }
+        }
+      ],
+      "frontier": "F"
+    },
+    "G": {
+      "arms": [
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "operation": "three_d.render",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        },
+        {
+          "artifact_digest": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+          "operation": "three_d.render",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+            "path": "/Users/scammermike/Downloads/substrate/src/substrate/spatial3d.py",
+            "tool_id": "substrate_spatial3d",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "frontier": "G"
+    },
+    "H": {
+      "arms": [
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "operation": "compute.sympy",
+          "role": "candidate",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        },
+        {
+          "artifact_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+          "operation": "compute.sympy",
+          "role": "control",
+          "tool_revision": {
+            "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+            "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+            "tool_id": "python",
+            "version": "Python 3.12.13"
+          }
+        }
+      ],
+      "frontier": "H"
+    }
+  },
+  "prior_model_dispatch": {
+    "file_sha256": "3167f75fffeaa15ec4771b5b78fe00624719b18b9c40528caa624417e7acd8ef",
+    "path": "evidence/substrate/odyssey/ODYSSEY_ARM_PROTOCOL_V2_WIDTH_CALIBRATION.json",
+    "preserved_width8_max_slowdown": 4.392411013227944,
+    "width1_active_dispatch_wall_seconds": 12.909102624980733
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "repetitions_per_width": 3,
+  "schema": "SUBSTRATE_ODYSSEY_G06_DC_MEASUREMENT/v1",
+  "sha256": "04410c62c6933f4be1e63d9be677be2b78e46708115c6e7ba08b04524d68c0ae",
+  "soak": {
+    "memory_creep_ok": true,
+    "pageout_window_delta_bytes": 0,
+    "rss_samples": [
+      51184940508,
+      51746797020,
+      53262464476,
+      54548329948,
+      53223273948,
+      53706454492,
+      54543726044,
+      55584208348,
+      58228012508,
+      61843158492,
+      56174032348,
+      57797096924,
+      55885247964,
+      56731514332,
+      55708612060
+    ],
+    "seconds": 33.99967800010927,
+    "thermal_ok": true
+  }
+}

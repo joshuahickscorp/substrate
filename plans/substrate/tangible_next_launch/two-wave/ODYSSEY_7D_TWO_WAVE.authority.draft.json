@@ -1,0 +1,351 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_AUTHORITY_DRAFT/v1",
+  "schema_version": "1.0.0",
+  "status": "draft_unsealed_no_launch_authority",
+  "activation": false,
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "self_digest": {
+    "algorithm": "sha256",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme over this object with self_digest.value omitted",
+    "value": "UNSEALED",
+    "state": "must_be_recomputed_after_all_companion_authorities_and_source_commit_are_bound"
+  },
+  "identity": {
+    "program": "substrate-odyssey-7d-two-wave-v1",
+    "title": "Substrate Odyssey 7D — Two-Wave Edition",
+    "parent_program": "substrate-odyssey-7d-v1",
+    "purpose": "retain all eight paired frontier history blocks and their complete seven-day developmental arc when the frozen width-eight inference contract is locally refused",
+    "scientific_status": "draft_transition_not_an_admission_or_launch_receipt"
+  },
+  "transition": {
+    "from_program": "substrate-odyssey-7d-v1",
+    "bounded_preservation_attempt_required_first": true,
+    "preservation_attempt_maximum_preparation_and_testing_hours": 3,
+    "preservation_attempt_evidence": {
+      "status": "pending_or_external_to_this_draft",
+      "hidden_odyssey_seed_or_answer_access_permitted": false,
+      "successful_width_eight_preservation_retains_parent_program": true,
+      "failure_requires_stop_model_hunting_and_preserve_measurements": true
+    },
+    "required_reason": "The local host can maintain four paired frontier cells at the required scientific fidelity, but does not admit eight simultaneous paired cells under the frozen width-eight inference contract.",
+    "reduction_prohibited": "This is not a reduced-frontier design. It retains all eight frontier blocks, all seven days per block, two sequential waves, four frontier blocks per wave, and fourteen total days."
+  },
+  "duration": {
+    "campaign_hours": 336,
+    "campaign_days": 14,
+    "waves": 2,
+    "history_duration_hours_per_frontier": 168,
+    "history_duration_days_per_frontier": 7,
+    "continuous_maintenance_hours_per_wave": 168,
+    "continuous_maintenance_required": true,
+    "frontier_blocks_per_wave": 4,
+    "total_paired_frontier_blocks": 8,
+    "sequential_waves_required": true,
+    "waves_are_independent_scientific_units": false
+  },
+  "independent_units": {
+    "type": "paired_frontier_history_block",
+    "count": 8,
+    "candidate_histories": 8,
+    "control_histories": 8,
+    "total_continuous_state_histories": 16,
+    "pseudoreplication_guard": "Repeated microcycles, events, dimensions, checkpoints, and resource samples are repeated observations within an independent paired frontier history block. The two waves are execution epochs, not independent scientific units."
+  },
+  "frontiers": [
+    {
+      "id": "A",
+      "wave": 1,
+      "slug": "integrated_continuity",
+      "name": "Integrated continuity and persistent work"
+    },
+    {
+      "id": "B",
+      "wave": 1,
+      "slug": "formal_mathematics",
+      "name": "Formal mathematics"
+    },
+    {
+      "id": "C",
+      "wave": 2,
+      "slug": "formal_logic",
+      "name": "Formal logic"
+    },
+    {
+      "id": "D",
+      "wave": 2,
+      "slug": "code_and_software_systems",
+      "name": "Code and software systems"
+    },
+    {
+      "id": "E",
+      "wave": 2,
+      "slug": "philosophy_epistemology_functional_self_model",
+      "name": "Philosophy, epistemology, and functional self-model"
+    },
+    {
+      "id": "F",
+      "wave": 1,
+      "slug": "sound_speech_auditory_grounding",
+      "name": "Sound, speech, and auditory grounding"
+    },
+    {
+      "id": "G",
+      "wave": 1,
+      "slug": "vision_motion_spatial_embodied_active_perception",
+      "name": "Vision, motion, spatial/3D, body, and active perception"
+    },
+    {
+      "id": "H",
+      "wave": 2,
+      "slug": "science_causality_multimodal_inference",
+      "name": "Science, causality, and multimodal inference"
+    }
+  ],
+  "wave_assignment": {
+    "status": "preregistered_assignment_must_be_sealed_before_hidden_seed_materialization",
+    "wave_1_frontiers": ["A", "B", "F", "G"],
+    "wave_2_frontiers": ["C", "D", "E", "H"],
+    "balance_targets": [
+      "formal_and_sensory_work",
+      "light_and_heavy_workloads",
+      "media_and_non_media_frontiers",
+      "expected_storage",
+      "expected_model_demand"
+    ],
+    "prohibitions": [
+      "do_not_assign_all_heavy_media_lanes_to_one_wave",
+      "do_not_use_wave_1_outcomes_to_reassign_or_modify_wave_2"
+    ]
+  },
+  "seven_day_arc": [
+    {
+      "day": 1,
+      "name": "baseline_and_project_state_formation",
+      "instruction_rule": "baseline and project-state formation"
+    },
+    {
+      "day": 2,
+      "name": "guided_practice_matched_exposure",
+      "instruction_rule": "guided practice / matched exposure"
+    },
+    {
+      "day": 3,
+      "name": "near_transfer_and_revision",
+      "instruction_rule": "near transfer and revision"
+    },
+    {
+      "day": 4,
+      "name": "interference_interruption_and_recovery",
+      "instruction_rule": "interference, interruption, and recovery"
+    },
+    {
+      "day": 5,
+      "name": "far_and_cross_modal_transfer",
+      "instruction_rule": "far and cross-modal transfer"
+    },
+    {
+      "day": 6,
+      "name": "long_horizon_integrated_project_work",
+      "instruction_rule": "long-horizon integrated project work"
+    },
+    {
+      "day": 7,
+      "name": "no_new_instruction_cold_retention_and_blind_examination",
+      "instruction_rule": "no-new-instruction cold retention and blind examination",
+      "new_instruction_permitted": false
+    }
+  ],
+  "arms": {
+    "candidate": {
+      "identity": null,
+      "base_model": null,
+      "quantization": null,
+      "runtime": null,
+      "developmental_intervention": null,
+      "private_state_required": true
+    },
+    "control": {
+      "identity": null,
+      "base_model": null,
+      "quantization": null,
+      "runtime": null,
+      "developmental_rewriting_enabled": false,
+      "private_state_required": true
+    },
+    "parity_required": [
+      "task_schedule",
+      "allowed_observations",
+      "model_base",
+      "tools",
+      "token_or_instruction_budget",
+      "compute_ceiling",
+      "storage_ceiling",
+      "wall_time",
+      "stimulus_family",
+      "scoring_rubric"
+    ],
+    "permitted_difference": "the separately sealed developmental intervention or named causal arm only"
+  },
+  "pre_wave_1_commitments": {
+    "all_eight_frontier_manifests_frozen": false,
+    "all_eight_task_commitments_frozen": false,
+    "all_eight_evaluator_commitments_frozen": false,
+    "all_curriculum_weights_and_evaluation_frozen": false,
+    "wave_2_manifest_commitments_frozen_before_wave_1": false,
+    "hidden_seeds_materialized": false,
+    "answer_material_materialized": false,
+    "rule": "These fields become true only in sealed future evidence. This draft does not materialize any hidden seed or answer material."
+  },
+  "custody_and_blindness": {
+    "frontier_custody_identities_retained": 8,
+    "candidate_control_roots_separate_per_wave": true,
+    "separate_candidate_and_control_run_roots": true,
+    "uids_separate_per_wave": true,
+    "candidate_control_uids_separate": true,
+    "model_contexts_separate_per_wave": true,
+    "candidate_control_model_contexts_separate": true,
+    "random_streams_separate_per_wave": true,
+    "candidate_control_random_streams_separate": true,
+    "evaluator_mounts_available_to_execution": false,
+    "denied_access_probes": "required_and_must_be_real",
+    "trace_lock_before_answer_reveal": true,
+    "day_7_examination_blind": true,
+    "wave_1_scores_hidden_until_wave_2_sealed": true,
+    "result_dependent_wave_2_edits_prohibited": true
+  },
+  "cross_wave_order_controls": {
+    "complete_wave_2_manifests_frozen_before_wave_1": true,
+    "wave_1_scores_hidden_until_both_waves_finish": true,
+    "result_dependent_edits_prohibited": true,
+    "identity_digest_cadence_hours_max": 12,
+    "public_anchor_canary_schedule": [
+      "before_wave_1",
+      "between_waves",
+      "after_wave_2"
+    ],
+    "anchor_canary_hidden_odyssey_content_permitted": false,
+    "cross_wave_aggregation_requires": [
+      "same_pinned_model",
+      "same_pinned_runtime",
+      "same_pinned_candidate",
+      "same_pinned_control",
+      "same_pinned_tool_panel",
+      "same_pinned_scoring_policy",
+      "anchor_drift_within_frozen_tolerance"
+    ],
+    "cross_wave_aggregation_invalidated_by": [
+      "model_identity_change",
+      "runtime_identity_change",
+      "model_or_runtime_behavior_exceeds_frozen_tolerance"
+    ],
+    "interpretation_covariates_or_qualifiers": [
+      "calendar_order",
+      "host_aging",
+      "software_drift",
+      "model_service_drift",
+      "environmental_differences",
+      "operator_interventions"
+    ]
+  },
+  "midpoint_protocol": {
+    "wave_1_trace_independently_verified_and_sealed_first": true,
+    "may_reset": ["ephemeral_execution_state"],
+    "must_preserve": [
+      "immutable_source_identity",
+      "immutable_model_identity",
+      "immutable_runtime_identity",
+      "immutable_tool_identity",
+      "wave_1_sealed_evidence"
+    ],
+    "fresh_resource_preflight_required": true,
+    "materialize_wave_2_hidden_task_commitments_only_after_preflight": true,
+    "scientific_edits_before_wave_2_permitted": false
+  },
+  "resource_governance": {
+    "host_unified_memory_gib": 96,
+    "hard_resident_ceiling_gib": 85,
+    "broker_thresholds_gib": {
+      "deny_new_work": 75,
+      "p2_checkpoint": 80,
+      "p1_pause": 82,
+      "safe_hold": 85
+    },
+    "calibration_widths": [1, 2, 4],
+    "required_admitted_width": 4,
+    "historical_width_eight_g06": "refusal_evidence_only_not_a_pass_for_this_program",
+    "private_write_cap_gib_per_active_wave": 120,
+    "private_write_cap_lowering_policy": "a measured rehearsal may justify a lower frozen cap; it may not justify a higher cap",
+    "dynamic_filesystem_guard_required": true,
+    "telegram_reporting_interval_minutes": 30,
+    "model_selection_policy": "Choose the strongest locally available model that passes the frozen width-four contract with comfortable headroom and seven-day stability. Do not automatically allocate unused four-cell memory to a larger model."
+  },
+  "g06_tw_admission": {
+    "gate_id": "G06-TW",
+    "status": "not_run",
+    "activation": false,
+    "frozen_width_four_contract_required": true,
+    "pass_conditions": [
+      "four_paired_frontier_cells_actually_running_under_the_frozen_simultaneity_definition",
+      "valid_json_from_every_candidate_and_control_64_token_arm",
+      "zero_new_pageouts",
+      "no_sustained_swap_growth",
+      "slowdown_ratio_at_most_1_35",
+      "sustained_soak_agrees_with_scaled_calibration",
+      "no_missed_cell_work_event_or_checkpoint",
+      "no_cross_lane_context_leakage",
+      "candidate_control_parity"
+    ],
+    "forbidden_shortcuts": [
+      "tuning_scale_factor_by_which_value_passes",
+      "queueing_requests_to_evade_the_frozen_simultaneity_definition",
+      "suppressing_real_model_work",
+      "using_cached_outputs"
+    ]
+  },
+  "launch_sequence": [
+    "seal_complete_two_wave_authority",
+    "verify_all_eight_frontier_manifests_were_committed_before_wave_1",
+    "launch_wave_1_detached_after_all_gates_pass",
+    "run_wave_1_for_168_hours",
+    "independently_verify_and_seal_wave_1",
+    "run_midpoint_drift_and_resource_preflight",
+    "launch_wave_2_without_scientific_edits",
+    "run_wave_2_for_168_hours",
+    "independently_verify_and_seal_wave_2",
+    "reveal_and_score_only_after_required_trace_locks",
+    "compute_eight_block_terminal_result",
+    "run_clean_clone_mutations_ci_publication_pr_merge_and_terminal_tag_only_after_terminal_authorization"
+  ],
+  "planned_gate_regeneration": {
+    "source_commit": null,
+    "source_commit_binding_status": "pending",
+    "new_gate_set_replaces_parent_gate_set": true,
+    "gate_ids": [
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06-TW",
+      "G07",
+      "G08",
+      "G09",
+      "G10",
+      "G11",
+      "G12",
+      "G13",
+      "G14",
+      "G15"
+    ],
+    "any_gate_passed_by_this_draft": false
+  },
+  "seal": {
+    "status": "draft",
+    "source_commit": null,
+    "authority_digest": "UNSEALED",
+    "all_companion_authorities_required": true,
+    "all_planned_gates_must_pass_before_launch": true,
+    "sealed_at": null
+  }
+}

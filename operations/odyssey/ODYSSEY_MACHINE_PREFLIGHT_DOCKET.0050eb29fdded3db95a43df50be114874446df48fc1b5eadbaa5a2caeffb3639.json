@@ -1,0 +1,148 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_MACHINE_PREFLIGHT_DOCKET/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "status": "machine_preflight_drafts_pending_human_sealing",
+  "activation": false,
+  "external_activation": false,
+  "scientific_evidence": false,
+  "frozen_build_sha256": "0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639",
+  "model_selection": {
+    "status": "public_canary_passed_human_review_pending",
+    "receipt": {
+      "path": "evidence/substrate/odyssey/model-canary/ODYSSEY_PUBLIC_MODEL_CANARY.0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639.json",
+      "sha256": "0ccac416b1f07a013abab9566f7090937a51b5e515b646ee5facd314d92d1553"
+    },
+    "selected_base_model": {
+      "id": "gpt-oss:20b",
+      "revision": "ollama:17052f91a42e9793",
+      "weight_sha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+      "tokenizer_sha256": "f3b241b44c2d36d81789a79892f2e40d83544139903728530d4c637aa0844d09",
+      "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+      "quantization": "MXFP4"
+    },
+    "evidence": {
+      "public_cases_passed": 13,
+      "public_cases_total": 16,
+      "median_latency_ms": 1451.945,
+      "service_peak_bytes": 13793441244,
+      "service_cap_bytes": 25769803776,
+      "pageout_delta_bytes": 0,
+      "width_eight_completed": 8,
+      "width_eight_valid": true,
+      "neutral_organ_prompt_sha256": "755f9aa107a69ee5596ee2e3b502dd59b2693a901d1dd40cce37688b4d314639",
+      "max_output_tokens": 512
+    }
+  },
+  "frontier_manifest_drafts": [
+    {"id":"A","template_path":"plans/substrate/tangible_next_launch/frontiers/A_integrated_continuity.manifest.template.json","template_sha256":"0a4c5063325728750359e2bfcfe8988c511689555325536de557a2ec70b8bb5b","expected_task_count":336,"source_family":"A","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"B","template_path":"plans/substrate/tangible_next_launch/frontiers/B_formal_mathematics.manifest.template.json","template_sha256":"af0acf970fc427cfc708a1d1a3eddd1575a4e7189fb83f5969e1cf49147f313f","expected_task_count":336,"source_family":"B","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"C","template_path":"plans/substrate/tangible_next_launch/frontiers/C_formal_logic.manifest.template.json","template_sha256":"6227b7c890555bba368f15ec962f63433526d592588296c9470fff0f8f32fc12","expected_task_count":336,"source_family":"C","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"D","template_path":"plans/substrate/tangible_next_launch/frontiers/D_software.manifest.template.json","template_sha256":"842a4f96adb53453e3bcf8e29d9a8a8445c0db68c2b5e1abfd8b00411ac7e3b0","expected_task_count":336,"source_family":"D","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"E","template_path":"plans/substrate/tangible_next_launch/frontiers/E_philosophy_self_model.manifest.template.json","template_sha256":"720399fe68ccef9626b742b3dabf03c5fbda90946a1778104f5acee260f4dd03","expected_task_count":336,"source_family":"E","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"F","template_path":"plans/substrate/tangible_next_launch/frontiers/F_sound_speech.manifest.template.json","template_sha256":"025771997e0e055cd94ca923cc4b453f9b1a45f68e33d18c784e91f9739b93b1","expected_task_count":336,"source_family":"F","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"G","template_path":"plans/substrate/tangible_next_launch/frontiers/G_vision_spatial_embodied.manifest.template.json","template_sha256":"3a207656360003fb07a018ab91fde25fa308b0f60137e49211fa3dd105062ec7","expected_task_count":336,"source_family":"G","status":"pending_human_source_selection_and_custodian_seed"},
+    {"id":"H","template_path":"plans/substrate/tangible_next_launch/frontiers/H_science_multimodal.manifest.template.json","template_sha256":"8732d74c307279e21bc15eeb731571b9050a25ce25a569346f25f290b0f30c92","expected_task_count":336,"source_family":"H","status":"pending_human_source_selection_and_custodian_seed"}
+  ],
+  "tool_panel": {
+    "status": "machine_inventory_complete_pin_review_pending",
+    "candidate_control_identical": true,
+    "stateless_gateway_required": true,
+    "tools": [
+      {"id":"lean_proof_checker","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"smt_sat_solver","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"python_code_execution","status":"observed","path":".venv/bin/python","version":"3.12.13","artifact_sha256":"36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04"},
+      {"id":"repository_tests","status":"observed","path":".venv/bin/pytest","artifact_sha256":"ada623c919b898733539b2abf24d2f80821026d25bae94d3d818df6c73ee869c"},
+      {"id":"document_spreadsheet_tools","status":"pending_runtime_pin","artifact_sha256":null},
+      {"id":"image_video_audio_decoders","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"speech_tools","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"blender_3d_simulation_tools","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"retrieval_embedding_service","status":"not_locally_resolved","artifact_sha256":null},
+      {"id":"stateless_ollama_gateway","status":"observed","path":"/usr/local/bin/ollama","version":"0.32.1","artifact_sha256":"6bfd1b58ebfdbc2f2a15b6646993b01e94b42f2e76aa2f3af6b71e89dde503c9","runtime_sha256":"9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed"}
+    ]
+  },
+  "source_rights_ledger": {
+    "status": "rights_license_leakage_and_evaluator_split_review_pending",
+    "raw_data_shared_read_only": true,
+    "hidden_answers_evaluator_only": true,
+    "families": [
+      {"id":"A","causal_role":"cross_modal_project_reconstruction_and_recovery","policy":"existing STSC recomposition and precommitted generated project traces"},
+      {"id":"B","causal_role":"formal_mathematics","policy":"MATH plus pinned permissively licensed proof tasks with checker receipts"},
+      {"id":"C","causal_role":"formal_logic","policy":"pinned logic fragments and solver-verifiable generated instances"},
+      {"id":"D","causal_role":"software_repair","policy":"SWE metadata and per-repository license-allowed pinned source/test traces"},
+      {"id":"E","causal_role":"philosophy_and_epistemic_revision","policy":"custodian-authored original cases and licensed excerpts only"},
+      {"id":"F","causal_role":"sound_and_speech_recovery","policy":"retained LibriSpeech/FSD50K under existing license ledger"},
+      {"id":"G","causal_role":"vision_spatial_and_proprioceptive_simulation","policy":"MOVi/CLEVR plus frozen Blender/Kubric simulator seeds and action receipts"},
+      {"id":"H","causal_role":"science_multimodal_causal_inference","policy":"ARC plus precommitted synthetic telemetry/image/table packets"}
+    ],
+    "per_family_required_cards":["sha256","license","rights_acceptance","causal_role","evaluator_split","leakage_check"]
+  },
+  "candidate_control_parity_authority": {
+    "status": "draft_not_attested",
+    "candidate": {"treatment_id":"L1_associative_monolith","endogenous_durable_developmental_writes":true},
+    "control": {"treatment_id":"matched_non_developmental_control","endogenous_durable_developmental_writes":false,"append_only_history_retrieval":true},
+    "causal_difference":"ability to transform experience into owned persistent associative developmental state",
+    "identical_dimensions":["base_model","weights","tokenizer","quantization","runtime","organ_prompt","tools","observations","schedules","token_budget","compute_budget","storage_cap","wall_time","retrieval_access"],
+    "frontier_blocks":["A","B","C","D","E","F","G","H"]
+  },
+  "statistics_authority": {
+    "status": "draft_not_attested",
+    "primary_unit":"paired_frontier_history_block",
+    "independent_unit_count":8,
+    "score_weights":{"task_utility":0.25,"retention_transfer":0.25,"epistemic_integrity":0.25,"resource_adjusted_continuity":0.25},
+    "primary_methods":["paired_frontier_effects","exact_sign_flip_inference","median_and_mean_effect"],
+    "secondary_method":"clustered repeated-measure model only",
+    "sesoi":0.05,
+    "all_eight_valid_required_for_primary_outcome":true
+  },
+  "custody_identity_plan": {
+    "status": "cryptographic_slots_generated_real_human_assignment_pending",
+    "lane_identity_slots":[
+      {"frontier":"A","slot_id":"lane_identity_slot_A","slot_digest":"4317eca5233a539f7b85614ac39eb2524dd42b5e80040f83c7c5c17f4bf888dd","task_custodian_slot":"task_custodian_slot_1","day7_signatory_slot":"day7_signatory_slot_1"},
+      {"frontier":"B","slot_id":"lane_identity_slot_B","slot_digest":"9cfe87b1f088b3f70934c445a3e92b935f54625667e952bec04bf16df9692d0c","task_custodian_slot":"task_custodian_slot_1","day7_signatory_slot":"day7_signatory_slot_2"},
+      {"frontier":"C","slot_id":"lane_identity_slot_C","slot_digest":"f37fde6325eeae8d79e629a6994e94d5d5dcfe4700d94ca99b706fbf8984da25","task_custodian_slot":"task_custodian_slot_2","day7_signatory_slot":"day7_signatory_slot_1"},
+      {"frontier":"D","slot_id":"lane_identity_slot_D","slot_digest":"75a276f98d4d75839d65fcc89a75cc37fc0b79bb93b70808e98e48431bc23069","task_custodian_slot":"task_custodian_slot_2","day7_signatory_slot":"day7_signatory_slot_2"},
+      {"frontier":"E","slot_id":"lane_identity_slot_E","slot_digest":"893596bad967290ea0a3e108e1cdc77060267919e5eaff3d2f3331dab1e0a1a6","task_custodian_slot":"task_custodian_slot_3","day7_signatory_slot":"day7_signatory_slot_1"},
+      {"frontier":"F","slot_id":"lane_identity_slot_F","slot_digest":"515fc7a47917ddb1123df9f1ae00fdc453f9ff918f623fa296021344b5656a26","task_custodian_slot":"task_custodian_slot_3","day7_signatory_slot":"day7_signatory_slot_2"},
+      {"frontier":"G","slot_id":"lane_identity_slot_G","slot_digest":"1273b51e85a0f54f440bca9ccf085b049a21f5fdcff01e07a2ad401fe00a4109","task_custodian_slot":"task_custodian_slot_4","day7_signatory_slot":"day7_signatory_slot_1"},
+      {"frontier":"H","slot_id":"lane_identity_slot_H","slot_digest":"b2e545ffc1f286315379dd61f0b0d9d4995b2b5056500fc3c2d2791a20326fc7","task_custodian_slot":"task_custodian_slot_4","day7_signatory_slot":"day7_signatory_slot_2"}
+    ],
+    "task_custodian_slots":["task_custodian_slot_1","task_custodian_slot_2","task_custodian_slot_3","task_custodian_slot_4"],
+    "day7_signatory_slots":["day7_signatory_slot_1","day7_signatory_slot_2"],
+    "real_names_signatures_commitments_pending":true,
+    "no_human_independence_claimed":true
+  },
+  "storage_policy": {
+    "device_free_floor_gib":25,
+    "private_write_cap_gib":120,
+    "free_bytes_observed":307641004000,
+    "note":"free_bytes_observed is a transient machine observation; G07 must measure the eight-cell rehearsal before launch"
+  },
+  "human_only_fields": [
+    "G02 human arm-selection attestation and candidate/control artifact and adapter pins",
+    "G04 real four task-custodian identities, two independent Day-7 signatories, seed/answer/scorer commitments, and signatures",
+    "G05 human review of the complete specialist tool panel and gateway pins",
+    "G10 real separate-UID or mount/ACL denied-access observations and attestation",
+    "G11 statistics authority/rubric review and human attestation"
+  ],
+  "machine_only_pending": [
+    "G03 A-H manifest materialization with source hashes, license/rights, leakage, and evaluator-split cards",
+    "G06 measured width calibration and resource receipts",
+    "G07 measured eight-cell storage rehearsal and live dynamic-capacity receipt",
+    "G08 measured memory-broker rehearsal and threshold receipts",
+    "G09 measured durability/restart/restore rehearsal"
+  ],
+  "hashes": {
+    "frozen_build_sha256":"0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639",
+    "frontier_contract_sha256":"06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "task_bank_sha256":"203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9",
+    "rendered_build_index_sha256":"6362db77dd5c83ef2eeac964228a4d93b16ccc477bba3ad3dad06edf26fcab5f",
+    "model_canary_receipt_sha256":"0ccac416b1f07a013abab9566f7090937a51b5e515b646ee5facd314d92d1553"
+  },
+  "non_claims":[
+    "This docket is not a G02-G11 gate receipt.",
+    "Slot digests are public labels, not human identities, secrets, signatures, seeds, answer keys, or approvals.",
+    "No source license or rights acceptance has been invented.",
+    "No Odyssey worker or supervisor was launched."
+  ],
+  "sha256":"490b047b8da75c152e67f5bf9b3f6acbe5b5465a9d788d101a095cbbbad26ea2"
+}

@@ -1,0 +1,477 @@
+{
+  "activation": false,
+  "adapter_sha256": "fd7aa6cd4f856fa88e621fd58139a61c3eaeba3e36ea799ae2519d2f7cb9d974",
+  "arm_count": 16,
+  "generation_num_predict": 1024,
+  "model": "gpt-oss:20b",
+  "note": "Transport validity is the protocol-v2 repair target. Semantic validity is reported honestly and separately; the adapter never substitutes answers.",
+  "program": "substrate-odyssey-7d-v1",
+  "recorded_at": "2026-08-04T10:30:21Z",
+  "results": [
+    {
+      "content_char_count": 346,
+      "eval_count": 89,
+      "frontier": "A",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 774,
+      "required_fields_present": true,
+      "required_receipt": [
+        "state_reconstruction",
+        "uncertainty",
+        "repair_plan"
+      ],
+      "response_keys": [
+        "repair_plan",
+        "state_reconstruction",
+        "uncertainty"
+      ],
+      "response_sha256": "8b999b883033fb4d8eafcd74defb64a9a1494c66eca1ea844fecb0cfd67a7cc9",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 34,
+      "task_id": "A-0000",
+      "thinking_char_count": 1713,
+      "total_duration_ns": 5835298292,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 240,
+      "eval_count": 70,
+      "frontier": "A",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 749,
+      "required_fields_present": true,
+      "required_receipt": [
+        "state_reconstruction",
+        "uncertainty",
+        "repair_plan"
+      ],
+      "response_keys": [
+        "repair_plan",
+        "state_reconstruction",
+        "uncertainty"
+      ],
+      "response_sha256": "a3123722c239636d2b4886e8e4fafdc6f31cf57a3a341999f7976c92a54c5215",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 23,
+      "task_id": "A-0000",
+      "thinking_char_count": 1603,
+      "total_duration_ns": 4913744375,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 141,
+      "eval_count": 53,
+      "frontier": "B",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 652,
+      "required_fields_present": true,
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "response_keys": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "response_sha256": "720f689b50c874366db685fb9181b01c4051ab719e12b065b77ae6c2bbb48100",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 11,
+      "task_id": "B-0000",
+      "thinking_char_count": 922,
+      "total_duration_ns": 4186915584,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 141,
+      "eval_count": 53,
+      "frontier": "B",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 652,
+      "required_fields_present": true,
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "response_keys": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "response_sha256": "51f382f58458886e1b9ee810accd8d9ac32c1d30af2ed46e3dcb787c65b63f6c",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 11,
+      "task_id": "B-0000",
+      "thinking_char_count": 922,
+      "total_duration_ns": 3643317166,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 156,
+      "eval_count": 42,
+      "frontier": "C",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 817,
+      "required_fields_present": true,
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "response_keys": [
+        "claimed_assignment_or_core",
+        "claimed_status",
+        "derivation"
+      ],
+      "response_sha256": "14b0dea2817e5fac7fe09e7765cfb90051f9753742e65610dd26b58429824be5",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 10,
+      "task_id": "C-0000",
+      "thinking_char_count": 1760,
+      "total_duration_ns": 5986260416,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 156,
+      "eval_count": 42,
+      "frontier": "C",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 817,
+      "required_fields_present": true,
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "response_keys": [
+        "claimed_assignment_or_core",
+        "claimed_status",
+        "derivation"
+      ],
+      "response_sha256": "8fb87b78f2d1ad91cab0a92931f524ad1bcaa32b8af9031d53c40a6fd55c79cc",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 10,
+      "task_id": "C-0000",
+      "thinking_char_count": 1760,
+      "total_duration_ns": 5480523167,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 249,
+      "eval_count": 58,
+      "frontier": "D",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 626,
+      "required_fields_present": true,
+      "required_receipt": [
+        "patch_plan",
+        "test_sequence",
+        "rollback_condition"
+      ],
+      "response_keys": [
+        "patch_plan",
+        "rollback_condition",
+        "test_sequence"
+      ],
+      "response_sha256": "8fdc44f7df046b2ac91e8c7e4d2a1f760744256be2607ef378eab1109abca4bf",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 25,
+      "task_id": "D-0000",
+      "thinking_char_count": 1153,
+      "total_duration_ns": 3857325167,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 249,
+      "eval_count": 58,
+      "frontier": "D",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 626,
+      "required_fields_present": true,
+      "required_receipt": [
+        "patch_plan",
+        "test_sequence",
+        "rollback_condition"
+      ],
+      "response_keys": [
+        "patch_plan",
+        "rollback_condition",
+        "test_sequence"
+      ],
+      "response_sha256": "a8d5c120c2563ca28bc3064cc407cf918d9bb32101fe1636d048e5df7d9a4bc7",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 25,
+      "task_id": "D-0000",
+      "thinking_char_count": 1153,
+      "total_duration_ns": 3382562959,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 397,
+      "eval_count": 102,
+      "frontier": "E",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 984,
+      "required_fields_present": true,
+      "required_receipt": [
+        "commitment_ledger",
+        "argument_map",
+        "revision_rationale",
+        "residual_uncertainty"
+      ],
+      "response_keys": [
+        "argument_map",
+        "commitment_ledger",
+        "residual_uncertainty",
+        "revision_rationale"
+      ],
+      "response_sha256": "f22a581660bd165ba415403284a897ce5d2fd179173c4a92678bdc815f712aeb",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 28,
+      "task_id": "E-0000",
+      "thinking_char_count": 2122,
+      "total_duration_ns": 7286434667,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 358,
+      "eval_count": 101,
+      "frontier": "E",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 1032,
+      "required_fields_present": true,
+      "required_receipt": [
+        "commitment_ledger",
+        "argument_map",
+        "revision_rationale",
+        "residual_uncertainty"
+      ],
+      "response_keys": [
+        "argument_map",
+        "commitment_ledger",
+        "residual_uncertainty",
+        "revision_rationale"
+      ],
+      "response_sha256": "dfad4e533be6b70dbe4db8e9aa517620ac98f72d74099e2e7fe4a75d420bc2d0",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 21,
+      "task_id": "E-0000",
+      "thinking_char_count": 2384,
+      "total_duration_ns": 7389032708,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 119,
+      "eval_count": 33,
+      "frontier": "F",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 1094,
+      "required_fields_present": true,
+      "required_receipt": [
+        "event_timeline",
+        "recovery_method",
+        "uncertainty"
+      ],
+      "response_keys": [
+        "event_timeline",
+        "recovery_method",
+        "uncertainty"
+      ],
+      "response_sha256": "b25f1ec9d22e495994e248ea609bf0084f41cfda61bb423a111d4d3e04e24f12",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 6,
+      "task_id": "F-0000",
+      "thinking_char_count": 2765,
+      "total_duration_ns": 8242137750,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 86,
+      "eval_count": 21,
+      "frontier": "F",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 1038,
+      "required_fields_present": true,
+      "required_receipt": [
+        "event_timeline",
+        "recovery_method",
+        "uncertainty"
+      ],
+      "response_keys": [
+        "event_timeline",
+        "recovery_method",
+        "uncertainty"
+      ],
+      "response_sha256": "09c36000feec53bc13326fe70504678ba287a70bc5f3e73e3bdc84f2cce100da",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 2,
+      "task_id": "F-0000",
+      "thinking_char_count": 2630,
+      "total_duration_ns": 7490062834,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 150,
+      "eval_count": 32,
+      "frontier": "G",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 774,
+      "required_fields_present": true,
+      "required_receipt": [
+        "state_prediction",
+        "counterfactual",
+        "recovery_action"
+      ],
+      "response_keys": [
+        "counterfactual",
+        "recovery_action",
+        "state_prediction"
+      ],
+      "response_sha256": "112532bf0e01b061dde819baa4ad4921209e373eccbe79c672d9d643f5c08705",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 9,
+      "task_id": "G-0000",
+      "thinking_char_count": 1559,
+      "total_duration_ns": 5097028792,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 150,
+      "eval_count": 32,
+      "frontier": "G",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 774,
+      "required_fields_present": true,
+      "required_receipt": [
+        "state_prediction",
+        "counterfactual",
+        "recovery_action"
+      ],
+      "response_keys": [
+        "counterfactual",
+        "recovery_action",
+        "state_prediction"
+      ],
+      "response_sha256": "c2345c31b54e310a2e19106ec1a526d42b59193ca511920f91babf426c402404",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 9,
+      "task_id": "G-0000",
+      "thinking_char_count": 1559,
+      "total_duration_ns": 4555123916,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 302,
+      "eval_count": 73,
+      "frontier": "H",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 1139,
+      "required_fields_present": true,
+      "required_receipt": [
+        "hypotheses",
+        "causal_graph",
+        "revision",
+        "next_measurement"
+      ],
+      "response_keys": [
+        "causal_graph",
+        "hypotheses",
+        "next_measurement",
+        "revision"
+      ],
+      "response_sha256": "730500d443362044a8e0f20fdeb79086742bc0af098a5317d05d9e36123d9d7a",
+      "role": "candidate",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 25,
+      "task_id": "H-0000",
+      "thinking_char_count": 3585,
+      "total_duration_ns": 9467235041,
+      "transport_valid": true
+    },
+    {
+      "content_char_count": 302,
+      "eval_count": 73,
+      "frontier": "H",
+      "generation_num_predict": 1024,
+      "prompt_eval_count": 1139,
+      "required_fields_present": true,
+      "required_receipt": [
+        "hypotheses",
+        "causal_graph",
+        "revision",
+        "next_measurement"
+      ],
+      "response_keys": [
+        "causal_graph",
+        "hypotheses",
+        "next_measurement",
+        "revision"
+      ],
+      "response_sha256": "c45c9a06a69c5b27155a7c2b6992d856d28f61f7441f8df20c36a8e312320214",
+      "role": "control",
+      "semantic_valid": true,
+      "status": "ok",
+      "substantive_max_tokens": 64,
+      "substantive_token_count": 25,
+      "task_id": "H-0000",
+      "thinking_char_count": 3585,
+      "total_duration_ns": 8584024708,
+      "transport_valid": true
+    }
+  ],
+  "schema": "ODYSSEY_ARM_PROTOCOL_V2_PUBLIC_CANARY/v1",
+  "semantic_valid_count": 16,
+  "semantic_valid_rate": 1.0,
+  "sha256": "3849f82370577776798e71431fe30b784c899dd024a972a96a81169fe46c1b5a",
+  "substantive_max_tokens": 64,
+  "think": true,
+  "transport_100_percent": true,
+  "transport_valid_count": 16,
+  "transport_valid_rate": 1.0
+}

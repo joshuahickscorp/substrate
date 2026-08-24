@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "0d06a558bafea17457f225b11cee5e58a367f78163fc8ad1b0ebea2de22d1817",
+  "gate_id": "G12",
+  "gate_name": "mutation suite has zero survivors",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "1dc745ed6fb45bd5a55e0239f560a1c95d1cd09908529591f488d57ea60de816",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "46cfc37271762d0d0dac1c81b008a575cb16a9bc86954a52a7430470f8c9d2d0",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G12.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_MUTATION_REPORT/v1"
+  },
+  "unqualified_nous": false
+}

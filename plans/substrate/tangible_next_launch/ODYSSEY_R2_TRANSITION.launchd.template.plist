@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>org.substrate.odyssey.r2-transition</string>
+  <key>ProgramArguments</key><array><string>/Users/scammermike/Downloads/substrate/.venv/bin/python</string><string>-m</string><string>substrate.odyssey_transition</string><string>transition</string><string>--root</string><string>/Users/scammermike/Downloads/substrate</string></array>
+  <key>WorkingDirectory</key><string>/Users/scammermike/Downloads/substrate</string>
+  <key>EnvironmentVariables</key><dict><key>PYTHONPATH</key><string>/Users/scammermike/Downloads/substrate/src</string></dict>
+  <key>RunAtLoad</key><true/>
+  <key>StartInterval</key><integer>900</integer>
+  <key>KeepAlive</key><false/>
+  <key>StandardOutPath</key><string>/Users/scammermike/Downloads/substrate/runs/substrate/odyssey_transition/launchd.stdout.log</string>
+  <key>StandardErrorPath</key><string>/Users/scammermike/Downloads/substrate/runs/substrate/odyssey_transition/launchd.stderr.log</string>
+</dict></plist>

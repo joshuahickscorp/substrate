@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T18:06:26.592996+00:00",
+  "acquired_bytes": 6475032,
+  "dataset": "openbookqa",
+  "evaluator_only_separated": true,
+  "file_count": 12,
+  "frontier": "H",
+  "license": "Apache-2.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/openbookqa/licenses/LICENSE.txt",
+  "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+  "notes": [
+    "OpenBookQA. Test/dev and answer-named files under evaluator-only/."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": "V1-Sep2018",
+  "revision_note": "AI2 OpenBookQA V1 September 2018 release",
+  "source_url": "https://s3-us-west-2.amazonaws.com/ai2-website/data/OpenBookQA-V1-Sep2018.zip",
+  "upstream_checksum_verified": false
+}

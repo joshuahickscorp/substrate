@@ -1,0 +1,78 @@
+{
+  "activation": false,
+  "adapter_sha256": "26a31f1a0ca5636762bf01962ec4799abbfb8cc87b6e51c54b36e5fa0e59dc19",
+  "adapter_source": "src/substrate/odyssey_arms.py",
+  "budgets": {
+    "substantive_answer_tokens": {
+      "constant": "MAX_OUTPUT_TOKENS",
+      "enforcement": "post-parse semantic gate on required receipt fields",
+      "reported_as": "G06 max_output_tokens / parity token_budget remains 64",
+      "value": 64
+    },
+    "timeout_seconds": {
+      "constant": "ARM_REQUEST_TIMEOUT_SECONDS",
+      "value": 900.0
+    },
+    "transport_attempts": {
+      "constant": "ARM_TRANSPORT_ATTEMPTS",
+      "value": 1
+    },
+    "transport_generation_tokens": {
+      "constant": "GENERATION_NUM_PREDICT",
+      "enforcement": "Ollama options.num_predict",
+      "justification": "host-measured max valid eval_count 375; 1024 freezes headroom",
+      "value": 1024
+    }
+  },
+  "change_class": "transport_reliability_only",
+  "cognitive_treatment_unchanged": {
+    "candidate": "flat_exact_associative_monolith",
+    "control": "append_only_history_retrieval",
+    "prompt_contract": "unchanged required_receipt / optional memory fields",
+    "seed_pairing": "unchanged _paired_seed"
+  },
+  "gates": {
+    "semantic": [
+      "required fields present",
+      "required fields non-null and non-empty",
+      "values model-produced (no adapter defaults)",
+      "substantive required-field payload within MAX_OUTPUT_TOKENS"
+    ],
+    "transport": [
+      "valid UTF-8 content string",
+      "optional single markdown-fence strip only",
+      "valid JSON object",
+      "no duplicate keys",
+      "no NaN/Infinity",
+      "no channel/protocol markers",
+      "no leading analysis or trailing prose",
+      "canonical serialization"
+    ],
+    "transport_may_not": [
+      "fill missing fields",
+      "replace null or empty answers",
+      "substitute gold answers",
+      "copy candidate to control",
+      "read evaluator-only state",
+      "promote message.thinking into answer content"
+    ]
+  },
+  "parity": {
+    "asymmetry_policy": "refuse",
+    "candidate_control_budgets_equal": true,
+    "shared_function": "_ollama_chat",
+    "shared_options_builder": "_generation_options"
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "recorded_at": "2026-08-04T10:23:50Z",
+  "recorded_at_amended": "2026-08-04T10:43:41Z",
+  "schema": "ODYSSEY_ARM_PROTOCOL_V2/v1",
+  "sha256": "9e52e5c0d63afecf4b269f65ae8276e6f492c2ee00389b27debbfc283ffc8175",
+  "telemetry": {
+    "content_source": "message.content only",
+    "thinking_recorded_as": "resource_usage.thinking_char_count",
+    "thinking_used_as_answer": false
+  },
+  "think": true,
+  "think_policy": "enabled_for_gpt_oss; thinking is telemetry only; answer from content only"
+}

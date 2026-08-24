@@ -1,0 +1,293 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_DAG/v1",
+  "schema_version": "1.0.0",
+  "status": "draft_unsealed_dependency_graph",
+  "activation": false,
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "self_digest": {
+    "algorithm": "sha256",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme over this object with self_digest.value omitted",
+    "value": "UNSEALED",
+    "state": "recompute_after_gate_subjects_and_source_commit_are_bound"
+  },
+  "source_binding": {
+    "new_source_commit": null,
+    "binding_status": "pending",
+    "all_gate_evidence_must_bind_new_source_commit": true,
+    "old_receipts_rewritten": false,
+    "old_width_eight_g06": "historical_refusal_evidence_only"
+  },
+  "nodes": [
+    {
+      "id": "PRESERVATION_TOURNAMENT",
+      "kind": "predecessor_evidence",
+      "status": "not_run",
+      "activation": false,
+      "requires": [],
+      "produces": "bounded_public_only_local_quantized_preservation_measurements",
+      "rejects": [
+        "hidden_odyssey_material_access",
+        "unbounded_model_hunting",
+        "queueing_that_evicts_frozen_width_eight_simultaneity"
+      ]
+    },
+    {
+      "id": "HISTORICAL_WIDTH_EIGHT_REFUSAL",
+      "kind": "historical_evidence",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["PRESERVATION_TOURNAMENT"],
+      "produces": "preserved_refusal_measurements_without_rewriting_old_receipts",
+      "is_a_passing_gate": false
+    },
+    {
+      "id": "G01",
+      "kind": "gate",
+      "name": "predecessor lineage, bounded preservation result, and transition eligibility retained",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["HISTORICAL_WIDTH_EIGHT_REFUSAL"],
+      "rejects": ["unrecorded_transition", "rewritten_old_receipt"]
+    },
+    {
+      "id": "G02",
+      "kind": "gate",
+      "name": "candidate, controls, model, runtime, and quantization pinned for both waves",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G01"],
+      "rejects": ["unpinned_or_cross_wave_changing_execution_identity"]
+    },
+    {
+      "id": "G03",
+      "kind": "gate",
+      "name": "all eight frontier manifests and Wave-2 commitments frozen before Wave 1",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G01", "G02"],
+      "rejects": [
+        "missing_frontier_manifest",
+        "uncommitted_wave_2_task_curriculum_weight_or_evaluation",
+        "hidden_seed_or_answer_materialization_before_authorized_custody_step"
+      ]
+    },
+    {
+      "id": "G04",
+      "kind": "gate",
+      "name": "eight custody identities, answer commitments, UIDs, roots, contexts, and streams sealed",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G03"],
+      "rejects": ["shared_writable_roots", "evaluator_mount_visibility", "missing_denied_access_probe"]
+    },
+    {
+      "id": "G05",
+      "kind": "gate",
+      "name": "tool panel, public canaries, prompt and structured-output policies pinned",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G02", "G03"],
+      "rejects": ["model_runtime_prompt_or_tool_drift"]
+    },
+    {
+      "id": "G06-TW",
+      "kind": "gate",
+      "name": "width-four paired-cell admission for the Two-Wave Odyssey",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G02", "G05"],
+      "calibration_widths": [1, 2, 4],
+      "requires_width": 4,
+      "pass_conditions": [
+        "four_paired_frontier_cells_actually_running",
+        "valid_json_from_every_candidate_control_64_token_arm",
+        "zero_new_pageouts",
+        "no_sustained_swap_growth",
+        "slowdown_at_most_1_35",
+        "sustained_soak_agrees_with_scaled_calibration",
+        "no_missed_cell_work_event_or_checkpoint",
+        "no_cross_lane_context_leakage",
+        "candidate_control_parity",
+        "resident_memory_below_85_gib"
+      ],
+      "rejects": [
+        "scale_factor_tuning_by_passing_value",
+        "client_queueing_that_violates_simultaneity",
+        "cached_outputs_or_suppressed_model_work"
+      ]
+    },
+    {
+      "id": "G07",
+      "kind": "gate",
+      "name": "four-cell seven-day storage rehearsal and two-wave projection pass",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G03", "G06-TW"],
+      "rejects": [
+        "missing_wave_1_or_wave_2_projection",
+        "omitted_retained_wave_1_evidence_from_wave_2_preflight",
+        "active_wave_private_writes_over_120_gib",
+        "protected_floor_breach"
+      ]
+    },
+    {
+      "id": "G08",
+      "kind": "gate",
+      "name": "85-GiB memory broker and 75/80/82/85 thresholds verified",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G06-TW"],
+      "rejects": ["threshold_action_failure", "overlapping_or_unfrozen_memory_accounting"]
+    },
+    {
+      "id": "G09",
+      "kind": "gate",
+      "name": "durability, recovery, checkpoint, and sustained soak rehearsal pass",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G06-TW", "G08"],
+      "rejects": ["missed_checkpoint", "unrecoverable_interruption", "soak_disagreement"]
+    },
+    {
+      "id": "G10",
+      "kind": "gate",
+      "name": "blindness, custody, denied-access probes, and context isolation pass",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G03", "G04", "G05"],
+      "rejects": ["evaluator_access", "cross_lane_context_leakage", "trace_unlock_before_answer_reveal"]
+    },
+    {
+      "id": "G11",
+      "kind": "gate",
+      "name": "statistics, score weights, drift tolerance, and outcome rules frozen",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G03"],
+      "rejects": ["result_dependent_score_or_wave_2_edit", "unfrozen_cross_wave_aggregation_policy"]
+    },
+    {
+      "id": "G12",
+      "kind": "gate",
+      "name": "mutation suite has zero survivors",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G05", "G10", "G11"],
+      "rejects": ["mutation_survivor"]
+    },
+    {
+      "id": "G13",
+      "kind": "gate",
+      "name": "clean clone and continuous integration pass",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G02", "G03", "G05"],
+      "rejects": ["clean_clone_or_ci_failure"]
+    },
+    {
+      "id": "G14",
+      "kind": "gate",
+      "name": "30-minute Telegram reporting probe pass",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G08", "G09"],
+      "rejects": ["notification_probe_failure"]
+    },
+    {
+      "id": "G15",
+      "kind": "gate",
+      "name": "new source, authority, model, runtime, tool, and protocol digests frozen",
+      "status": "not_run",
+      "activation": false,
+      "requires": [
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "G06-TW",
+        "G07",
+        "G08",
+        "G09",
+        "G10",
+        "G11",
+        "G12",
+        "G13",
+        "G14"
+      ],
+      "rejects": ["missing_or_mismatched_new_source_commit_binding"]
+    },
+    {
+      "id": "TWO_WAVE_AUTHORITY_SEAL",
+      "kind": "seal",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["G15"],
+      "requires_all_prior_gate_statuses_passed": true,
+      "produces": "sealed_two_wave_authority"
+    },
+    {
+      "id": "WAVE_1_LAUNCH_ELIGIBILITY",
+      "kind": "launch_eligibility",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["TWO_WAVE_AUTHORITY_SEAL"],
+      "requires_all_eight_manifests_committed_before_wave_1": true,
+      "produces": "detached_wave_1_launch_authority_only"
+    },
+    {
+      "id": "WAVE_1_VERIFY_AND_SEAL",
+      "kind": "midpoint_precondition",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["WAVE_1_LAUNCH_ELIGIBILITY"],
+      "produces": "sealed_wave_1_trace_without_score_release"
+    },
+    {
+      "id": "MIDPOINT_DRIFT_AND_RESOURCE_PREFLIGHT",
+      "kind": "midpoint_precondition",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["WAVE_1_VERIFY_AND_SEAL"],
+      "required_conditions": [
+        "between_wave_public_anchor_canary",
+        "fresh_resource_preflight",
+        "retained_wave_1_evidence_accounted",
+        "unchanged_scientific_identities"
+      ],
+      "produces": "wave_2_launch_eligibility_without_scientific_edits"
+    },
+    {
+      "id": "WAVE_2_LAUNCH_ELIGIBILITY",
+      "kind": "launch_eligibility",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["MIDPOINT_DRIFT_AND_RESOURCE_PREFLIGHT"],
+      "produces": "detached_wave_2_launch_authority_only"
+    },
+    {
+      "id": "WAVE_2_VERIFY_AND_SEAL",
+      "kind": "terminal_precondition",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["WAVE_2_LAUNCH_ELIGIBILITY"],
+      "produces": "sealed_wave_2_trace"
+    },
+    {
+      "id": "REVEAL_SCORE_AND_TERMINAL_CLASSIFICATION",
+      "kind": "terminal_precondition",
+      "status": "not_run",
+      "activation": false,
+      "requires": ["WAVE_2_VERIFY_AND_SEAL"],
+      "requires_trace_locks_before_answer_reveal": true,
+      "produces": "eight_block_terminal_result"
+    }
+  ],
+  "terminal_refusal_rules": [
+    "No unsatisfied node may be represented as passed by this draft.",
+    "No shortened or reduced-frontier campaign may use the full Two-Wave program identity.",
+    "No Wave-1 scientific score may enter the Wave-2 execution or design path.",
+    "Failure evidence is preserved; it does not permit a changed-protocol automatic restart."
+  ]
+}

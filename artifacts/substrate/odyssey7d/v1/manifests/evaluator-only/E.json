@@ -1,0 +1,2697 @@
+{
+  "activation": false,
+  "answers": [
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0000"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0001"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0002"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0003"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0004"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0005"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0006"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0007"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0008"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0009"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0010"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0011"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0012"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0013"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0014"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0015"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0016"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0017"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0018"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0019"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0020"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0021"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0022"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0023"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0024"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0025"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0026"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0027"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0028"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0029"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0030"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0031"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0032"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0033"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0034"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0035"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0036"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0037"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0038"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0039"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0040"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0041"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0042"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0043"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0044"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0045"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0046"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0047"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0048"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0049"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0050"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0051"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0052"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0053"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0054"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0055"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0056"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0057"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0058"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0059"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0060"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0061"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0062"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0063"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0064"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0065"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0066"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0067"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0068"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0069"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0070"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0071"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0072"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0073"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0074"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0075"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0076"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0077"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0078"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0079"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0080"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0081"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0082"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0083"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0084"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0085"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0086"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0087"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0088"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0089"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0090"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0091"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0092"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0093"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0094"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0095"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0096"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0097"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0098"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0099"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0100"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0101"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0102"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0103"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0104"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0105"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0106"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0107"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0108"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0109"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0110"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0111"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0112"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0113"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0114"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0115"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0116"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0117"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0118"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0119"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0120"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0121"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0122"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0123"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0124"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0125"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0126"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0127"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0128"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0129"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0130"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0131"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0132"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0133"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0134"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0135"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0136"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0137"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0138"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0139"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0140"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0141"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0142"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0143"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0144"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0145"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0146"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0147"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0148"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0149"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0150"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0151"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0152"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0153"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0154"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0155"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0156"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0157"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0158"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0159"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0160"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0161"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0162"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0163"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0164"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0165"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0166"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0167"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0168"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0169"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0170"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0171"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0172"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0173"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0174"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0175"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0176"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0177"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0178"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0179"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0180"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0181"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0182"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0183"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0184"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0185"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0186"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0187"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0188"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0189"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0190"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0191"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0192"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0193"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0194"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0195"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0196"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0197"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0198"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0199"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0200"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0201"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0202"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0203"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0204"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0205"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0206"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0207"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0208"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0209"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0210"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0211"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0212"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0213"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0214"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0215"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0216"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0217"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0218"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0219"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0220"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0221"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0222"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0223"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0224"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0225"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0226"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0227"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0228"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0229"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0230"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0231"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0232"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0233"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0234"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0235"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0236"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0237"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0238"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0239"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0240"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0241"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0242"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0243"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0244"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0245"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0246"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0247"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0248"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0249"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0250"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0251"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0252"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0253"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0254"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0255"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0256"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0257"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0258"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0259"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0260"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0261"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0262"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0263"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0264"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0265"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0266"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0267"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0268"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0269"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0270"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0271"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0272"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0273"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0274"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0275"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0276"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0277"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0278"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0279"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0280"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0281"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0282"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0283"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0284"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0285"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0286"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0287"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0288"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0289"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0290"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0291"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0292"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0293"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0294"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0295"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0296"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0297"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0298"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0299"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0300"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0301"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0302"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0303"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0304"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0305"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0306"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0307"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0308"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0309"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0310"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0311"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0312"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0313"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0314"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0315"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0316"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0317"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0318"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0319"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0320"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0321"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0322"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0323"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0324"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0325"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0326"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0327"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0328"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_to_withhold",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0329"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0330"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0331"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0332"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0333"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0334"
+    },
+    {
+      "activation": false,
+      "expected_revision_class": "revise_with_qualified_acceptance",
+      "required_conflict": "e2 conflicts with an unqualified acceptance of e1",
+      "schema": "SUBSTRATE_ODYSSEY_EPISTEMIC_ANSWER/v1",
+      "scoring": "credit explicit evidence tracking, calibration, and preserved uncertainty; do not score a preferred philosophical doctrine",
+      "task_id": "E-0335"
+    }
+  ],
+  "frontier": "E",
+  "schema": "SUBSTRATE_ODYSSEY_EVALUATOR_ANSWER_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "9c382dce150943fc227ddfba2c553a533fde04d4de9692d44900c36799ee67ea"
+}

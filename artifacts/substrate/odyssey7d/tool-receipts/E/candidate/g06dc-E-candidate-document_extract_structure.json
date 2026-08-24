@@ -1,0 +1,65 @@
+{
+  "admitted": true,
+  "detail": {
+    "result_keys": [
+      "conclusion_authority",
+      "exit_code",
+      "operation",
+      "stderr",
+      "structure"
+    ]
+  },
+  "error_class": "ok",
+  "operation": "document.extract_structure",
+  "output_digests": [
+    "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002"
+  ],
+  "provenance": {
+    "arm": "candidate",
+    "budget_sha256": "59f4185ba8209d19c85ec8b2bededeaafcd14ee19e402b00ba75e08d414d0a2b",
+    "cache_id": "cache-f5a868536f4f476185a059230a72fbe7",
+    "compact_outputs": [
+      {
+        "digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+        "path": "artifacts/substrate/odyssey7d/tool-work/E/candidate/g06dc-E-candidate/output/document_structure.json",
+        "producer": "document.extract_structure:python",
+        "resource_use": {
+          "arm": "candidate",
+          "lane_id": "E"
+        },
+        "schema": "SUBSTRATE_ODYSSEY_COMPACT_ARTIFACT_RECEIPT/v1",
+        "sha256": "d982a147dad97a64244567d8d6b04e86e69cfdf805b82080d03d973e71784f18",
+        "size": 197,
+        "type": "application/x-substrate-tool-result+json"
+      }
+    ],
+    "exec_mode": null,
+    "frontier": "E",
+    "input_artifact_digests": [],
+    "lane_id": "E",
+    "request_sha256": "602513d96f19e7edf0b47439c1410329a8cf60c7d89e5feed52cfcd3475bcdda",
+    "resource_class": "light",
+    "result_summary_sha256": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+    "sandbox_root": "artifacts/substrate/odyssey7d/tool-work/E/candidate/g06dc-E-candidate",
+    "task_id": "g06dc-E-candidate",
+    "tool_pin_sha256": "973d31f0bf1e774ea908083f22315ae2e8f0f68e7d701efec3c1fe6e0558466d"
+  },
+  "receipt_sha256": "52b4fe6fa38ba369caf96885670dbf619b593d14ff67a7abb19daa9702aca93e",
+  "resource_use": {
+    "attempts": 1,
+    "elapsed_seconds": 0.161413,
+    "exec_mode": null,
+    "resource_class": "light",
+    "wall_seconds_budget": 120
+  },
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_RECEIPT/v1",
+  "status": "ok",
+  "stderr_digest": null,
+  "stdout_digest": "e654bcc3f98dfbeeba4b68590fb228330073cf144a78cacfb6cb9b0b68a03002",
+  "tool_revision": {
+    "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+    "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+    "tool_id": "python",
+    "version": "Python 3.12.13"
+  }
+}

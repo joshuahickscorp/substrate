@@ -1,0 +1,8 @@
+{
+  "activation": false,
+  "arm": "candidate",
+  "cell": "C",
+  "cursor": 1,
+  "schema": "SUBSTRATE_ODYSSEY_REHEARSAL_STATE/v1",
+  "sha256": "944d8a163a7f0157335a71f1852834aa9d38db9bc6dad0dc9c6148f72adf06f4"
+}

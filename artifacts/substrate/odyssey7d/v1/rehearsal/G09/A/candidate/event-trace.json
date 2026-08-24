@@ -1,0 +1,13 @@
+{
+  "activation": false,
+  "authority_sha256": "99d6bcf299dcb7bf19c694debb09175a406c4c394744e52868981142475bdb54",
+  "completed_phase_count": 28,
+  "event_chain_sha256": "37b92b0d3872d6136c09e360baa212103d3e6ae5eadc0cc19cf97efbbae64f7b",
+  "events_jsonl": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/EVENTS.jsonl",
+  "events_jsonl_sha256": "71589f845fd220f1faecf27f048526903b1cc7b5cfdd7426823c9ec25cff6679",
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-v1",
+  "run_id": "g09-A-candidate",
+  "schema": "SUBSTRATE_ODYSSEY_EVENT_TRACE/v1",
+  "sha256": "515375827532b78a0edcce34264b3aac4261dbb8106bea495ec73114184a4e34"
+}

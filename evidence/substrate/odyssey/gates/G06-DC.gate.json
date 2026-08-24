@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "b282b4c66e70f7b61678171ec2042b50f0dc4d4c1a670c4227376dc448e6b01d",
+  "gate_id": "G06-DC",
+  "gate_name": "width eight deadline capacity admitted",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "9e0ccd32e37d82ad3c74f840a7df29d045efc7d691c13e87ac9aa5df6d6d2ac4",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "4478de12f83807c811ff8145c85ff308235716760904de2fa4dd016c9197ddc7",
+    "path": "artifacts/substrate/odyssey7d/g06-dc/G06_DC_SUBJECT.json",
+    "schema": "SUBSTRATE_ODYSSEY_DEADLINE_CAPACITY_CALIBRATION/v1"
+  },
+  "unqualified_nous": false
+}

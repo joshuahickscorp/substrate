@@ -1,0 +1,16 @@
+{
+  "activation": false,
+  "authority_sha256": "99d6bcf299dcb7bf19c694debb09175a406c4c394744e52868981142475bdb54",
+  "broker_hold_seconds": 0.0,
+  "checkpoint_count": 7,
+  "checkpoint_sha256": "edafbde6723147028036356efddd44bfbe00ce0c7cfa51acf9a034932bcab1a1",
+  "complete": false,
+  "completed_paired_events": 28,
+  "completed_phase_count": 28,
+  "elapsed_seconds": 0.0,
+  "event_chain_sha256": "37b92b0d3872d6136c09e360baa212103d3e6ae5eadc0cc19cf97efbbae64f7b",
+  "run_id": "g09-A-candidate",
+  "schema": "SUBSTRATE_ODYSSEY_WORKER_STATE/v1",
+  "sha256": "52a0f772ee26427f70c1bfee976ce16aa67a0e3bedf5f949abf85ff414d399d0",
+  "total_phase_count": 28
+}

@@ -1,0 +1,165 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_TRANSITION_REFUSAL/v1",
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "parent_program": "substrate-odyssey-7d-v1",
+  "activation": false,
+  "external_activation": false,
+  "scientific_evidence": false,
+  "status": "terminal_local_admission_refusal_outcome_c",
+  "completed_at": "2026-08-04T03:53:55Z",
+  "source_commit": "a7761bdc9b28426fcc66b70b09acf38c7df16e5e",
+  "new_source_commit": null,
+  "source_commit_binding_status": "not_created; no Two-Wave gate set may bind an uncommitted, unsealed draft",
+  "program_shape": {
+    "total_hours": 336,
+    "waves": 2,
+    "history_hours_per_frontier": 168,
+    "frontier_blocks_per_wave": 4,
+    "total_paired_frontier_blocks": 8,
+    "wave_1_frontiers": ["A", "B", "F", "G"],
+    "wave_2_frontiers": ["C", "D", "E", "H"],
+    "all_eight_frontiers_retained": true,
+    "seven_day_arc_shortened": false
+  },
+  "bounded_preservation_tournament": {
+    "maximum_seconds": 10800,
+    "elapsed_seconds": 150.59451487497427,
+    "receipt": {
+      "path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/ODYSSEY_FINAL_QUANTIZED_PRESERVATION.json",
+      "file_sha256": "09fcf42613e002a79dd33fe1f247e228c0fd5d7704edf5c1ae8af0cae6766edd",
+      "declared_sha256": "b875f4d92f6f663691b5d4ebb8af4d2b906ac66f6d4caef0d64d70ae7c54f098"
+    },
+    "quantization_preserved_original_width_eight_design": false,
+    "result_interpretation": "No locally available candidate produced an honest width-eight pass within the bounded attempt. This refusal does not rewrite or replace historical G06 evidence.",
+    "tested_or_compared_models": [
+      {
+        "priority": 1,
+        "label": "gpt-oss-20b native MXFP4",
+        "status": "tested_failed_width_eight_structured_preflight",
+        "model_id": "gpt-oss:20b",
+        "model_digest": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7",
+        "quantization_format": "MXFP4",
+        "runtime": "Ollama 0.32.1",
+        "width_eight_cells": 8,
+        "valid_candidate_control_cells": 0,
+        "hard_failure": "Every A-H cell refused because local Ollama content was not the required JSON object.",
+        "pin_completeness": "not eligible for an affirmative preservation claim: upstream revision and processor digest were unavailable from the local manifest"
+      },
+      {
+        "priority": 2,
+        "label": "Qwen3.5-35B-A3B reproducible 4-bit",
+        "status": "unavailable_not_downloaded_not_tested",
+        "reason": "No exact locally installed compatible alias or pre-registered reproducible 4-bit recipe was available; no download, substitute, or tuning was attempted."
+      },
+      {
+        "priority": 3,
+        "label": "Qwen3.6-27B-4bit",
+        "status": "historical_comparison_only_not_rerun",
+        "historical_model": "mlx-community/Qwen3.6-27B-4bit@c000ac2c2057d94be3fa931000c31723aac53282",
+        "historical_width_eight_valid_json_requests": 7,
+        "historical_width_eight_failed_requests": 9,
+        "historical_raw_width_eight_wall_ratio": 4.08166
+      }
+    ],
+    "hidden_odyssey_seed_or_answer_material_read": false,
+    "cached_outputs_used": false,
+    "model_hunting_stopped": true
+  },
+  "two_wave_width_four_admission": {
+    "gate_identity": "G06-TW",
+    "sealed_gate_receipt_created": false,
+    "admission_result": "failed_pre_authority_public_measurement",
+    "why_not_a_gate": "The prerequisite source-bound Two-Wave authority, custody topology, manifests, soak schedule, and full gate suite were not and cannot be sealed after this hard admission failure.",
+    "corrected_preregistered_wave": "W1",
+    "corrected_frontiers": ["A", "B", "F", "G"],
+    "corrected_receipt": {
+      "path": "artifacts/substrate/odyssey7d/two-wave-v1/rehearsal/G06-TW/admission-w1-20260804T035500Z/ODYSSEY_G06_TW_PUBLIC_ADMISSION_REFUSAL.json",
+      "file_sha256": "fd8aa292ed2fd3d38050d05723acf06936f6f67709543c5e6398bba32160993e",
+      "declared_sha256": "ca313c369b7856caf1981d6dce1da3c902c3fc593a2cdbb9e692e02fa8b730e9",
+      "elapsed_seconds": 450.7440917501226,
+      "adapter_source_at_measurement": {
+        "sha256": "c2c2c8746f8b1b33b71a6a7046573ed534b47895a704454ee9eec82508e1af35",
+        "scope": "temporary pre-authority acceptance of the inactive Two-Wave program identifier only",
+        "post_measurement_action": "reverted to the frozen v1 adapter digest 0504111a8b2b7b1f5020f2f760e0ef3af4791bae5e3aab0ade47501dab05d9c2; no old authority or receipt was rewritten",
+        "failure_stage": "after request validation, when the local model content failed required JSON parsing"
+      },
+      "width_four_admitted": false,
+      "width_four_hard_failure": "All four A/B/F/G paired cells refused because local Ollama content was not the required JSON object.",
+      "width_four_memory_pageout_swap_observation": {
+        "resident_peak_bytes": 41154691072,
+        "pageout_delta_bytes": 0,
+        "swap_before_bytes": 1664153026,
+        "swap_after_bytes": 1655764418
+      },
+      "measurement_limit": "The public-only refusal measurement is not represented as service-side concurrency, context-isolation, or full-soak gate proof; invalid required JSON is independently disqualifying."
+    },
+    "preliminary_wrong_lane_receipt_preserved_not_used": {
+      "path": "artifacts/substrate/odyssey7d/two-wave-v1/rehearsal/G06-TW/admission-20260804T034500Z/ODYSSEY_G06_TW_PUBLIC_ADMISSION_REFUSAL.json",
+      "file_sha256": "290b598a721039c4c9dab872d584a81110156dc6163f979e2483174d687d6fae",
+      "declared_sha256": "5b2be4a61aee8696b926a622d4b5b82f9ab7e76ce4f8231799832ac7509fbd9b",
+      "frontiers": ["A", "B", "C", "D"],
+      "exclusion_reason": "It did not use the preregistered Wave-1 quartet and is retained only as preliminary failure evidence."
+    }
+  },
+  "transition_reason_control": {
+    "required_two_wave_transition_reason": "The local host can maintain four paired frontier cells at the required scientific fidelity, but does not admit eight simultaneous paired cells under the frozen width-eight inference contract.",
+    "assertion_status": "not asserted as a factual transition finding",
+    "why": "The required width-four valid-JSON admission condition failed. It would be false to claim that the host can maintain four paired frontier cells at the required scientific fidelity."
+  },
+  "selected_model": null,
+  "authority": {
+    "state": "draft_unsealed_no_launch_authority",
+    "authority_digest": "UNSEALED",
+    "draft_path": "plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE.authority.draft.json",
+    "draft_file_sha256": "419f46a353a435591c4f0dc80ac365ceac2eb0e7695243b5653d35b7dba01ac9"
+  },
+  "two_wave_draft_artifacts": {
+    "design": {
+      "path": "docs/tangible_sandbox/ODYSSEY_7D_TWO_WAVE_DESIGN.md",
+      "file_sha256": "bdea01b857d4a0016408f06fce183be460bdc0f737292b3c6815efa587004533"
+    },
+    "resource_plan": {
+      "path": "plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_RESOURCE_PLAN.json",
+      "file_sha256": "8ddc64590ffa43311e7a99c9f4b1f7ad252cddde29b56b311d657c8a259c5000"
+    },
+    "statistics": {
+      "path": "plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_STATISTICS.json",
+      "file_sha256": "4fe3949db8e540a5c05413b037a020a086d477eedf4616aafc8b0934c5da471f"
+    },
+    "dag": {
+      "path": "plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_DAG.json",
+      "file_sha256": "55c7c67adf54566f1986114d6db41c2c89b42b1c494a3de6021420245b77206f"
+    },
+    "failure_policy": {
+      "path": "plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_FAILURE_POLICY.json",
+      "file_sha256": "df2bd46154e066a275a329e2a81b8ccc2778e6c927b1ab292036e322053cd0a6"
+    }
+  },
+  "gate_identities": [
+    {"id": "G01", "status": "not_run"},
+    {"id": "G02", "status": "not_run"},
+    {"id": "G03", "status": "not_run"},
+    {"id": "G04", "status": "not_run"},
+    {"id": "G05", "status": "not_run"},
+    {"id": "G06-TW", "status": "not_passed; public pre-authority width-four admission failed"},
+    {"id": "G07", "status": "not_run"},
+    {"id": "G08", "status": "not_run"},
+    {"id": "G09", "status": "not_run"},
+    {"id": "G10", "status": "not_run"},
+    {"id": "G11", "status": "not_run"},
+    {"id": "G12", "status": "not_run"},
+    {"id": "G13", "status": "not_run"},
+    {"id": "G14", "status": "not_run"},
+    {"id": "G15", "status": "not_run"}
+  ],
+  "launch": {
+    "wave_1_state": "not_launched",
+    "exact_blocker": "The corrected required width-four public admission measurement failed its valid-JSON condition for all A/B/F/G cells; no source-bound G06-TW, authority seal, or launch eligibility exists.",
+    "wave_2_state": "not_launched",
+    "scores_revealed": false,
+    "hidden_material_materialized": false,
+    "remote_hardware_used": false,
+    "cloud_compute_used": false
+  },
+  "sha256": "58082f161eaf9a7d21b79aed7c606e822eda0bd0cb583c6efffd99fdb9abcad3"
+}

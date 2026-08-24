@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G05",
+  "gate_name": "model and tool panel pinned",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "95eddca41ebf4431c6cb8a88dc5319d9b5545cd1c666ad7e5021dd96df2500f9",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "8107b8b5f1724c7cd6d8cead4b5fda0f0205b17ada89f5584675a2641fe2a88f",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G05.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_MODEL_TOOL_PANEL/v1"
+  },
+  "unqualified_nous": false
+}

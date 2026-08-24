@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G09",
+  "gate_name": "durability and recovery rehearsals pass",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "cd215a81d0689b1c8cd59cf08bc4f512fc3d5841f518bcd01a7861965014a4dc",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "80b347b38dc8800771d4c6d52b8c473f434206ae1dc8661146e8d6351e9cfc4b",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G09.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_DURABILITY_REHEARSAL/v1"
+  },
+  "unqualified_nous": false
+}

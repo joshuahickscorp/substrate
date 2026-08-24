@@ -1,0 +1,80 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_DRAFT/v1",
+  "status": "draft_post_r2_requires_all_launch_gates",
+  "activation": false,
+  "identity": {
+    "experiment_id": "substrate-odyssey-7d-r1",
+    "purpose": "seven-day blinded longitudinal curriculum, transfer, interference, recovery, and synthesis study across eight frontier histories",
+    "parent": "substrate-tangible-sandbox-r2"
+  },
+  "duration": {
+    "wall_clock_hours": 168,
+    "microcycle_hours": 2,
+    "microcycles_per_day_per_cell": 12,
+    "microcycles_per_cell": 84,
+    "one_longitudinal_writer_per_cell": true,
+    "candidate_cells": 8,
+    "hidden_synthesis_cell": "J"
+  },
+  "frontier_cells": ["A_integrated_continuity", "B_math", "C_logic", "D_code", "E_reflective_selfhood", "F_sound_audio", "G_vision_spatial_embodied", "I_science_multimodal"],
+  "seven_day_arc": [
+    {"day": 1, "name": "map_and_baseline", "objective": "establish pre-exposure capability, task map, commitments, and seeded project state", "pedagogy": "no development claim; baseline and orientation only"},
+    {"day": 2, "name": "foundation_and_guided_practice", "objective": "introduce manifest-pinned concepts, tools, and constrained practice", "pedagogy": "matched guided exposure versus equal-budget non-instructional control"},
+    {"day": 3, "name": "near_transfer_and_revision", "objective": "solve novel isomorphic work while revising earlier artifacts", "pedagogy": "no answer-key access; retrieve rather than replay"},
+    {"day": 4, "name": "interference_and_recovery", "objective": "inject precommitted distraction, partial loss, contradiction, or tool interruption", "pedagogy": "measure correction and recovery from durable state"},
+    {"day": 5, "name": "far_and_cross_modal_transfer", "objective": "apply learned structure to a new modality or tool body", "pedagogy": "measure transfer without re-teaching the answer"},
+    {"day": 6, "name": "long_horizon_project_synthesis", "objective": "complete an integrated project requiring prior commitments, artifacts, and repairs", "pedagogy": "measure planning, self-correction, and retained constraints"},
+    {"day": 7, "name": "cold_retention_and_blind_exam", "objective": "withhold new instruction; test delayed recall, far transfer, and final audited synthesis", "pedagogy": "closed-book evaluator-only assessment after trace lock"}
+  ],
+  "two_hour_microcycle": [
+    {"offset_minutes": 0, "phase": "baseline_or_retrieval", "answer_keys_visible_to_candidate": false},
+    {"offset_minutes": 20, "phase": "guided_exposure_or_matched_control_exposure", "answer_keys_visible_to_candidate": false},
+    {"offset_minutes": 50, "phase": "novel_transfer_or_project_work", "answer_keys_visible_to_candidate": false},
+    {"offset_minutes": 100, "phase": "delayed_recall_repair_or_checkpoint", "answer_keys_visible_to_candidate": false}
+  ],
+  "control_and_custody": {
+    "candidate_control_matched": ["wall_clock", "token_or_instruction_budget", "compute", "tools", "stimulus_family", "scoring_rubric"],
+    "candidate_only_difference": "sealed_pedagogy_intervention_or_named_causal_arm",
+    "answer_keys_and_assignment_mapping": "evaluator_only_until_candidate_trace_lock",
+    "daily_outcomes_may_change_curriculum": false,
+    "daily_outcomes_may_trigger_safety_hold": true
+  },
+  "measurement": {
+    "scored_events_per_microcycle": 4,
+    "scored_dimensions": ["state_recall", "causal_repair", "near_transfer", "far_or_cross_modal_transfer"],
+    "half_hour_resource_samples_per_cell": 337,
+    "aggregate_if_eight_cells_admitted": {
+      "candidate_histories": 8,
+      "microcycles": 672,
+      "scored_events": 2688,
+      "scored_dimension_observations": 10752,
+      "resource_samples": 2696
+    },
+    "independent_unit": "one separately custodian-seeded held-out history per cell",
+    "repeated_measurements_are_independent_replicates": false
+  },
+  "resource_governance": {
+    "hard_total_resident_cap_gib": 85,
+    "normal_admission_target_gib": 75,
+    "thresholds_gib": {"deny_new_work": 75, "p2_checkpoint": 80, "p1_pause": 82, "safe_hold": 85},
+    "max_concurrent_cells": 8,
+    "only_calibration_admitted_width_may_launch": true,
+    "remote_accelerator": "unavailable_until_replacement_key_and_non_null_runtime_canary",
+    "storage": "fresh_dynamic_preflight; existing same-filesystem sources counted once; no unmanifested download"
+  },
+  "required_before_seal": [
+    "r2_terminal_and_independently_verified",
+    "fresh_1_2_4_6_8_cell_resource_calibration_admitted",
+    "all_eight_selected_stimulus_manifests_rights_reviewed_hash_pinned_and_parity_attested",
+    "all_custody_boundaries_attested",
+    "candidate_control_and_evaluator_adapter_versions_pinned",
+    "all_required_fabric_authorities_sealed",
+    "fresh_memory_storage_and_isolation_preflight_admitted",
+    "telegram_30_minute_notification_probe_passed"
+  ],
+  "terminal_rules": {
+    "success_requires": ["all_required_traces_locked", "independent_evaluation_complete", "verification_recomputes_receipts", "no_unresolved_isolation_or_resource_breach"],
+    "invalidity_requires": ["preserve_artifacts", "classify_failure", "no_changed_protocol_auto_restart"],
+    "publication": "only_after_terminal verification and classification are sealed"
+  }
+}

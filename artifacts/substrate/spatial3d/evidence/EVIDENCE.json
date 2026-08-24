@@ -1,0 +1,462 @@
+{
+  "blender_optional": true,
+  "blender_required": false,
+  "canaries": {
+    "all_passed": true,
+    "count": 7,
+    "rows": [
+      {
+        "capability": "relative_position",
+        "deterministic": true,
+        "elapsed_seconds": 0.016264,
+        "passed": true,
+        "seed_id": "canary_relative_position_v1"
+      },
+      {
+        "capability": "support_or_containment",
+        "deterministic": true,
+        "elapsed_seconds": 0.021208,
+        "passed": true,
+        "seed_id": "canary_support_containment_v1"
+      },
+      {
+        "capability": "occlusion",
+        "deterministic": true,
+        "elapsed_seconds": 0.019918,
+        "passed": true,
+        "seed_id": "canary_occlusion_v1"
+      },
+      {
+        "capability": "viewpoint_change",
+        "deterministic": true,
+        "elapsed_seconds": 0.022589,
+        "passed": true,
+        "seed_id": "canary_viewpoint_change_v1"
+      },
+      {
+        "capability": "object_permanence_after_motion",
+        "deterministic": true,
+        "elapsed_seconds": 0.023145,
+        "passed": true,
+        "seed_id": "canary_object_permanence_v1"
+      },
+      {
+        "capability": "depth_ordering",
+        "deterministic": true,
+        "elapsed_seconds": 0.0253,
+        "passed": true,
+        "seed_id": "canary_depth_ordering_v1"
+      },
+      {
+        "capability": "active_camera_selection",
+        "deterministic": true,
+        "elapsed_seconds": 0.017029,
+        "passed": true,
+        "seed_id": "canary_active_camera_v1"
+      }
+    ],
+    "suite_sha256": "ddd53a1002a361930e2c2eb52374f74e0a109deb485b44cd988e31f3ab923651"
+  },
+  "determinism": {
+    "depth_f32_equal": true,
+    "depth_f32_sha256": "8f755bd6ad269515950e8884c1545a96332c81ab257cfee13cb87af9d973f3fd",
+    "depth_u16_equal": true,
+    "depth_u16_sha256": "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+    "rgb_equal": true,
+    "rgb_sha256": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+    "scene_digest": "0f327ffb9fa7af8aaac7d79f446506fb39cd85c1bad82419fe6e443f9ea24987"
+  },
+  "evaluator_only_separation": {
+    "answer_state_in_sensor": false,
+    "candidate_sees": [
+      "rgb_png",
+      "depth_u16_png",
+      "depth_vis_png",
+      "mesh_local_stats",
+      "object_ids",
+      "camera_ids"
+    ],
+    "evaluator_dir_token": "evaluator",
+    "scene_graph_in_sensor": false
+  },
+  "occlusion_proof": {
+    "cam_front": {
+      "coverage": {
+        "blue_pyramid": 0,
+        "floor": 2736,
+        "occluder": 3414
+      },
+      "depth_f32_sha256": "8f755bd6ad269515950e8884c1545a96332c81ab257cfee13cb87af9d973f3fd",
+      "depth_u16_sha256": "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+      "render_seconds": 0.011826,
+      "rgb_sha256": "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0"
+    },
+    "cam_side": {
+      "coverage": {
+        "blue_pyramid": 295,
+        "floor": 3785,
+        "occluder": 1328
+      },
+      "depth_f32_sha256": "ef1453539584327187e0bf2732cc8474d7f96c31b31cfa7c5416ac4116c029e1",
+      "depth_u16_sha256": "cf90f57e98f2066bd9d6e0b5b33915ddf3c51bac2eb699f6bd8a0b54525d23a0",
+      "render_seconds": 0.009618,
+      "rgb_sha256": "cd5a026a7d62cc7502aef1e959deac27892602251f005b139382aca2e9770437"
+    },
+    "hidden_from_front": true,
+    "seed_id": "canary_occlusion_v1",
+    "visible_from_side": true
+  },
+  "operations": [
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.build_scene",
+      "output_digests": [
+        "6fdcdd62efd885e9bc43c804099ff759b3600ecb8aa911317c295e2f9876a9d9"
+      ],
+      "receipt_sha256": "ca951fa6cdea6bcb0e2034e2df4cf2c5c225519e99486cf7ad9ad466ec63e1a4",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.012616,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.render",
+      "output_digests": [
+        "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+        "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+        "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+        "44fcd8fefc004ef06ea7b803300fcd460427298a85f3eba9de4233a640865f37"
+      ],
+      "receipt_sha256": "b48265bc3840557779281a217d2c98fe50e62b4711aaf9b6b10bddc26f4d4cf9",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.042707,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.depth",
+      "output_digests": [
+        "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+        "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+        "5a70cd3fa654af6f4dd284305d301541f41b7b6b8cb6878b8bccce96dc358fc4"
+      ],
+      "receipt_sha256": "d8f6eba07a0c32165d5e65abb73384ef007c1f2bb39b2f19b2a9d930a2110e81",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.021719,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.set_camera",
+      "output_digests": [
+        "873999c8de6624ab4762b9b87232225879e3fe0fd1273e1bb6adff49961d5194"
+      ],
+      "receipt_sha256": "9461ecdda0316768efb62288d3c9976ef84def7ece455b68718c4ea890918824",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.007785,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.render",
+      "output_digests": [
+        "cd5a026a7d62cc7502aef1e959deac27892602251f005b139382aca2e9770437",
+        "cf90f57e98f2066bd9d6e0b5b33915ddf3c51bac2eb699f6bd8a0b54525d23a0",
+        "1c81fc629a8f206a0e149ee1640041e8de3cb16ca57e9903b66dd01ffda1af37",
+        "4543cf28d01226d893a512eec56517108ffd4684011377fd3d02308be917fc46"
+      ],
+      "receipt_sha256": "0a87c735eb838b84cbe80185ef680c93266df3e814ee49dfadb3ffd7e83157b5",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.041681,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.move_object",
+      "output_digests": [
+        "b0582b244324024c9af4c3d3b803cf502058ab203a47e96d9b33c3e992b6fa89"
+      ],
+      "receipt_sha256": "d6af0a5be918f4c50ce6f3b82ab411f6cb6291feb1c8f17885b7dd7525706218",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.008723,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "candidate",
+      "error_class": "ok",
+      "operation": "three_d.inspect_mesh",
+      "output_digests": [
+        "8a2788afaefa6e456f8978fb0bcb77c122a29523f97a0037e699cb8f8ea61b0c"
+      ],
+      "receipt_sha256": "4e0b6cf2764d03cd3121b4f55cd5557f08c827d48e4c7fb5790c0672c577bc5f",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.010926,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.build_scene",
+      "output_digests": [
+        "6fdcdd62efd885e9bc43c804099ff759b3600ecb8aa911317c295e2f9876a9d9"
+      ],
+      "receipt_sha256": "64b97374abaab02e9e3387129404aa8e15e51321a643bfd4083bbca6d0c13253",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.01424,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.render",
+      "output_digests": [
+        "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+        "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+        "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+        "44fcd8fefc004ef06ea7b803300fcd460427298a85f3eba9de4233a640865f37"
+      ],
+      "receipt_sha256": "a9472b3ef539fbd93cc03fb51aafa982502fc35a825758b2a35eb7e8a22e2150",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.037969,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.depth",
+      "output_digests": [
+        "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+        "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+        "5a70cd3fa654af6f4dd284305d301541f41b7b6b8cb6878b8bccce96dc358fc4"
+      ],
+      "receipt_sha256": "a68a3ee93ec8f703191b55f59ecfaae05efd65a80b1d03681513d2d1cceb7d98",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.019871,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.set_camera",
+      "output_digests": [
+        "873999c8de6624ab4762b9b87232225879e3fe0fd1273e1bb6adff49961d5194"
+      ],
+      "receipt_sha256": "296ca87506b815f4b3f2eac59c34f6f1046d019a758c615919b72e0a269c0c6e",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.008676,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.render",
+      "output_digests": [
+        "cd5a026a7d62cc7502aef1e959deac27892602251f005b139382aca2e9770437",
+        "cf90f57e98f2066bd9d6e0b5b33915ddf3c51bac2eb699f6bd8a0b54525d23a0",
+        "1c81fc629a8f206a0e149ee1640041e8de3cb16ca57e9903b66dd01ffda1af37",
+        "4543cf28d01226d893a512eec56517108ffd4684011377fd3d02308be917fc46"
+      ],
+      "receipt_sha256": "c39e9b70ebf8c86a305b8b71749dc6fa0725f5111120d75d3dd8317c8b3de5d2",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.042371,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.move_object",
+      "output_digests": [
+        "b0582b244324024c9af4c3d3b803cf502058ab203a47e96d9b33c3e992b6fa89"
+      ],
+      "receipt_sha256": "5de886d3c116688b33bcd02c8863bc4f45ab0892cb14d6b382b10e02c2c46ace",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.008439,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "admitted": true,
+      "arm": "control",
+      "error_class": "ok",
+      "operation": "three_d.inspect_mesh",
+      "output_digests": [
+        "8a2788afaefa6e456f8978fb0bcb77c122a29523f97a0037e699cb8f8ea61b0c"
+      ],
+      "receipt_sha256": "f2ab932e0019b27cb6e073718dbab763da65f482c64e22467f8a83ed591b18b8",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.008896,
+        "wall_seconds_budget": 120
+      },
+      "tool_revision": {
+        "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+        "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+        "tool_id": "substrate_spatial3d",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "parity": {
+    "candidate_output_digests": [
+      "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+      "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+      "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+      "44fcd8fefc004ef06ea7b803300fcd460427298a85f3eba9de4233a640865f37"
+    ],
+    "control_output_digests": [
+      "2d46b0ab287e16eeb557192599270ce25706b28dbd51a5aad3b38ec035a885b0",
+      "a4ffb4fdbcc5f806f1156a490e6213c91bf0bc4037302dea7650674e866ca20b",
+      "b5565c0282eb66e9fe6ed91e0ed7b21c993954a8f7d6427b21138d2f59e816ea",
+      "44fcd8fefc004ef06ea7b803300fcd460427298a85f3eba9de4233a640865f37"
+    ],
+    "identical": true,
+    "tool_revision": {
+      "artifact_sha256": "419ed6c10bb27cca6623150f2d969f6b3ee5b30a4dea034081ad988123f69f65",
+      "path": "/Users/scammermike/.claude-grok/worktrees/odyssey-spatial-body-20260804-093025/src/substrate/spatial3d.py",
+      "tool_id": "substrate_spatial3d",
+      "version": "1.0.0"
+    }
+  },
+  "performance": {
+    "mean_canary_s": 0.020779,
+    "per_operation_mean_s": {
+      "three_d.build_scene": 0.012616,
+      "three_d.depth": 0.021719,
+      "three_d.inspect_mesh": 0.010926,
+      "three_d.move_object": 0.008723,
+      "three_d.render": 0.042194,
+      "three_d.set_camera": 0.007785
+    },
+    "seven_canaries_wall_s": 0.273734,
+    "single_render_front_s": 0.011826,
+    "single_render_side_s": 0.009618,
+    "vs_1800s_phase": "orders of magnitude below 1800s phase budget (~0.02s/render vs 1800s)"
+  },
+  "primary_backend": true,
+  "renderer": "substrate_spatial3d",
+  "renderer_version": "1.0.0",
+  "schema": "SUBSTRATE_SPATIAL3D_EVIDENCE/v1",
+  "sha256": "510ab78316a1ab333debfbecd4092bfda325d83f535400708dfd86c0e764abc9"
+}

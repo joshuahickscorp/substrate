@@ -1,0 +1,477 @@
+{
+  "schema": "ODYSSEY_CORPUS_ACQUISITION/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "prefetch_root": "/Users/scammermike/Downloads/substrate/data/substrate/tangible_sandbox/prefetch/odyssey-public-v1",
+  "finished_at": "2026-08-03T18:09:40.105551+00:00",
+  "disk": {
+    "floor_gib": 165,
+    "df_after": "Filesystem   1G-blocks Used Available Capacity iused      ifree %iused  Mounted on\n/dev/disk3s5       926  615       261    71% 2883068 2746435320    0%   /System/Volumes/Data\n",
+    "free_gib_after": 261.92048263549805,
+    "du_before": "78G (pre-acquisition prefetch root)",
+    "du_after": "90G\t/Users/scammermike/Downloads/substrate/data/substrate/tangible_sandbox/prefetch/odyssey-public-v1",
+    "min_free_gib_observed_note": "Tracked during transfers; never intentionally allowed below 165 GiB"
+  },
+  "preexisting": [
+    {
+      "dataset": "ai2_arc",
+      "frontier": "H"
+    },
+    {
+      "dataset": "clevr_v1",
+      "frontier": "G"
+    },
+    {
+      "dataset": "math",
+      "frontier": "B"
+    },
+    {
+      "dataset": "mathlib4",
+      "frontier": "B"
+    },
+    {
+      "dataset": "movi_a_128",
+      "frontier": "G"
+    },
+    {
+      "dataset": "swe_bench_multimodal",
+      "frontier": "D"
+    }
+  ],
+  "acquired": [
+    {
+      "dataset": "clevr_questions_only",
+      "frontier": "G",
+      "bytes": 1090378335,
+      "file_count": 10,
+      "license": "CC BY 4.0",
+      "source_url": "https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0_no_images.zip",
+      "revision": "v1.0",
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_questions_only/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/clevr_questions_only.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_questions_only/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "esc50",
+      "frontier": "F",
+      "bytes": 884616175,
+      "file_count": 2013,
+      "license": "CC BY-NC 3.0 (dataset as a whole); ESC-10 subset CC BY 3.0",
+      "source_url": "https://github.com/karolpiczak/ESC-50",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/esc50/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/esc50.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/esc50/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "ethics",
+      "frontier": "E",
+      "bytes": 35566249,
+      "file_count": 18,
+      "license": "MIT",
+      "source_url": "https://people.eecs.berkeley.edu/~hendrycks/ethics.tar",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ethics/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/ethics.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ethics/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "gpqa",
+      "frontier": "H",
+      "bytes": 12853833,
+      "file_count": 37,
+      "license": "MIT",
+      "source_url": "https://github.com/idavidrein/gpqa",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gpqa/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/gpqa.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gpqa/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "gsm8k",
+      "frontier": "B",
+      "bytes": 14358274,
+      "file_count": 16,
+      "license": "MIT",
+      "source_url": "https://github.com/openai/grade-school-math",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gsm8k/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/gsm8k.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gsm8k/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "gutenberg_philosophy",
+      "frontier": "E",
+      "bytes": 12917254,
+      "file_count": 25,
+      "license": "Public Domain (US) via Project Gutenberg",
+      "source_url": "https://www.gutenberg.org/",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gutenberg_philosophy/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/gutenberg_philosophy.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/gutenberg_philosophy/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "humaneval",
+      "frontier": "D",
+      "bytes": 66342,
+      "file_count": 14,
+      "license": "MIT",
+      "source_url": "https://github.com/openai/human-eval",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/humaneval/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/humaneval.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/humaneval/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "librispeech_dev_clean",
+      "frontier": "F",
+      "bytes": 360290705,
+      "file_count": 2807,
+      "license": "CC BY 4.0",
+      "source_url": "https://www.openslr.org/12/",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_dev_clean/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/librispeech_dev_clean.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_dev_clean/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "librispeech_train_clean_100",
+      "frontier": "F",
+      "bytes": 6618477409,
+      "file_count": 29131,
+      "license": "CC BY 4.0",
+      "source_url": "https://www.openslr.org/12/",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_train_clean_100/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/librispeech_train_clean_100.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/librispeech_train_clean_100/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "longbench",
+      "frontier": "A",
+      "bytes": 375691058,
+      "file_count": 90,
+      "license": "MIT",
+      "source_url": "https://github.com/THUDM/LongBench + https://huggingface.co/datasets/THUDM/LongBench",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/longbench/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/longbench.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/longbench/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "mbpp",
+      "frontier": "D",
+      "bytes": 564658,
+      "file_count": 2,
+      "license": "CC-BY-4.0",
+      "source_url": "https://github.com/google-research/google-research/tree/master/mbpp",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mbpp/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/mbpp.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mbpp/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "minif2f",
+      "frontier": "B",
+      "bytes": 324885,
+      "file_count": 506,
+      "license": "MIT",
+      "source_url": "https://github.com/facebookresearch/miniF2F",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/minif2f/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/minif2f.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/minif2f/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "openbookqa",
+      "frontier": "H",
+      "bytes": 6475032,
+      "file_count": 12,
+      "license": "Apache-2.0",
+      "source_url": "https://s3-us-west-2.amazonaws.com/ai2-website/data/OpenBookQA-V1-Sep2018.zip",
+      "revision": "V1-Sep2018",
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/openbookqa/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/openbookqa.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/openbookqa/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "prontoqa",
+      "frontier": "C",
+      "bytes": 40233289,
+      "file_count": 20,
+      "license": "Apache-2.0",
+      "source_url": "https://github.com/asaparov/prontoqa",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/prontoqa.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "proofnet",
+      "frontier": "B",
+      "bytes": 65991248,
+      "file_count": 318,
+      "license": "MIT",
+      "source_url": "https://github.com/zhangir-azerbayev/ProofNet",
+      "revision": null,
+      "evaluator_only_separated": false,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/proofnet/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/proofnet.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/proofnet/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "sciq",
+      "frontier": "H",
+      "bytes": 11986889,
+      "file_count": 12,
+      "license": "CC BY-NC 3.0",
+      "source_url": "https://ai2-public-datasets.s3.amazonaws.com/sciq/SciQ.zip",
+      "revision": null,
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/sciq/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/sciq.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/sciq/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    },
+    {
+      "dataset": "speech_commands_v0_02",
+      "frontier": "F",
+      "bytes": 3340003029,
+      "file_count": 105843,
+      "license": "CC BY 4.0",
+      "source_url": "http://download.tensorflow.org/data/speech_commands_v0.02.tar.gz",
+      "revision": "v0.02",
+      "evaluator_only_separated": true,
+      "manifest": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/speech_commands_v0_02/MANIFEST.sha256",
+      "rights": "plans/substrate/tangible_next_launch/rights/speech_commands_v0_02.json",
+      "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/speech_commands_v0_02/licenses/LICENSE.txt",
+      "redistribution_permitted": true,
+      "research_use_permitted": true
+    }
+  ],
+  "skipped": [
+    {
+      "dataset": "common_voice",
+      "frontier": "F",
+      "reason": "Requires Mozilla account / terms acceptance \u2014 hard skip per contract"
+    },
+    {
+      "dataset": "scannet",
+      "frontier": "G",
+      "reason": "ScanNet requires signed Terms of Use agreement \u2014 hard skip per contract"
+    },
+    {
+      "dataset": "stanford_encyclopedia_philosophy",
+      "frontier": "E",
+      "reason": "SEP terms restrict bulk download/redistribution; not acquired"
+    },
+    {
+      "dataset": "philpapers",
+      "frontier": "E",
+      "reason": "No verified bulk public dump without account/API terms; skipped"
+    },
+    {
+      "dataset": "librispeech_train_clean_360",
+      "frontier": "F",
+      "reason": "23G archive; deferred to prefer breadth; train-clean-100 + speech_commands + esc50 cover F within budget",
+      "expected_bytes": 23000000000
+    },
+    {
+      "dataset": "librispeech_train_other_500",
+      "frontier": "F",
+      "reason": "30G archive; would consume large fraction of ~110 GiB budget",
+      "expected_bytes": 30000000000
+    },
+    {
+      "dataset": "fsd50k",
+      "frontier": "F",
+      "reason": "~31G; skipped for breadth budget after LibriSpeech+SpeechCommands+ESC-50",
+      "expected_bytes": 31000000000
+    },
+    {
+      "dataset": "vctk",
+      "frontier": "F",
+      "reason": "University of Edinburgh DataShare may require click-through; not verified free of terms UI"
+    },
+    {
+      "dataset": "objaverse",
+      "frontier": "G",
+      "reason": "Very large; subset selection + HF access patterns deferred"
+    },
+    {
+      "dataset": "procthor",
+      "frontier": "G",
+      "reason": "AI2-THOR/ProcTHOR stack typically requires package install and terms review; skipped"
+    },
+    {
+      "dataset": "logiqa",
+      "frontier": "C",
+      "reason": "No SPDX or license text file in upstream repo; contract forbids inventing a license string"
+    },
+    {
+      "dataset": "tptp",
+      "frontier": "C",
+      "reason": "Canonical TPTP distribution tarball URLs returned 404 at acquisition time; no verified alternate public dump"
+    },
+    {
+      "dataset": "folio",
+      "frontier": "C",
+      "reason": "HuggingFace resolve returned 401 without credentials; no account/login permitted"
+    },
+    {
+      "dataset": "proofwriter",
+      "frontier": "C",
+      "reason": "Archive contains no LICENSE/SPDX text; CC-BY claim could not be verified from distribution \u2014 removed after download to avoid inventing a license string; replaced by prontoqa (Apache-2.0)"
+    },
+    {
+      "dataset": "hotpotqa",
+      "frontier": "A",
+      "reason": "Primary host curtis.ml.cmu.edu timed out / host down during acquisition; not acquired"
+    }
+  ],
+  "frontiers": {
+    "A": {
+      "name": "integrated_continuity",
+      "preexisting": [],
+      "acquired_now": [
+        "longbench"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "B": {
+      "name": "formal_mathematics",
+      "preexisting": [
+        "math",
+        "mathlib4"
+      ],
+      "acquired_now": [
+        "gsm8k",
+        "minif2f",
+        "proofnet"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "C": {
+      "name": "formal_logic",
+      "preexisting": [],
+      "acquired_now": [
+        "prontoqa"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "D": {
+      "name": "software",
+      "preexisting": [
+        "swe_bench_multimodal"
+      ],
+      "acquired_now": [
+        "humaneval",
+        "mbpp"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "E": {
+      "name": "philosophy_self_model",
+      "preexisting": [],
+      "acquired_now": [
+        "ethics",
+        "gutenberg_philosophy"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "F": {
+      "name": "sound_speech",
+      "preexisting": [],
+      "acquired_now": [
+        "esc50",
+        "librispeech_dev_clean",
+        "librispeech_train_clean_100",
+        "speech_commands_v0_02"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "G": {
+      "name": "vision_spatial_embodied",
+      "preexisting": [
+        "clevr_v1",
+        "movi_a_128"
+      ],
+      "acquired_now": [
+        "clevr_questions_only"
+      ],
+      "has_material": true,
+      "still_short": false
+    },
+    "H": {
+      "name": "science_multimodal",
+      "preexisting": [
+        "ai2_arc"
+      ],
+      "acquired_now": [
+        "gpqa",
+        "openbookqa",
+        "sciq"
+      ],
+      "has_material": true,
+      "still_short": false
+    }
+  },
+  "notes": [
+    "Rights records at plans/substrate/tangible_next_launch/rights/<dataset>.json",
+    "Hash manifests at data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/<dataset>/MANIFEST.sha256",
+    "Local license text under each dataset's licenses/ directory",
+    "No accounts created, no terms accepted, no login used",
+    "Archives removed after extraction; only extracted trees retained"
+  ]
+}

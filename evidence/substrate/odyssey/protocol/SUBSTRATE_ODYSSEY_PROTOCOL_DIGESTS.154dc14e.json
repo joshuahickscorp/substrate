@@ -1,0 +1,33 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "external_activation": false,
+  "frozen_build_sha256": "6dbf4ba4df5659c160d90ca09f3c9ffcb1231b1f18e4d36efceca04adbca1174",
+  "implementation_sha256": {
+    "frontier_renderer": "035c76a87c07bddf2d66ac6d76f7ab25d3db22b01dc824b31652212d6d074957",
+    "odyssey_authority": "e0864a1d0ef97d1c2edd9dedcb54c972aee9dcaed99d4ffdafd402c34895ebcc",
+    "odyssey_clean_clone": "e7a834117e34cff8a37768559ae4f320b70ae481ca2912ad3a8ace22dd2d1d4c",
+    "odyssey_worker": "79e282ed0251a65f2ce0463562f96cb69c27a1b68922089f4a74bab617145dd1",
+    "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+    "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+    "task_bank_generator": "b6f822970eb144671a1378fc3d840b819d64dd68086ace80fe427b83237bce27",
+    "telegram_notifier": "37bdb50d38325aaef48ed59c947078c9d2443f332a453aa32e9f6e13c879d59f",
+    "telegram_probe": "59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28",
+    "transition_controller": "dab3bc2e1bc74259b340f0913c837aa5125fb2c098c0786947dcde8bc23af5dc"
+  },
+  "input_sha256": {
+    "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+    "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "hardened_design": "f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5",
+    "rendered_build_index": "55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b",
+    "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+    "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "protocol_digest": "19737f13bcff40cf2d16cfd7b317d5873e8c863b4a4e03cb61bf4142a671741e",
+  "schema": "SUBSTRATE_ODYSSEY_PROTOCOL_DIGESTS/v1",
+  "sha256": "5757fb942dfdfcadb3b883fa27541ff1686b69a5ca6fafc947b090a0746accb5",
+  "source_digest": "903e249e67a2e42bf6275dade6b07b45494303ba1ac34d91e9ccacf0a431b0e3",
+  "status": "pass",
+  "unqualified_nous": false
+}

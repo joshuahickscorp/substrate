@@ -1,0 +1,28 @@
+{
+  "activation": false,
+  "artifacts": {
+    "plans/substrate/tangible_next_launch/frontiers/A_integrated_continuity.manifest.template.json": "0a4c5063325728750359e2bfcfe8988c511689555325536de557a2ec70b8bb5b",
+    "plans/substrate/tangible_next_launch/frontiers/B_formal_mathematics.manifest.template.json": "af0acf970fc427cfc708a1d1a3eddd1575a4e7189fb83f5969e1cf49147f313f",
+    "plans/substrate/tangible_next_launch/frontiers/CALIBRATION.template.json": "0fe29b6d493fcd56ce50c255cab455ec6ca0100db82c099504c32416afdfb89d",
+    "plans/substrate/tangible_next_launch/frontiers/C_formal_logic.manifest.template.json": "6227b7c890555bba368f15ec962f63433526d592588296c9470fff0f8f32fc12",
+    "plans/substrate/tangible_next_launch/frontiers/D_software.manifest.template.json": "842a4f96adb53453e3bcf8e29d9a8a8445c0db68c2b5e1abfd8b00411ac7e3b0",
+    "plans/substrate/tangible_next_launch/frontiers/E_philosophy_self_model.manifest.template.json": "720399fe68ccef9626b742b3dabf03c5fbda90946a1778104f5acee260f4dd03",
+    "plans/substrate/tangible_next_launch/frontiers/F_sound_speech.manifest.template.json": "025771997e0e055cd94ca923cc4b453f9b1a45f68e33d18c784e91f9739b93b1",
+    "plans/substrate/tangible_next_launch/frontiers/G_vision_spatial_embodied.manifest.template.json": "3a207656360003fb07a018ab91fde25fa308b0f60137e49211fa3dd105062ec7",
+    "plans/substrate/tangible_next_launch/frontiers/H_science_multimodal.manifest.template.json": "8732d74c307279e21bc15eeb731571b9050a25ce25a569346f25f290b0f30c92",
+    "plans/substrate/tangible_next_launch/frontiers/SCHEDULE.template.json": "390bb84bcbc9a5a43a11550ab6dd88ab421c9551db7e9899e768c8d5f6853ee4",
+    "plans/substrate/tangible_next_launch/frontiers/STORAGE_REHEARSAL.template.json": "f190aa41ebf6dd8d9ceaf63a60a331d4554d500daa48f1832bf93e8c62aeaeb4",
+    "plans/substrate/tangible_next_launch/frontiers/custody/A.custodian.template.json": "ecefb152e9175b20731d53041f7f0077239434f3beb8d60c2bb00356c52e62e0",
+    "plans/substrate/tangible_next_launch/frontiers/custody/B.custodian.template.json": "e58a29fa2acebedc48b383e5e1f150b0309936094931df1e20fe468580fb4dd8",
+    "plans/substrate/tangible_next_launch/frontiers/custody/C.custodian.template.json": "ec30b989d5ee0cb9bd4ce0fb9d5b6a23d7aaa16fa00a6c98645fe8d8903a1c78",
+    "plans/substrate/tangible_next_launch/frontiers/custody/D.custodian.template.json": "e260ab33185bc39ca227c94a159bcc02e021f65b6e3aa1279a9509ee733b0965",
+    "plans/substrate/tangible_next_launch/frontiers/custody/DAY7_TWO_CUSTODIAN_REVEAL.template.json": "f5df10a4689d57edc6a83b4130aecc1d95fdb63c531ca6ce1f557b95448f133c",
+    "plans/substrate/tangible_next_launch/frontiers/custody/E.custodian.template.json": "e94d2e8587f351d87f882ba2e851aee7436d13636287726202f479b5204483b9",
+    "plans/substrate/tangible_next_launch/frontiers/custody/F.custodian.template.json": "30f3c2d800c4cda991964824d1074ea78e62521454200e7d77cc33099cfbdc17",
+    "plans/substrate/tangible_next_launch/frontiers/custody/G.custodian.template.json": "8d1b890a22e478ad847d9d616bad975e3217c477162fb237a482419762abb94a",
+    "plans/substrate/tangible_next_launch/frontiers/custody/H.custodian.template.json": "de005d7813abf251dd720ce9f254062ebf518724a2057b420df69e7827bcec43"
+  },
+  "authority_sha256": "03ab01a754c8fe51a8286aace0988172b86edecfb73f575f111dff52a2ae35a9",
+  "schema": "SUBSTRATE_ODYSSEY_RENDERED_BUILD_INDEX/v1",
+  "task_contract_sha256": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852"
+}

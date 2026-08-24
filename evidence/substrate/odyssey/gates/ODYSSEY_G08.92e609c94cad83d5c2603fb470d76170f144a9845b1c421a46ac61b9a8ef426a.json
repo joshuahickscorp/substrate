@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G08",
+  "gate_name": "memory broker canaries pass",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "d81793abcee76ee98370a49d43c22b46318a181f34c2543039f51be46a90e8a9",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "30f1ab8d066b726cb8076abb69928fbc44078a459a4aaac4cda58e56ef3e4354",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G08.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_MEMORY_BROKER_CANARY/v1"
+  },
+  "unqualified_nous": false
+}

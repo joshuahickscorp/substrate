@@ -1,0 +1,12 @@
+{
+  "digest": "ba5245d9277fcccec9a00b346cef38a32bfe61e78166b4325b8276709be388a2",
+  "input_sha256": "363c4c2e767fb80d97baaa02ed93fde62aa81ff7d718e997c820d64eae51ae7a",
+  "path": "objects/ba/ba5245d9277fcccec9a00b346cef38a32bfe61e78166b4325b8276709be388a2",
+  "producer": "measure-candidate",
+  "recipe_id": "document.bytes_fingerprint",
+  "schema": "SUBSTRATE_ODYSSEY_PREPROCESS_RECEIPT/v1",
+  "sha256": "8a6de0b06f128d348ff5dc978b7645df7bd627eb93fb73c5c10345874ad097b6",
+  "size": 186,
+  "timing_seconds": 8e-06,
+  "type": "application/x-substrate-preprocess+json"
+}

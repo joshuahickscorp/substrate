@@ -1,0 +1,123 @@
+{
+  "activation": false,
+  "candidate_control_parity": true,
+  "disk_free_gib_after": 267,
+  "disk_free_gib_before": 272,
+  "generated_at": "2026-08-03T17:57:00Z",
+  "host": "macos-arm64",
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_PANEL_INVENTORY/v1",
+  "stateless_shared_gateway_required": true,
+  "sudo_used": false,
+  "tools": [
+    {
+      "artifact_path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+      "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "implementation": "elan 4.2.3 + Lean 4.33.0-rc1 (mathlib4 lean-toolchain pin)",
+      "install_scope": "user_local",
+      "notes": "Toolchain already present under ~/.elan; matches data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mathlib4/lean-toolchain (leanprover/lean4:v4.33.0-rc1). elan manager at /Users/scammermike/.elan/bin/elan.",
+      "tool_id": "Lean_or_proof_checker",
+      "verification_command": "printf 'theorem two_plus_two : 2 + 2 = 4 := by rfl\\n' > /tmp/odyssey-toolpanel-verify/trivial.lean && elan run leanprover/lean4:v4.33.0-rc1 lean /tmp/odyssey-toolpanel-verify/trivial.lean; echo lean_exit=$?",
+      "verification_output": "lean_exit=0 (theorem two_plus_two checked; lean --version: Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release))",
+      "version": "4.33.0-rc1 (commit 62eed1db4d67327ec8120be05f1a1b0847d74561)",
+      "works": true
+    },
+    {
+      "artifact_path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+      "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+      "implementation": "Z3 SMT solver (Homebrew)",
+      "install_scope": "preexisting",
+      "notes": "Symlink /opt/homebrew/bin/z3 -> Cellar path; not reinstalled.",
+      "tool_id": "SMT_or_SAT_solver",
+      "verification_command": "echo '(declare-const x Int) (assert (= (+ x 2) 4)) (check-sat) (get-model)' > /tmp/odyssey-toolpanel-verify/z3.smt2 && z3 /tmp/odyssey-toolpanel-verify/z3.smt2",
+      "verification_output": "sat\n(\n  (define-fun x () Int\n    2)\n)",
+      "version": "4.16.0",
+      "works": true
+    },
+    {
+      "artifact_path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+      "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+      "implementation": "CPython 3.12.13 via uv-managed interpreter + repo .venv",
+      "install_scope": "preexisting",
+      "notes": "Resolves to /Users/scammermike/.local/share/uv/python/cpython-3.12.13-macos-aarch64-none/bin/python3.12. System homebrew python3 also present at 3.14.6; Odyssey pin is the repo venv.",
+      "tool_id": "Python_and_code_execution",
+      "verification_command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c 'print(2+2); import sys; print(sys.version); print(sys.executable)'",
+      "verification_output": "4\n3.12.13 (main, Apr 14 2026, 14:33:40) [Clang 22.1.3 ]\n/Users/scammermike/Downloads/substrate/.venv/bin/python",
+      "version": "3.12.13",
+      "works": true
+    },
+    {
+      "artifact_path": "/Users/scammermike/Downloads/substrate/.venv/bin/pytest",
+      "artifact_sha256": "8791b796cfed4cfe2ec2e4656d0c5bc202fa599d8266bcc3843b16974ab7b0a7",
+      "implementation": "pytest in repo .venv",
+      "install_scope": "preexisting",
+      "notes": "artifact_sha256 is sha256 of site-packages/pytest-9.1.1.dist-info/RECORD.",
+      "tool_id": "repository_tests",
+      "verification_command": "printf 'def test_toolpanel_repo_tests():\\n    assert 1 + 1 == 2\\n' > /tmp/odyssey-toolpanel-verify/pytest_demo/test_toolpanel.py && /Users/scammermike/Downloads/substrate/.venv/bin/pytest -q /tmp/odyssey-toolpanel-verify/pytest_demo/test_toolpanel.py",
+      "verification_output": ".                                                                        [100%]\n1 passed in 0.00s",
+      "version": "9.1.1",
+      "works": true
+    },
+    {
+      "artifact_path": "/Users/scammermike/Downloads/substrate/.venv/lib/python3.12/site-packages/python_docx-1.2.0.dist-info/RECORD",
+      "artifact_path_note": "directory replaced by the distribution RECORD so the artifact is a concrete, version-pinned file",
+      "artifact_sha256": "d4be7f893a1d688ff6ca869b4fd95a3b59ce03a90be11a576a286eb120a87d45",
+      "implementation": "python-docx 1.2.0 + openpyxl 3.1.5 + pypdf 6.14.2 in repo .venv",
+      "install_scope": "venv",
+      "notes": "Installed with: uv pip install --python /Users/scammermike/Downloads/substrate/.venv/bin/python python-docx openpyxl pypdf. artifact_sha256 is sha256 of deterministic RECORD digest manifest for the three dist-info packages.",
+      "tool_id": "document_and_spreadsheet_tools",
+      "verification_command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c 'from docx import Document; from openpyxl import Workbook, load_workbook; from pypdf import PdfWriter, PdfReader; ...'  # create+read verify.docx / verify.xlsx / verify.pdf under /tmp/odyssey-toolpanel-verify",
+      "verification_output": "DOCX_OK /tmp/odyssey-toolpanel-verify/verify.docx 36662 ['Odyssey Tool Panel', 'Round-trip verification token: TOOLPANEL-DOCX-OK']\nXLSX_OK /tmp/odyssey-toolpanel-verify/verify.xlsx 4886 TOOLPANEL-XLSX-OK\nPDF_OK /tmp/odyssey-toolpanel-verify/verify.pdf 478 TOOLPANEL-PDF-OK pages= 1\nALL_DOC_TOOLS_OK",
+      "version": "python-docx==1.2.0; openpyxl==3.1.5; pypdf==6.14.2",
+      "works": true
+    },
+    {
+      "artifact_path": "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+      "artifact_sha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+      "implementation": "ffmpeg (Homebrew)",
+      "install_scope": "preexisting",
+      "notes": "Symlink /opt/homebrew/bin/ffmpeg -> Cellar path; not reinstalled.",
+      "tool_id": "image_video_audio_decoders",
+      "verification_command": "ffmpeg -y -i /Users/scammermike/Downloads/substrate/data/substrate/tangible_sandbox/processed/librispeech/dev-clean/LibriSpeech/dev-clean/2412/153954/2412-153954-0002.flac -t 1 /tmp/odyssey-toolpanel-verify/decode.wav && file /tmp/odyssey-toolpanel-verify/decode.wav && ls -la /tmp/odyssey-toolpanel-verify/decode.wav",
+      "verification_output": "size=      31KiB time=00:00:01.00 bitrate= 256.6kbits/s\n/tmp/odyssey-toolpanel-verify/decode.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 16000 Hz\n-rw-r--r--  32078 Aug  3 13:56 /tmp/odyssey-toolpanel-verify/decode.wav",
+      "version": "8.1.2",
+      "works": true
+    },
+    {
+      "artifact_path": "/Users/scammermike/Downloads/substrate/.venv/lib/python3.12/site-packages/openai_whisper-20250625.dist-info/RECORD",
+      "artifact_path_note": "directory replaced by the distribution RECORD so the artifact is a concrete, version-pinned file",
+      "artifact_sha256": "dd9f23e2af1843c50e982f665daa89c8a8a1773bac34c950c56adeaf016a0202",
+      "implementation": "openai-whisper 20250625 (ASR) in repo .venv + macOS say (TTS)",
+      "install_scope": "venv",
+      "notes": "LibriSpeech reference: 'THE STREETS WERE NARROW AND UNPAVED BUT VERY FAIRLY CLEAN'. Installed with: uv pip install --python ... openai-whisper (pulled torch 2.13.0). artifact_sha256 is sha256 of RECORD+say binary digest manifest. Whisper CLI entrypoint: /Users/scammermike/Downloads/substrate/.venv/bin/whisper.",
+      "tool_id": "speech_tools",
+      "verification_command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c 'import whisper; m=whisper.load_model(\"tiny\"); r=m.transcribe(\"<librispeech 2412-153954-0002.flac>\", language=\"en\", fp16=False); print(r[\"text\"])' && say -o /tmp/odyssey-toolpanel-verify/say_test.aiff 'Odyssey speech tools verification' && ls -la /tmp/odyssey-toolpanel-verify/say_test.aiff",
+      "verification_output": "TRANSCRIPT: The streets were narrow and unpeaved but very fairly clean.\nTRANSCRIPT_LEN 59\nSPEECH_OK\n-rw-r--r--  105234 Aug  3 13:56 /tmp/odyssey-toolpanel-verify/say_test.aiff\n/tmp/odyssey-toolpanel-verify/say_test.aiff: IFF data, AIFF-C compressed audio",
+      "version": "openai-whisper==20250625; say=/usr/bin/say (macOS system TTS)",
+      "works": true
+    },
+    {
+      "artifact_path": "/Applications/Blender.app/Contents/MacOS/Blender",
+      "artifact_sha256": "b5737da97b0e164cc18e227be115c4ea2791d11e9577f7e302c73f4871f9249c",
+      "implementation": "Blender 4.2.1 LTS (Apple Silicon) with Cycles CPU headless render",
+      "install_scope": "preexisting",
+      "notes": "Already present at /Applications/Blender.app (no install required). Verified with Cycles CPU only (not EEVEE). Render script set scene.render.engine='CYCLES', cycles.device='CPU', 16 samples, 128x128 PNG.",
+      "tool_id": "Blender_3D_simulation_tools",
+      "verification_command": "/Applications/Blender.app/Contents/MacOS/Blender -b --python /tmp/odyssey-toolpanel-verify/render_cycles.py && ls -la /tmp/odyssey-toolpanel-verify/cycles_cube.png && file /tmp/odyssey-toolpanel-verify/cycles_cube.png",
+      "verification_output": "Saved: '/tmp/odyssey-toolpanel-verify/cycles_cube.png'\nTime: 00:00.15 (Saving: 00:00.04)\nRENDER_OK /tmp/odyssey-toolpanel-verify/cycles_cube.png 14425\n-rw-r--r--  14425 Aug  3 13:55 /tmp/odyssey-toolpanel-verify/cycles_cube.png\n/tmp/odyssey-toolpanel-verify/cycles_cube.png: PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced",
+      "version": "4.2.1 LTS (hash 396f546c9d82 built 2024-08-19 23:53:04)",
+      "works": true
+    },
+    {
+      "artifact_path": "/Applications/Ollama.app/Contents/Resources/ollama",
+      "artifact_sha256": "970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+      "implementation": "Ollama 0.32.1 + nomic-embed-text (768-d embeddings via /api/embed)",
+      "install_scope": "preexisting",
+      "notes": "Ollama was already installed and running. Pulled embedding model with: ollama pull nomic-embed-text. Model weights at ~/.ollama/models/blobs/sha256-970aa74c0a90.... Ollama binary symlink /usr/local/bin/ollama -> app bundle. artifact_sha256 is the model layer blob digest (primary version-pinned artifact for embeddings).",
+      "tool_id": "retrieval_and_embedding_service",
+      "verification_command": "curl -s http://127.0.0.1:11434/api/embed -d '{\"model\":\"nomic-embed-text\",\"input\":\"odyssey tool panel verification\"}' | python3 -c 'import sys,json; d=json.load(sys.stdin); v=d[\"embeddings\"][0]; print(\"dim=\",len(v)); print(\"first5=\",[round(x,6) for x in v[:5]]); print(\"norm=\",round(sum(x*x for x in v)**0.5,6))'",
+      "verification_output": "dim= 768\nfirst5= [0.028129, 0.02112, -0.157398, -0.05008, 0.09006]\nnorm= 1.0\nok",
+      "version": "ollama 0.32.1; nomic-embed-text (137M, F16, embedding_length=768); model blob sha256:970aa74c0a90ef7482477cf803618e776e173c007bf957f635f1015bfcfef0e6",
+      "works": true
+    }
+  ]
+}

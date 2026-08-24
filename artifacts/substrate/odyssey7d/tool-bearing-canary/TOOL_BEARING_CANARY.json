@@ -1,0 +1,121 @@
+{
+  "activation": false,
+  "all_admitted": true,
+  "budget": {
+    "attempts": 1,
+    "cpu_ms": 120000,
+    "max_output_bytes": 8388608,
+    "max_tool_calls": 4,
+    "memory_mib": 2048,
+    "schema": "SUBSTRATE_ODYSSEY_TOOL_BUDGET/v1",
+    "wall_seconds": 120
+  },
+  "budget_sha256": "59f4185ba8209d19c85ec8b2bededeaafcd14ee19e402b00ba75e08d414d0a2b",
+  "generated_at": "2026-08-04T14:05:27Z",
+  "program": "substrate-odyssey-7d-v1",
+  "registry_size": 21,
+  "rows": [
+    {
+      "admitted": true,
+      "error_class": "ok",
+      "frontier": "B",
+      "operation": "formal.check_lean",
+      "output_digests": [
+        "5fba52a1f685bc4f2499153449d04c3259037a4c949485a63e3293cad7efda8b"
+      ],
+      "receipt_sha256": "72084030200c863941a8cb68192575b13f5108fcec92711b9008ded44cf60d90",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 2.023976,
+        "exec_mode": "process_per_op",
+        "resource_class": "light",
+        "wall_seconds_budget": 120
+      },
+      "role": "candidate",
+      "status": "ok",
+      "tool_revision": {
+        "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+        "tool_id": "lean",
+        "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+      }
+    },
+    {
+      "admitted": true,
+      "error_class": "ok",
+      "frontier": "B",
+      "operation": "formal.check_lean",
+      "output_digests": [
+        "c0a16310ea8ad523f5138d4d4f29c2a057bbc9e1dfdb6bafab2415566da86f66"
+      ],
+      "receipt_sha256": "b024b7e384285b07bbecbc7ec2c0b0115df47835ec2d27e3c1d967c722bc5f1b",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 1.891615,
+        "exec_mode": "process_per_op",
+        "resource_class": "light",
+        "wall_seconds_budget": 120
+      },
+      "role": "control",
+      "status": "ok",
+      "tool_revision": {
+        "artifact_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+        "path": "/Users/scammermike/.elan/toolchains/leanprover--lean4---v4.33.0-rc1/bin/lean",
+        "tool_id": "lean",
+        "version": "Lean (version 4.33.0-rc1, arm64-apple-darwin24.6.0, commit 62eed1db4d67327ec8120be05f1a1b0847d74561, Release)"
+      }
+    },
+    {
+      "admitted": true,
+      "error_class": "ok",
+      "frontier": "C",
+      "operation": "formal.solve_smt",
+      "output_digests": [
+        "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45"
+      ],
+      "receipt_sha256": "26d8c9401bed34a9ae0f4ccb17dade02ef50a4d6b78842bacab0f7d43af3ef85",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.016984,
+        "exec_mode": "warm",
+        "resource_class": "light",
+        "wall_seconds_budget": 120
+      },
+      "role": "candidate",
+      "status": "ok",
+      "tool_revision": {
+        "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+        "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+        "tool_id": "z3",
+        "version": "Z3 version 4.16.0 - 64 bit"
+      }
+    },
+    {
+      "admitted": true,
+      "error_class": "ok",
+      "frontier": "C",
+      "operation": "formal.solve_smt",
+      "output_digests": [
+        "2bbbf0aee43a34d7b3669ac9b75db047a5bc87c6813e9c8f969814501763ae45"
+      ],
+      "receipt_sha256": "4f5ba85951e30edf57f25e5a5961e1641a92be354bfbbe397de4680cad619fc4",
+      "resource_use": {
+        "attempts": 1,
+        "elapsed_seconds": 0.016178,
+        "exec_mode": "warm",
+        "resource_class": "light",
+        "wall_seconds_budget": 120
+      },
+      "role": "control",
+      "status": "ok",
+      "tool_revision": {
+        "artifact_sha256": "537a502af2f4013a8e887beebe525a0dae84918a61ff545991e36dfda07ed6d7",
+        "path": "/opt/homebrew/Cellar/z3/4.16.0/bin/z3",
+        "tool_id": "z3",
+        "version": "Z3 version 4.16.0 - 64 bit"
+      }
+    }
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_BEARING_CANARY/v1",
+  "sha256": "df98c03db6ef3c599a5f3021ccbbf3904697bdd1b7ef4271fc19635faebdef8a"
+}

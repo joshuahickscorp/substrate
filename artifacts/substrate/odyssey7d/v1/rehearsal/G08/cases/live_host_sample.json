@@ -1,0 +1,105 @@
+{
+  "activation": false,
+  "declared_probe_note": "Threshold-case memory_pools_gib values below are pure partitions of declared probe residents required by the sealed subject schema; they are not host measurements. Real pools are in sample_a/sample_b.",
+  "external_activation": false,
+  "lane_basis": "no_frontier_lanes_running_during_g08_canary",
+  "live_broker_decision": "admit_or_resume",
+  "measured_critical_pressure": false,
+  "measured_host_rss_bytes": 25193431040,
+  "measured_host_rss_gib": 23.46321106,
+  "measurement_interval_seconds": 30,
+  "pool_basis": "measured_via_libproc_and_service_bytes",
+  "program": "substrate-odyssey-7d-v1",
+  "resident_cap_bytes": 91268055040,
+  "sample_a": {
+    "critical_pressure": false,
+    "host_rss_bytes": 24276025344,
+    "host_rss_gib": 22.608810425,
+    "lane_resident_bytes": {
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0,
+      "E": 0,
+      "F": 0,
+      "G": 0,
+      "H": 0
+    },
+    "lane_resident_gib": {
+      "A": 0.0,
+      "B": 0.0,
+      "C": 0.0,
+      "D": 0.0,
+      "E": 0.0,
+      "F": 0.0,
+      "G": 0.0,
+      "H": 0.0
+    },
+    "memory_pools_bytes": {
+      "broker": 154402816,
+      "container": 0,
+      "host": 10328181284,
+      "model_service": 13793441244,
+      "vm": 0
+    },
+    "memory_pools_gib": {
+      "broker": 0.143798828,
+      "container": 0.0,
+      "host": 9.618868385,
+      "model_service": 12.846143212,
+      "vm": 0.0
+    },
+    "model_service_bytes": 13793441244,
+    "pageout_bytes": 95780864,
+    "self_rss_bytes": 154402816,
+    "thermal_pressure": "warning",
+    "vm_pressure_level": 1
+  },
+  "sample_b": {
+    "critical_pressure": false,
+    "host_rss_bytes": 25193431040,
+    "host_rss_gib": 23.46321106,
+    "lane_resident_bytes": {
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0,
+      "E": 0,
+      "F": 0,
+      "G": 0,
+      "H": 0
+    },
+    "lane_resident_gib": {
+      "A": 0.0,
+      "B": 0.0,
+      "C": 0.0,
+      "D": 0.0,
+      "E": 0.0,
+      "F": 0.0,
+      "G": 0.0,
+      "H": 0.0
+    },
+    "memory_pools_bytes": {
+      "broker": 154402816,
+      "container": 0,
+      "host": 11245586980,
+      "model_service": 13793441244,
+      "vm": 0
+    },
+    "memory_pools_gib": {
+      "broker": 0.143798828,
+      "container": 0.0,
+      "host": 10.473269019,
+      "model_service": 12.846143212,
+      "vm": 0.0
+    },
+    "model_service_bytes": 13793441244,
+    "pageout_bytes": 95780864,
+    "self_rss_bytes": 154402816,
+    "thermal_pressure": "warning",
+    "vm_pressure_level": 1
+  },
+  "sampled_interval_seconds": 30.034,
+  "schema": "SUBSTRATE_ODYSSEY_BROKER_LIVE_HOST_SAMPLE/v1",
+  "sha256": "59b27e31b41272840833f55dc65236e312a851999a323e6736bb15340d289c6d"
+}

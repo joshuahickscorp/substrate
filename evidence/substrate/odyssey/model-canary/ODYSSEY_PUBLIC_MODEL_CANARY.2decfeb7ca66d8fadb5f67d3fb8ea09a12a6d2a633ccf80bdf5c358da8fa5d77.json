@@ -1,0 +1,539 @@
+{
+  "activation": false,
+  "all_pass": false,
+  "canary_template_sha256": "4ee6ce3cee964ed9265bf4113a23a57ab73466862601e35c0830ee48e70a16c3",
+  "candidates": [
+    {
+      "base_model": {
+        "id": "gpt-oss:20b",
+        "quantization": "MXFP4",
+        "revision": "ollama:17052f91a42e9793",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "f3b241b44c2d36d81789a79892f2e40d83544139903728530d4c637aa0844d09",
+        "weight_sha256": "17052f91a42e97930aa6e28a6c6c06a983e6a58dbb00434885a0cf5313e376f7"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": null,
+            "id": "A1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "A2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          }
+        ],
+        "median_latency_ms": null,
+        "passed": 0,
+        "total": 16
+      },
+      "eligible": false,
+      "errors": [
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A2",
+        "Ollama returned no textual response for public canary B1",
+        "Ollama returned no textual response for public canary B2",
+        "Ollama returned no textual response for public canary C1",
+        "Ollama returned no textual response for public canary C2",
+        "Ollama returned no textual response for public canary D1",
+        "Ollama returned no textual response for public canary D2",
+        "Ollama returned no textual response for public canary E1",
+        "Ollama returned no textual response for public canary E2",
+        "Ollama returned no textual response for public canary F1",
+        "Ollama returned no textual response for public canary F2",
+        "Ollama returned no textual response for public canary G1",
+        "Ollama returned no textual response for public canary G2",
+        "Ollama returned no textual response for public canary H1",
+        "Ollama returned no textual response for public canary H2",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1"
+      ],
+      "model_size_bytes": 13793441244,
+      "service_peak_bytes": 13793441244,
+      "swap_pageout_delta_bytes": 0,
+      "width_eight": {
+        "all_responses_valid": false,
+        "completed": 0,
+        "requests": 8
+      }
+    },
+    {
+      "base_model": {
+        "id": "qwen3:30b",
+        "quantization": "Q4_K_M",
+        "revision": "ollama:ad815644918f0eaa",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "27b1fe636a04016514d2aa83b89792da06437beef1fcb9cfda669ddfd94b784d",
+        "weight_sha256": "ad815644918f0eaab341c12b67837cc6dd4562342cdaf118f83d5d554cb37226"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": null,
+            "id": "A1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "A2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": "no",
+            "id": "E2",
+            "latency_ms": 776.262,
+            "passed": true,
+            "response_sha256": "1e5bab19c4732bd912bf6d857b1d1ed27190f574863388ab9d16982e797edb7f"
+          },
+          {
+            "answer": null,
+            "id": "F1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          }
+        ],
+        "median_latency_ms": 776.262,
+        "passed": 1,
+        "total": 16
+      },
+      "eligible": false,
+      "errors": [
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A2",
+        "Ollama returned no textual response for public canary B1",
+        "Ollama returned no textual response for public canary B2",
+        "Ollama returned no textual response for public canary C1",
+        "Ollama returned no textual response for public canary C2",
+        "Ollama returned no textual response for public canary D1",
+        "Ollama returned no textual response for public canary D2",
+        "Ollama returned no textual response for public canary E1",
+        "Ollama returned no textual response for public canary F1",
+        "Ollama returned no textual response for public canary F2",
+        "Ollama returned no textual response for public canary G1",
+        "Ollama returned no textual response for public canary G2",
+        "Ollama returned no textual response for public canary H1",
+        "Ollama returned no textual response for public canary H2",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1"
+      ],
+      "model_size_bytes": 18556699314,
+      "service_peak_bytes": 44844942621,
+      "swap_pageout_delta_bytes": 0,
+      "width_eight": {
+        "all_responses_valid": false,
+        "completed": 0,
+        "requests": 8
+      }
+    },
+    {
+      "base_model": {
+        "id": "deepseek-r1:32b",
+        "quantization": "Q4_K_M",
+        "revision": "ollama:edba8017331d1523",
+        "runtime_sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+        "tokenizer_sha256": "516567208fc40981480d7a8a15748a54b0087a72f2cfd8f404a57814245b829c",
+        "weight_sha256": "edba8017331d15236e57480eb45406c0d721db77a4cdcf234df500fc2ad3960c"
+      },
+      "canary": {
+        "case_results": [
+          {
+            "answer": null,
+            "id": "A1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "A2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "B2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "C2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "D2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "E2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "F2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "G2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H1",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          },
+          {
+            "answer": null,
+            "id": "H2",
+            "latency_ms": null,
+            "passed": false,
+            "response_sha256": null
+          }
+        ],
+        "median_latency_ms": null,
+        "passed": 0,
+        "total": 16
+      },
+      "eligible": false,
+      "errors": [
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A2",
+        "Ollama returned no textual response for public canary B1",
+        "Ollama returned no textual response for public canary B2",
+        "Ollama returned no textual response for public canary C1",
+        "Ollama returned no textual response for public canary C2",
+        "Ollama returned no textual response for public canary D1",
+        "Ollama returned no textual response for public canary D2",
+        "Ollama returned no textual response for public canary E1",
+        "Ollama returned no textual response for public canary E2",
+        "Ollama returned no textual response for public canary F1",
+        "Ollama returned no textual response for public canary F2",
+        "Ollama returned no textual response for public canary G1",
+        "Ollama returned no textual response for public canary G2",
+        "Ollama returned no textual response for public canary H1",
+        "Ollama returned no textual response for public canary H2",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1",
+        "Ollama returned no textual response for public canary A1"
+      ],
+      "model_size_bytes": 19851337809,
+      "service_peak_bytes": 54092219022,
+      "swap_pageout_delta_bytes": 1802240,
+      "width_eight": {
+        "all_responses_valid": false,
+        "completed": 0,
+        "requests": 8
+      }
+    }
+  ],
+  "checks": {
+    "all_candidates_accounted": true,
+    "all_configured_candidates_eligible": false,
+    "frozen_template_bound": true,
+    "no_hidden_seed_commitments": true,
+    "no_swap": false,
+    "public_only": true,
+    "selected_candidate_eligible": false,
+    "selection_rule_applied": false,
+    "shared_service_footprint_within_24_gib": false,
+    "width_eight_admitted": false
+  },
+  "completed_at": "2026-08-03T05:43:15.229516+00:00",
+  "conversation_policy": "fresh_request_context_per_case; keep_alive_only_for_weights; no_cross_case_state",
+  "evidence_scope": "frozen_public_model_selection_canaries_only",
+  "external_activation": false,
+  "frozen_build_sha256": "2decfeb7ca66d8fadb5f67d3fb8ea09a12a6d2a633ccf80bdf5c358da8fa5d77",
+  "hidden_seed_commitments_materialized": false,
+  "model_service_cap_bytes": 25769803776,
+  "neutral_organ_prompt_sha256": "755f9aa107a69ee5596ee2e3b502dd59b2693a901d1dd40cce37688b4d314639",
+  "non_claims": [
+    "No hidden task seed, answer, scorer, or evaluator material was read or created.",
+    "This receipt selects only a candidate base-model body under the frozen public rule.",
+    "This receipt does not select a treatment arm, control arm, corpus, custodian, or scientific outcome.",
+    "This command never seals G02 and never starts an Odyssey worker."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "reasoning_effort_policy": "fixed_default_no_frontier_override",
+  "required_concurrent_clients": 8,
+  "runtime": {
+    "id": "ollama",
+    "sha256": "9de743952ff63fb74db6c5c2672094cc86208132f528df4b8e6ec363ae472ed1",
+    "version": "0.32.1"
+  },
+  "schema": "SUBSTRATE_ODYSSEY_PUBLIC_MODEL_CANARY/v1",
+  "scientific_evidence": false,
+  "selected_base_model": null,
+  "selection_rule": "highest_public_canary_score_then_lower_service_peak_then_lower_median_latency_then_lexical_weight_digest",
+  "sha256": "b49e0ac8b0084b67d69aba844fa6b52c74e04e5346205bd382b68cb794c122a9",
+  "status": "fail",
+  "unqualified_nous": false
+}

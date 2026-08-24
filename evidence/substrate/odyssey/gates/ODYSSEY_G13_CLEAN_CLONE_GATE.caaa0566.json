@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "caaa05662fd40252d13c9f6eafea9395803a10900f967724549ac967a7d0a64e",
+  "gate_id": "G13",
+  "gate_name": "clean clone and CI pass",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "0e1be9c8bf5aecb5a67210dcd7a928bed2f55e4d08d80f8d0da78f35b8cd14dd",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "174999cda386196416161610ad659791256dd940dff91c58620e1f823d4e9e2b",
+    "path": "evidence/substrate/odyssey/clean-clone/SUBSTRATE_ODYSSEY_CLEAN_CLONE_CI.caaa0566.json",
+    "schema": "SUBSTRATE_ODYSSEY_CLEAN_CLONE_CI/v1"
+  },
+  "unqualified_nous": false
+}

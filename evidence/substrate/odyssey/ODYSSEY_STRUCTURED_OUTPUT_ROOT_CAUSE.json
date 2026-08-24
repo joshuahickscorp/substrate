@@ -1,0 +1,105 @@
+{
+  "activation": false,
+  "adapter_sha256_at_record": "26a31f1a0ca5636762bf01962ec4799abbfb8cc87b6e51c54b36e5fa0e59dc19",
+  "adapter_source": "src/substrate/odyssey_arms.py",
+  "classification": "truncation-by-reasoning-budget",
+  "co_factor": {
+    "detail": "On this host, think=false with format=json often yields empty or garbage message.content for gpt-oss:20b even at num_predict=1024. think=true populates message.thinking (telemetry) and valid JSON in message.content. Primary classification remains truncation-by-reasoning-budget for the historical width 4/8 refusals measured with the prior 64-token cap.",
+    "name": "think_false_empties_gpt_oss_content",
+    "repair": "think=true shared by both arms; content-only answer channel unchanged"
+  },
+  "fault_location": {
+    "constant": "MAX_OUTPUT_TOKENS",
+    "file": "src/substrate/odyssey_arms.py",
+    "line_at_discovery": 55,
+    "prior_value": 64,
+    "use_site": "num_predict at _ollama_chat options"
+  },
+  "historical_refusal_interpretation": {
+    "computational_inadmissibility_established": false,
+    "preserved_receipts_not_modified": [
+      "artifacts/substrate/odyssey7d/v1/quantized-preservation/**",
+      "artifacts/substrate/odyssey7d/two-wave-v1/rehearsal/G06-TW/**",
+      "evidence/substrate/odyssey/two-wave-v1/ODYSSEY_7D_TWO_WAVE_TRANSITION_REFUSAL.json"
+    ],
+    "statement": "All-cells-fail-JSON refusals at width 8 and width 4 were caused by this generation budget, not by memory, compute, or concurrency. Width 8 showed 41 GB peak resident and zero pageouts. Those receipts do not establish computational inadmissibility at either width.",
+    "widths_explicitly_not_ruled_out_by_those_receipts": [
+      4,
+      8
+    ]
+  },
+  "host_measurement": {
+    "endpoint": "http://127.0.0.1:11434/api/chat",
+    "format": "json",
+    "frontier_shapes_at_1024": [
+      {
+        "eval_count": 109,
+        "json": "VALID",
+        "shape": "C_satisfiability"
+      },
+      {
+        "eval_count": 102,
+        "json": "VALID",
+        "shape": "B_derivation"
+      },
+      {
+        "eval_count": 375,
+        "json": "VALID",
+        "shape": "H_hypothesis_revision"
+      }
+    ],
+    "options_match_adapter": true,
+    "reasoning_effort_low_effect": "no effect",
+    "rows": [
+      {
+        "content_bytes": 0,
+        "eval_count": 64,
+        "json": "INVALID",
+        "num_predict": 64,
+        "thinking": "30 words"
+      },
+      {
+        "content_bytes": 0,
+        "eval_count": 128,
+        "json": "INVALID",
+        "num_predict": 128,
+        "thinking": "77 words"
+      },
+      {
+        "content_bytes": 0,
+        "eval_count": 256,
+        "json": "INVALID",
+        "num_predict": 256,
+        "thinking": "164 words"
+      },
+      {
+        "content": "valid object",
+        "eval_count_examples": [
+          109,
+          102,
+          375
+        ],
+        "json": "VALID",
+        "num_predict": 1024
+      }
+    ],
+    "why_256_insufficient": "reasoning length scales with task complexity; observed max eval_count 375 for valid JSON"
+  },
+  "mechanism": "gpt-oss:20b is a reasoning model. Ollama returns message.thinking and message.content separately. The adapter correctly reads content only, but reasoning tokens are charged against num_predict. With num_predict=64 (and 128, 256), eval_count exhausts on thinking and content is empty, so JSON parse fails for every cell.",
+  "model": {
+    "id": "gpt-oss:20b",
+    "note": "reasoning model; Ollama returns message.thinking and message.content separately",
+    "quantization": "MXFP4"
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "recorded_at": "2026-08-04T10:23:50Z",
+  "recorded_at_amended": "2026-08-04T10:43:41Z",
+  "repair_direction": {
+    "justification": "1024 covers observed max eval_count 375 with headroom; 64 remains the frozen substantive payload bound",
+    "substantive_answer_bound": 64,
+    "think": true,
+    "transport_budget": 1024
+  },
+  "schema": "ODYSSEY_STRUCTURED_OUTPUT_ROOT_CAUSE/v1",
+  "sha256": "30aae524b4630778d839f0a91d169e0629c5dafda206d3d41a91322cfa2b4c0e"
+}

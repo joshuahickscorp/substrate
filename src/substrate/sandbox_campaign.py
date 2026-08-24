@@ -55,7 +55,14 @@ COLIMA_DOCKER_SOCKET = (
 )
 OLLAMA_URL = "http://127.0.0.1:11434"
 
-PACKAGE_ROOT = Path("/Users/scammermike/Downloads/SUBSTRATE_TANGIBLE_SANDBOX_R2_COMPLETE_PACKAGE")
+# R2-era package directory.  It genuinely lives outside the repository, so it cannot be
+# derived from ROOT; it is overridable instead of machine-absolute.  Absent on this host.
+PACKAGE_ROOT = Path(
+    os.environ.get(
+        "SUBSTRATE_R2_PACKAGE_ROOT",
+        ROOT.parent / "SUBSTRATE_TANGIBLE_SANDBOX_R2_COMPLETE_PACKAGE",
+    )
+).expanduser()
 PACKAGE_FILES = (
     "SUBSTRATE_TANGIBLE_SANDBOX_R2_EXECUTION_GOAL.md",
     "SUBSTRATE_TANGIBLE_SANDBOX_R2_OPTIMIZED_MASTER_PLAN.md",
@@ -1298,6 +1305,70 @@ def seal_continuity_supervision_repair() -> dict[str, Any]:
     from substrate import sandbox_execution
 
     return sandbox_execution.seal_continuity_supervision_repair()
+
+
+def seal_storage_bridge() -> dict[str, Any]:
+    """Seal the infrastructure-only storage bridge for the next lane."""
+
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_storage_bridge()
+
+
+def seal_dynamic_storage_bridge() -> dict[str, Any]:
+    """Seal the measurement-based storage revision after a bridge refusal."""
+
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_dynamic_storage_bridge()
+
+
+def seal_dynamic_storage_bridge_launch_repair() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_dynamic_storage_bridge_launch_repair()
+
+
+def seal_trace_receipt_repair() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_trace_receipt_repair()
+
+
+def seal_trace_receipt_repair_launch() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.seal_trace_receipt_repair_launch()
+
+
+def storage_bridge_preflight() -> dict[str, Any]:
+    from substrate import sandbox_storage
+
+    return sandbox_storage.preflight()
+
+
+def dynamic_storage_plan() -> dict[str, Any]:
+    from substrate import sandbox_storage
+
+    return sandbox_storage.dynamic_plan()
+
+
+def launch_storage_bridge() -> dict[str, Any]:
+    from substrate import sandbox_storage
+
+    return sandbox_storage.launch()
+
+
+def storage_bridge_worker(manifest_path: Path) -> dict[str, Any]:
+    from substrate import sandbox_storage
+
+    return sandbox_storage.worker(manifest_path)
+
+
+def storage_bridge_status() -> dict[str, Any]:
+    from substrate import sandbox_storage
+
+    return sandbox_storage.status()
 
 
 def longitudinal(*, supervision_manifest: Path | None = None) -> dict[str, Any]:

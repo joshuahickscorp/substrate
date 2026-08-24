@@ -1,0 +1,547 @@
+{
+  "activation": false,
+  "custody_independence": "single_operator",
+  "custody_limitations": [
+    "Early reveal of answer or scorer material is detectable via pre-launch commitment-digest mismatch or seal break, but is not prevented: a single operator holds every key, and no independent party holds reveal authority. This seal does not provide multi-party custody or double-blind reveal impossibility."
+  ],
+  "external_activation": false,
+  "frozen_build_sha256": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+  "gate_evidence": {
+    "G01": {
+      "file_sha256": "0d7dfdcab0f198a890d6bbf777ff928701098b343957275ddf7c84c58134a589",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G01.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G02": {
+      "file_sha256": "c31a40745ad4990db492490c8c09eae53c3fdfadcdc044c8fc102919aa73a439",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G02.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G03": {
+      "file_sha256": "91e4716562c399671eaacf1b9a3d568f8903093d8f0608ea93c172d0c903aac1",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G03.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G04": {
+      "file_sha256": "277ca6792a3f4254560fc07f74f11ad6f6b899f5dc811be1f70cb00d2b7fb80b",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G04.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G05": {
+      "file_sha256": "e779372b1fe8e2ec7f6b8e7024dacc7cabbd7e5ba23fb9fadd7d092a92b2dd94",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G05.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G06-DC": {
+      "file_sha256": "273ef6d091bd6e0ac60e2e486df555484dcd4d4c3adc2db859f47b592ee94210",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G06-DC.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G07": {
+      "file_sha256": "06a6d892306aa44d2448fc8265ae597fe7ce3bef273289c487b86f6411311228",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G07.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G08": {
+      "file_sha256": "1cc2cce2079db81ac42a6c7d67bdbfb166ab66dd79c67bea78ba25e344b9ff35",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G08.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G09": {
+      "file_sha256": "aa7e65542589ceadce6e1a5aa86dd939a616d1ff6f3f2f699a34a5a2e28ee04a",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G09.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G10": {
+      "file_sha256": "2780d09ec72f533fc2aa8f143da46c3bcb8c883984f6235f7f6dce346cda3584",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G10.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G11": {
+      "file_sha256": "e077ee3a75838a67afc5afbb37927b8222d3ef76b574cd6f30b214c707a5f7d5",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G11.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G12": {
+      "file_sha256": "bb30df77bff3f0000cc6ccbfc639a6f6be5cbfd08f0ae690cf0c4918b0b616de",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G12.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G13": {
+      "file_sha256": "dd026060ac129c512a2f4006cb898477f1f21202366b8ac274d3119399b10ec0",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G13.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G14": {
+      "file_sha256": "b6dbf8633e62881f91a94a70e3996a52132948588779f275b0b7db3891184ba3",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G14.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    },
+    "G15": {
+      "file_sha256": "30397f72a6e608f7f7ebe5f49c353bd4e49f6435327cd040372d17f1c16b2538",
+      "path": "evidence/substrate/odyssey/gates/ODYSSEY_G15.59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17.4f662307.json"
+    }
+  },
+  "input_status": "sealed_for_preflight",
+  "operator_approval": {
+    "actor": "joshuahickscorp",
+    "attested_at": "2026-08-04T15:23:30+00:00",
+    "scope": "I approve sealing only if the referenced evidence remains exact and all gates pass."
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "run_id": "odyssey-7d-59f1fec259da-4f66230735dd",
+  "schema": "SUBSTRATE_ODYSSEY_OPERATOR_INPUTS/v1",
+  "sha256": "14b1fa1f411f5cfaf6665d9a0ec638103359bd7aaa96d6bb7f124c569471e266",
+  "storage_admission": {
+    "explicit_model_reserve_bytes": 13793441244,
+    "largest_transient_bytes": 33554432,
+    "p95_private_growth_bytes": 882201600,
+    "private_write_cap_bytes": 128849018880,
+    "terminal_allowance_bytes": 134217728
+  },
+  "worker": {
+    "argv": [
+      "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+      "-m",
+      "substrate.odyssey_worker",
+      "--root",
+      "/Users/scammermike/Downloads/substrate",
+      "--authority",
+      "/Users/scammermike/Downloads/substrate/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
+    ],
+    "checkpoint": {
+      "delta_interval_seconds": 7200,
+      "full_interval_seconds": 43200
+    },
+    "frontiers": [
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/A/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/A.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "711dbad67f272a37e3f5be8a0f733c76e8e14b5774b532a2760329378ea6b3b0",
+          "frontier": "A",
+          "id": "A",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/A.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "8e6056efba222131e9f788cd5a9e66ab9869b11cf6fd4bbb52ee790c7910ff0e",
+          "source_selection_sha256": "7cf56984bd0dac3b538009c5075da803bf7aa52336b378cb3ca2579743fe445c",
+          "task_count": 336,
+          "task_ids_sha256": "d5736a3300e3086c1828f14dc7f7b91fdfe3b463b549bd4abd81a8494387cbb3"
+        },
+        "candidate_manifest_sha256": "711dbad67f272a37e3f5be8a0f733c76e8e14b5774b532a2760329378ea6b3b0",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/A/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "A"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/B/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/B.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "cf2a281bba60e380b7cff55fdaa5637f7c4a4102d46b70557470d50fc019f9dd",
+          "frontier": "B",
+          "id": "B",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/B.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "0b85ce60453af0d0c7b765a13300e0c301aba32e03b6594f4be1f4a1af306efa",
+          "source_selection_sha256": "45d21a73aed105c6efbac4bc59f9c7ddbf19de1f41009a03ce214719fe554b03",
+          "task_count": 336,
+          "task_ids_sha256": "3232980bc2a753f31304eb4449e688998f2a2ecd9830c1ef9ce72192fc69567e"
+        },
+        "candidate_manifest_sha256": "cf2a281bba60e380b7cff55fdaa5637f7c4a4102d46b70557470d50fc019f9dd",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/B/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "B"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/C/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/C.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "f21a069f33826364986d4019b38f676b5e472927f7c40d10b50ffd7eb2ad9bd1",
+          "frontier": "C",
+          "id": "C",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/C.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "ce71896cf1f367c5b43e58087c06a91039d86ef00b7f24923c13a575f9395795",
+          "source_selection_sha256": "3d5b1375207289f9eb6835d417c7ad78773a26403e64be76da8b2b1b478654b3",
+          "task_count": 336,
+          "task_ids_sha256": "e75b21d0090243e8aacb9a6d90abc1029764eeaab2a35f2ccc04b035485050f3"
+        },
+        "candidate_manifest_sha256": "f21a069f33826364986d4019b38f676b5e472927f7c40d10b50ffd7eb2ad9bd1",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/C/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "C"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/D/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/D.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "0f27e0f35ec91bd37278100ed3658be85be76a02196e35acd9b07159821556a1",
+          "frontier": "D",
+          "id": "D",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/D.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "a626244b35efbea132da3744698e512464189de2ae942a829758b9d91c5a0e71",
+          "source_selection_sha256": "bb69f158711a7b89ef071a31d94748a605ca0d7515f2656d54882ea2c6d9c14b",
+          "task_count": 336,
+          "task_ids_sha256": "916f10d5dcfb9699d311011e407eebf8f7af2aaca63ee08f9a7053076992e5c6"
+        },
+        "candidate_manifest_sha256": "0f27e0f35ec91bd37278100ed3658be85be76a02196e35acd9b07159821556a1",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/D/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "D"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/E/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/E.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "4af10324e60e3cbd7b0386a7ce7045c4d978cf11cf3df96d0af08c0ea957f2f5",
+          "frontier": "E",
+          "id": "E",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/E.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "4626656c5ebbe006b2f893d130796c62b15ad7f06b2fea1fca707604412135b0",
+          "source_selection_sha256": "571ebd091d1acf91a5f4660e1ca719153fd728f8442ff0d79aca461dd4b746c8",
+          "task_count": 336,
+          "task_ids_sha256": "5fe5b20a8413524132d1b4417d5ec249e84716ca76c51908a7bf44f6fe16fcb5"
+        },
+        "candidate_manifest_sha256": "4af10324e60e3cbd7b0386a7ce7045c4d978cf11cf3df96d0af08c0ea957f2f5",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/E/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "E"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/F/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/F.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "adbc953714ef6562bc8af44d40331f82f5ea30637d40782765d0141dc00d47f2",
+          "frontier": "F",
+          "id": "F",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/F.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "36c5f1ac8a0fd12afe9ec0d434ce3632cf7d15a324eed05b7a49e2e80d048569",
+          "source_selection_sha256": "7fd9a1a3188bb779663024b2ef57568bacd53cfdcd11c9bb2037536564d930eb",
+          "task_count": 336,
+          "task_ids_sha256": "d94f3741eec1b04aa7ae3a9d426e6ab83a9c66452dee4e3aeb976242dd2c0237"
+        },
+        "candidate_manifest_sha256": "adbc953714ef6562bc8af44d40331f82f5ea30637d40782765d0141dc00d47f2",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/F/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "F"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/G/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/G.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "7f6c6dc2180742d6d959926fe2b481bd19a8228dba77e4f439def84c5e6816cf",
+          "frontier": "G",
+          "id": "G",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/G.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "ce09429088cf1da4c2ef32ef4b09f15535c0c14602fef2879aa8922bf983af30",
+          "source_selection_sha256": "e63e3ee71549c4569736b8f1702db6f4541112d5c432f6027bb5a36caa2bfd8c",
+          "task_count": 336,
+          "task_ids_sha256": "e42603dbda0abe14bc46803031397f30a1170363c4a9448cc19acb90e7eb98de"
+        },
+        "candidate_manifest_sha256": "7f6c6dc2180742d6d959926fe2b481bd19a8228dba77e4f439def84c5e6816cf",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/G/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "G"
+      },
+      {
+        "candidate_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "candidate",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/H/candidate",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "candidate_manifest": "artifacts/substrate/odyssey7d/v1/manifests/candidate/H.json",
+        "candidate_manifest_binding": {
+          "file_sha256": "c3cf1863e86c948d0beac9a9ed82ea500ea62460ce80a6cd67f32262839fba51",
+          "frontier": "H",
+          "id": "H",
+          "path": "artifacts/substrate/odyssey7d/v1/manifests/candidate/H.json",
+          "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+          "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+          "source_bundle_sha256": "c031a4a7151b504eea15d2c9d9e0ecad06e679b105b217c128f43b188ed6cdf5",
+          "source_selection_sha256": "d52735894a8ef2f1b261bba5361c040a7136e448a4becb2c9136f0497bfffdbd",
+          "task_count": 336,
+          "task_ids_sha256": "3bb40d3c45914593dca5acad51b216a27ea5b5fd650c65036413201fb629ab0c"
+        },
+        "candidate_manifest_sha256": "c3cf1863e86c948d0beac9a9ed82ea500ea62460ce80a6cd67f32262839fba51",
+        "control_command": [
+          "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+          "-m",
+          "substrate.odyssey_arms",
+          "--root",
+          "/Users/scammermike/Downloads/substrate",
+          "--role",
+          "control",
+          "--model",
+          "gpt-oss:20b",
+          "--state-root",
+          "runs/substrate/odyssey7d/arms/H/control",
+          "--self-sha256",
+          "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+          "run"
+        ],
+        "id": "H"
+      }
+    ],
+    "max_parallel_frontiers": 8,
+    "microcycles_per_frontier": 84,
+    "phase_names": [
+      "retrieval",
+      "exposure",
+      "transfer",
+      "repair_checkpoint"
+    ],
+    "phase_seconds": 1800,
+    "run_root": "runs/substrate/odyssey7d",
+    "source_files": [
+      {
+        "path": "src/substrate/odyssey_worker.py",
+        "sha256": "d7eb0ef01ff6b71fa820b988e249f608da492609a07688f2ef8509986e8c70c1"
+      }
+    ],
+    "storage": {
+      "A": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/A/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/A/control"
+      },
+      "B": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/B/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/B/control"
+      },
+      "C": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/C/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/C/control"
+      },
+      "D": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/D/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/D/control"
+      },
+      "E": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/E/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/E/control"
+      },
+      "F": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/F/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/F/control"
+      },
+      "G": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/G/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/G/control"
+      },
+      "H": {
+        "candidate_root": "runs/substrate/odyssey7d/arms/H/candidate",
+        "control_root": "runs/substrate/odyssey7d/arms/H/control"
+      }
+    }
+  }
+}

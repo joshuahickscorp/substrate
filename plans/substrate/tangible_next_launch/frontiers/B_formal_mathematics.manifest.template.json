@@ -1,0 +1,48 @@
+{
+  "activation": false,
+  "candidate": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "candidate/B"
+  },
+  "control": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "control/B"
+  },
+  "custody": {
+    "answer_commitment": "EVALUATOR_ONLY",
+    "scorer_commitment": "EVALUATOR_ONLY",
+    "seed_commitment": "REPLACE_WITH_COMMITMENT",
+    "task_commitment": "REPLACE_WITH_COMMITMENT"
+  },
+  "frontier": {
+    "id": "B",
+    "name": "Formal mathematics",
+    "slug": "formal_mathematics"
+  },
+  "parity": [
+    "task_schedule",
+    "allowed_observations",
+    "models",
+    "tools",
+    "token_budget",
+    "compute_ceiling",
+    "storage_ceiling",
+    "wall_time"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_FRONTIER_MANIFEST_TEMPLATE/v1",
+  "status": "template_unsealed",
+  "task_contract": {
+    "evaluator_only_rule": "held-out proofs and answer mapping are custodian-generated",
+    "id": "B",
+    "parity_rule": "same theorem/problem, checker, token and tool budget",
+    "source_policy": "MATH plus pinned permissively licensed proof tasks with checker receipts",
+    "task_families": [
+      "derivation_continuation",
+      "proof_repair",
+      "verified_near_and_far_transfer"
+    ]
+  }
+}

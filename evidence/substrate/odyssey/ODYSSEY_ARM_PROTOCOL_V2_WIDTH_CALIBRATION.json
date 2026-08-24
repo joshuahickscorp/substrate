@@ -1,0 +1,1088 @@
+{
+  "activation": false,
+  "adapter_sha256": "fd7aa6cd4f856fa88e621fd58139a61c3eaeba3e36ea799ae2519d2f7cb9d974",
+  "by_width": {
+    "1": {
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "any_slowdown_exceed": false,
+      "max_slowdown": 1.0,
+      "model_latency_ms": [
+        12687.360334,
+        9308.403624999999,
+        9407.549667
+      ],
+      "peak_resident_memory_bytes": 53262464476,
+      "repetitions": 3,
+      "slowdowns": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "2": {
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "any_slowdown_exceed": false,
+      "max_slowdown": 1.2161126401400735,
+      "model_latency_ms": [
+        25284.301790999998,
+        26557.474168,
+        26360.453249
+      ],
+      "peak_resident_memory_bytes": 54548329948,
+      "repetitions": 3,
+      "slowdowns": [
+        1.0954577746376093,
+        1.2161126401400735,
+        1.2089112810050893
+      ]
+    },
+    "4": {
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "any_slowdown_exceed": true,
+      "max_slowdown": 2.4102962030811383,
+      "model_latency_ms": [
+        86222.87446,
+        92720.82270799999,
+        97566.864333
+      ],
+      "peak_resident_memory_bytes": 58228012508,
+      "repetitions": 3,
+      "slowdowns": [
+        1.9742684766947511,
+        2.4102962030811383,
+        2.258659542890063
+      ]
+    },
+    "6": {
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "any_slowdown_exceed": true,
+      "max_slowdown": 3.6539027921099634,
+      "model_latency_ms": [
+        232773.595957,
+        197618.108458,
+        227681.50154199998
+      ],
+      "peak_resident_memory_bytes": 61843158492,
+      "repetitions": 3,
+      "slowdowns": [
+        3.5650632318889017,
+        3.3527175977560892,
+        3.6539027921099634
+      ]
+    },
+    "8": {
+      "all_objects_valid": true,
+      "any_pageout": false,
+      "any_slowdown_exceed": true,
+      "max_slowdown": 4.392411013227944,
+      "model_latency_ms": [
+        313960.798915,
+        332381.999664,
+        314695.877208
+      ],
+      "peak_resident_memory_bytes": 56731514332,
+      "repetitions": 3,
+      "slowdowns": [
+        4.021624014702748,
+        4.392411013227944,
+        4.079786833136223
+      ]
+    }
+  },
+  "dispatch_contract_sha256": "38e23bbee0da276223369a8ddb94ac9970b7379ba0b2a108ce038b01dee9ad28",
+  "formal_g06_launch_refusal": {
+    "attempt_1": "G06 1x rep 1: unexpected pageout delta 851968 bytes",
+    "attempt_2": "G06 2x rep 2: per_cell_slowdown_ratio=1.362757 exceeds sealed max 1.35"
+  },
+  "generation_num_predict": 1024,
+  "max_slowdown_ratio": 1.35,
+  "model": "gpt-oss:20b",
+  "observations": [
+    {
+      "active_dispatch_wall_seconds": 12.909102624980733,
+      "all_objects_valid": true,
+      "arm_count": 2,
+      "boundary_latency_ms": 3.620208939537406,
+      "cell_ids": [
+        "A"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 12.826709333108738,
+          "cpu_time_seconds": 0.019046000000000007,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 12687.360334,
+          "resident_memory_bytes": 34881536
+        }
+      ],
+      "cells_completed": 1,
+      "errors": [],
+      "external_disk_free_bytes": 189762408448,
+      "mean_cell_active_work_seconds": 12.826709333108738,
+      "model_latency_ms": 12687.360334,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.0,
+      "pressure_level": 1,
+      "repetition": 1,
+      "resident_memory_bytes": 51184940508,
+      "semantic_valid_arms": 2,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 9.550119833089411,
+      "all_objects_valid": true,
+      "arm_count": 2,
+      "boundary_latency_ms": 1.895667053759098,
+      "cell_ids": [
+        "A"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 9.453838125104085,
+          "cpu_time_seconds": 0.019834000000000004,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 9308.403624999999,
+          "resident_memory_bytes": 33587200
+        }
+      ],
+      "cells_completed": 1,
+      "errors": [],
+      "external_disk_free_bytes": 189442015232,
+      "mean_cell_active_work_seconds": 9.453838125104085,
+      "model_latency_ms": 9308.403624999999,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.0,
+      "pressure_level": 1,
+      "repetition": 2,
+      "resident_memory_bytes": 51746797020,
+      "semantic_valid_arms": 2,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 9.645825125044212,
+      "all_objects_valid": true,
+      "arm_count": 2,
+      "boundary_latency_ms": 1.6870840918272734,
+      "cell_ids": [
+        "A"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 9.553260749904439,
+          "cpu_time_seconds": 0.019013000000000002,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 9407.549667,
+          "resident_memory_bytes": 34668544
+        }
+      ],
+      "cells_completed": 1,
+      "errors": [],
+      "external_disk_free_bytes": 189395824640,
+      "mean_cell_active_work_seconds": 9.553260749904439,
+      "model_latency_ms": 9407.549667,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.0,
+      "pressure_level": 1,
+      "repetition": 3,
+      "resident_memory_bytes": 53262464476,
+      "semantic_valid_arms": 2,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 2,
+      "width": 1
+    },
+    {
+      "active_dispatch_wall_seconds": 14.141376834129915,
+      "all_objects_valid": true,
+      "arm_count": 4,
+      "boundary_latency_ms": 1.8235838506370783,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 14.052757792174816,
+          "cpu_time_seconds": 0.020705,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 13900.366333,
+          "resident_memory_bytes": 34406400
+        },
+        {
+          "active_work_seconds": 11.536252208054066,
+          "cpu_time_seconds": 0.019225,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 11383.935458,
+          "resident_memory_bytes": 32800768
+        }
+      ],
+      "cells_completed": 2,
+      "errors": [],
+      "external_disk_free_bytes": 280363433984,
+      "mean_cell_active_work_seconds": 12.794505000114441,
+      "model_latency_ms": 25284.301790999998,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.0954577746376093,
+      "pressure_level": 1,
+      "repetition": 1,
+      "resident_memory_bytes": 54548329948,
+      "semantic_valid_arms": 4,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 15.698922875104472,
+      "all_objects_valid": true,
+      "arm_count": 4,
+      "boundary_latency_ms": 1.898417016491294,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 15.609844750026241,
+          "cpu_time_seconds": 0.020814,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 15458.80475,
+          "resident_memory_bytes": 33603584
+        },
+        {
+          "active_work_seconds": 11.243871457874775,
+          "cpu_time_seconds": 0.018505,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 11098.669418000001,
+          "resident_memory_bytes": 33357824
+        }
+      ],
+      "cells_completed": 2,
+      "errors": [],
+      "external_disk_free_bytes": 279694635008,
+      "mean_cell_active_work_seconds": 13.426858103950508,
+      "model_latency_ms": 26557.474168,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.2161126401400735,
+      "pressure_level": 1,
+      "repetition": 2,
+      "resident_memory_bytes": 53223273948,
+      "semantic_valid_arms": 4,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 15.60595979099162,
+      "all_objects_valid": true,
+      "arm_count": 4,
+      "boundary_latency_ms": 1.9678338430821896,
+      "cell_ids": [
+        "A",
+        "B"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 15.51354774995707,
+          "cpu_time_seconds": 0.020626999999999993,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 15362.907082999998,
+          "resident_memory_bytes": 34275328
+        },
+        {
+          "active_work_seconds": 11.14794854214415,
+          "cpu_time_seconds": 0.018725000000000006,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 10997.546166,
+          "resident_memory_bytes": 32374784
+        }
+      ],
+      "cells_completed": 2,
+      "errors": [],
+      "external_disk_free_bytes": 279627923456,
+      "mean_cell_active_work_seconds": 13.33074814605061,
+      "model_latency_ms": 26360.453249,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.2089112810050893,
+      "pressure_level": 1,
+      "repetition": 3,
+      "resident_memory_bytes": 53706454492,
+      "semantic_valid_arms": 4,
+      "slowdown_exceeds_limit": false,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 4,
+      "width": 2
+    },
+    {
+      "active_dispatch_wall_seconds": 25.486034374916926,
+      "all_objects_valid": true,
+      "arm_count": 8,
+      "boundary_latency_ms": 2.070625079795718,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 20.51257437490858,
+          "cpu_time_seconds": 0.022823999999999997,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 20351.380167000003,
+          "resident_memory_bytes": 34471936
+        },
+        {
+          "active_work_seconds": 15.89376337500289,
+          "cpu_time_seconds": 0.019263999999999996,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 15734.097959,
+          "resident_memory_bytes": 33030144
+        },
+        {
+          "active_work_seconds": 25.073687416967005,
+          "cpu_time_seconds": 0.020414,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 24914.675042000003,
+          "resident_memory_bytes": 32784384
+        },
+        {
+          "active_work_seconds": 25.3859175411053,
+          "cpu_time_seconds": 0.022076000000000005,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 25222.721292000002,
+          "resident_memory_bytes": 34865152
+        }
+      ],
+      "cells_completed": 4,
+      "errors": [],
+      "external_disk_free_bytes": 279542034432,
+      "mean_cell_active_work_seconds": 21.716485676995944,
+      "model_latency_ms": 86222.87446,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 1.9742684766947511,
+      "pressure_level": 1,
+      "repetition": 1,
+      "resident_memory_bytes": 54543726044,
+      "semantic_valid_arms": 8,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 31.114761042175815,
+      "all_objects_valid": true,
+      "arm_count": 8,
+      "boundary_latency_ms": 1.9588328432291746,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 21.31543262512423,
+          "cpu_time_seconds": 0.021345000000000003,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 21161.72025,
+          "resident_memory_bytes": 33226752
+        },
+        {
+          "active_work_seconds": 15.425385375041515,
+          "cpu_time_seconds": 0.017977,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 15273.936792,
+          "resident_memory_bytes": 32931840
+        },
+        {
+          "active_work_seconds": 31.0212328331545,
+          "cpu_time_seconds": 0.019535999999999998,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 30859.764374,
+          "resident_memory_bytes": 32079872
+        },
+        {
+          "active_work_seconds": 25.58416741597466,
+          "cpu_time_seconds": 0.024374000000000007,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 25425.401292000002,
+          "resident_memory_bytes": 35160064
+        }
+      ],
+      "cells_completed": 4,
+      "errors": [],
+      "external_disk_free_bytes": 277674971136,
+      "mean_cell_active_work_seconds": 23.336554562323727,
+      "model_latency_ms": 92720.82270799999,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 2.4102962030811383,
+      "pressure_level": 1,
+      "repetition": 2,
+      "resident_memory_bytes": 55584208348,
+      "semantic_valid_arms": 8,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 29.157267834059894,
+      "all_objects_valid": true,
+      "arm_count": 8,
+      "boundary_latency_ms": 1.9607080612331629,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 23.842582375044003,
+          "cpu_time_seconds": 0.022511000000000003,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 23686.864083,
+          "resident_memory_bytes": 34177024
+        },
+        {
+          "active_work_seconds": 18.126077958149835,
+          "cpu_time_seconds": 0.01961900000000001,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 17970.671792,
+          "resident_memory_bytes": 33292288
+        },
+        {
+          "active_work_seconds": 29.03357533318922,
+          "cpu_time_seconds": 0.020112000000000005,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 28883.112333,
+          "resident_memory_bytes": 32718848
+        },
+        {
+          "active_work_seconds": 27.177615167107433,
+          "cpu_time_seconds": 0.022007,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 27026.216125,
+          "resident_memory_bytes": 35160064
+        }
+      ],
+      "cells_completed": 4,
+      "errors": [],
+      "external_disk_free_bytes": 277378408448,
+      "mean_cell_active_work_seconds": 24.544962708372623,
+      "model_latency_ms": 97566.864333,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 2.258659542890063,
+      "pressure_level": 1,
+      "repetition": 3,
+      "resident_memory_bytes": 58228012508,
+      "semantic_valid_arms": 8,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 8,
+      "width": 4
+    },
+    {
+      "active_dispatch_wall_seconds": 46.021767124999315,
+      "all_objects_valid": true,
+      "arm_count": 12,
+      "boundary_latency_ms": 2.1983750630170107,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 34.29813416698016,
+          "cpu_time_seconds": 0.025269,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 34126.042041,
+          "resident_memory_bytes": 34832384
+        },
+        {
+          "active_work_seconds": 25.76871095900424,
+          "cpu_time_seconds": 0.020489000000000007,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 25605.193790999998,
+          "resident_memory_bytes": 33456128
+        },
+        {
+          "active_work_seconds": 44.684595457976684,
+          "cpu_time_seconds": 0.022306000000000006,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 44497.119625,
+          "resident_memory_bytes": 33226752
+        },
+        {
+          "active_work_seconds": 40.764495708048344,
+          "cpu_time_seconds": 0.022962999999999997,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 40598.142708,
+          "resident_memory_bytes": 35487744
+        },
+        {
+          "active_work_seconds": 42.717748833820224,
+          "cpu_time_seconds": 0.028173000000000004,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 42538.452124999996,
+          "resident_memory_bytes": 35405824
+        },
+        {
+          "active_work_seconds": 45.90432554110885,
+          "cpu_time_seconds": 0.342804,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 45408.645667000004,
+          "resident_memory_bytes": 41369600
+        }
+      ],
+      "cells_completed": 6,
+      "errors": [],
+      "external_disk_free_bytes": 274943705088,
+      "mean_cell_active_work_seconds": 39.02300177782308,
+      "model_latency_ms": 232773.595957,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 3.5650632318889017,
+      "pressure_level": 1,
+      "repetition": 1,
+      "resident_memory_bytes": 61843158492,
+      "semantic_valid_arms": 12,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 43.28057554201223,
+      "all_objects_valid": true,
+      "arm_count": 12,
+      "boundary_latency_ms": 2.0837499760091305,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 29.560501207830384,
+          "cpu_time_seconds": 0.023521,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 29388.546167,
+          "resident_memory_bytes": 34373632
+        },
+        {
+          "active_work_seconds": 17.229484083130956,
+          "cpu_time_seconds": 0.019332000000000002,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 17073.587583,
+          "resident_memory_bytes": 32358400
+        },
+        {
+          "active_work_seconds": 39.89742258307524,
+          "cpu_time_seconds": 0.020654999999999993,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 39744.993334,
+          "resident_memory_bytes": 32292864
+        },
+        {
+          "active_work_seconds": 31.463559874799103,
+          "cpu_time_seconds": 0.021114999999999995,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 31307.690333,
+          "resident_memory_bytes": 34799616
+        },
+        {
+          "active_work_seconds": 37.546220750082284,
+          "cpu_time_seconds": 0.026782,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 37383.785249,
+          "resident_memory_bytes": 34979840
+        },
+        {
+          "active_work_seconds": 43.17131704185158,
+          "cpu_time_seconds": 0.317431,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 42719.505791999996,
+          "resident_memory_bytes": 40337408
+        }
+      ],
+      "cells_completed": 6,
+      "errors": [],
+      "external_disk_free_bytes": 274887921664,
+      "mean_cell_active_work_seconds": 33.144750923461594,
+      "model_latency_ms": 197618.108458,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 3.3527175977560892,
+      "pressure_level": 1,
+      "repetition": 2,
+      "resident_memory_bytes": 56174032348,
+      "semantic_valid_arms": 12,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 47.168606125051156,
+      "all_objects_valid": true,
+      "arm_count": 12,
+      "boundary_latency_ms": 1.6282920259982347,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 33.002609292045236,
+          "cpu_time_seconds": 0.023052000000000003,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 32845.786751,
+          "resident_memory_bytes": 33947648
+        },
+        {
+          "active_work_seconds": 24.445427124854177,
+          "cpu_time_seconds": 0.021013000000000004,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 24284.254417,
+          "resident_memory_bytes": 32964608
+        },
+        {
+          "active_work_seconds": 43.4322716249153,
+          "cpu_time_seconds": 0.021622000000000002,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 43274.331292,
+          "resident_memory_bytes": 32686080
+        },
+        {
+          "active_work_seconds": 39.54793887515552,
+          "cpu_time_seconds": 0.02255,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 39391.607916,
+          "resident_memory_bytes": 34963456
+        },
+        {
+          "active_work_seconds": 41.44253887492232,
+          "cpu_time_seconds": 0.026068999999999995,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 41276.487708,
+          "resident_memory_bytes": 34029568
+        },
+        {
+          "active_work_seconds": 47.06402458390221,
+          "cpu_time_seconds": 0.31776400000000005,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 46609.033458,
+          "resident_memory_bytes": 40271872
+        }
+      ],
+      "cells_completed": 6,
+      "errors": [],
+      "external_disk_free_bytes": 274673750016,
+      "mean_cell_active_work_seconds": 38.15580172929913,
+      "model_latency_ms": 227681.50154199998,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 3.6539027921099634,
+      "pressure_level": 1,
+      "repetition": 3,
+      "resident_memory_bytes": 57797096924,
+      "semantic_valid_arms": 12,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 12,
+      "width": 6
+    },
+    {
+      "active_dispatch_wall_seconds": 51.9155571248848,
+      "all_objects_valid": true,
+      "arm_count": 16,
+      "boundary_latency_ms": 1.6333330422639847,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 38.60687074996531,
+          "cpu_time_seconds": 0.023361000000000007,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 38437.796125,
+          "resident_memory_bytes": 34553856
+        },
+        {
+          "active_work_seconds": 21.313461208017543,
+          "cpu_time_seconds": 0.019688000000000004,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 21146.632874000003,
+          "resident_memory_bytes": 33570816
+        },
+        {
+          "active_work_seconds": 51.24585491698235,
+          "cpu_time_seconds": 0.022309999999999997,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 51090.51625,
+          "resident_memory_bytes": 32718848
+        },
+        {
+          "active_work_seconds": 46.77753437520005,
+          "cpu_time_seconds": 0.02317000000000001,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 46619.891583000004,
+          "resident_memory_bytes": 35225600
+        },
+        {
+          "active_work_seconds": 49.24747370905243,
+          "cpu_time_seconds": 0.026483000000000007,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 49086.889958,
+          "resident_memory_bytes": 35831808
+        },
+        {
+          "active_work_seconds": 28.338515124982223,
+          "cpu_time_seconds": 0.322483,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 27884.95075,
+          "resident_memory_bytes": 40026112
+        },
+        {
+          "active_work_seconds": 51.80340762506239,
+          "cpu_time_seconds": 18.007934000000002,
+          "deadline_met": true,
+          "id": "G",
+          "model_latency_ms": 33572.980209,
+          "resident_memory_bytes": 41844736
+        },
+        {
+          "active_work_seconds": 46.28972045797855,
+          "cpu_time_seconds": 0.024291000000000007,
+          "deadline_met": true,
+          "id": "H",
+          "model_latency_ms": 46121.141166,
+          "resident_memory_bytes": 33292288
+        }
+      ],
+      "cells_completed": 8,
+      "errors": [],
+      "external_disk_free_bytes": 274606993408,
+      "mean_cell_active_work_seconds": 41.702854770905105,
+      "model_latency_ms": 313960.798915,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 4.021624014702748,
+      "pressure_level": 1,
+      "repetition": 1,
+      "resident_memory_bytes": 55885247964,
+      "semantic_valid_arms": 16,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 16,
+      "width": 8
+    },
+    {
+      "active_dispatch_wall_seconds": 56.70208454085514,
+      "all_objects_valid": true,
+      "arm_count": 16,
+      "boundary_latency_ms": 1.8159172032028437,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 36.70430454099551,
+          "cpu_time_seconds": 0.026692000000000007,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 36488.424624,
+          "resident_memory_bytes": 34144256
+        },
+        {
+          "active_work_seconds": 21.672166416887194,
+          "cpu_time_seconds": 0.021344000000000002,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 21490.601042000002,
+          "resident_memory_bytes": 32735232
+        },
+        {
+          "active_work_seconds": 54.002948791952804,
+          "cpu_time_seconds": 0.021981,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 53837.702624,
+          "resident_memory_bytes": 32243712
+        },
+        {
+          "active_work_seconds": 48.766087000025436,
+          "cpu_time_seconds": 0.023584999999999995,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 48608.467833,
+          "resident_memory_bytes": 34930688
+        },
+        {
+          "active_work_seconds": 51.49003408290446,
+          "cpu_time_seconds": 0.027966000000000005,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 51320.27425,
+          "resident_memory_bytes": 35651584
+        },
+        {
+          "active_work_seconds": 28.989238290814683,
+          "cpu_time_seconds": 0.324429,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 28460.696958,
+          "resident_memory_bytes": 41320448
+        },
+        {
+          "active_work_seconds": 53.29453466599807,
+          "cpu_time_seconds": 17.268680999999997,
+          "deadline_met": true,
+          "id": "G",
+          "model_latency_ms": 35795.13525,
+          "resident_memory_bytes": 44367872
+        },
+        {
+          "active_work_seconds": 56.58781008282676,
+          "cpu_time_seconds": 0.024396,
+          "deadline_met": true,
+          "id": "H",
+          "model_latency_ms": 56380.697083,
+          "resident_memory_bytes": 33193984
+        }
+      ],
+      "cells_completed": 8,
+      "errors": [],
+      "external_disk_free_bytes": 274557566976,
+      "mean_cell_active_work_seconds": 43.938390484050615,
+      "model_latency_ms": 332381.999664,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 4.392411013227944,
+      "pressure_level": 1,
+      "repetition": 2,
+      "resident_memory_bytes": 56731514332,
+      "semantic_valid_arms": 16,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 16,
+      "width": 8
+    },
+    {
+      "active_dispatch_wall_seconds": 52.66638691700064,
+      "all_objects_valid": true,
+      "arm_count": 16,
+      "boundary_latency_ms": 1.9098329357802868,
+      "cell_ids": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "cells": [
+        {
+          "active_work_seconds": 38.259926750091836,
+          "cpu_time_seconds": 0.022070000000000006,
+          "deadline_met": true,
+          "id": "A",
+          "model_latency_ms": 38101.085,
+          "resident_memory_bytes": 33357824
+        },
+        {
+          "active_work_seconds": 21.689098333008587,
+          "cpu_time_seconds": 0.019185999999999995,
+          "deadline_met": true,
+          "id": "B",
+          "model_latency_ms": 21531.278333000002,
+          "resident_memory_bytes": 32800768
+        },
+        {
+          "active_work_seconds": 52.56911591603421,
+          "cpu_time_seconds": 0.021753999999999996,
+          "deadline_met": true,
+          "id": "C",
+          "model_latency_ms": 52413.739875,
+          "resident_memory_bytes": 32751616
+        },
+        {
+          "active_work_seconds": 45.459013333078474,
+          "cpu_time_seconds": 0.022428000000000003,
+          "deadline_met": true,
+          "id": "D",
+          "model_latency_ms": 45299.227750000005,
+          "resident_memory_bytes": 35405824
+        },
+        {
+          "active_work_seconds": 47.98956849984825,
+          "cpu_time_seconds": 0.02767900000000001,
+          "deadline_met": true,
+          "id": "E",
+          "model_latency_ms": 47827.373708,
+          "resident_memory_bytes": 34865152
+        },
+        {
+          "active_work_seconds": 28.879323082976043,
+          "cpu_time_seconds": 0.335631,
+          "deadline_met": true,
+          "id": "F",
+          "model_latency_ms": 28411.429791000002,
+          "resident_memory_bytes": 37847040
+        },
+        {
+          "active_work_seconds": 50.42344329110347,
+          "cpu_time_seconds": 17.190065,
+          "deadline_met": true,
+          "id": "G",
+          "model_latency_ms": 33036.335126,
+          "resident_memory_bytes": 43565056
+        },
+        {
+          "active_work_seconds": 48.23623020783998,
+          "cpu_time_seconds": 0.02325,
+          "deadline_met": true,
+          "id": "H",
+          "model_latency_ms": 48075.407625,
+          "resident_memory_bytes": 32931840
+        }
+      ],
+      "cells_completed": 8,
+      "errors": [],
+      "external_disk_free_bytes": 274482237440,
+      "mean_cell_active_work_seconds": 41.688214926747605,
+      "model_latency_ms": 314695.877208,
+      "pageout_nonzero": false,
+      "per_cell_slowdown_ratio": 4.079786833136223,
+      "pressure_level": 1,
+      "repetition": 3,
+      "resident_memory_bytes": 55708612060,
+      "semantic_valid_arms": 16,
+      "slowdown_exceeds_limit": true,
+      "slowdown_limit": 1.35,
+      "swap_pageout_delta_bytes": 0,
+      "transport_valid_arms": 16,
+      "width": 8
+    }
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "recorded_at": "2026-08-04T11:38:07Z",
+  "repetitions": 3,
+  "schema": "ODYSSEY_ARM_PROTOCOL_V2_WIDTH_CALIBRATION_DIAGNOSTIC/v1",
+  "sha256": "312a2f00b2d6a66cf832cdf9b1b3602a7730529c2dd3c7dc5fcfd1a235ce4a0e",
+  "substantive_max_tokens": 64,
+  "unit": "complete_paired_frontier_cell",
+  "width1_active_dispatch_wall_seconds": 12.909102624980733,
+  "width_8_verdict": {
+    "formal_g06_status": "not_passed_this_run",
+    "g06_sealed_limit": 1.35,
+    "note": "Diagnostic measurement only. Formal G06 launch earlier refused at 2x rep2 with per_cell_slowdown_ratio=1.362757 > 1.35. This table completes the ladder for operator review without claiming a seal.",
+    "width_8_all_objects_valid": true,
+    "width_8_any_pageout": false,
+    "width_8_any_slowdown_exceed": true,
+    "width_8_max_slowdown": 4.392411013227944,
+    "width_8_measured": true
+  },
+  "widths": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ]
+}

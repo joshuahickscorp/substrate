@@ -1,0 +1,21 @@
+{
+  "acquired_at": "2026-08-03T18:09:39.167532+00:00",
+  "acquired_bytes": 40233289,
+  "dataset": "prontoqa",
+  "evaluator_only_separated": false,
+  "file_count": 20,
+  "frontier": "C",
+  "license": "Apache-2.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/licenses/LICENSE.txt",
+  "license_url": "https://github.com/asaparov/prontoqa/blob/main/LICENSE",
+  "notes": [
+    "PrOntoQA synthetic first-order reasoning (Saparov & He).",
+    "Apache-2.0 LICENSE file verified from upstream repository and stored locally.",
+    "ProofWriter was removed from this wave because its archive ships no LICENSE text and no SPDX id could be verified without inventing one."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub archive of main at acquisition time; pin via MANIFEST.sha256",
+  "source_url": "https://github.com/asaparov/prontoqa"
+}

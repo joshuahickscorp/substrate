@@ -1,0 +1,217 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_FAILURE_POLICY/v1",
+  "schema_version": "1.0.0",
+  "status": "draft_unsealed_failure_policy",
+  "activation": false,
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "self_digest": {
+    "algorithm": "sha256",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme over this object with self_digest.value omitted",
+    "value": "UNSEALED",
+    "state": "recompute_after_source_commit_and_companion_authorities_are_bound"
+  },
+  "bounded_quantized_preservation_attempt": {
+    "applies_before_two_wave_transition": true,
+    "maximum_preparation_and_testing_hours": 3,
+    "no_cloud_compute": true,
+    "no_remote_hardware_purchase_or_reservation": true,
+    "candidate_priority": [
+      {
+        "rank": 1,
+        "model": "gpt-oss-20b",
+        "required_form": "pinned native MXFP4"
+      },
+      {
+        "rank": 2,
+        "model": "Qwen3.5-35B-A3B",
+        "required_form": "reproducible 4-bit quantization"
+      },
+      {
+        "rank": 3,
+        "model": "Qwen3.6-27B-4bit",
+        "required_role": "historical comparison only"
+      }
+    ],
+    "newer_local_model_entry_rule": [
+      "already_available_locally",
+      "open_weight",
+      "license_compatible",
+      "reproducible",
+      "clearly_lower_cost_than_tested_Qwen3_6"
+    ],
+    "prohibited": [
+      "download_very_large_dense_models_merely_because_96_gib_can_hold_them",
+      "indefinite_tuning_or_model_hunting",
+      "consume_Odyssey_hidden_seeds",
+      "consume_Odyssey_answer_material",
+      "use_cached_outputs",
+      "suppress_real_model_work",
+      "queue_requests_in_a_way_that_violates_frozen_width_eight_simultaneity"
+    ],
+    "required_pins_for_every_tested_model": [
+      "upstream_revision",
+      "model_digest",
+      "tokenizer_digest",
+      "processor_digest",
+      "quantization_format",
+      "quantization_recipe",
+      "runtime_version",
+      "chat_template",
+      "neutral_organ_prompt",
+      "context_policy",
+      "reasoning_policy",
+      "structured_output_policy"
+    ],
+    "test_content_policy": {
+      "same_public_construction_canaries_required": true,
+      "public_synthetic_paired_arm_json_work_permitted": true,
+      "hidden_odyssey_content_permitted": false
+    },
+    "full_width_preservation_pass_conditions": [
+      "eight_concurrent_paired_frontier_cells",
+      "all_required_64_token_arm_outputs_valid_json",
+      "zero_new_pageouts",
+      "no_sustained_swap_growth",
+      "slowdown_at_most_1_35",
+      "no_missed_cell_work",
+      "no_candidate_control_asymmetry",
+      "sustained_soak_agrees_with_scaled_calibration",
+      "no_cross_lane_context_leakage",
+      "width_eight_memory_below_85_gib"
+    ],
+    "if_any_candidate_passes": {
+      "action": "retain_parent_one_wave_program_only_after_new_build_bound_gates_are_regenerated_and_sealed",
+      "two_wave_transition_permitted": false,
+      "model_pin_required": true
+    },
+    "if_no_candidate_passes_within_bound": {
+      "action": "stop_model_hunting_preserve_all_failed_measurements_and_evaluate_two_wave_authority",
+      "required_transition_reason": "The local host can maintain four paired frontier cells at the required scientific fidelity, but does not admit eight simultaneous paired cells under the frozen width-eight inference contract."
+    }
+  },
+  "two_wave_failure_classes": [
+    {
+      "id": "WIDTH_FOUR_ADMISSION_REFUSAL",
+      "trigger": "G06-TW fails at required width four under the frozen width-four contract",
+      "classification": "Outcome C",
+      "required_actions": [
+        "preserve_calibration_and_soak_measurements",
+        "do_not_reduce_width_under_full_two_wave_identity",
+        "do_not_start_wave_1",
+        "publish_or_report_exact_resource_refusal_only_after_applicable_authorization"
+      ]
+    },
+    {
+      "id": "RESOURCE_BREACH",
+      "trigger": "resident memory reaches 85 GiB, new pageouts occur, sustained swap growth occurs, dynamic filesystem guard fails, or active-wave private writes exceed frozen cap",
+      "classification": "invalid_or_safe_hold",
+      "required_actions": [
+        "deny_new_work_or_checkpoint_pause_according_to_75_80_82_85_broker_policy",
+        "preserve_receipts_and_traces",
+        "do_not_change_model_width_or_scientific_protocol_to_resume",
+        "require_independent_failure_classification"
+      ]
+    },
+    {
+      "id": "CUSTODY_OR_ISOLATION_FAILURE",
+      "trigger": "evaluator access, hidden-answer exposure, denied-access probe failure, shared mutable root, UID/context/stream collision, or cross-lane context leakage",
+      "classification": "required_frontier_or_campaign_invalidity",
+      "required_actions": [
+        "lock_trace_and_preserve_forensic_evidence",
+        "do_not_reveal_or_rescore_to_repair_blindness",
+        "invalidate_affected_frontier_and_assess_terminal_outcome_C"
+      ]
+    },
+    {
+      "id": "DRIFT_OR_ORDER_CONTROL_FAILURE",
+      "trigger": "model/runtime/tool/prompt/quantization identity changes or public anchor behavior exceeds frozen tolerance",
+      "classification": "cross_wave_aggregation_invalid",
+      "required_actions": [
+        "preserve_digest_and_anchor_evidence",
+        "prohibit_naive_cross_wave_aggregation",
+        "classify_critical_drift_as_outcome_C",
+        "do_not_use_wave_1_results_to_edit_wave_2"
+      ]
+    },
+    {
+      "id": "STORAGE_OR_MIDPOINT_FAILURE",
+      "trigger": "Wave-2 preflight omits retained sealed Wave-1 evidence, insufficient protected floor remains, or any required immutable identity cannot be retained across midpoint",
+      "classification": "Outcome C_or_safe_hold",
+      "required_actions": [
+        "retain_wave_1_evidence",
+        "do_not_delete_wave_1_evidence_before_wave_2_finishes",
+        "do_not_launch_wave_2",
+        "preserve_resource_measurements"
+      ]
+    },
+    {
+      "id": "FRONTIER_VALIDITY_FAILURE",
+      "trigger": "a required frontier misses required seven-day work, Day-7 blindness, trace locking, or required checkpoint/event integrity",
+      "classification": "required_frontier_invalid",
+      "required_actions": [
+        "preserve_trace",
+        "do_not_relabel_shortened_or_reduced_campaign_as_full_two_wave",
+        "assess_terminal_outcome_C"
+      ]
+    }
+  ],
+  "midpoint_and_score_hiding": {
+    "wave_1_must_be_verified_and_sealed_before_midpoint": true,
+    "wave_1_scientific_scores_visible_to_execution_system_before_wave_2_seal": false,
+    "wave_1_outcomes_may_change_wave_2_tasks_curriculum_weights_or_evaluation": false,
+    "only_ephemeral_execution_state_may_reset": true,
+    "immutable_source_model_runtime_tool_identities_must_remain": true,
+    "fresh_resource_preflight_required": true,
+    "wave_2_hidden_task_commitments_may_materialize_only_after_midpoint_preflight": true
+  },
+  "prohibited_recovery_actions": [
+    "automatic_restart_with_changed_protocol",
+    "automatic_model_substitution_between_waves",
+    "automatic_quantization_or_runtime_upgrade_between_waves",
+    "automatic_prompt_or_tool_revision_between_waves",
+    "automatic_width_reduction_under_full_two_wave_identity",
+    "deleting_wave_1_evidence_to_make_space_for_wave_2",
+    "unblinding_or_using_wave_1_scores_to_tune_wave_2",
+    "relabeling_shortened_or_reduced_campaign_as_full_two_wave"
+  ],
+  "terminal_outcomes": {
+    "A": {
+      "label": "full_valid_positive_terminal_result",
+      "requires": [
+        "all_eight_frontier_blocks_valid",
+        "both_seven_day_waves_valid",
+        "candidate_beats_matched_control_under_frozen_threshold",
+        "positive_day_7_cold_retention",
+        "no_critical_drift",
+        "no_leakage",
+        "zero_mutation_survivors",
+        "clean_clone_passes"
+      ]
+    },
+    "B": {
+      "label": "full_valid_exact_null",
+      "requires": [
+        "both_waves_valid",
+        "candidate_advantage_below_frozen_threshold",
+        "exact_null_published"
+      ]
+    },
+    "C": {
+      "label": "honest_refusal_or_invalid_campaign",
+      "triggers": [
+        "quantized_preservation_test_fails_and_width_four_fails",
+        "cross_wave_model_or_runtime_drift_exceeds_tolerance",
+        "storage_memory_custody_or_isolation_gate_fails",
+        "required_frontier_becomes_invalid"
+      ]
+    }
+  },
+  "source_binding": {
+    "new_source_commit": null,
+    "new_gate_receipts": [],
+    "old_receipts_rewritten": false,
+    "this_draft_claims_gate_pass": false,
+    "this_draft_claims_launch": false
+  }
+}

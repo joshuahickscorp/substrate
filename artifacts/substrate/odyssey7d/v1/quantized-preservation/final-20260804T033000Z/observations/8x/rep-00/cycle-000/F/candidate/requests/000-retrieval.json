@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "58e0dbdda084b7707c0918a9b8f4ab7e04ea4c7183c9786fc8841a9c6774e90e",
+  "cycle": 0,
+  "frontier": "F",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/F/candidate/receipts/000-retrieval.json",
+  "request_sha256": "d53b3aece788f788799955fd3b5e9dcd6babaf1588caba61642b47554345734a",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "F",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "An audio stream has 8000 samples per second for 0.25 seconds. How many samples are recorded?",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "F-PUBLIC-0000-F2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "d21dc0e1accba30acfe0db1a7f32213814e75cea25cb7eb75cd605be2b4b082b",
+  "cycle": 0,
+  "frontier": "D",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/D/candidate/receipts/000-retrieval.json",
+  "request_sha256": "8fd08e70778f29da34b1dca9374956ee40aa5630b1391736ea172ffb2edd1904",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "D",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "In Python, let s='odyssey'. What string is s[1:5][::-1]?",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "D-PUBLIC-0000-D2"
+  }
+}

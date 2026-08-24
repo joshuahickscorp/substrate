@@ -1,0 +1,167 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "checks": {
+    "exact_commit_checkout": true,
+    "frozen_build_regeneration": true,
+    "ruff_check": true,
+    "scoped_tests": true,
+    "source_map_match": true
+  },
+  "clone": {
+    "checkout": {
+      "command": [
+        "git",
+        "checkout",
+        "--quiet",
+        "--detach",
+        "c6acc54d06cea8185b53ed15edac9668d908e28b"
+      ],
+      "detail": "",
+      "ok": true,
+      "returncode": 0
+    },
+    "checkout_head": "c6acc54d06cea8185b53ed15edac9668d908e28b",
+    "clone": {
+      "command": [
+        "git",
+        "clone",
+        "--quiet",
+        "--no-local",
+        "--no-hardlinks",
+        "/Users/scammermike/Downloads/substrate",
+        "/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/substrate-odyssey-cleanclone-lxc7hh8k/substrate"
+      ],
+      "detail": "",
+      "ok": true,
+      "returncode": 0
+    },
+    "freeze_one": {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "substrate.odyssey_transition",
+        "freeze",
+        "--root",
+        "/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/substrate-odyssey-cleanclone-lxc7hh8k/substrate"
+      ],
+      "detail": "ba565e11\",\n    \"telegram_probe\": \"59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28\",\n    \"transition_controller\": \"dab3bc2e1bc74259b340f0913c837aa5125fb2c098c0786947dcde8bc23af5dc\"\n  },\n  \"input_sha256\": {\n    \"autopivot_policy\": \"cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc\",\n    \"frontier_contract\": \"06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852\",\n    \"hardened_design\": \"f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5\",\n    \"rendered_build_index\": \"55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b\",\n    \"shared_storage\": \"9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72\",\n    \"task_bank\": \"203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9\"\n  },\n  \"program\": \"substrate-odyssey-r2-handoff-v1\",\n  \"purpose\": \"complete static Odyssey build; transition only after R2 verification\",\n  \"r2_requirements\": {\n    \"continuity_verification\": {\n      \"independently_verified\": true,\n      \"schema\": \"SUBSTRATE_SANDBOX_R2_CONTINUITY_VERIFICATION/v1\",\n      \"scientific_status\": \"pass\"\n    },\n    \"longitudinal_result\": {\n      \"actual_wall_hours\": 24,\n      \"continuity_passing\": true,\n      \"scientific_status\": \"complete\"\n    },\n    \"no_live_r2_supervisor\": true,\n    \"source_provenance\": {\n      \"independently_verified\": true,\n      \"schema\": \"SUBSTRATE_SANDBOX_R2_PROVENANCE_VERIFICATION/v1\",\n      \"scientific_status\": \"pass\"\n    }\n  },\n  \"schema\": \"SUBSTRATE_ODYSSEY_FROZEN_BUILD/v1\",\n  \"scientific_status\": \"frozen_waiting_for_verified_r2\",\n  \"sha256\": \"8630e723470c210de779316cd3a823d6982d86ae96e509717558577258dbddd0\",\n  \"transition\": {\n    \"automatic_action\": \"write_preflight_authorization_receipt_only\",\n    \"never_automatic\": [\n      \"candidate_selection\",\n      \"control_selection\",\n      \"task_or_answer_selection\",\n      \"rights_acceptance\",\n      \"custody_key_creation\",\n      \"scientific_worker_launch\"\n    ],\n    \"next_state\": \"odyssey_preflight_authorized\"\n  }\n}\n",
+      "ok": true,
+      "returncode": 0
+    },
+    "freeze_two": {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "substrate.odyssey_transition",
+        "freeze",
+        "--root",
+        "/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/substrate-odyssey-cleanclone-lxc7hh8k/substrate"
+      ],
+      "detail": "ba565e11\",\n    \"telegram_probe\": \"59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28\",\n    \"transition_controller\": \"dab3bc2e1bc74259b340f0913c837aa5125fb2c098c0786947dcde8bc23af5dc\"\n  },\n  \"input_sha256\": {\n    \"autopivot_policy\": \"cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc\",\n    \"frontier_contract\": \"06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852\",\n    \"hardened_design\": \"f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5\",\n    \"rendered_build_index\": \"55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b\",\n    \"shared_storage\": \"9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72\",\n    \"task_bank\": \"203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9\"\n  },\n  \"program\": \"substrate-odyssey-r2-handoff-v1\",\n  \"purpose\": \"complete static Odyssey build; transition only after R2 verification\",\n  \"r2_requirements\": {\n    \"continuity_verification\": {\n      \"independently_verified\": true,\n      \"schema\": \"SUBSTRATE_SANDBOX_R2_CONTINUITY_VERIFICATION/v1\",\n      \"scientific_status\": \"pass\"\n    },\n    \"longitudinal_result\": {\n      \"actual_wall_hours\": 24,\n      \"continuity_passing\": true,\n      \"scientific_status\": \"complete\"\n    },\n    \"no_live_r2_supervisor\": true,\n    \"source_provenance\": {\n      \"independently_verified\": true,\n      \"schema\": \"SUBSTRATE_SANDBOX_R2_PROVENANCE_VERIFICATION/v1\",\n      \"scientific_status\": \"pass\"\n    }\n  },\n  \"schema\": \"SUBSTRATE_ODYSSEY_FROZEN_BUILD/v1\",\n  \"scientific_status\": \"frozen_waiting_for_verified_r2\",\n  \"sha256\": \"8630e723470c210de779316cd3a823d6982d86ae96e509717558577258dbddd0\",\n  \"transition\": {\n    \"automatic_action\": \"write_preflight_authorization_receipt_only\",\n    \"never_automatic\": [\n      \"candidate_selection\",\n      \"control_selection\",\n      \"task_or_answer_selection\",\n      \"rights_acceptance\",\n      \"custody_key_creation\",\n      \"scientific_worker_launch\"\n    ],\n    \"next_state\": \"odyssey_preflight_authorized\"\n  }\n}\n",
+      "ok": true,
+      "returncode": 0
+    },
+    "lint": {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "src/substrate/odyssey7d.py",
+        "src/substrate/odyssey_authority.py",
+        "src/substrate/odyssey_clean_clone.py",
+        "src/substrate/odyssey_telegram_probe.py",
+        "src/substrate/odyssey_task_bank.py",
+        "src/substrate/odyssey_transition.py",
+        "src/substrate/odyssey_worker.py",
+        "src/substrate/r2_continuity_verifier.py",
+        "src/substrate/r2_provenance_verifier.py",
+        "tools/odyssey7d_telegram_notifier.py",
+        "tests/substrate/test_odyssey7d.py",
+        "tests/substrate/test_odyssey_authority.py",
+        "tests/substrate/test_odyssey_worker.py",
+        "tests/substrate/test_r2_continuity_verifier.py",
+        "tests/substrate/test_r2_provenance_verifier.py",
+        "tests/substrate/test_odyssey_clean_clone.py",
+        "tests/substrate/test_odyssey_telegram_probe.py"
+      ],
+      "detail": "All checks passed!\n",
+      "ok": true,
+      "returncode": 0
+    },
+    "tests": {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/substrate/test_odyssey7d.py",
+        "tests/substrate/test_odyssey_authority.py",
+        "tests/substrate/test_odyssey_worker.py",
+        "tests/substrate/test_r2_continuity_verifier.py",
+        "tests/substrate/test_r2_provenance_verifier.py",
+        "tests/substrate/test_odyssey_clean_clone.py",
+        "tests/substrate/test_odyssey_telegram_probe.py"
+      ],
+      "detail": "...............................                                          [100%]\n",
+      "ok": true,
+      "returncode": 0
+    }
+  },
+  "external_activation": false,
+  "frozen_build_sha256": "8630e723470c210de779316cd3a823d6982d86ae96e509717558577258dbddd0",
+  "implementation_sha256": {
+    "frontier_renderer": "64392efd3f0b8b8c88246ff9768808a1ce99958e4aeab8ff6b551ffc6ddb955b",
+    "odyssey_authority": "b90e9f0814de6b41539885e6ff12a48a617b8b0eb1f3bcef81f749c58461e25d",
+    "odyssey_clean_clone": "e7a834117e34cff8a37768559ae4f320b70ae481ca2912ad3a8ace22dd2d1d4c",
+    "odyssey_worker": "79e282ed0251a65f2ce0463562f96cb69c27a1b68922089f4a74bab617145dd1",
+    "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+    "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+    "task_bank_generator": "b6f822970eb144671a1378fc3d840b819d64dd68086ace80fe427b83237bce27",
+    "telegram_notifier": "ac3aef9162d1d2f99460f3c82e7be156fc04cd04bc22b498c7bf48f5ba565e11",
+    "telegram_probe": "59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28",
+    "transition_controller": "dab3bc2e1bc74259b340f0913c837aa5125fb2c098c0786947dcde8bc23af5dc"
+  },
+  "input_sha256": {
+    "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+    "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "hardened_design": "f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5",
+    "rendered_build_index": "55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b",
+    "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+    "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+  },
+  "lint_targets": [
+    "src/substrate/odyssey7d.py",
+    "src/substrate/odyssey_authority.py",
+    "src/substrate/odyssey_clean_clone.py",
+    "src/substrate/odyssey_telegram_probe.py",
+    "src/substrate/odyssey_task_bank.py",
+    "src/substrate/odyssey_transition.py",
+    "src/substrate/odyssey_worker.py",
+    "src/substrate/r2_continuity_verifier.py",
+    "src/substrate/r2_provenance_verifier.py",
+    "tools/odyssey7d_telegram_notifier.py",
+    "tests/substrate/test_odyssey7d.py",
+    "tests/substrate/test_odyssey_authority.py",
+    "tests/substrate/test_odyssey_worker.py",
+    "tests/substrate/test_r2_continuity_verifier.py",
+    "tests/substrate/test_r2_provenance_verifier.py",
+    "tests/substrate/test_odyssey_clean_clone.py",
+    "tests/substrate/test_odyssey_telegram_probe.py"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "regenerated_frozen_build_sha256": "8630e723470c210de779316cd3a823d6982d86ae96e509717558577258dbddd0",
+  "schema": "SUBSTRATE_ODYSSEY_CLEAN_CLONE_CI/v1",
+  "sha256": "0bf7bc57bc60dd66fba6d52c9f1c72703f9dcfdf8dfa3ca7c8782be89a638ae4",
+  "source_commit": "c6acc54d06cea8185b53ed15edac9668d908e28b",
+  "test_targets": [
+    "tests/substrate/test_odyssey7d.py",
+    "tests/substrate/test_odyssey_authority.py",
+    "tests/substrate/test_odyssey_worker.py",
+    "tests/substrate/test_r2_continuity_verifier.py",
+    "tests/substrate/test_r2_provenance_verifier.py",
+    "tests/substrate/test_odyssey_clean_clone.py",
+    "tests/substrate/test_odyssey_telegram_probe.py"
+  ]
+}

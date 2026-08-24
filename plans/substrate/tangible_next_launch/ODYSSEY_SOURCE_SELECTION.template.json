@@ -1,0 +1,97 @@
+{
+  "activation": false,
+  "external_activation": false,
+  "frontiers": [
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_A_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_A_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_A_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_A_SOURCE_SHA256"
+        }
+      ],
+      "id": "A"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_B_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_B_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_B_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_B_SOURCE_SHA256"
+        }
+      ],
+      "id": "B"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_C_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_C_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_C_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_C_SOURCE_SHA256"
+        }
+      ],
+      "id": "C"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_D_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_D_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_D_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_D_SOURCE_SHA256"
+        }
+      ],
+      "id": "D"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_E_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_E_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_E_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_E_SOURCE_SHA256"
+        }
+      ],
+      "id": "E"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_F_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_F_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_F_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_F_SOURCE_SHA256"
+        }
+      ],
+      "id": "F"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_G_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_G_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_G_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_G_SOURCE_SHA256"
+        }
+      ],
+      "id": "G"
+    },
+    {
+      "assets": [
+        {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_H_CANDIDATE_VISIBLE_SOURCE",
+          "rights_reference": "REPLACE_WITH_ROOT_RELATIVE_H_RIGHTS_RECORD",
+          "role": "REPLACE_WITH_H_CANDIDATE_VISIBLE_ROLE",
+          "sha256": "REPLACE_WITH_H_SOURCE_SHA256"
+        }
+      ],
+      "id": "H"
+    }
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_SELECTION_DRAFT/v1",
+  "status": "template_unsealed"
+}

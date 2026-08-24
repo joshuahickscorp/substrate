@@ -1,0 +1,93 @@
+{
+  "schema": "SUBSTRATE_MULTI_BLIND_FABRIC_DRAFT/v1",
+  "status": "draft_post_r2_no_launch_authority",
+  "activation": false,
+  "parent_requirements": {
+    "r2_terminal_and_independently_verified": false,
+    "blind_shadow_reviewed": false,
+    "all_authorities_sealed": false
+  },
+  "host_observation": {
+    "observed_at": "2026-07-31",
+    "physical_memory_gib": 96,
+    "observed_page_accounting_gib_approx": 81,
+    "fresh_preflight_required": true
+  },
+  "memory_broker": {
+    "measurement_interval_seconds": 30,
+    "hard_total_resident_cap_gib": 85,
+    "normal_admission_target_gib": 75,
+    "accounting_uncertainty_gib": 2,
+    "emergency_cushion_gib": 10,
+    "must_include": ["host", "vm", "container", "model_service", "broker"],
+    "thresholds_gib": {
+      "deny_new_work": 75,
+      "p2_checkpoint": 80,
+      "p1_pause": 82,
+      "safe_hold": 85
+    },
+    "resume": {
+      "consecutive_samples_below_gib": 75,
+      "required_samples": 2,
+      "requires_no_critical_memory_pressure": true,
+      "requires_unchanged_sealed_config": true
+    },
+    "allowed_decisions": ["admit", "hold", "checkpoint_then_pause", "resume"],
+    "forbidden_decisions": ["change_hypothesis", "select_task", "unseal_answers", "retry_changed_protocol"]
+  },
+  "default_pools_gib": {
+    "macos_control_custody_evaluation": 16,
+    "shared_model_service": 14,
+    "linux_primary_vm": 28,
+    "light_reasoning_lanes": 4,
+    "macos_media": 8,
+    "windows_gui_vm": 0,
+    "unallocated_operating_reserve": 5,
+    "default_admitted_total": 70,
+    "maximum_broker_admitted_total": 75
+  },
+  "linux_vm_lane_caps_gib": {
+    "B_math": 3,
+    "C_logic": 3,
+    "D_code": 7,
+    "H_multimodal": 3,
+    "I_science": 4,
+    "guest_os_ipc_cache": 8,
+    "total": 28
+  },
+  "transfer_rule": {
+    "windows_gui_vm_gib": 8,
+    "requires_media_stopped": true,
+    "requires_linux_vm_reduced_to_gib": 24,
+    "requires_receipted_broker_transfer": true
+  },
+  "calibration": {
+    "widths": [1, 2, 4, 6, 8],
+    "repetitions": 3,
+    "independent_capsules_only": true,
+    "admit_next_width_only_if": ["receipt_invariant", "no_memory_threshold_breach", "no_critical_pressure", "no_unexpected_swap_or_pageout_increase", "io_latency_within_sealed_limit", "slowdown_within_sealed_limit"],
+    "r2_parallelization": "forbidden"
+  },
+  "isolation": {
+    "shared_read_only": ["weights", "tokenizers", "base_images", "raw_data", "simulators", "toolchains", "frozen_evaluation_code"],
+    "never_shared_writable": ["run_roots", "checkpoints", "event_ledgers", "hidden_seeds", "answer_keys", "mutable_model_context", "scoring_state"],
+    "lane_roots_distinct": true
+  },
+  "remote_accelerator": {
+    "runpod_key_status": "rejected_http_401_2026-07-31",
+    "remote_authoritative_continuity": false,
+    "permitted_after_separate_canary": ["batch_preprocess", "embeddings", "rendering", "candidate_training"],
+    "requires": ["replacement_key_nonbillable_api_probe", "disposable_runtime_non_null_canary", "manifest_pinned_inputs", "local_receipt_and_checkpoint_copy"],
+    "forbidden": ["authoritative_ledger", "evaluator_only_answers", "custody_secrets", "sole_checkpoint_copy"]
+  },
+  "notification": {
+    "interval_minutes": 30,
+    "fields": ["phase", "percent_complete", "active_cores", "resident_memory_by_pool", "free_storage", "guard_state", "broker_decision"]
+  },
+  "required_authorities": [
+    "CORE_LANE_SPEC", "LANE_ROLE_CONTRACTS", "HIDDEN_SYNTHESIS_PROTOCOL", "RESOURCE_BUDGETS",
+    "TRAINING_DATA_MANIFESTS", "TRAINING_POLICIES", "TRAINING_COMMANDS", "MODEL_VERSION_PINS",
+    "EVALUATOR_REGISTRY", "MEASUREMENT_RUBRICS", "SCHEDULE_AND_BUDGETS", "SAFETY_REGIMES",
+    "MERGE_SPEC", "PIVOT_TABLE", "BACKFILL_POLICY", "SEED_POLICY", "FAILURE_TAXONOMY"
+  ]
+}

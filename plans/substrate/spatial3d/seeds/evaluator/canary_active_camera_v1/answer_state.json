@@ -1,0 +1,11 @@
+{
+  "answer": "right_only",
+  "cam_left_sees": "left_only",
+  "cam_right_sees": "right_only",
+  "canary_id": "active_camera",
+  "capability": "active_camera_selection",
+  "question": "After set_camera(cam_right), which colored block dominates the frame?",
+  "rationale": "Narrow FOV cameras are aimed at opposite objects; active camera selects the view.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1"
+}

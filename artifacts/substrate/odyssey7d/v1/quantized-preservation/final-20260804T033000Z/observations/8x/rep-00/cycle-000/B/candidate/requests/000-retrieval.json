@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "5ea7913df0b0925099b2179e4581bca4193c093cfdf9b0b47a47f1d5cf279686",
+  "cycle": 0,
+  "frontier": "B",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/B/candidate/receipts/000-retrieval.json",
+  "request_sha256": "fb073272a7603e04a516d0545bddaf871d2be15149eabef5b9d4f71eaa4ab00b",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "B",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "Compute three quarters plus five eighths. Give the reduced fraction.",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "B-PUBLIC-0000-B2"
+  }
+}

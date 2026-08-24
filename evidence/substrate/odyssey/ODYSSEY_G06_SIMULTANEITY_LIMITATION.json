@@ -1,0 +1,58 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_G06_SIMULTANEITY_LIMITATION/v1",
+  "program": "substrate-odyssey-7d-v1",
+  "activation": false,
+  "status": "historical_limitation_record",
+  "gate_id": "G06",
+  "gate_name": "width eight admitted",
+  "subject_schema": "SUBSTRATE_ODYSSEY_WIDTH_CALIBRATION/v1",
+  "what_the_old_gate_measured": {
+    "measurement_basis": "active_paired_dispatch_wall_with_deadline_guard",
+    "primary_pass_condition": "per_cell_slowdown_ratio <= max_slowdown_ratio",
+    "frozen_max_slowdown_ratio": 1.35,
+    "strict_dispatch_budget_seconds": 150,
+    "scale_factor": 12,
+    "full_phase_seconds": 1800,
+    "note": "G06 admits width eight only when concurrent paired-cell active dispatch is at most 1.35x the width-1 baseline, under a 150 s scaled dispatch budget (full 1800 s phase / 12). Memory, pageouts, transport validity, semantic validity, parity, and isolation are also required; with the real tool-bearing arms they all passed."
+  },
+  "exact_result_preserved": {
+    "source_evidence": "evidence/substrate/odyssey/ODYSSEY_ARM_PROTOCOL_V2_WIDTH_CALIBRATION.json",
+    "schema": "ODYSSEY_ARM_PROTOCOL_V2_WIDTH_CALIBRATION_DIAGNOSTIC/v1",
+    "width1_active_dispatch_wall_seconds": 12.909102624980733,
+    "width_ladder": {
+      "1": {"slowdown": 1.0, "pageouts": 0, "peak_rss_gib": 49.6},
+      "2": {"slowdown": 1.22, "pageouts": 0, "peak_rss_gib": 50.8},
+      "4": {"slowdown": 2.41, "pageouts": 0, "peak_rss_gib": 54.2},
+      "6": {"slowdown": 3.65, "pageouts": 0, "peak_rss_gib": 57.6},
+      "8": {"slowdown": 4.39, "pageouts": 0, "peak_rss_gib": 52.8}
+    },
+    "width_8_max_slowdown": 4.392411013227944,
+    "width_8_max_slowdown_rounded": 4.39,
+    "all_objects_transport_and_semantically_valid": true,
+    "zero_pageouts_everywhere": true,
+    "peak_rss_far_below_85_gib_ceiling": true,
+    "only_failing_condition": "slowdown"
+  },
+  "formal_g06_refusal": {
+    "attempt_1": "G06 1x rep 1: unexpected pageout delta 851968 bytes",
+    "attempt_2": "G06 2x rep 2: per_cell_slowdown_ratio=1.362757 exceeds sealed max 1.35",
+    "diagnostic_width8_status": "not_passed_this_run",
+    "g06_sealed_limit": 1.35
+  },
+  "why_the_measurement_is_real": [
+    "Unmodified frozen G06 contract; widths 1/2/4/6/8 x 3 repetitions.",
+    "Real production arms (candidate flat_exact_associative_monolith; control append_only_history_retrieval).",
+    "All objects transport-valid and semantically valid at every width.",
+    "Zero pageouts; peak resident memory well below the 85 GiB ceiling.",
+    "Width-8 max slowdown 4.392411013227944 is a measured concurrent-dispatch fact, not a modeling artifact."
+  ],
+  "why_it_is_not_load_bearing_for_odyssey_capacity": [
+    "Odyssey scores phases of 1800 s and microcycles of 7200 s. Capacity means finishing work before those deadlines, not matching single-cell generation latency under concurrent GPU sharing.",
+    "At width 8, active dispatch was on the order of ~57 s inside an 1800 s phase (~31x deadline headroom). The 4.39x slowdown relative to width 1 does not imply missed phase, microcycle, event, or checkpoint deadlines.",
+    "Exact simultaneous token generation is not a treatment variable in the claim boundary: the candidate/control treatment is developmental memory, not concurrency latency.",
+    "Tools add ~0.39% of a phase and are CPU-bound; measured GPU idle was 6.58 s of a 6.74 s tool window, so tool work does not contend with model generation for the GPU."
+  ],
+  "preservation_rule": "This record and the referenced WIDTH_CALIBRATION receipt must remain intact. Never hide the 4.39x. G06 and _validate_g06 remain historical evidence; G06-DC is a separate scientific successor gate.",
+  "resident_memory_ceiling_gib": 85,
+  "recorded_for_transition": "G06-DC deadline-capacity"
+}

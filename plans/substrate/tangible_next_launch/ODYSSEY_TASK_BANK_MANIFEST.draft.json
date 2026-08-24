@@ -1,0 +1,52 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_TASK_BANK_MANIFEST_DRAFT/v1",
+  "activation": false,
+  "status": "prepared_no_arm_adoption",
+  "principle": "Each frontier receives a replayable task bank with source pin, verifier or simulator contract, candidate/control parity, and an evaluator-only held-out split. Raw corpora are never by themselves a scored task bank.",
+  "banks": [
+    {
+      "id": "math_verified",
+      "frontier": "formal_mathematics",
+      "resources": [
+        {"source": "hendrycks/math", "revision": "985bdc1696e88e8643f081a0ff4719da39f2ae2a", "local": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/math", "license": "MIT", "status": "prefetched"},
+        {"source": "openai/miniF2F", "revision": "4e433ff5cadff23f9911a2bb5bbab2d351ce5554", "license": "verify before acquisition", "status": "pinned_for_post_prefetch_clone"},
+        {"source": "leanprover-community/mathlib4", "revision": "1f8806b67d6f09e6d2552c031e6d3a3171016116", "license": "Apache-2.0", "local": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mathlib4", "bytes": 601654974, "status": "prefetched_exact_revision"}
+      ],
+      "requires": ["Lean toolchain/version lock", "proof checker receipt", "evaluator-only transfer set"],
+      "not_a_training_claim": "MATH supplies problems; score tasks require a frozen verifier and disjoint answer keys."
+    },
+    {
+      "id": "logic_verified",
+      "frontier": "formal_logic",
+      "resources": [
+        {"source": "SMT-LIB/SMT-LIB.github.io", "revision": "9292971562c242a8c9d4e738f32ce92ab7f7a729", "license": "verify per benchmark before acquisition", "status": "pinned_for_post_prefetch_clone"},
+        {"source": "Z3", "local_binary": "/opt/homebrew/bin/z3", "status": "present"}
+      ],
+      "requires": ["logic fragment manifest", "solver version receipt", "evaluator-only countermodel set"],
+      "not_a_training_claim": "The benchmark source is selected only after per-set licensing and no-leak review."
+    },
+    {
+      "id": "software_replayable",
+      "frontier": "software",
+      "resources": [
+        {"source": "SWE-bench", "revision": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9", "local": "data/substrate/tangible_sandbox/sources/swe_bench", "status": "present"},
+        {"source": "SWE-bench multimodal metadata", "revision": "6051de316c9dbe807322d568d9dc5f465b33a96f", "local": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/swe_bench_multimodal", "status": "prefetched"}
+      ],
+      "requires": ["per-repository license allowlist", "base-commit receipts", "reproducible test image or local test trace", "evaluator-only issue holdout"],
+      "not_a_training_claim": "Metadata does not grant the right or ability to run every upstream repository; each task is admitted individually."
+    },
+    {
+      "id": "embodied_counterfactual",
+      "frontier": "vision_spatial_embodied",
+      "resources": [
+        {"source": "Kubric", "revision": "61f2422c84bab75006df33c6989e0b483db3ccfe", "local": "data/substrate/tangible_sandbox/sources/kubric", "license": "Apache-2.0", "status": "present"},
+        {"source": "MOVi-A 128px", "manifest_sha256": "b2cc09fc39f3c1b1769b65ce4c0d08452cb7e1aa27ff4d562edd2f8823c7b15b", "local": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/movi_a_128", "status": "prefetched"},
+        {"source": "CLEVR v1", "etag": "3426f0a360618fcf2179966a8d1428c3-1210", "local": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_v1", "status": "prefetch_in_progress"}
+      ],
+      "requires": ["Blender/Kubric runtime lock", "seed and action-distribution commitment", "state/action/contact receipt schema", "evaluator-only counterfactual continuations"],
+      "live_input_boundary": "External video is observational data. Active proprioception is supplied only by deterministic simulator feedback to precommitted actions; no uncontrolled physical-world input participates in the blinded run."
+    }
+  ],
+  "global_gates": ["R2 verified", "rights review", "exact source hashes", "candidate/control parity", "evaluator-only split", "storage rehearsal", "tool/simulator receipt"],
+  "prohibited": ["selecting tasks after candidate scores", "mixing evaluator-only data into development", "treating passive video as agent action feedback", "using unreviewed repository or data licenses"]
+}

@@ -1,0 +1,18 @@
+{
+  "answer": {
+    "object_id": "mover",
+    "still_present": true
+  },
+  "canary_id": "object_permanence",
+  "capability": "object_permanence_after_motion",
+  "moved_object": "mover",
+  "question": "After translating mover by +2 on X, is mover still visible?",
+  "rationale": "Second render after motion still has non-zero pixel coverage for mover.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1",
+  "translation": [
+    2.0,
+    0.0,
+    0.0
+  ]
+}

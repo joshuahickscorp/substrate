@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G11",
+  "gate_name": "statistics and score weights frozen",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "f7e621915f1039204cba0028cf268c1c86c5f77e51c1e15e6f7f7d239e8de294",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "a7e1f02ca0fb502627a13cb42694555ad93821c3112aa6f9eb97ae50fe00b170",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G11.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_STATISTICS_AUTHORITY/v1"
+  },
+  "unqualified_nous": false
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "SUBSTRATE_MULTI_BLIND_PEDAGOGY_COMPRESSION_DRAFT/v1",
+  "status": "draft_post_r2_requires_fabric_calibration",
+  "activation": false,
+  "campaign_wall_clock_hours": 24,
+  "microcycle_hours": 2,
+  "microcycles_per_cell": 12,
+  "applies_to": "each admitted frontier cell in FRONTIER_LATTICE.draft.json",
+  "microcycle_template": [
+    {"offset_minutes": 0, "phase": "baseline", "purpose": "pre-exposure capability and state measurement"},
+    {"offset_minutes": 20, "phase": "guided_exposure", "purpose": "manifest-pinned instructional or corrective material"},
+    {"offset_minutes": 50, "phase": "immediate_transfer", "purpose": "new isomorphic task without answer-key access"},
+    {"offset_minutes": 100, "phase": "delayed_recall_or_repair", "purpose": "retrieve prior state, correct a perturbation, or resume interrupted work"}
+  ],
+  "pedagogy_intervention": {
+    "enabled_only_if_separately_sealed": true,
+    "candidate_receives": "precommitted guided exposure",
+    "matched_control_receives": "equal-time and equal-token non-instructional exposure",
+    "shared": ["stimulus_family", "compute_budget", "wall_clock_budget", "tool_access", "scoring_rubric"],
+    "evaluator_only": ["post-exposure answer_keys", "assignment_mapping", "scoring_mapping"],
+    "forbidden": ["result_dependent_curriculum", "candidate_selected_answers", "unequal_exposure_budget"]
+  },
+  "measurement": {
+    "scored_dimensions": ["state_recall", "causal_repair", "near_transfer", "far_or_cross_modal_transfer"],
+    "scored_events_per_cell": 48,
+    "resource_samples_per_cell": 49,
+    "delayed_links": [
+      {"from_microcycle": 1, "to_microcycle": 4},
+      {"from_microcycle": 2, "to_microcycle": 6},
+      {"from_microcycle": 4, "to_microcycle": 9},
+      {"from_microcycle": 6, "to_microcycle": 12}
+    ],
+    "candidate_trace_locked_before_evaluation": true
+  },
+  "aggregate_if_eight_cells_admitted": {
+    "candidate_histories": 8,
+    "microcycles": 96,
+    "scored_events": 384,
+    "scored_dimension_observations": 1536,
+    "resource_samples": 392
+  },
+  "analysis_boundary": {
+    "independent_unit": "one separately custodian-seeded held-out history per cell",
+    "independent_units_in_first_lattice": 8,
+    "microcycles_or_dimensions_are_independent_replicates": false,
+    "pedagogy_effect_requires": ["sealed_matched_control", "held_out_post_exposure_tasks", "hierarchical_analysis_by_history", "precommitted_effect_threshold"]
+  },
+  "resource_protection": {
+    "does_not_raise_any_cell_resident_cap": true,
+    "broker_thresholds_remain_gib": {"deny_new_work": 75, "p2_checkpoint": 80, "p1_pause": 82, "safe_hold": 85},
+    "on_checkpoint_or_pause": "preserve the current microcycle receipt and resume only at a sealed boundary"
+  }
+}

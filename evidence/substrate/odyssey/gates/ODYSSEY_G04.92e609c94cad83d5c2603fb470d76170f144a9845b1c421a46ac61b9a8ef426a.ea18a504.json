@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G04",
+  "gate_name": "custodian and answer commitments sealed",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "c6423d3882a435c8eb237f8a0a64953cdbceeb3a9e0b5d9a11f5c46da9ed3a7d",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "5361f48d7d4f5a329a6315433295e698572bf3095c2c7d44e4a105dab6beb3af",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G04.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_CUSTODY_SEAL/v1"
+  },
+  "unqualified_nous": false
+}

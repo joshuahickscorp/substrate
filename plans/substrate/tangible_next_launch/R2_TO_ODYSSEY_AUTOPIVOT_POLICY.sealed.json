@@ -1,0 +1,30 @@
+{
+  "schema": "SUBSTRATE_R2_TO_ODYSSEY_AUTOPIVOT_POLICY/v1",
+  "status": "sealed_operational_policy",
+  "activation": false,
+  "policy_version": "1.0.0",
+  "principle": "Deterministically preserve valid evidence and route only on sealed integrity states; never select a favorable result, task, curriculum, control, or duration after observing performance.",
+  "r2_remediation": {
+    "program": "substrate-tangible-sandbox-r2",
+    "current_run_must_complete_full_seconds": 86400,
+    "permitted_adjustment": "mechanical trace-receipt serialization repair bound before the fresh run",
+    "forbidden_adjustments": ["outcome-dependent stimulus selection", "control weakening", "score-weight change", "duration shortening", "elapsed-time concatenation", "candidate-state reuse"],
+    "maximum_automatic_remediation_runs": 1
+  },
+  "transitions": [
+    {"id": "r2_live", "when": "supervisor_running_and_no_terminal_result", "state": "monitor_only", "action": "read_only_health_and_telegram", "next": "r2_terminal"},
+    {"id": "r2_failed", "when": "worker_failed_or_independent_verification_fails", "state": "safe_hold", "action": "preserve_invalid_trace_emit_alert_do_not_auto_retry", "next": "human_or_separately_sealed_repair"},
+    {"id": "r2_complete", "when": "worker_complete_and_independent_verification_passes", "state": "odyssey_authority_gate", "action": "recompute_receipts_bind_verified_r2_digest", "next": "odyssey_preflight"},
+    {"id": "odyssey_incomplete", "when": "any_odyssey_gate_pending", "state": "odyssey_safe_hold", "action": "prepare_only_no_detached_launch", "next": "odyssey_authority_gate"},
+    {"id": "odyssey_ready", "when": "verified_r2_digest_bound_and_all_15_odyssey_gates_pass_and_authority_sealed", "state": "odyssey_detach_allowed", "action": "launch_one_supervisor_from_exact_sealed_authority", "next": "odyssey_running"},
+    {"id": "odyssey_running", "when": "launchd_supervisor_running", "state": "monitor_only", "action": "read_only_30_minute_health_telegram_and_safe_hold_on_guard_failure", "next": "odyssey_terminal"}
+  ],
+  "integrity_assertions": {
+    "r2_invalid_trace_can_unlock_odyssey": false,
+    "odyssey_can_launch_with_pending_gate": false,
+    "daily_scores_can_change_schedule": false,
+    "worker_exit_is_scientific_success": false,
+    "all_actions_receipted": true
+  },
+  "sha256": "00f18e3c8a1f8e6cbca9c572595ebebf25d8d5af5a4c818c57234ff02c4d99c2"
+}

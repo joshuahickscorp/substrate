@@ -1,0 +1,14 @@
+{
+  "above_object": "green_block",
+  "answer": "red_block",
+  "below_object": "floor",
+  "canary_id": "relative_position",
+  "capability": "relative_position",
+  "from_camera": "cam_front",
+  "left_object": "red_block",
+  "question": "From cam_front, which object is on the left: red_block or blue_block?",
+  "rationale": "Screen-space centroid of red is left of blue under cam_front projection.",
+  "requires_render": true,
+  "right_object": "blue_block",
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1"
+}

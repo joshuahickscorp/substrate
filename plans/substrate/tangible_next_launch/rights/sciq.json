@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T18:06:27.499846+00:00",
+  "acquired_bytes": 11986889,
+  "dataset": "sciq",
+  "evaluator_only_separated": true,
+  "file_count": 12,
+  "frontier": "H",
+  "license": "CC BY-NC 3.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/sciq/licenses/LICENSE.txt",
+  "license_url": "https://creativecommons.org/licenses/by-nc/3.0/",
+  "notes": [
+    "SciQ science exam questions. Test/validation under evaluator-only/."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "AI2 SciQ zip from ai2-public-datasets S3",
+  "source_url": "https://ai2-public-datasets.s3.amazonaws.com/sciq/SciQ.zip",
+  "upstream_checksum_verified": false
+}

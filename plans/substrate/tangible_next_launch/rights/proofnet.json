@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T18:06:24.452170+00:00",
+  "acquired_bytes": 65991248,
+  "dataset": "proofnet",
+  "evaluator_only_separated": false,
+  "file_count": 318,
+  "frontier": "B",
+  "license": "MIT",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/proofnet/licenses/LICENSE.txt",
+  "license_url": "https://github.com/zhangir-azerbayev/ProofNet/blob/main/LICENSE",
+  "notes": [
+    "ProofNet formal theorem proving / autoformalization dataset."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub archive of main at acquisition time",
+  "source_url": "https://github.com/zhangir-azerbayev/ProofNet",
+  "upstream_checksum_verified": false
+}

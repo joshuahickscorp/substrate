@@ -1,0 +1,23 @@
+{
+  "capabilities": {
+    "canary_active_camera_v1": "active_camera_selection",
+    "canary_depth_ordering_v1": "depth_ordering",
+    "canary_object_permanence_v1": "object_permanence_after_motion",
+    "canary_occlusion_v1": "occlusion",
+    "canary_relative_position_v1": "relative_position",
+    "canary_support_containment_v1": "support_or_containment",
+    "canary_viewpoint_change_v1": "viewpoint_change"
+  },
+  "renderer": "substrate_spatial3d",
+  "renderer_version": "1.0.0",
+  "schema": "SUBSTRATE_SPATIAL3D_SEED_INDEX/v1",
+  "seeds": [
+    "canary_relative_position_v1",
+    "canary_support_containment_v1",
+    "canary_occlusion_v1",
+    "canary_viewpoint_change_v1",
+    "canary_object_permanence_v1",
+    "canary_depth_ordering_v1",
+    "canary_active_camera_v1"
+  ]
+}

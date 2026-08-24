@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+  "gate_id": "G03",
+  "gate_name": "all frontier manifests sealed",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "6286c0ab55f264f52c52a7529a8c79d283ea9a284e935f78862597d2b0c17fdd",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "5ea5ec010f7593fdfa08bde450c77287d0b56089e21035abf4225879eb5b13d4",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G03.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_FRONTIER_MANIFEST_SET/v1"
+  },
+  "unqualified_nous": false
+}

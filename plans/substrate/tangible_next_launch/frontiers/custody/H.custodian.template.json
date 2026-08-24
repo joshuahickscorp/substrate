@@ -1,0 +1,22 @@
+{
+  "activation": false,
+  "commitments": {
+    "answers": "EVALUATOR_ONLY",
+    "control": "REPLACE",
+    "generator": "REPLACE",
+    "scorer": "EVALUATOR_ONLY",
+    "seed": "REPLACE",
+    "tasks": "REPLACE",
+    "treatment": "REPLACE"
+  },
+  "custodian_role": "independent_prelaunch_custodian",
+  "frontier": "H",
+  "roots": {
+    "builder_visible": "builder-visible/H",
+    "candidate_visible": "candidate-visible/H",
+    "evaluator_only": "evaluator-only/H",
+    "publication_safe": "publication-safe/H"
+  },
+  "schema": "SUBSTRATE_ODYSSEY_CUSTODIAN_TEMPLATE/v1",
+  "status": "skeleton_no_seed_consumed"
+}

@@ -1,0 +1,6416 @@
+{
+  "activation": false,
+  "frontier": "C",
+  "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "8e8ca32e13e1ef4a716b16cf31f46afa294219e49e178b2beeddd8fd9541af33",
+  "source_bundle": {
+    "assets": [
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/fol.py",
+        "read_only": true,
+        "role": "first_order_logic_representation",
+        "sha256": "50fc3cd1c10daab9500d834f5212f126360081427cc331cc3380bf8bea6ea18c"
+      },
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/theory.py",
+        "read_only": true,
+        "role": "logic_fragment_ontology_generator",
+        "sha256": "7b9d2284948fa336ad5e5fb940fb0e6ce3129c9002d7b9ae9634fb8603058e98"
+      },
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/prontoqa/syntax.py",
+        "read_only": true,
+        "role": "logical_form_syntax_definition",
+        "sha256": "53b0979f30f34d5f12da4ef8a17ca2d62a8e9def6c8c45e80ff8fb7cff52cc84"
+      }
+    ],
+    "selection_sha256": "3d5b1375207289f9eb6835d417c7ad78773a26403e64be76da8b2b1b478654b3"
+  },
+  "tasks": [
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0000"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0001"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> C",
+        "C -> E",
+        "not (B and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0002"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0003"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0004"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0005"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0006"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0007"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0008"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0009"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0010"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0011"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0012"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0013"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0014"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0015"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0016"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0017"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> A",
+        "A -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0018"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0019"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0020"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0021"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0022"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0023"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> E",
+        "E -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0024"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0025"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0026"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0027"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0028"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0029"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0030"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0031"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0032"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0033"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0034"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0035"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0036"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0037"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0038"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0039"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0040"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0041"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0042"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0043"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0044"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0045"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0046"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0047"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0048"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0049"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0050"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0051"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0052"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0053"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0054"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0055"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0056"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0057"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0058"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0059"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0060"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0061"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0062"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0063"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0064"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> E",
+        "E -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0065"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0066"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0067"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0068"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0069"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0070"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0071"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0072"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0073"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0074"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0075"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0076"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0077"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0078"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> E",
+        "E -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0079"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0080"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0081"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0082"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0083"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0084"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0085"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0086"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0087"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0088"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> E",
+        "E -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0089"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0090"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0091"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0092"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0093"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0094"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0095"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0096"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0097"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0098"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> A",
+        "A -> D",
+        "not (B and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0099"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0100"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0101"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0102"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0103"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0104"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0105"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0106"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0107"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0108"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0109"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0110"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0111"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0112"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0113"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0114"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0115"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0116"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0117"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0118"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> C",
+        "C -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0119"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0120"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> A",
+        "not (C and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0121"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0122"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0123"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0124"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0125"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0126"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> A",
+        "not (C and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0127"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0128"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0129"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0130"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0131"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0132"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0133"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0134"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0135"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0136"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0137"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0138"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0139"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0140"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0141"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0142"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0143"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0144"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0145"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0146"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0147"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0148"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> C",
+        "C -> D",
+        "not (A and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0149"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0150"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0151"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0152"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0153"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0154"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> C",
+        "C -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0155"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0156"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0157"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0158"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0159"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0160"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0161"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0162"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0163"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0164"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0165"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0166"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0167"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0168"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0169"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0170"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0171"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0172"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0173"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0174"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0175"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0176"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0177"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0178"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0179"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0180"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> A",
+        "A -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0181"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0182"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0183"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0184"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> D",
+        "not (E and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0185"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0186"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0187"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> A",
+        "not (C and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0188"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0189"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0190"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0191"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0192"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0193"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0194"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0195"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0196"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0197"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0198"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0199"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0200"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0201"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0202"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0203"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0204"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0205"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> A",
+        "A -> E",
+        "not (B and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0206"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0207"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0208"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0209"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0210"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0211"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0212"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0213"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0214"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0215"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0216"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0217"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0218"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> A",
+        "A -> D",
+        "not (B and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0219"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0220"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0221"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0222"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0223"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0224"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0225"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0226"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0227"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> C",
+        "C -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0228"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0229"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0230"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0231"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0232"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0233"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0234"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0235"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0236"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0237"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0238"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0239"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0240"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0241"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0242"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> E",
+        "E -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0243"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0244"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> D",
+        "not (A and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0245"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0246"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0247"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0248"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0249"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0250"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0251"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0252"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> E",
+        "not (C and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0253"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0254"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0255"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> D",
+        "not (A and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0256"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0257"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> C",
+        "C -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0258"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0259"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0260"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0261"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0262"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0263"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> E",
+        "E -> A",
+        "not (C and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0264"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0265"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0266"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0267"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0268"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0269"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0270"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> C",
+        "C -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0271"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0272"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0273"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> A",
+        "A -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0274"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0275"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> B",
+        "not (D and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0276"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0277"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0278"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0279"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0280"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0281"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0282"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0283"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0284"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> D",
+        "not (A and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0285"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0286"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> D",
+        "D -> B",
+        "not (E and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0287"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0288"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0289"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> B",
+        "B -> D",
+        "not (A and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0290"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0291"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0292"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0293"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> A",
+        "not (E and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0294"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0295"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B",
+        "B -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0296"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0297"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0298"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0299"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> C",
+        "C -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0300"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> E",
+        "not (D and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0301"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> C",
+        "C -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0302"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> C",
+        "C -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0303"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> E",
+        "not (B and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0304"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0305"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0306"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0307"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> C",
+        "not (B and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0308"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0309"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> B",
+        "B -> C",
+        "not (D and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0310"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> D",
+        "D -> B",
+        "not (C and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0311"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> A",
+        "not A"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0312"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0313"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E",
+        "E -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0314"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> E",
+        "not (A and E)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0315"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> D",
+        "D -> A",
+        "not (B and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0316"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0317"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> A",
+        "A -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0318"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D -> C",
+        "C -> A",
+        "not (D and A)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0319"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> A",
+        "A -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0320"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0321"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0322"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0323"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0324"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> D",
+        "D -> C",
+        "not (A and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0325"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C -> B",
+        "B -> D",
+        "not (C and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0326"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0327"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> C",
+        "not C"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0328"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0329"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "B -> E",
+        "E -> D",
+        "not (B and D)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0330"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A -> E",
+        "E -> B",
+        "not (A and B)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0331"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "D",
+        "D -> B",
+        "not B"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0332"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "E -> B",
+        "B -> C",
+        "not (E and C)"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0333"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "C",
+        "C -> D",
+        "not D"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0334"
+    },
+    {
+      "activation": false,
+      "family": "satisfiability_and_countermodel",
+      "frontier": "C",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Determine satisfiability. If satisfiable, give a satisfying assignment; otherwise derive a minimal contradiction.",
+      "required_receipt": [
+        "derivation",
+        "claimed_status",
+        "claimed_assignment_or_core"
+      ],
+      "rules": [
+        "A",
+        "A -> E",
+        "not E"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_LOGIC_TASK/v1",
+      "task_id": "C-0335"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T18:06:24.812134+00:00",
+  "acquired_bytes": 66342,
+  "dataset": "humaneval",
+  "evaluator_only_separated": false,
+  "file_count": 14,
+  "frontier": "D",
+  "license": "MIT",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/humaneval/licenses/LICENSE.txt",
+  "license_url": "https://github.com/openai/human-eval/blob/master/LICENSE",
+  "notes": [
+    "OpenAI HumanEval. Problems and canonical_solution live in the same JSONL; gate validators should treat solution fields as evaluator-only when selecting."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub archive of master at acquisition time",
+  "source_url": "https://github.com/openai/human-eval",
+  "upstream_checksum_verified": false
+}

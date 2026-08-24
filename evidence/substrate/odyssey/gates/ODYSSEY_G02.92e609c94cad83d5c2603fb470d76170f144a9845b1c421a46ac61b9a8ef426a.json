@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "92e609c94cad83d5c2603fb470d76170f144a9845b1c421a46ac61b9a8ef426a",
+  "gate_id": "G02",
+  "gate_name": "candidate and controls pinned",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "583d94bcb309ae949ed62ecca319cf6edaf854274722763dc6d1afa369aad062",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "d4c126aeb2c7dcc2e77cdb08596cf2fb3caff420c0d84cc694db12a4e58d25c9",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G02.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_ARM_SELECTION/v1"
+  },
+  "unqualified_nous": false
+}

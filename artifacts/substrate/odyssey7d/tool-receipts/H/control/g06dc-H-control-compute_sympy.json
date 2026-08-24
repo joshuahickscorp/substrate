@@ -1,0 +1,65 @@
+{
+  "admitted": true,
+  "detail": {
+    "result_keys": [
+      "exact",
+      "exit_code",
+      "operation",
+      "result",
+      "stderr"
+    ]
+  },
+  "error_class": "ok",
+  "operation": "compute.sympy",
+  "output_digests": [
+    "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345"
+  ],
+  "provenance": {
+    "arm": "control",
+    "budget_sha256": "59f4185ba8209d19c85ec8b2bededeaafcd14ee19e402b00ba75e08d414d0a2b",
+    "cache_id": "cache-96d1bc4d122c423aaed4d7564a5f3fa1",
+    "compact_outputs": [
+      {
+        "digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+        "path": "artifacts/substrate/odyssey7d/tool-work/H/control/g06dc-H-control/output/compute_sympy.json",
+        "producer": "compute.sympy:python",
+        "resource_use": {
+          "arm": "control",
+          "lane_id": "H"
+        },
+        "schema": "SUBSTRATE_ODYSSEY_COMPACT_ARTIFACT_RECEIPT/v1",
+        "sha256": "0e13dd293e72b56c0f8b0c3881c948d38de736305e2923cb414385ef9c433e04",
+        "size": 125,
+        "type": "application/x-substrate-tool-result+json"
+      }
+    ],
+    "exec_mode": null,
+    "frontier": "H",
+    "input_artifact_digests": [],
+    "lane_id": "H",
+    "request_sha256": "7374dba06b5ee547ae61c77a9cb28b4570f52805fc2ddcdf0289f4a1bc2b4822",
+    "resource_class": "medium",
+    "result_summary_sha256": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+    "sandbox_root": "artifacts/substrate/odyssey7d/tool-work/H/control/g06dc-H-control",
+    "task_id": "g06dc-H-control",
+    "tool_pin_sha256": "973d31f0bf1e774ea908083f22315ae2e8f0f68e7d701efec3c1fe6e0558466d"
+  },
+  "receipt_sha256": "774bfc1dfcd3749792f3bef591921cb2eff944daea9ea61cde445e22a5f6b139",
+  "resource_use": {
+    "attempts": 1,
+    "elapsed_seconds": 0.252395,
+    "exec_mode": null,
+    "resource_class": "medium",
+    "wall_seconds_budget": 120
+  },
+  "schema": "SUBSTRATE_ODYSSEY_TOOL_RECEIPT/v1",
+  "status": "ok",
+  "stderr_digest": null,
+  "stdout_digest": "b2081daeca11288bbd1f63587561a128cc57914fcfaf6434c70b11ef5eace345",
+  "tool_revision": {
+    "artifact_sha256": "36984af9f922aec72ba5b03e811ee92512268785007192e20f826cbd07cf8d04",
+    "path": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+    "tool_id": "python",
+    "version": "Python 3.12.13"
+  }
+}

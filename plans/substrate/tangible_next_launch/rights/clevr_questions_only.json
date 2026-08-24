@@ -1,0 +1,21 @@
+{
+  "acquired_at": "2026-08-03T18:06:30.370276+00:00",
+  "acquired_bytes": 1090378335,
+  "dataset": "clevr_questions_only",
+  "evaluator_only_separated": false,
+  "file_count": 10,
+  "frontier": "G",
+  "license": "CC BY 4.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_questions_only/licenses/LICENSE.txt",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "notes": [
+    "CLEVR questions and scene graphs without images (images already in clevr_v1 prefetch).",
+    "If this URL 404s, acquisition will be recorded as skipped."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": "v1.0",
+  "revision_note": "CLEVR v1.0 questions+scenes without images (Meta FAIR public files)",
+  "source_url": "https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0_no_images.zip",
+  "upstream_checksum_verified": false
+}

@@ -1,0 +1,98 @@
+{
+  "active_camera": "cam_left",
+  "cameras": [
+    {
+      "camera_id": "cam_left",
+      "fov_y_deg": 35.0,
+      "look_at": [
+        -2.5,
+        0.2,
+        0.0
+      ],
+      "position": [
+        -2.5,
+        1.5,
+        4.5
+      ]
+    },
+    {
+      "camera_id": "cam_right",
+      "fov_y_deg": 35.0,
+      "look_at": [
+        2.5,
+        0.2,
+        0.0
+      ],
+      "position": [
+        2.5,
+        1.5,
+        4.5
+      ]
+    }
+  ],
+  "canary_id": "active_camera",
+  "height": 96,
+  "objects": [
+    {
+      "color": [
+        45,
+        50,
+        60
+      ],
+      "object_id": "floor",
+      "position": [
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "scale": [
+        10.0,
+        1.0,
+        10.0
+      ],
+      "shape": "plane"
+    },
+    {
+      "color": [
+        230,
+        50,
+        50
+      ],
+      "object_id": "left_only",
+      "position": [
+        -2.5,
+        0.2,
+        0.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "shape": "box"
+    },
+    {
+      "color": [
+        50,
+        90,
+        230
+      ],
+      "object_id": "right_only",
+      "position": [
+        2.5,
+        0.2,
+        0.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "shape": "box"
+    }
+  ],
+  "schema": "SUBSTRATE_SPATIAL3D_SEED/v1",
+  "seed": 1707,
+  "seed_id": "canary_active_camera_v1",
+  "width": 96
+}

@@ -1,0 +1,24 @@
+{
+  "activation": false,
+  "checks": {
+    "frozen_build_bound": true,
+    "gate_specific_validation_passed": true,
+    "subject_self_digest_valid": true
+  },
+  "evidence_kind": "machine_verified",
+  "external_activation": false,
+  "frozen_build_sha256": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+  "gate_id": "G10",
+  "gate_name": "blindness and evaluator isolation pass",
+  "human_attestation": null,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+  "sha256": "964942b684026e4234dc3a4d99d2748cc50ca3b26cfc440644bf4e9c12fa17eb",
+  "status": "pass",
+  "subject": {
+    "file_sha256": "0da9d9007c01be3a31e718c34de2da9e2dfed5df5037a3f4cbe3a2531bdc979c",
+    "path": "artifacts/substrate/odyssey7d/v1/subjects/G10.subject.json",
+    "schema": "SUBSTRATE_ODYSSEY_ISOLATION_ATTESTATION/v1"
+  },
+  "unqualified_nous": false
+}

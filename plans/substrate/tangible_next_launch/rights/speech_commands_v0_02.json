@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T17:59:20.160472+00:00",
+  "acquired_bytes": 3340003029,
+  "dataset": "speech_commands_v0_02",
+  "evaluator_only_separated": true,
+  "file_count": 105843,
+  "frontier": "F",
+  "license": "CC BY 4.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/speech_commands_v0_02/licenses/LICENSE.txt",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "notes": [
+    "Google Speech Commands v0.02. testing_list.txt and validation_list.txt in evaluator-only/."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": "v0.02",
+  "revision_note": "TensorFlow Speech Commands dataset version 0.02",
+  "source_url": "http://download.tensorflow.org/data/speech_commands_v0.02.tar.gz",
+  "upstream_checksum_verified": false
+}

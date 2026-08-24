@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "5debe3407d9b4df0849b251944b4607b91b9e9381149ca0c70074f18cfc469c5",
+  "cycle": 0,
+  "frontier": "C",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/C/candidate/receipts/000-retrieval.json",
+  "request_sha256": "378e6f8dd982b42ae8829bdb3406e983ca85bfa2f35fff917e1317bdf8cbd576",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "C",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "All P are Q. No Q are R. Can one object be both P and R? Answer yes or no.",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "C-PUBLIC-0000-C1"
+  }
+}

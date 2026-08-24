@@ -1,0 +1,26 @@
+{
+  "activation": false,
+  "full_launch_requires_width": 8,
+  "measure": [
+    "throughput",
+    "per_cell_slowdown",
+    "memory",
+    "swap",
+    "disk_latency",
+    "checkpoint_latency",
+    "model_latency",
+    "thermal_pressure",
+    "receipt_invariance"
+  ],
+  "r2_live_execution": "forbidden",
+  "repetitions": 3,
+  "schema": "SUBSTRATE_ODYSSEY_PAIRED_CELL_CALIBRATION_TEMPLATE/v1",
+  "unit": "complete paired frontier cell",
+  "widths": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ]
+}

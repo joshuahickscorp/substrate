@@ -1,0 +1,6080 @@
+{
+  "activation": false,
+  "frontier": "B",
+  "schema": "SUBSTRATE_ODYSSEY_CANDIDATE_TASK_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "a7c308cd82a1dbfc5565175a9abbe0775c3e7b98cdd0ac2866f5d3f0ff3319f2",
+  "source_bundle": {
+    "assets": [
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mathlib4/Mathlib.lean",
+        "read_only": true,
+        "role": "mathlib4_library_module_index",
+        "sha256": "dcb8b9c368669fe87f889d8cfe69e534fb5c1b549c175d7c67e677b1fb26876c"
+      },
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/mathlib4/lean-toolchain",
+        "read_only": true,
+        "role": "lean_toolchain_version_lock",
+        "sha256": "62c2d9c0fc1ec4c67e151c11eff41ca004ef38e179cf9476c230406e6defedef"
+      },
+      {
+        "path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/math/modeling/math_equivalence.py",
+        "read_only": true,
+        "role": "math_expression_equivalence_checker",
+        "sha256": "c4101b1f51a2bb65665194aecd9f761d668c0c248a0350f196c2950e87488527"
+      }
+    ],
+    "selection_sha256": "45d21a73aed105c6efbac4bc59f9c7ddbf19de1f41009a03ce214719fe554b03"
+  },
+  "tasks": [
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (37 * 7) + x = 266. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 0
+      },
+      "task_id": "B-0000"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (49 * 5) + x = 250. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 1
+      },
+      "task_id": "B-0001"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 7) + x = 686. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 2
+      },
+      "task_id": "B-0002"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 7) + x = 560. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 3
+      },
+      "task_id": "B-0003"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (67 * 7) + x = 476. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 4
+      },
+      "task_id": "B-0004"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 7) + x = 161. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 5
+      },
+      "task_id": "B-0005"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (25 * 6) + x = 156. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 6
+      },
+      "task_id": "B-0006"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (61 * 4) + x = 248. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 7
+      },
+      "task_id": "B-0007"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (11 * 4) + x = 48. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 8
+      },
+      "task_id": "B-0008"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (32 * 3) + x = 99. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 9
+      },
+      "task_id": "B-0009"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (69 * 6) + x = 420. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 10
+      },
+      "task_id": "B-0010"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 7) + x = 588. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 11
+      },
+      "task_id": "B-0011"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 5) + x = 90. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 12
+      },
+      "task_id": "B-0012"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (82 * 4) + x = 332. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 13
+      },
+      "task_id": "B-0013"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (68 * 8) + x = 552. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 14
+      },
+      "task_id": "B-0014"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 9) + x = 270. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 15
+      },
+      "task_id": "B-0015"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (91 * 4) + x = 368. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 16
+      },
+      "task_id": "B-0016"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 4) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 17
+      },
+      "task_id": "B-0017"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 6) + x = 396. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 18
+      },
+      "task_id": "B-0018"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (53 * 6) + x = 324. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 19
+      },
+      "task_id": "B-0019"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (91 * 5) + x = 460. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 20
+      },
+      "task_id": "B-0020"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (95 * 7) + x = 672. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 21
+      },
+      "task_id": "B-0021"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 8) + x = 704. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 22
+      },
+      "task_id": "B-0022"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 7) + x = 224. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 23
+      },
+      "task_id": "B-0023"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 6) + x = 588. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 24
+      },
+      "task_id": "B-0024"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 2) + x = 64. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 25
+      },
+      "task_id": "B-0025"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 4) + x = 88. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 26
+      },
+      "task_id": "B-0026"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (34 * 2) + x = 70. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 27
+      },
+      "task_id": "B-0027"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 5) + x = 435. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 28
+      },
+      "task_id": "B-0028"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 3) + x = 195. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 29
+      },
+      "task_id": "B-0029"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 8) + x = 424. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 30
+      },
+      "task_id": "B-0030"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 9) + x = 477. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 31
+      },
+      "task_id": "B-0031"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (78 * 8) + x = 632. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 32
+      },
+      "task_id": "B-0032"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 9) + x = 792. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 33
+      },
+      "task_id": "B-0033"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (59 * 8) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 34
+      },
+      "task_id": "B-0034"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (39 * 7) + x = 280. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 35
+      },
+      "task_id": "B-0035"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 9) + x = 324. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 36
+      },
+      "task_id": "B-0036"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 3) + x = 264. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 37
+      },
+      "task_id": "B-0037"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 7) + x = 560. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 38
+      },
+      "task_id": "B-0038"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (75 * 6) + x = 456. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 39
+      },
+      "task_id": "B-0039"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (61 * 6) + x = 372. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 40
+      },
+      "task_id": "B-0040"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 5) + x = 115. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 41
+      },
+      "task_id": "B-0041"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 6) + x = 318. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 42
+      },
+      "task_id": "B-0042"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 5) + x = 265. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 43
+      },
+      "task_id": "B-0043"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 2) + x = 28. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 44
+      },
+      "task_id": "B-0044"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 5) + x = 435. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 45
+      },
+      "task_id": "B-0045"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (96 * 4) + x = 388. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 46
+      },
+      "task_id": "B-0046"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 7) + x = 413. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 47
+      },
+      "task_id": "B-0047"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (42 * 5) + x = 215. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 48
+      },
+      "task_id": "B-0048"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 9) + x = 324. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 49
+      },
+      "task_id": "B-0049"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (84 * 7) + x = 595. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 50
+      },
+      "task_id": "B-0050"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (88 * 7) + x = 623. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 51
+      },
+      "task_id": "B-0051"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (14 * 6) + x = 90. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 52
+      },
+      "task_id": "B-0052"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (72 * 5) + x = 365. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 53
+      },
+      "task_id": "B-0053"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (48 * 6) + x = 294. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 54
+      },
+      "task_id": "B-0054"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (24 * 7) + x = 175. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 55
+      },
+      "task_id": "B-0055"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (41 * 2) + x = 84. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 56
+      },
+      "task_id": "B-0056"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (85 * 6) + x = 516. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 57
+      },
+      "task_id": "B-0057"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 2) + x = 168. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 58
+      },
+      "task_id": "B-0058"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 4) + x = 264. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 59
+      },
+      "task_id": "B-0059"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (67 * 9) + x = 612. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 60
+      },
+      "task_id": "B-0060"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 7) + x = 686. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 61
+      },
+      "task_id": "B-0061"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (26 * 6) + x = 162. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 62
+      },
+      "task_id": "B-0062"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (53 * 8) + x = 432. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 63
+      },
+      "task_id": "B-0063"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 5) + x = 420. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 64
+      },
+      "task_id": "B-0064"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 3) + x = 159. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 65
+      },
+      "task_id": "B-0065"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (62 * 9) + x = 567. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 66
+      },
+      "task_id": "B-0066"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (73 * 2) + x = 148. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 67
+      },
+      "task_id": "B-0067"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 7) + x = 609. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 68
+      },
+      "task_id": "B-0068"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (67 * 9) + x = 612. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 69
+      },
+      "task_id": "B-0069"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (45 * 5) + x = 230. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 70
+      },
+      "task_id": "B-0070"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 4) + x = 72. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 71
+      },
+      "task_id": "B-0071"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 7) + x = 133. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 72
+      },
+      "task_id": "B-0072"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (39 * 3) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 73
+      },
+      "task_id": "B-0073"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (95 * 5) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 74
+      },
+      "task_id": "B-0074"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 8) + x = 272. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 75
+      },
+      "task_id": "B-0075"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (77 * 4) + x = 312. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 76
+      },
+      "task_id": "B-0076"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (14 * 2) + x = 30. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 77
+      },
+      "task_id": "B-0077"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 2) + x = 28. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 78
+      },
+      "task_id": "B-0078"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (24 * 6) + x = 150. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 79
+      },
+      "task_id": "B-0079"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (82 * 8) + x = 664. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 80
+      },
+      "task_id": "B-0080"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (62 * 7) + x = 441. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 81
+      },
+      "task_id": "B-0081"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 3) + x = 54. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 82
+      },
+      "task_id": "B-0082"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (55 * 2) + x = 112. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 83
+      },
+      "task_id": "B-0083"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 6) + x = 114. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 84
+      },
+      "task_id": "B-0084"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (40 * 7) + x = 287. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 85
+      },
+      "task_id": "B-0085"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (34 * 3) + x = 105. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 86
+      },
+      "task_id": "B-0086"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (84 * 2) + x = 170. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 87
+      },
+      "task_id": "B-0087"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 6) + x = 144. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 88
+      },
+      "task_id": "B-0088"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (90 * 8) + x = 728. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 89
+      },
+      "task_id": "B-0089"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (44 * 3) + x = 135. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 90
+      },
+      "task_id": "B-0090"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (24 * 6) + x = 150. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 91
+      },
+      "task_id": "B-0091"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (77 * 2) + x = 156. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 92
+      },
+      "task_id": "B-0092"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (61 * 7) + x = 434. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 93
+      },
+      "task_id": "B-0093"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (16 * 4) + x = 68. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 94
+      },
+      "task_id": "B-0094"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 3) + x = 102. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 95
+      },
+      "task_id": "B-0095"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (51 * 4) + x = 208. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 96
+      },
+      "task_id": "B-0096"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (39 * 5) + x = 200. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 97
+      },
+      "task_id": "B-0097"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (71 * 6) + x = 432. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 98
+      },
+      "task_id": "B-0098"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 9) + x = 783. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 99
+      },
+      "task_id": "B-0099"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (51 * 9) + x = 468. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 100
+      },
+      "task_id": "B-0100"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 9) + x = 756. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 101
+      },
+      "task_id": "B-0101"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (50 * 3) + x = 153. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 102
+      },
+      "task_id": "B-0102"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (88 * 5) + x = 445. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 103
+      },
+      "task_id": "B-0103"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (14 * 8) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 104
+      },
+      "task_id": "B-0104"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 7) + x = 238. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 105
+      },
+      "task_id": "B-0105"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 4) + x = 56. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 106
+      },
+      "task_id": "B-0106"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (81 * 6) + x = 492. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 107
+      },
+      "task_id": "B-0107"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (20 * 9) + x = 189. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 108
+      },
+      "task_id": "B-0108"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 3) + x = 294. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 109
+      },
+      "task_id": "B-0109"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (49 * 9) + x = 450. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 110
+      },
+      "task_id": "B-0110"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 5) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 111
+      },
+      "task_id": "B-0111"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (47 * 4) + x = 192. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 112
+      },
+      "task_id": "B-0112"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (26 * 5) + x = 135. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 113
+      },
+      "task_id": "B-0113"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 8) + x = 152. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 114
+      },
+      "task_id": "B-0114"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 9) + x = 198. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 115
+      },
+      "task_id": "B-0115"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 8) + x = 528. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 116
+      },
+      "task_id": "B-0116"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 2) + x = 36. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 117
+      },
+      "task_id": "B-0117"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 3) + x = 66. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 118
+      },
+      "task_id": "B-0118"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 9) + x = 216. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 119
+      },
+      "task_id": "B-0119"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (70 * 7) + x = 497. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 120
+      },
+      "task_id": "B-0120"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 9) + x = 198. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 121
+      },
+      "task_id": "B-0121"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (52 * 7) + x = 371. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 122
+      },
+      "task_id": "B-0122"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 4) + x = 236. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 123
+      },
+      "task_id": "B-0123"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (80 * 9) + x = 729. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 124
+      },
+      "task_id": "B-0124"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (75 * 6) + x = 456. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 125
+      },
+      "task_id": "B-0125"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 7) + x = 616. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 126
+      },
+      "task_id": "B-0126"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 6) + x = 192. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 127
+      },
+      "task_id": "B-0127"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 6) + x = 108. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 128
+      },
+      "task_id": "B-0128"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (77 * 2) + x = 156. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 129
+      },
+      "task_id": "B-0129"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (76 * 7) + x = 539. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 130
+      },
+      "task_id": "B-0130"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (49 * 8) + x = 400. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 131
+      },
+      "task_id": "B-0131"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 8) + x = 256. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 132
+      },
+      "task_id": "B-0132"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (94 * 9) + x = 855. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 133
+      },
+      "task_id": "B-0133"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (27 * 3) + x = 84. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 134
+      },
+      "task_id": "B-0134"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (53 * 6) + x = 324. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 135
+      },
+      "task_id": "B-0135"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (59 * 7) + x = 420. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 136
+      },
+      "task_id": "B-0136"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 4) + x = 88. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 137
+      },
+      "task_id": "B-0137"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (78 * 3) + x = 237. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 138
+      },
+      "task_id": "B-0138"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (95 * 2) + x = 192. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 139
+      },
+      "task_id": "B-0139"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (81 * 3) + x = 246. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 140
+      },
+      "task_id": "B-0140"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (41 * 9) + x = 378. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 141
+      },
+      "task_id": "B-0141"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (42 * 2) + x = 86. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 142
+      },
+      "task_id": "B-0142"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (39 * 6) + x = 240. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 143
+      },
+      "task_id": "B-0143"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 8) + x = 256. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 144
+      },
+      "task_id": "B-0144"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 6) + x = 522. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 145
+      },
+      "task_id": "B-0145"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (85 * 8) + x = 688. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 146
+      },
+      "task_id": "B-0146"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 8) + x = 528. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 147
+      },
+      "task_id": "B-0147"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (53 * 9) + x = 486. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 148
+      },
+      "task_id": "B-0148"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 4) + x = 236. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 149
+      },
+      "task_id": "B-0149"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 8) + x = 696. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 150
+      },
+      "task_id": "B-0150"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (43 * 5) + x = 220. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 151
+      },
+      "task_id": "B-0151"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (63 * 5) + x = 320. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 152
+      },
+      "task_id": "B-0152"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (57 * 4) + x = 232. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 153
+      },
+      "task_id": "B-0153"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (37 * 7) + x = 266. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 154
+      },
+      "task_id": "B-0154"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (69 * 5) + x = 350. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 155
+      },
+      "task_id": "B-0155"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (25 * 7) + x = 182. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 156
+      },
+      "task_id": "B-0156"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 8) + x = 640. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 157
+      },
+      "task_id": "B-0157"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 2) + x = 36. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 158
+      },
+      "task_id": "B-0158"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 8) + x = 640. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 159
+      },
+      "task_id": "B-0159"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (61 * 5) + x = 310. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 160
+      },
+      "task_id": "B-0160"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 7) + x = 126. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 161
+      },
+      "task_id": "B-0161"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (53 * 8) + x = 432. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 162
+      },
+      "task_id": "B-0162"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 6) + x = 132. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 163
+      },
+      "task_id": "B-0163"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 6) + x = 522. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 164
+      },
+      "task_id": "B-0164"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 9) + x = 585. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 165
+      },
+      "task_id": "B-0165"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 9) + x = 792. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 166
+      },
+      "task_id": "B-0166"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (55 * 5) + x = 280. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 167
+      },
+      "task_id": "B-0167"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 5) + x = 95. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 168
+      },
+      "task_id": "B-0168"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (68 * 6) + x = 414. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 169
+      },
+      "task_id": "B-0169"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 5) + x = 440. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 170
+      },
+      "task_id": "B-0170"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (27 * 6) + x = 168. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 171
+      },
+      "task_id": "B-0171"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (66 * 2) + x = 134. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 172
+      },
+      "task_id": "B-0172"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (42 * 4) + x = 172. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 173
+      },
+      "task_id": "B-0173"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (95 * 5) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 174
+      },
+      "task_id": "B-0174"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (39 * 9) + x = 360. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 175
+      },
+      "task_id": "B-0175"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 6) + x = 216. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 176
+      },
+      "task_id": "B-0176"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (45 * 9) + x = 414. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 177
+      },
+      "task_id": "B-0177"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (76 * 6) + x = 462. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 178
+      },
+      "task_id": "B-0178"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (20 * 7) + x = 147. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 179
+      },
+      "task_id": "B-0179"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 9) + x = 198. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 180
+      },
+      "task_id": "B-0180"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 4) + x = 144. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 181
+      },
+      "task_id": "B-0181"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 2) + x = 130. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 182
+      },
+      "task_id": "B-0182"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 6) + x = 204. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 183
+      },
+      "task_id": "B-0183"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (96 * 9) + x = 873. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 184
+      },
+      "task_id": "B-0184"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (12 * 6) + x = 78. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 185
+      },
+      "task_id": "B-0185"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (43 * 2) + x = 88. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 186
+      },
+      "task_id": "B-0186"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (25 * 8) + x = 208. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 187
+      },
+      "task_id": "B-0187"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 6) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 188
+      },
+      "task_id": "B-0188"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (44 * 2) + x = 90. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 189
+      },
+      "task_id": "B-0189"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (43 * 6) + x = 264. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 190
+      },
+      "task_id": "B-0190"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 2) + x = 180. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 191
+      },
+      "task_id": "B-0191"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 2) + x = 168. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 192
+      },
+      "task_id": "B-0192"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (90 * 2) + x = 182. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 193
+      },
+      "task_id": "B-0193"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 6) + x = 540. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 194
+      },
+      "task_id": "B-0194"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 6) + x = 354. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 195
+      },
+      "task_id": "B-0195"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (16 * 6) + x = 102. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 196
+      },
+      "task_id": "B-0196"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (44 * 4) + x = 180. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 197
+      },
+      "task_id": "B-0197"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (43 * 6) + x = 264. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 198
+      },
+      "task_id": "B-0198"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 5) + x = 115. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 199
+      },
+      "task_id": "B-0199"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (48 * 7) + x = 343. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 200
+      },
+      "task_id": "B-0200"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 9) + x = 270. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 201
+      },
+      "task_id": "B-0201"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (54 * 6) + x = 330. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 202
+      },
+      "task_id": "B-0202"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (84 * 8) + x = 680. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 203
+      },
+      "task_id": "B-0203"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 3) + x = 48. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 204
+      },
+      "task_id": "B-0204"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (19 * 4) + x = 80. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 205
+      },
+      "task_id": "B-0205"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (98 * 3) + x = 297. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 206
+      },
+      "task_id": "B-0206"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 4) + x = 92. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 207
+      },
+      "task_id": "B-0207"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (84 * 3) + x = 255. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 208
+      },
+      "task_id": "B-0208"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (70 * 8) + x = 568. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 209
+      },
+      "task_id": "B-0209"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 4) + x = 360. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 210
+      },
+      "task_id": "B-0210"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 7) + x = 413. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 211
+      },
+      "task_id": "B-0211"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (71 * 4) + x = 288. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 212
+      },
+      "task_id": "B-0212"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (67 * 7) + x = 476. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 213
+      },
+      "task_id": "B-0213"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (28 * 9) + x = 261. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 214
+      },
+      "task_id": "B-0214"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 2) + x = 68. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 215
+      },
+      "task_id": "B-0215"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 8) + x = 112. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 216
+      },
+      "task_id": "B-0216"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (66 * 5) + x = 335. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 217
+      },
+      "task_id": "B-0217"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (81 * 5) + x = 410. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 218
+      },
+      "task_id": "B-0218"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 4) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 219
+      },
+      "task_id": "B-0219"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 3) + x = 294. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 220
+      },
+      "task_id": "B-0220"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 4) + x = 76. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 221
+      },
+      "task_id": "B-0221"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (27 * 4) + x = 112. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 222
+      },
+      "task_id": "B-0222"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (41 * 2) + x = 84. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 223
+      },
+      "task_id": "B-0223"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (59 * 8) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 224
+      },
+      "task_id": "B-0224"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (45 * 3) + x = 138. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 225
+      },
+      "task_id": "B-0225"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (38 * 7) + x = 273. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 226
+      },
+      "task_id": "B-0226"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (68 * 9) + x = 621. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 227
+      },
+      "task_id": "B-0227"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (21 * 8) + x = 176. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 228
+      },
+      "task_id": "B-0228"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (63 * 7) + x = 448. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 229
+      },
+      "task_id": "B-0229"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 6) + x = 180. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 230
+      },
+      "task_id": "B-0230"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (33 * 2) + x = 68. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 231
+      },
+      "task_id": "B-0231"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (37 * 8) + x = 304. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 232
+      },
+      "task_id": "B-0232"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (47 * 3) + x = 144. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 233
+      },
+      "task_id": "B-0233"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 3) + x = 42. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 234
+      },
+      "task_id": "B-0234"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 2) + x = 180. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 235
+      },
+      "task_id": "B-0235"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 3) + x = 48. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 236
+      },
+      "task_id": "B-0236"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (58 * 9) + x = 531. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 237
+      },
+      "task_id": "B-0237"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 7) + x = 168. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 238
+      },
+      "task_id": "B-0238"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (74 * 2) + x = 150. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 239
+      },
+      "task_id": "B-0239"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (75 * 5) + x = 380. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 240
+      },
+      "task_id": "B-0240"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (60 * 8) + x = 488. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 241
+      },
+      "task_id": "B-0241"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (69 * 5) + x = 350. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 242
+      },
+      "task_id": "B-0242"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (71 * 7) + x = 504. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 243
+      },
+      "task_id": "B-0243"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 4) + x = 128. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 244
+      },
+      "task_id": "B-0244"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (16 * 5) + x = 85. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 245
+      },
+      "task_id": "B-0245"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (48 * 7) + x = 343. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 246
+      },
+      "task_id": "B-0246"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (87 * 8) + x = 704. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 247
+      },
+      "task_id": "B-0247"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (24 * 3) + x = 75. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 248
+      },
+      "task_id": "B-0248"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (80 * 8) + x = 648. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 249
+      },
+      "task_id": "B-0249"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (95 * 9) + x = 864. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 250
+      },
+      "task_id": "B-0250"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (77 * 5) + x = 390. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 251
+      },
+      "task_id": "B-0251"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (41 * 8) + x = 336. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 252
+      },
+      "task_id": "B-0252"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 5) + x = 325. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 253
+      },
+      "task_id": "B-0253"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 6) + x = 96. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 254
+      },
+      "task_id": "B-0254"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (79 * 7) + x = 560. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 255
+      },
+      "task_id": "B-0255"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 9) + x = 756. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 256
+      },
+      "task_id": "B-0256"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 7) + x = 455. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 257
+      },
+      "task_id": "B-0257"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 8) + x = 520. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 258
+      },
+      "task_id": "B-0258"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (76 * 6) + x = 462. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 259
+      },
+      "task_id": "B-0259"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (70 * 2) + x = 142. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 260
+      },
+      "task_id": "B-0260"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (97 * 6) + x = 588. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 261
+      },
+      "task_id": "B-0261"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (47 * 8) + x = 384. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 262
+      },
+      "task_id": "B-0262"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 3) + x = 261. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 263
+      },
+      "task_id": "B-0263"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (72 * 6) + x = 438. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 264
+      },
+      "task_id": "B-0264"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (54 * 5) + x = 275. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 265
+      },
+      "task_id": "B-0265"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 7) + x = 252. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 266
+      },
+      "task_id": "B-0266"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (13 * 5) + x = 70. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 267
+      },
+      "task_id": "B-0267"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 4) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 268
+      },
+      "task_id": "B-0268"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 2) + x = 32. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 269
+      },
+      "task_id": "B-0269"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 9) + x = 216. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 270
+      },
+      "task_id": "B-0270"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (44 * 9) + x = 405. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 271
+      },
+      "task_id": "B-0271"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (37 * 5) + x = 190. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 272
+      },
+      "task_id": "B-0272"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (19 * 5) + x = 100. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 273
+      },
+      "task_id": "B-0273"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (93 * 6) + x = 564. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 274
+      },
+      "task_id": "B-0274"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (46 * 6) + x = 282. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 275
+      },
+      "task_id": "B-0275"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (12 * 9) + x = 117. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 276
+      },
+      "task_id": "B-0276"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (78 * 6) + x = 474. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 277
+      },
+      "task_id": "B-0277"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 4) + x = 92. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 278
+      },
+      "task_id": "B-0278"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (43 * 2) + x = 88. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 279
+      },
+      "task_id": "B-0279"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 5) + x = 120. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 280
+      },
+      "task_id": "B-0280"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (34 * 5) + x = 175. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 281
+      },
+      "task_id": "B-0281"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (55 * 5) + x = 280. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 282
+      },
+      "task_id": "B-0282"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (36 * 8) + x = 296. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 283
+      },
+      "task_id": "B-0283"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (59 * 8) + x = 480. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 284
+      },
+      "task_id": "B-0284"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 7) + x = 630. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 285
+      },
+      "task_id": "B-0285"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (56 * 4) + x = 228. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 286
+      },
+      "task_id": "B-0286"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (98 * 7) + x = 693. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 287
+      },
+      "task_id": "B-0287"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (29 * 3) + x = 90. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 288
+      },
+      "task_id": "B-0288"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (61 * 5) + x = 310. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 289
+      },
+      "task_id": "B-0289"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (57 * 2) + x = 116. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 290
+      },
+      "task_id": "B-0290"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (36 * 3) + x = 111. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 291
+      },
+      "task_id": "B-0291"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (76 * 6) + x = 462. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 292
+      },
+      "task_id": "B-0292"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 3) + x = 198. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 293
+      },
+      "task_id": "B-0293"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (47 * 2) + x = 96. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 294
+      },
+      "task_id": "B-0294"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (47 * 3) + x = 144. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 295
+      },
+      "task_id": "B-0295"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (67 * 8) + x = 544. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 296
+      },
+      "task_id": "B-0296"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (34 * 4) + x = 140. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 297
+      },
+      "task_id": "B-0297"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (17 * 6) + x = 108. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 298
+      },
+      "task_id": "B-0298"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (89 * 5) + x = 450. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 299
+      },
+      "task_id": "B-0299"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (38 * 9) + x = 351. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 300
+      },
+      "task_id": "B-0300"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (11 * 4) + x = 48. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 301
+      },
+      "task_id": "B-0301"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (38 * 6) + x = 234. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 302
+      },
+      "task_id": "B-0302"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (71 * 7) + x = 504. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 303
+      },
+      "task_id": "B-0303"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (81 * 3) + x = 246. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 304
+      },
+      "task_id": "B-0304"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (24 * 2) + x = 50. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 305
+      },
+      "task_id": "B-0305"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (80 * 2) + x = 162. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 306
+      },
+      "task_id": "B-0306"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (75 * 9) + x = 684. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 307
+      },
+      "task_id": "B-0307"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (12 * 6) + x = 78. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 308
+      },
+      "task_id": "B-0308"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (74 * 6) + x = 450. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 309
+      },
+      "task_id": "B-0309"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (64 * 5) + x = 325. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 310
+      },
+      "task_id": "B-0310"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 4) + x = 144. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 311
+      },
+      "task_id": "B-0311"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (85 * 4) + x = 344. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 312
+      },
+      "task_id": "B-0312"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (35 * 8) + x = 288. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 313
+      },
+      "task_id": "B-0313"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 2) + x = 64. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 314
+      },
+      "task_id": "B-0314"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (23 * 8) + x = 192. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 315
+      },
+      "task_id": "B-0315"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (65 * 8) + x = 528. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 316
+      },
+      "task_id": "B-0316"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 2) + x = 38. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 317
+      },
+      "task_id": "B-0317"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (80 * 2) + x = 162. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 318
+      },
+      "task_id": "B-0318"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (22 * 7) + x = 161. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 319
+      },
+      "task_id": "B-0319"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (86 * 5) + x = 435. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 320
+      },
+      "task_id": "B-0320"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (55 * 8) + x = 448. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 321
+      },
+      "task_id": "B-0321"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (31 * 3) + x = 96. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 322
+      },
+      "task_id": "B-0322"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (62 * 8) + x = 504. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 323
+      },
+      "task_id": "B-0323"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (74 * 7) + x = 525. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 324
+      },
+      "task_id": "B-0324"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (73 * 3) + x = 222. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 325
+      },
+      "task_id": "B-0325"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (46 * 4) + x = 188. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 326
+      },
+      "task_id": "B-0326"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (83 * 6) + x = 504. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 327
+      },
+      "task_id": "B-0327"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (56 * 2) + x = 114. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 328
+      },
+      "task_id": "B-0328"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 5) + x = 80. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 329
+      },
+      "task_id": "B-0329"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (20 * 7) + x = 147. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 330
+      },
+      "task_id": "B-0330"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (85 * 2) + x = 172. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 331
+      },
+      "task_id": "B-0331"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (15 * 8) + x = 128. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 332
+      },
+      "task_id": "B-0332"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (27 * 7) + x = 196. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 333
+      },
+      "task_id": "B-0333"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (18 * 9) + x = 171. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 334
+      },
+      "task_id": "B-0334"
+    },
+    {
+      "activation": false,
+      "family": "derivation_continuation",
+      "frontier": "B",
+      "program": "substrate-odyssey-7d-v1",
+      "request": "Use a checkable derivation to simplify (30 * 8) + x = 248. Report x and the derivation invariant.",
+      "required_receipt": [
+        "derivation",
+        "final_answer",
+        "verification_trace"
+      ],
+      "schema": "SUBSTRATE_ODYSSEY_MATH_TASK/v1",
+      "source_selector": {
+        "dataset": "MATH",
+        "task_index": 335
+      },
+      "task_id": "B-0335"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T17:54:44.633840+00:00",
+  "acquired_bytes": 884616175,
+  "dataset": "esc50",
+  "evaluator_only_separated": false,
+  "file_count": 2013,
+  "frontier": "F",
+  "license": "CC BY-NC 3.0 (dataset as a whole); ESC-10 subset CC BY 3.0",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/esc50/licenses/LICENSE.txt",
+  "license_url": "https://github.com/karolpiczak/ESC-50/blob/master/LICENSE",
+  "notes": [
+    "ESC-50 environmental sound classification. Full set is CC BY-NC 3.0."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub archive of master branch at acquisition time (no tag v2.0.0 available); pin via MANIFEST.sha256",
+  "source_url": "https://github.com/karolpiczak/ESC-50",
+  "upstream_checksum_verified": false
+}

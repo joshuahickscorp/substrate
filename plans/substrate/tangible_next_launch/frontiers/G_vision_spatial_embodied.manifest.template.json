@@ -1,0 +1,48 @@
+{
+  "activation": false,
+  "candidate": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "candidate/G"
+  },
+  "control": {
+    "identity": "REPLACE_AFTER_R2",
+    "resource_slice": "REPLACE_AFTER_CALIBRATION",
+    "root": "control/G"
+  },
+  "custody": {
+    "answer_commitment": "EVALUATOR_ONLY",
+    "scorer_commitment": "EVALUATOR_ONLY",
+    "seed_commitment": "REPLACE_WITH_COMMITMENT",
+    "task_commitment": "REPLACE_WITH_COMMITMENT"
+  },
+  "frontier": {
+    "id": "G",
+    "name": "Vision, motion, spatial/3D, body, and active perception",
+    "slug": "vision_spatial_embodied"
+  },
+  "parity": [
+    "task_schedule",
+    "allowed_observations",
+    "models",
+    "tools",
+    "token_budget",
+    "compute_ceiling",
+    "storage_ceiling",
+    "wall_time"
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_FRONTIER_MANIFEST_TEMPLATE/v1",
+  "status": "template_unsealed",
+  "task_contract": {
+    "evaluator_only_rule": "future state, counterfactual branch and scoring target stay evaluator-only",
+    "id": "G",
+    "parity_rule": "same scenes, action distribution, state access, runtime and observation budget",
+    "source_policy": "MOVi/CLEVR plus frozen Blender/Kubric simulator seeds and action receipts",
+    "task_families": [
+      "physical_state_prediction",
+      "action_conditioned_counterfactual",
+      "embodied_recovery_after_sensor_change"
+    ]
+  }
+}

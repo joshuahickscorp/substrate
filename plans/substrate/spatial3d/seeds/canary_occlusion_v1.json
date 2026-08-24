@@ -1,0 +1,98 @@
+{
+  "active_camera": "cam_front",
+  "cameras": [
+    {
+      "camera_id": "cam_front",
+      "fov_y_deg": 40.0,
+      "look_at": [
+        0.0,
+        0.4,
+        0.0
+      ],
+      "position": [
+        0.0,
+        1.0,
+        4.5
+      ]
+    },
+    {
+      "camera_id": "cam_side",
+      "fov_y_deg": 40.0,
+      "look_at": [
+        0.0,
+        0.3,
+        -0.5
+      ],
+      "position": [
+        4.5,
+        1.2,
+        -0.5
+      ]
+    }
+  ],
+  "canary_id": "occlusion",
+  "height": 96,
+  "objects": [
+    {
+      "color": [
+        60,
+        66,
+        78
+      ],
+      "object_id": "floor",
+      "position": [
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "scale": [
+        8.0,
+        1.0,
+        8.0
+      ],
+      "shape": "plane"
+    },
+    {
+      "color": [
+        220,
+        50,
+        50
+      ],
+      "object_id": "occluder",
+      "position": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "scale": [
+        1.6,
+        1.8,
+        0.4
+      ],
+      "shape": "box"
+    },
+    {
+      "color": [
+        50,
+        90,
+        230
+      ],
+      "object_id": "blue_pyramid",
+      "position": [
+        0.0,
+        0.2,
+        -1.2
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "shape": "pyramid"
+    }
+  ],
+  "schema": "SUBSTRATE_SPATIAL3D_SEED/v1",
+  "seed": 1703,
+  "seed_id": "canary_occlusion_v1",
+  "width": 96
+}

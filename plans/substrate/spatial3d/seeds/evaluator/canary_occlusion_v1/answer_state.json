@@ -1,0 +1,16 @@
+{
+  "answer": {
+    "cam_front_visible": false,
+    "cam_side_visible": true
+  },
+  "canary_id": "occlusion",
+  "capability": "occlusion",
+  "hidden_from_camera": "cam_front",
+  "occluder": "occluder",
+  "question": "Is blue_pyramid visible from cam_front? From cam_side?",
+  "rationale": "Z-buffer: occluder covers target from cam_front; side view clears the line of sight.",
+  "requires_render": true,
+  "schema": "SUBSTRATE_SPATIAL3D_ANSWER_STATE/v1",
+  "target": "blue_pyramid",
+  "visible_from_camera": "cam_side"
+}

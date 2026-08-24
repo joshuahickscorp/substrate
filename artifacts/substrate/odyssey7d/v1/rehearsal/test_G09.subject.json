@@ -1,0 +1,610 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "checkpoint_policy": {
+    "delta_interval_seconds": 7200,
+    "full_interval_seconds": 43200
+  },
+  "checks": {
+    "checkpoint_round_trip": true,
+    "delta_plus_full_restore": true,
+    "event_chain_valid": true,
+    "frozen_build_bound": true,
+    "interactive_shell_independent": true,
+    "model_replacement": true,
+    "process_restart": true,
+    "recovery_limits_bound": true,
+    "sensor_or_source_interruption": true,
+    "single_writer": true,
+    "source_maps_bound": true,
+    "tool_or_body_change": true
+  },
+  "external_activation": false,
+  "frozen_build_sha256": "59f1fec259da3bc3781c4af0eee4b234295607d7f9a53040f07fb8f87a10bc17",
+  "implementation_sha256": {
+    "frontier_renderer": "ac346c96242f703b7bff1b415a0fd20c9c5929cc04e1b427c8af4d86dcdb45ed",
+    "machine_subject_generator": "652156af46808cefe5cad2d86dd95474f3f1052ccd49ced215ee678f224a5952",
+    "manifest_materializer": "c4936e6f4d0290125a823fec9272f85616a02391a9d2c243a2db68b712326293",
+    "odyssey_arms": "26d04b0f6096c1b1a7a6335376166d537a5dab92a3ab6196b755626c64dad34a",
+    "odyssey_authority": "190ab7b09c68c07ae89b24d928851ca2a67b4728f1dd226ba26a8c8fb1a549e5",
+    "odyssey_clean_clone": "a7e86d5c19b73037525dd8369f2ae3e7e7b49d3dc9ea8ec5d35751ff5969a4ce",
+    "odyssey_detachment": "66cd6934209b46fdc35dad91b2066af4f09295ed49772a396b0d55eceec9fd0c",
+    "odyssey_mutations": "1ce6d92232807ba53551d69442e7b58c57aa6754c03c4b4c8f3c306724b04785",
+    "odyssey_worker": "d7eb0ef01ff6b71fa820b988e249f608da492609a07688f2ef8509986e8c70c1",
+    "public_model_canary": "c301790ac775bdbb0ee125e7e57753ba47aa2f640ebc02fa727066fbfddf8df6",
+    "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+    "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+    "rehearsal_runner": "e8522dcc06c3291be50461662c8ef02bd4abd95a3e44bc0dfda1c96d6db6b5a8",
+    "task_bank_generator": "9e0af1fa44ea69d48c9ead76c75bdebb56d8d49584c63dc55bac3566c9694016",
+    "telegram_notifier": "fd0347dc5b2dad6e6ed69442a62bbd1a9aa2a33e823c92fe6d2775c865248ac6",
+    "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+    "transition_controller": "962bbf879f25a620dcee14bf0e6858ac937322722201e12c538f9f69f0af8046"
+  },
+  "input_sha256": {
+    "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+    "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "hardened_design": "03ab01a754c8fe51a8286aace0988172b86edecfb73f575f111dff52a2ae35a9",
+    "human_evidence_pack_template": "337513ec0d55ded410b5c2af4f44717ff40b2cd4d3cb0614fa7215265cfc8ed2",
+    "operator_decision": "28e5bca2dffd0fa91d153de1ef11c15cdf777ba90e8b2e5141ecf54eb179dbbc",
+    "public_model_canary_template": "1770b1738aa8bff92e969c60c797f29f020bc4f846d385305e2e00cc85510b6a",
+    "rendered_build_index": "9f60d68d9cfd35ede1806f10e39422d20db59f125a01315df43704a229496416",
+    "resource_calibration": "962802404bcda67d00b4201e08dfa637bdecef8b9c5d732bd55c28372c5343ed",
+    "shared_storage": "ecb228c1f779c01512d11e46e5bd8abc942587426648c5a09066fbe88f6867f6",
+    "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+    "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "rehearsals": [
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/checkpoints/delta-007.json",
+              "sha256": "5666e62ea87654933e8b30fde8a241b4bca17347f1ae8c94db011b858e7d9324"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/event-trace.json",
+            "sha256": "5d18b0c5d4f02137ba69661441dc7da1e03cfb6d386ba5e6b7066761618301ba"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/checkpoints/full-006.json",
+            "sha256": "00d220feb815f349e1e5600816d6f9c4e863329b13f03c4ce195fdbe7f566e5a"
+          },
+          "pre_interrupt_state_sha256": "52a0f772ee26427f70c1bfee976ce16aa67a0e3bedf5f949abf85ff414d399d0",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/restart-receipt.json",
+            "sha256": "b59b553ed12cde467529f53ee56d6388f81ffa68c6886ea7f58e761166d08eaa"
+          },
+          "restored_state_sha256": "52a0f772ee26427f70c1bfee976ce16aa67a0e3bedf5f949abf85ff414d399d0",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/single-writer.json",
+            "sha256": "657a644a3d81f0d2f514cda55ac94503e887b7d7692dc6349a5a4c3e65317752"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/checkpoints/delta-007.json",
+              "sha256": "b36672c41dde4135a909d7e73cb4309095f7ff0df8f01e26ee520d82417c9e9a"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/event-trace.json",
+            "sha256": "5df2f3faecad62107c193318069ae864742239edffa9b80f3a35ecbd3f1a9c94"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/checkpoints/full-006.json",
+            "sha256": "dac0f3878f6b6161e4101b1c078413d356ea870e4f722e83c73e0f16b94cf58d"
+          },
+          "pre_interrupt_state_sha256": "0438a6adf04c2c85e282f3156ea78b18225c83af89e3dbd3618eec1f9d694c43",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/restart-receipt.json",
+            "sha256": "1652985516d27cd76cad74d8a5b48a1bf5377103b9d52c4c66975734c2fc35ae"
+          },
+          "restored_state_sha256": "0438a6adf04c2c85e282f3156ea78b18225c83af89e3dbd3618eec1f9d694c43",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/single-writer.json",
+            "sha256": "9a2c43b5dae2203ebb28b5f7aca139d124208974ebdf25a2f375e11c062558a5"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/A/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "A",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/checkpoints/delta-007.json",
+              "sha256": "76362cc732c93220fdb2ba1ce3284fe5690370f8496beb393ed72d9c6461b373"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/event-trace.json",
+            "sha256": "57e6715e3f554699cf7645575b663808408c280766fccc884d93ba7ae0f87ba0"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/checkpoints/full-006.json",
+            "sha256": "af7cb49c84a14eb1845ed1724107bc15e657043bd7586c649c25d4a5833cc3f7"
+          },
+          "pre_interrupt_state_sha256": "763aba8797f51415251296c01bb4d12b3ff2c1f1ee7c952f63ebbc710f522c58",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/restart-receipt.json",
+            "sha256": "12d087bb8e1352b153e522f26878467e67ebe91268c0be32d926a132034d66c9"
+          },
+          "restored_state_sha256": "763aba8797f51415251296c01bb4d12b3ff2c1f1ee7c952f63ebbc710f522c58",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/single-writer.json",
+            "sha256": "f32b87349c96894a743db7fd78d84c81f3e180bdb0d2e1e19b5e33ea1a0fe639"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/checkpoints/delta-007.json",
+              "sha256": "e23254873e2f28f353d1ed1bf14630347cce3b1364e4c7f4df523993a032cded"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/event-trace.json",
+            "sha256": "7b681b399e145aeea7f77ca12e55ceeeb7bbcb07e66a05b2a6a3689a001b48a3"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/checkpoints/full-006.json",
+            "sha256": "617b751f8bb21967008f5feb1680afafa1dc1891262d26460c22c36d9e1e2082"
+          },
+          "pre_interrupt_state_sha256": "2e86896860acb45a14ef0020543f3f33b2b864b45a0303a7ae8f4196ba74ad7e",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/restart-receipt.json",
+            "sha256": "b13692c24c2348a02b9df44a3134176383810719893ce283b88ab49a413f3ba2"
+          },
+          "restored_state_sha256": "2e86896860acb45a14ef0020543f3f33b2b864b45a0303a7ae8f4196ba74ad7e",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/single-writer.json",
+            "sha256": "006a8052593f423b3871d4cc6a10397d076a2030df5ab8de1e2237bb49535f37"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/B/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "B",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/checkpoints/delta-007.json",
+              "sha256": "a39e2fd080e53f21b0754ed2c6d2d69611414e2b0e9b66274f7bf2aa52a95c71"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/event-trace.json",
+            "sha256": "09d486fcc413e65cbeb474303cac236e4f71ea8fe0b3bfa401e5a360609cb184"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/checkpoints/full-006.json",
+            "sha256": "66038eb68b0f74345ef01703b1d8c5fa00c9dc3ec79fd2bd2a5ad3d469e0e49b"
+          },
+          "pre_interrupt_state_sha256": "728479e9ec3ae8259751e44051f1bf6a4dfe3e6f9044d212c42e452858751043",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/restart-receipt.json",
+            "sha256": "832bdc4341a8d541425f905bc573159c51b9747b6459473259111f568e90d400"
+          },
+          "restored_state_sha256": "728479e9ec3ae8259751e44051f1bf6a4dfe3e6f9044d212c42e452858751043",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/single-writer.json",
+            "sha256": "a13838d2df954224a3cefd88c74cc48aa85a0ff879d5fb64137e19e5faccc283"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/checkpoints/delta-007.json",
+              "sha256": "050a8beb7cae32d3a0795304dff352f9da6f82a2533bec183c87f1c12c343b3b"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/event-trace.json",
+            "sha256": "b0153c24daab87687933b3e95bccb392b1cfa6b9d18ab4f6c7ef9ae8c47999d2"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/checkpoints/full-006.json",
+            "sha256": "a1a388f8a579aa54b27a2bd38df83d755a0fb8376886c092477163ececce6a56"
+          },
+          "pre_interrupt_state_sha256": "6d2f49f6b52e0b4d131cd3a492e53a9103469d92cdcc30cd32dbc39aa20c70a7",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/restart-receipt.json",
+            "sha256": "fb0c989ee5efe601d7ee2405e1960c0e6467f95c31fc34aed3fd03d19fbd0c60"
+          },
+          "restored_state_sha256": "6d2f49f6b52e0b4d131cd3a492e53a9103469d92cdcc30cd32dbc39aa20c70a7",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/single-writer.json",
+            "sha256": "bfd2e676080d9c0dfed91428e7ac51fa7b060da558553a18575a903bd7636fbd"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/C/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "C",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/checkpoints/delta-007.json",
+              "sha256": "181adc955ce5f235dbf19088145d1c4e87fa8183b2672e0e6edcfaaeb20f6885"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/event-trace.json",
+            "sha256": "5e8b4131b1432d238eb008f633450ce0605ba25963ca4b1317cbdeb863411aea"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/checkpoints/full-006.json",
+            "sha256": "abf5602b35d74234b05301f36a5e8a5d4993a63af81572183feb7fb47f0d072d"
+          },
+          "pre_interrupt_state_sha256": "8ef1804af5477385389356e0903e80dc8e0d1dc2b3195fcd222c047f06d99ec2",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/restart-receipt.json",
+            "sha256": "70b013efae656555ed2d38ea9155bc27d2dc838ae62b960849d87273578f20d0"
+          },
+          "restored_state_sha256": "8ef1804af5477385389356e0903e80dc8e0d1dc2b3195fcd222c047f06d99ec2",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/single-writer.json",
+            "sha256": "879948d7e917f8363fbd736c7e6881d395f731b9397c8db1051ece30fd8384f3"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/checkpoints/delta-007.json",
+              "sha256": "77f77f73e696be4abb89c1de056720c24bc38e19e3657c3003a353662bb1971e"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/event-trace.json",
+            "sha256": "42fdc1bdf2ff0c35f2e428d69cf781430f05fa64c11fa46b140a45a6fb3b636c"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/checkpoints/full-006.json",
+            "sha256": "222cf612ff920b5e4fa7958b008f97b80ac52d69d78353804324fe9c1ee082e0"
+          },
+          "pre_interrupt_state_sha256": "b651fe1b5a6497470a403345d14af4220126c1e7bd5c1110db44b5321454cb63",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/restart-receipt.json",
+            "sha256": "9316654a7295c4b2c2d8642e4f6bb66d6a38e017711d793f28f587e5e52a5c59"
+          },
+          "restored_state_sha256": "b651fe1b5a6497470a403345d14af4220126c1e7bd5c1110db44b5321454cb63",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/single-writer.json",
+            "sha256": "e503a0b550446c8d524a9308b128913cf69b156b2bb0b8d5fde1e0c35a9abf38"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/D/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "D",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/checkpoints/delta-007.json",
+              "sha256": "12842ea769050d5aa61e1c401c4792f81eeb6ac95ed7bedefebbe6782bbec9f9"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/event-trace.json",
+            "sha256": "463d1268bce5f25232e1288315cc74a23a9806c4e2e1e821ad090a099383dd4b"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/checkpoints/full-006.json",
+            "sha256": "98aaec0b1820368598140e9cf52025822f2696c7e626afc0b3284e4d2dcc5f73"
+          },
+          "pre_interrupt_state_sha256": "5ee677613eefd1c7d1544035b960614f3c4880507797edd99c3444a53b4bdcd2",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/restart-receipt.json",
+            "sha256": "efc7da3db0675ba32cf2f0de8612871644a3554d0f08b8832a5e4fc7edb2bc9a"
+          },
+          "restored_state_sha256": "5ee677613eefd1c7d1544035b960614f3c4880507797edd99c3444a53b4bdcd2",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/single-writer.json",
+            "sha256": "72c5280cd9fbc0cf11ab3bfa6c8c10b0878a611b9f3ccbcf6b327f0168f0cc50"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/checkpoints/delta-007.json",
+              "sha256": "9a10a20549493c4350b51900493538c3f2965ab937ffdc4a1879181f4a3ab300"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/event-trace.json",
+            "sha256": "82698c3e1d5e3b5f009f6bc57cd711b8d195fdfffd69cc590386cf6213e01f61"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/checkpoints/full-006.json",
+            "sha256": "8e50b90569ee6776ed8bc5d1dca3e48957a04e10dca06f9ce460c5d76fa66f0c"
+          },
+          "pre_interrupt_state_sha256": "1b8d84c4a31d6c8ed9f8582e1fab8a1ed62876a6f395d67cf207ae16a61c3511",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/restart-receipt.json",
+            "sha256": "ae9ac593be77521e8a4b0e93e0a5cb87ac9cf5eeadd5f677aaef8ff8989f9bc4"
+          },
+          "restored_state_sha256": "1b8d84c4a31d6c8ed9f8582e1fab8a1ed62876a6f395d67cf207ae16a61c3511",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/single-writer.json",
+            "sha256": "a2f170b997c05250ba3c0ffbd730ff71ed979be186d212078250449156bc6797"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/E/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "E",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/checkpoints/delta-007.json",
+              "sha256": "27628fa6ba03546e364f47dca5caf29d9c138a8672312ece000dcd4f9a47520e"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/event-trace.json",
+            "sha256": "d4a898445b6ed440b67db8da593abf501d46d3bb6898c4c0a272114d7bf22a16"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/checkpoints/full-006.json",
+            "sha256": "6fcb2767e71c0d16e1abead19e50578d8466da27ffdb7f216e29970d7dac5a9c"
+          },
+          "pre_interrupt_state_sha256": "2cb7b26ca362cb72a2478972685455765d0f2df8795c1c71f7887a5a7dbd264e",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/restart-receipt.json",
+            "sha256": "a7304c38f267530c8f17d20cd516915a3002f56c69f86e6a5aa65ba5be1649d1"
+          },
+          "restored_state_sha256": "2cb7b26ca362cb72a2478972685455765d0f2df8795c1c71f7887a5a7dbd264e",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/single-writer.json",
+            "sha256": "a87bef92c45b2ec606606f06d1bb58f61cb2c64c8b1c608066d66df5f95ee979"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/checkpoints/delta-007.json",
+              "sha256": "d1bfe19161113c4a6bf81688a0f28019d1915499ba946d4728fda883ef21e04a"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/event-trace.json",
+            "sha256": "44f7915df678f67de49a33c7eab4e3a24738994a13cf42676e70332a5013fe32"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/checkpoints/full-006.json",
+            "sha256": "80485a4f396948f1e9ee980050c6fbdfb4a3ccd2ac10aba4566f952abc2462e6"
+          },
+          "pre_interrupt_state_sha256": "da4de45c6e7e4d7b62ce530a2467880a3a61b29130fe0d55e0bace769fe78bee",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/restart-receipt.json",
+            "sha256": "94214ed983504115d2904a9d00448fd05cf098cccd9266767d75196879ccb3b8"
+          },
+          "restored_state_sha256": "da4de45c6e7e4d7b62ce530a2467880a3a61b29130fe0d55e0bace769fe78bee",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/single-writer.json",
+            "sha256": "dd639dee31567151822b6a073e765551e439e32c3fcdca51389603f32bb7a0ad"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/F/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "F",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/checkpoints/delta-007.json",
+              "sha256": "c966e6a4d12cfb8189b81435e3afc7a8249bca7db3cd5305db8d16c81e474ac1"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/event-trace.json",
+            "sha256": "ed04435693c2b60bb94bfd02c537af59d4b376cd0f0aef70ff03fc1d1060f9cd"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/checkpoints/full-006.json",
+            "sha256": "0252a3b794be704d572d782852d9b9b5c932ff19d3350476456d8be0abb093ba"
+          },
+          "pre_interrupt_state_sha256": "1750e4589dd5a45acb71d1452888342e28d576efb4ba96ba07a2d865b677729c",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/restart-receipt.json",
+            "sha256": "68ccbcba0c07e919fb3a5b7265af668323e8fa180ee800773f21bb28e2fce9fd"
+          },
+          "restored_state_sha256": "1750e4589dd5a45acb71d1452888342e28d576efb4ba96ba07a2d865b677729c",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/single-writer.json",
+            "sha256": "63baf065b456578fe37af3f4d9779b27857f7b11a5b16b141711e502e6ed1949"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/checkpoints/delta-007.json",
+              "sha256": "0a8475e2905d8bcd8ea8138aa954efe049cf5753ba9c45c4d71828669dce9e80"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/event-trace.json",
+            "sha256": "8cefdada2b872cc70aef1b3737725a47cc234d4d8478b359a7c926885336bfee"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/checkpoints/full-006.json",
+            "sha256": "5930aa35aa01dac70861ac57ee2c26c88efbb2d23aae6e88ae9b338e60ee51f1"
+          },
+          "pre_interrupt_state_sha256": "07fffd3996679c031d4525782f9f76c782d2336cd5a5a5d141eaf8f109c63b8c",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/restart-receipt.json",
+            "sha256": "e2f70c8b575632ee0c8b66a755e75fb35088ffa6c98a9801b6e34b87cbdb20af"
+          },
+          "restored_state_sha256": "07fffd3996679c031d4525782f9f76c782d2336cd5a5a5d141eaf8f109c63b8c",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/single-writer.json",
+            "sha256": "e4beab9815331bf8abe58086bcdda5f0b40f7e6acf2d1d4863525e30e8fbb17a"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/G/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "G",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    },
+    {
+      "arms": {
+        "candidate": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/checkpoints/delta-007.json",
+              "sha256": "2a45a83557422fbd67a09f11dc00544f2404c59a924d46b8acd4d43ebce0340c"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/event-trace.json",
+            "sha256": "8fd3b2b68751782783da62b7e9e67c6809c3a5bb506dabf2010f930dc3867696"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/checkpoints/full-006.json",
+            "sha256": "fe5ca5598204e457793773a7ce4a2214ed91ab1b26e93008b99da5b395fd76e3"
+          },
+          "pre_interrupt_state_sha256": "96849588acc74fd12b17e19af3daf7c1fda77c2da1b28e4d6b9ea70b3b7da731",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/restart-receipt.json",
+            "sha256": "185ff0dbde36ce8d2228999358b15e85a3ff56778835774f3db3ffa4076dc582"
+          },
+          "restored_state_sha256": "96849588acc74fd12b17e19af3daf7c1fda77c2da1b28e4d6b9ea70b3b7da731",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/single-writer.json",
+            "sha256": "006624c918de84e394f18e4c020482f07a0d50b5264b279f4c5c5061d15f1d2a"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/candidate/writer.lock"
+        },
+        "control": {
+          "delta_checkpoints": [
+            {
+              "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/checkpoints/delta-007.json",
+              "sha256": "2c8d5d3a1d0bc25ba789560a51a5a0776f53fed40a7498e4115ff797e5d4c213"
+            }
+          ],
+          "event_trace": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/event-trace.json",
+            "sha256": "5ce5e1411a4c05ec881c7a5d787c1ee2fb08733bb79eb529bd9c2543c3c1f045"
+          },
+          "full_checkpoint": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/checkpoints/full-006.json",
+            "sha256": "1fc8acffc913717c96a58b2291c8ab20c8a77cb38d820767b401953bd1cb3393"
+          },
+          "pre_interrupt_state_sha256": "14617cd08517d1087e2c2b9fa63ba21475fa8ca716e4556a7561fd43fa8f3586",
+          "recovery_downtime_seconds": 1,
+          "restart_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/restart-receipt.json",
+            "sha256": "fc778044ddb105bf313ee708e326f44ae89e41be9583f3314825e383f0f382f7"
+          },
+          "restored_state_sha256": "14617cd08517d1087e2c2b9fa63ba21475fa8ca716e4556a7561fd43fa8f3586",
+          "resumed_at_sealed_boundary": true,
+          "single_writer_receipt": {
+            "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/single-writer.json",
+            "sha256": "fde1e53016e6e4f1143ed499518e511a7b3ce1d2cde8ffe7364e6af5bf59ed23"
+          },
+          "writer_lock": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/H/control/writer.lock"
+        }
+      },
+      "cumulative_unplanned_downtime_seconds": 2,
+      "frontier": "H",
+      "max_single_unplanned_downtime_seconds": 1,
+      "unplanned_interruptions": 1
+    }
+  ],
+  "scheduled_disturbance_receipts": {
+    "model_replacement": {
+      "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/disturbances/model_replacement.json",
+      "sha256": "c6215f9cfc5a064af1ff90abfd5b89931f740dc9328cf4e837a2923a4f23ebce"
+    },
+    "process_restart": {
+      "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/disturbances/process_restart.json",
+      "sha256": "04e4c99575b409db161a7840b002a9f121f8012d7609b844baa21c9e078b11b0"
+    },
+    "sensor_or_source_interruption": {
+      "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/disturbances/sensor_or_source_interruption.json",
+      "sha256": "0b4e3a733e01ec2881283f0bc57c79f0b43933007a801ebedf53ef5f424ab5b5"
+    },
+    "tool_or_body_change": {
+      "path": "artifacts/substrate/odyssey7d/v1/rehearsal/G09/disturbances/tool_or_body_change.json",
+      "sha256": "467703573271d80a6009c29035bfeaff94b5be0689f3f003f65a9ad8b77b0ba5"
+    }
+  },
+  "schema": "SUBSTRATE_ODYSSEY_DURABILITY_REHEARSAL/v1",
+  "sha256": "1f7a79d75aa3aba61e6d717e440fc6b49b7aee7fe48df267ec053918580978b9",
+  "source_commit": "4f66230735dd067d076b8e87388ee006994b31d7",
+  "status": "pass",
+  "unqualified_nous": false
+}

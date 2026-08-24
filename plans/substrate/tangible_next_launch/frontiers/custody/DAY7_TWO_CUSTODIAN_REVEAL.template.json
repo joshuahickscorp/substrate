@@ -1,0 +1,18 @@
+{
+  "activation": false,
+  "custodian_a": {
+    "owns": [
+      "task_commitment",
+      "seed_commitment"
+    ]
+  },
+  "custodian_b": {
+    "owns": [
+      "answer_commitment",
+      "scorer_commitment"
+    ]
+  },
+  "release_rule": "both signatures only after candidate and control traces lock",
+  "schema": "SUBSTRATE_ODYSSEY_DAY7_REVEAL_TEMPLATE/v1",
+  "status": "skeleton_no_answer_materialized"
+}

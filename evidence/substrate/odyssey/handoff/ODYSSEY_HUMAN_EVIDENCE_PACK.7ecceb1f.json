@@ -1,0 +1,1046 @@
+{
+  "activation": false,
+  "external_activation": false,
+  "gate_wrappers": {
+    "G02": {
+      "activation": false,
+      "checks": {
+        "frozen_build_bound": false,
+        "human_review_complete": false,
+        "subject_schema_valid": false
+      },
+      "evidence_kind": "human_attested",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gate_id": "G02",
+      "gate_name": "candidate and controls pinned",
+      "human_attestation": {
+        "actor": "REPLACE_WITH_REAL_CUSTODIAN_OR_OPERATOR_ID",
+        "attested_at": "REPLACE_WITH_REAL_ISO8601_TIMESTAMP",
+        "statement": "REPLACE_WITH_A_FACTUAL_SCOPE_BOUND_ATTESTATION"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "status": "template_unsealed",
+      "subject": {
+        "file_sha256": "REPLACE_WITH_SUBJECT_FILE_SHA256",
+        "path": "REPLACE_WITH_ROOT_RELATIVE_SEALED_SUBJECT_PATH",
+        "schema": "SUBSTRATE_ODYSSEY_ARM_SELECTION/v1"
+      },
+      "unqualified_nous": false
+    },
+    "G04": {
+      "activation": false,
+      "checks": {
+        "frozen_build_bound": false,
+        "human_review_complete": false,
+        "subject_schema_valid": false
+      },
+      "evidence_kind": "human_attested",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gate_id": "G04",
+      "gate_name": "custodian and answer commitments sealed",
+      "human_attestation": {
+        "actor": "REPLACE_WITH_REAL_CUSTODIAN_OR_OPERATOR_ID",
+        "attested_at": "REPLACE_WITH_REAL_ISO8601_TIMESTAMP",
+        "statement": "REPLACE_WITH_A_FACTUAL_SCOPE_BOUND_ATTESTATION"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "status": "template_unsealed",
+      "subject": {
+        "file_sha256": "REPLACE_WITH_SUBJECT_FILE_SHA256",
+        "path": "REPLACE_WITH_ROOT_RELATIVE_SEALED_SUBJECT_PATH",
+        "schema": "SUBSTRATE_ODYSSEY_CUSTODY_SEAL/v1"
+      },
+      "unqualified_nous": false
+    },
+    "G05": {
+      "activation": false,
+      "checks": {
+        "frozen_build_bound": false,
+        "human_review_complete": false,
+        "subject_schema_valid": false
+      },
+      "evidence_kind": "human_attested",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gate_id": "G05",
+      "gate_name": "model and tool panel pinned",
+      "human_attestation": {
+        "actor": "REPLACE_WITH_REAL_CUSTODIAN_OR_OPERATOR_ID",
+        "attested_at": "REPLACE_WITH_REAL_ISO8601_TIMESTAMP",
+        "statement": "REPLACE_WITH_A_FACTUAL_SCOPE_BOUND_ATTESTATION"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "status": "template_unsealed",
+      "subject": {
+        "file_sha256": "REPLACE_WITH_SUBJECT_FILE_SHA256",
+        "path": "REPLACE_WITH_ROOT_RELATIVE_SEALED_SUBJECT_PATH",
+        "schema": "SUBSTRATE_ODYSSEY_MODEL_TOOL_PANEL/v1"
+      },
+      "unqualified_nous": false
+    },
+    "G10": {
+      "activation": false,
+      "checks": {
+        "frozen_build_bound": false,
+        "human_review_complete": false,
+        "subject_schema_valid": false
+      },
+      "evidence_kind": "human_attested",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gate_id": "G10",
+      "gate_name": "blindness and evaluator isolation pass",
+      "human_attestation": {
+        "actor": "REPLACE_WITH_REAL_CUSTODIAN_OR_OPERATOR_ID",
+        "attested_at": "REPLACE_WITH_REAL_ISO8601_TIMESTAMP",
+        "statement": "REPLACE_WITH_A_FACTUAL_SCOPE_BOUND_ATTESTATION"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "status": "template_unsealed",
+      "subject": {
+        "file_sha256": "REPLACE_WITH_SUBJECT_FILE_SHA256",
+        "path": "REPLACE_WITH_ROOT_RELATIVE_SEALED_SUBJECT_PATH",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_ATTESTATION/v1"
+      },
+      "unqualified_nous": false
+    },
+    "G11": {
+      "activation": false,
+      "checks": {
+        "frozen_build_bound": false,
+        "human_review_complete": false,
+        "subject_schema_valid": false
+      },
+      "evidence_kind": "human_attested",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gate_id": "G11",
+      "gate_name": "statistics and score weights frozen",
+      "human_attestation": {
+        "actor": "REPLACE_WITH_REAL_CUSTODIAN_OR_OPERATOR_ID",
+        "attested_at": "REPLACE_WITH_REAL_ISO8601_TIMESTAMP",
+        "statement": "REPLACE_WITH_A_FACTUAL_SCOPE_BOUND_ATTESTATION"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_GATE_EVIDENCE/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "status": "template_unsealed",
+      "subject": {
+        "file_sha256": "REPLACE_WITH_SUBJECT_FILE_SHA256",
+        "path": "REPLACE_WITH_ROOT_RELATIVE_SEALED_SUBJECT_PATH",
+        "schema": "SUBSTRATE_ODYSSEY_STATISTICS_AUTHORITY/v1"
+      },
+      "unqualified_nous": false
+    }
+  },
+  "instructions": [
+    "A real custodian or operator must fill every placeholder after a factual review.",
+    "Each completed subject must be self-digested and status=sealed before a gate wrapper can reference it.",
+    "Each completed gate wrapper requires a real non-empty human_attestation; this command never creates one.",
+    "Do not use this template as a pass receipt or an authority input.",
+    "For G10, retain empty mounts only with separate_uid; mount_isolation requires distinct candidate, evaluator, and builder mount identifiers."
+  ],
+  "never_a_gate_receipt": true,
+  "never_an_attestation": true,
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_HUMAN_EVIDENCE_PACK_TEMPLATE/v1",
+  "status": "template_unsealed",
+  "subjects": {
+    "G02": {
+      "activation": false,
+      "candidate": {
+        "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+        "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+        "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+        "revision": "REPLACE_WITH_VERSION_OR_REVISION",
+        "treatment_id": "REPLACE_WITH_DECLARED_CAUSAL_INTERVENTION"
+      },
+      "controls_by_frontier": {
+        "A": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "B": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "C": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "D": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "E": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "F": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "G": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        },
+        "H": {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        }
+      },
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "implementation_sha256": {
+        "frontier_renderer": "085c2c33f5cdecd919acf10125f4375f3f454dd998c0ea7401e1284b6951c1ed",
+        "manifest_materializer": "7658464d90883701ce10c1806fee908eff219d9de2e1e3ffe79cdb33bab6801c",
+        "odyssey_authority": "bf0f5965b464bdcc6f7dca7d2bd17c5efadeed483148d772668f0109ac1f3ea4",
+        "odyssey_clean_clone": "6be873c2c69e3d8e23c62e9e71621fd7f31dc34cbbd85a7bc2119991fcbaf9eb",
+        "odyssey_detachment": "2a94188195760f5b5515ee5acde1074b12693fcfee34edd0d82a8bcb1c2ceb95",
+        "odyssey_mutations": "3f8843c2db7f5413be451f3a4aaef0c22a44f4ee9a696716bd62294b155f0f6e",
+        "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+        "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+        "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+        "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+        "telegram_notifier": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+        "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+        "transition_controller": "875685ee01f974a26a7a90ff93b7c05d502f3710db51e65fdf5f10275e6cbfb4"
+      },
+      "input_sha256": {
+        "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+        "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+        "hardened_design": "ef8a363134d8ebc7121407ec646ac6481d02365c5b8fabc7ababbdd7c16cf71f",
+        "human_evidence_pack_template": "696d0fcf99f5641763e60450c5067d248ae6b4d7107afb33228505f813bb2adf",
+        "rendered_build_index": "21fbcffd796239705062b7c122f4cfc6e0cd6d09ff4aca8c14e5c096b3ba77aa",
+        "resource_calibration": "10e5c42576772a88e59cf7c6ee29202792c55e4ddf6eaba909be8e6ef8495c70",
+        "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+        "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+        "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+      },
+      "parity_by_frontier": {
+        "A": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "B": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "C": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "D": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "E": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "F": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "G": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        },
+        "H": {
+          "allowed_observations": false,
+          "compute_ceiling": false,
+          "models": false,
+          "storage_ceiling": false,
+          "task_schedule": false,
+          "token_budget": false,
+          "tools": false,
+          "wall_time": false
+        }
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_ARM_SELECTION/v1",
+      "selection_checks": {
+        "candidate_control_difference_declared": false,
+        "candidate_pin_complete": false,
+        "control_pins_complete": false,
+        "parity_reviewed": false,
+        "pre_outcome_selection": false
+      },
+      "selection_id": "REPLACE_WITH_PRE_OUTCOME_SELECTION_IDENTIFIER",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5",
+      "status": "template_unsealed",
+      "unqualified_nous": false
+    },
+    "G04": {
+      "activation": false,
+      "answers_evaluator_only": false,
+      "custody_checks": {
+        "daily_scores_hidden": false,
+        "eight_frontier_custodians": false,
+        "evaluator_only_answers": false,
+        "trace_lock_before_reveal": false,
+        "two_custodian_reveal": false
+      },
+      "daily_scores_hidden": false,
+      "day7_reveal": {
+        "both_signatures_required": false,
+        "custodian_a": "REPLACE_WITH_TASK_SEED_CUSTODIAN_ID",
+        "custodian_b": "REPLACE_WITH_ANSWER_SCORER_CUSTODIAN_ID",
+        "release_after_candidate_and_control_trace_lock": false
+      },
+      "external_activation": false,
+      "frontiers": [
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "A",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "B",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "C",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "D",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "E",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "F",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "G",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        },
+        {
+          "answer_commitment_sha256": "REPLACE_WITH_ANSWER_COMMITMENT_SHA256",
+          "candidate_can_read_evaluator_only": false,
+          "candidate_manifest_sha256": "REPLACE_WITH_VALIDATED_G03_CANDIDATE_MANIFEST_SHA256",
+          "custodian_id": "REPLACE_WITH_DISTINCT_FRONTIER_CUSTODIAN_ID",
+          "daily_scores_hidden": false,
+          "id": "H",
+          "scorer_commitment_sha256": "REPLACE_WITH_SCORER_COMMITMENT_SHA256",
+          "task_seed_commitment_sha256": "REPLACE_WITH_TASK_SEED_COMMITMENT_SHA256",
+          "trace_lock_required": false
+        }
+      ],
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "implementation_sha256": {
+        "frontier_renderer": "085c2c33f5cdecd919acf10125f4375f3f454dd998c0ea7401e1284b6951c1ed",
+        "manifest_materializer": "7658464d90883701ce10c1806fee908eff219d9de2e1e3ffe79cdb33bab6801c",
+        "odyssey_authority": "bf0f5965b464bdcc6f7dca7d2bd17c5efadeed483148d772668f0109ac1f3ea4",
+        "odyssey_clean_clone": "6be873c2c69e3d8e23c62e9e71621fd7f31dc34cbbd85a7bc2119991fcbaf9eb",
+        "odyssey_detachment": "2a94188195760f5b5515ee5acde1074b12693fcfee34edd0d82a8bcb1c2ceb95",
+        "odyssey_mutations": "3f8843c2db7f5413be451f3a4aaef0c22a44f4ee9a696716bd62294b155f0f6e",
+        "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+        "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+        "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+        "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+        "telegram_notifier": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+        "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+        "transition_controller": "875685ee01f974a26a7a90ff93b7c05d502f3710db51e65fdf5f10275e6cbfb4"
+      },
+      "input_sha256": {
+        "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+        "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+        "hardened_design": "ef8a363134d8ebc7121407ec646ac6481d02365c5b8fabc7ababbdd7c16cf71f",
+        "human_evidence_pack_template": "696d0fcf99f5641763e60450c5067d248ae6b4d7107afb33228505f813bb2adf",
+        "rendered_build_index": "21fbcffd796239705062b7c122f4cfc6e0cd6d09ff4aca8c14e5c096b3ba77aa",
+        "resource_calibration": "10e5c42576772a88e59cf7c6ee29202792c55e4ddf6eaba909be8e6ef8495c70",
+        "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+        "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+        "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "roots": {
+        "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+        "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+        "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+        "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+      },
+      "schema": "SUBSTRATE_ODYSSEY_CUSTODY_SEAL/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5",
+      "status": "template_unsealed",
+      "trace_lock_before_answer_reveal": false,
+      "unqualified_nous": false
+    },
+    "G05": {
+      "activation": false,
+      "external_activation": false,
+      "frontier_assignments": {
+        "A": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "B": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "C": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "D": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "E": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "F": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "G": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        },
+        "H": {
+          "candidate_model_id": "REPLACE_WITH_G02_CANDIDATE_MODEL_ID",
+          "candidate_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ],
+          "control_model_id": "REPLACE_WITH_G02_CONTROL_MODEL_ID",
+          "control_tool_ids": [
+            "REPLACE_WITH_PINNED_TOOL_IDENTIFIER"
+          ]
+        }
+      },
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "gateway": {
+        "artifact_sha256": "REPLACE_WITH_GATEWAY_ARTIFACT_SHA256",
+        "id": "REPLACE_WITH_STATELESS_GATEWAY_IDENTIFIER",
+        "revision": "REPLACE_WITH_GATEWAY_REVISION",
+        "stateless": false
+      },
+      "implementation_sha256": {
+        "frontier_renderer": "085c2c33f5cdecd919acf10125f4375f3f454dd998c0ea7401e1284b6951c1ed",
+        "manifest_materializer": "7658464d90883701ce10c1806fee908eff219d9de2e1e3ffe79cdb33bab6801c",
+        "odyssey_authority": "bf0f5965b464bdcc6f7dca7d2bd17c5efadeed483148d772668f0109ac1f3ea4",
+        "odyssey_clean_clone": "6be873c2c69e3d8e23c62e9e71621fd7f31dc34cbbd85a7bc2119991fcbaf9eb",
+        "odyssey_detachment": "2a94188195760f5b5515ee5acde1074b12693fcfee34edd0d82a8bcb1c2ceb95",
+        "odyssey_mutations": "3f8843c2db7f5413be451f3a4aaef0c22a44f4ee9a696716bd62294b155f0f6e",
+        "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+        "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+        "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+        "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+        "telegram_notifier": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+        "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+        "transition_controller": "875685ee01f974a26a7a90ff93b7c05d502f3710db51e65fdf5f10275e6cbfb4"
+      },
+      "input_sha256": {
+        "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+        "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+        "hardened_design": "ef8a363134d8ebc7121407ec646ac6481d02365c5b8fabc7ababbdd7c16cf71f",
+        "human_evidence_pack_template": "696d0fcf99f5641763e60450c5067d248ae6b4d7107afb33228505f813bb2adf",
+        "rendered_build_index": "21fbcffd796239705062b7c122f4cfc6e0cd6d09ff4aca8c14e5c096b3ba77aa",
+        "resource_calibration": "10e5c42576772a88e59cf7c6ee29202792c55e4ddf6eaba909be8e6ef8495c70",
+        "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+        "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+        "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+      },
+      "models": [
+        {
+          "adapter_sha256": "REPLACE_WITH_ADAPTER_SOURCE_SHA256",
+          "artifact_sha256": "REPLACE_WITH_ARTIFACT_OR_MANIFEST_SHA256",
+          "id": "REPLACE_WITH_PINNED_ARM_IDENTIFIER",
+          "revision": "REPLACE_WITH_VERSION_OR_REVISION"
+        }
+      ],
+      "panel_checks": {
+        "candidate_control_tool_parity": false,
+        "frontier_assignments_complete": false,
+        "model_pins_complete": false,
+        "stateless_gateway_pinned": false,
+        "tool_pins_complete": false
+      },
+      "panel_id": "REPLACE_WITH_PINNED_PANEL_IDENTIFIER",
+      "program": "substrate-odyssey-7d-v1",
+      "schema": "SUBSTRATE_ODYSSEY_MODEL_TOOL_PANEL/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5",
+      "status": "template_unsealed",
+      "tools": [
+        {
+          "artifact_sha256": "REPLACE_WITH_TOOL_ARTIFACT_SHA256",
+          "id": "REPLACE_WITH_TOOL_IDENTIFIER",
+          "version": "REPLACE_WITH_TOOL_VERSION"
+        }
+      ],
+      "unqualified_nous": false
+    },
+    "G10": {
+      "activation": false,
+      "builder_can_read_evaluator_only": false,
+      "candidate_can_read_evaluator_only": false,
+      "candidate_can_write_evaluator_only": false,
+      "evaluator_can_write_candidate_private_state": false,
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "implementation_sha256": {
+        "frontier_renderer": "085c2c33f5cdecd919acf10125f4375f3f454dd998c0ea7401e1284b6951c1ed",
+        "manifest_materializer": "7658464d90883701ce10c1806fee908eff219d9de2e1e3ffe79cdb33bab6801c",
+        "odyssey_authority": "bf0f5965b464bdcc6f7dca7d2bd17c5efadeed483148d772668f0109ac1f3ea4",
+        "odyssey_clean_clone": "6be873c2c69e3d8e23c62e9e71621fd7f31dc34cbbd85a7bc2119991fcbaf9eb",
+        "odyssey_detachment": "2a94188195760f5b5515ee5acde1074b12693fcfee34edd0d82a8bcb1c2ceb95",
+        "odyssey_mutations": "3f8843c2db7f5413be451f3a4aaef0c22a44f4ee9a696716bd62294b155f0f6e",
+        "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+        "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+        "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+        "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+        "telegram_notifier": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+        "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+        "transition_controller": "875685ee01f974a26a7a90ff93b7c05d502f3710db51e65fdf5f10275e6cbfb4"
+      },
+      "input_sha256": {
+        "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+        "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+        "hardened_design": "ef8a363134d8ebc7121407ec646ac6481d02365c5b8fabc7ababbdd7c16cf71f",
+        "human_evidence_pack_template": "696d0fcf99f5641763e60450c5067d248ae6b4d7107afb33228505f813bb2adf",
+        "rendered_build_index": "21fbcffd796239705062b7c122f4cfc6e0cd6d09ff4aca8c14e5c096b3ba77aa",
+        "resource_calibration": "10e5c42576772a88e59cf7c6ee29202792c55e4ddf6eaba909be8e6ef8495c70",
+        "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+        "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+        "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+      },
+      "isolation_checks": {
+        "builder_evaluator_read_denied": false,
+        "candidate_evaluator_read_denied": false,
+        "candidate_evaluator_write_denied": false,
+        "evaluator_candidate_private_write_denied": false,
+        "no_shared_mutable_roots": false,
+        "topology_observed": false
+      },
+      "isolation_mode": "REPLACE_WITH_separate_uid_OR_mount_isolation",
+      "isolation_receipts": {
+        "builder_evaluator_read_denied": {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_SELF_DIGESTED_OBSERVATION",
+          "sha256": "REPLACE_WITH_OBSERVATION_FILE_SHA256"
+        },
+        "candidate_evaluator_read_denied": {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_SELF_DIGESTED_OBSERVATION",
+          "sha256": "REPLACE_WITH_OBSERVATION_FILE_SHA256"
+        },
+        "candidate_evaluator_write_denied": {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_SELF_DIGESTED_OBSERVATION",
+          "sha256": "REPLACE_WITH_OBSERVATION_FILE_SHA256"
+        },
+        "evaluator_candidate_private_write_denied": {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_SELF_DIGESTED_OBSERVATION",
+          "sha256": "REPLACE_WITH_OBSERVATION_FILE_SHA256"
+        },
+        "topology_observed": {
+          "path": "REPLACE_WITH_ROOT_RELATIVE_SELF_DIGESTED_OBSERVATION",
+          "sha256": "REPLACE_WITH_OBSERVATION_FILE_SHA256"
+        }
+      },
+      "mounts": {},
+      "principals": {
+        "builder": {
+          "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+          "uid": "REPLACE_WITH_NUMERIC_UID"
+        },
+        "candidate": {
+          "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+          "uid": "REPLACE_WITH_NUMERIC_UID"
+        },
+        "evaluator": {
+          "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+          "uid": "REPLACE_WITH_NUMERIC_UID"
+        }
+      },
+      "program": "substrate-odyssey-7d-v1",
+      "roots": {
+        "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+        "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+        "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+        "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+      },
+      "schema": "SUBSTRATE_ODYSSEY_ISOLATION_ATTESTATION/v1",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5",
+      "status": "template_unsealed",
+      "unqualified_nous": false
+    },
+    "G11": {
+      "activation": false,
+      "analysis_checks": {
+        "outcome_rule_frozen": false,
+        "primary_methods_frozen": false,
+        "primary_unit_matches_design": false,
+        "pseudoreplication_guard": false,
+        "rubrics_pinned": false,
+        "score_weights_sum_to_one": false
+      },
+      "analysis_plan_sha256": "REPLACE_WITH_ANALYSIS_PLAN_SHA256",
+      "external_activation": false,
+      "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+      "implementation_sha256": {
+        "frontier_renderer": "085c2c33f5cdecd919acf10125f4375f3f454dd998c0ea7401e1284b6951c1ed",
+        "manifest_materializer": "7658464d90883701ce10c1806fee908eff219d9de2e1e3ffe79cdb33bab6801c",
+        "odyssey_authority": "bf0f5965b464bdcc6f7dca7d2bd17c5efadeed483148d772668f0109ac1f3ea4",
+        "odyssey_clean_clone": "6be873c2c69e3d8e23c62e9e71621fd7f31dc34cbbd85a7bc2119991fcbaf9eb",
+        "odyssey_detachment": "2a94188195760f5b5515ee5acde1074b12693fcfee34edd0d82a8bcb1c2ceb95",
+        "odyssey_mutations": "3f8843c2db7f5413be451f3a4aaef0c22a44f4ee9a696716bd62294b155f0f6e",
+        "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+        "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+        "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+        "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+        "telegram_notifier": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+        "telegram_probe": "a4b90585b03f0a407a855bec5dcdd7fbcb99c7d02efd9f96d3304b5c1f96fb77",
+        "transition_controller": "875685ee01f974a26a7a90ff93b7c05d502f3710db51e65fdf5f10275e6cbfb4"
+      },
+      "independent_unit_count": 8,
+      "input_sha256": {
+        "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+        "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+        "hardened_design": "ef8a363134d8ebc7121407ec646ac6481d02365c5b8fabc7ababbdd7c16cf71f",
+        "human_evidence_pack_template": "696d0fcf99f5641763e60450c5067d248ae6b4d7107afb33228505f813bb2adf",
+        "rendered_build_index": "21fbcffd796239705062b7c122f4cfc6e0cd6d09ff4aca8c14e5c096b3ba77aa",
+        "resource_calibration": "10e5c42576772a88e59cf7c6ee29202792c55e4ddf6eaba909be8e6ef8495c70",
+        "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+        "source_selection_template": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+        "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+      },
+      "outcome_a_requires_all_eight_valid": false,
+      "primary_methods": "COPY_EXACTLY_FROM_FROZEN_HARDENED_DESIGN",
+      "primary_unit": "paired_frontier_history_block",
+      "program": "substrate-odyssey-7d-v1",
+      "repeated_observations_are_independent_replicates": false,
+      "rubric_sha256": {
+        "developmental_retention_or_transfer": "REPLACE_WITH_RUBRIC_SHA256",
+        "epistemic_integrity": "REPLACE_WITH_RUBRIC_SHA256",
+        "resource_adjusted_continuity": "REPLACE_WITH_RUBRIC_SHA256",
+        "task_utility": "REPLACE_WITH_RUBRIC_SHA256"
+      },
+      "schema": "SUBSTRATE_ODYSSEY_STATISTICS_AUTHORITY/v1",
+      "score_weights": {
+        "developmental_retention_or_transfer": "REPLACE_WITH_FINITE_POSITIVE_WEIGHT",
+        "epistemic_integrity": "REPLACE_WITH_FINITE_POSITIVE_WEIGHT",
+        "resource_adjusted_continuity": "REPLACE_WITH_FINITE_POSITIVE_WEIGHT",
+        "task_utility": "REPLACE_WITH_FINITE_POSITIVE_WEIGHT"
+      },
+      "score_weights_frozen": false,
+      "secondary_event_model": "COPY_EXACTLY_FROM_FROZEN_HARDENED_DESIGN",
+      "sesoi": "REPLACE_WITH_FROZEN_SESOI",
+      "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_REVIEW",
+      "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5",
+      "statistics_authority_id": "REPLACE_WITH_STATISTICS_REVIEW_IDENTIFIER",
+      "status": "template_unsealed",
+      "unqualified_nous": false
+    }
+  },
+  "supporting_observation_templates": {
+    "G10": {
+      "builder_evaluator_read_denied": {
+        "access_result": "denied",
+        "activation": false,
+        "actor_id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+        "actor_role": "builder",
+        "actor_uid": "REPLACE_WITH_NUMERIC_UID",
+        "assertion_passed": false,
+        "attempt": {
+          "operation": "read",
+          "target_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT"
+        },
+        "command_argv": [
+          "REPLACE_WITH_EXACT_OBSERVED_COMMAND_ARGUMENT"
+        ],
+        "external_activation": false,
+        "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+        "observation_kind": "builder_evaluator_read_denied",
+        "observed_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+        "process_exit_code": "REPLACE_WITH_OBSERVED_INTEGER_EXIT_CODE",
+        "program": "substrate-odyssey-7d-v1",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_OBSERVATION/v1",
+        "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_OBSERVATION",
+        "status": "template_unsealed",
+        "topology": {
+          "mounts": {},
+          "principals": {
+            "builder": {
+              "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "candidate": {
+              "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "evaluator": {
+              "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            }
+          },
+          "roots": {
+            "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+            "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+            "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+            "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+          }
+        },
+        "unqualified_nous": false
+      },
+      "candidate_evaluator_read_denied": {
+        "access_result": "denied",
+        "activation": false,
+        "actor_id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+        "actor_role": "candidate",
+        "actor_uid": "REPLACE_WITH_NUMERIC_UID",
+        "assertion_passed": false,
+        "attempt": {
+          "operation": "read",
+          "target_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT"
+        },
+        "command_argv": [
+          "REPLACE_WITH_EXACT_OBSERVED_COMMAND_ARGUMENT"
+        ],
+        "external_activation": false,
+        "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+        "observation_kind": "candidate_evaluator_read_denied",
+        "observed_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+        "process_exit_code": "REPLACE_WITH_OBSERVED_INTEGER_EXIT_CODE",
+        "program": "substrate-odyssey-7d-v1",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_OBSERVATION/v1",
+        "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_OBSERVATION",
+        "status": "template_unsealed",
+        "topology": {
+          "mounts": {},
+          "principals": {
+            "builder": {
+              "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "candidate": {
+              "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "evaluator": {
+              "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            }
+          },
+          "roots": {
+            "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+            "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+            "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+            "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+          }
+        },
+        "unqualified_nous": false
+      },
+      "candidate_evaluator_write_denied": {
+        "access_result": "denied",
+        "activation": false,
+        "actor_id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+        "actor_role": "candidate",
+        "actor_uid": "REPLACE_WITH_NUMERIC_UID",
+        "assertion_passed": false,
+        "attempt": {
+          "operation": "write",
+          "target_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT"
+        },
+        "command_argv": [
+          "REPLACE_WITH_EXACT_OBSERVED_COMMAND_ARGUMENT"
+        ],
+        "external_activation": false,
+        "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+        "observation_kind": "candidate_evaluator_write_denied",
+        "observed_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+        "process_exit_code": "REPLACE_WITH_OBSERVED_INTEGER_EXIT_CODE",
+        "program": "substrate-odyssey-7d-v1",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_OBSERVATION/v1",
+        "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_OBSERVATION",
+        "status": "template_unsealed",
+        "topology": {
+          "mounts": {},
+          "principals": {
+            "builder": {
+              "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "candidate": {
+              "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "evaluator": {
+              "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            }
+          },
+          "roots": {
+            "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+            "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+            "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+            "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+          }
+        },
+        "unqualified_nous": false
+      },
+      "evaluator_candidate_private_write_denied": {
+        "access_result": "denied",
+        "activation": false,
+        "actor_id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+        "actor_role": "evaluator",
+        "actor_uid": "REPLACE_WITH_NUMERIC_UID",
+        "assertion_passed": false,
+        "attempt": {
+          "operation": "write",
+          "target_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT"
+        },
+        "command_argv": [
+          "REPLACE_WITH_EXACT_OBSERVED_COMMAND_ARGUMENT"
+        ],
+        "external_activation": false,
+        "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+        "observation_kind": "evaluator_candidate_private_write_denied",
+        "observed_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+        "process_exit_code": "REPLACE_WITH_OBSERVED_INTEGER_EXIT_CODE",
+        "program": "substrate-odyssey-7d-v1",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_OBSERVATION/v1",
+        "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_OBSERVATION",
+        "status": "template_unsealed",
+        "topology": {
+          "mounts": {},
+          "principals": {
+            "builder": {
+              "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "candidate": {
+              "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "evaluator": {
+              "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            }
+          },
+          "roots": {
+            "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+            "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+            "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+            "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+          }
+        },
+        "unqualified_nous": false
+      },
+      "topology_observed": {
+        "access_result": "observed",
+        "activation": false,
+        "actor_id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+        "actor_role": "builder",
+        "actor_uid": "REPLACE_WITH_NUMERIC_UID",
+        "assertion_passed": false,
+        "attempt": {
+          "operation": "topology_inspection",
+          "target_root": null
+        },
+        "command_argv": [
+          "REPLACE_WITH_EXACT_OBSERVED_COMMAND_ARGUMENT"
+        ],
+        "external_activation": false,
+        "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+        "observation_kind": "topology_observed",
+        "observed_at": "REPLACE_WITH_ISO8601_TIMESTAMP",
+        "process_exit_code": "REPLACE_WITH_OBSERVED_INTEGER_EXIT_CODE",
+        "program": "substrate-odyssey-7d-v1",
+        "schema": "SUBSTRATE_ODYSSEY_ISOLATION_OBSERVATION/v1",
+        "sha256": "REPLACE_WITH_CANONICAL_SELF_DIGEST_AFTER_A_REAL_OBSERVATION",
+        "status": "template_unsealed",
+        "topology": {
+          "mounts": {},
+          "principals": {
+            "builder": {
+              "id": "REPLACE_WITH_BUILDER_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "candidate": {
+              "id": "REPLACE_WITH_CANDIDATE_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            },
+            "evaluator": {
+              "id": "REPLACE_WITH_EVALUATOR_PRINCIPAL_ID",
+              "uid": "REPLACE_WITH_NUMERIC_UID"
+            }
+          },
+          "roots": {
+            "builder_visible_root": "REPLACE_WITH_LOGICAL_BUILDER_VISIBLE_ROOT",
+            "candidate_visible_root": "REPLACE_WITH_LOGICAL_CANDIDATE_VISIBLE_ROOT",
+            "evaluator_only_root": "REPLACE_WITH_LOGICAL_EVALUATOR_ONLY_ROOT",
+            "publication_safe_root": "REPLACE_WITH_LOGICAL_PUBLICATION_SAFE_ROOT"
+          }
+        },
+        "unqualified_nous": false
+      }
+    }
+  },
+  "unqualified_nous": false
+}

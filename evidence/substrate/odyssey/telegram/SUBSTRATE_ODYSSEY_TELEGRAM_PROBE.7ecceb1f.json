@@ -1,0 +1,21 @@
+{
+  "activation": false,
+  "all_pass": true,
+  "checks": {
+    "frozen_build_bound": true,
+    "notifier_source_bound": true,
+    "probe_message_id_valid": true,
+    "telegram_api_acknowledged": true
+  },
+  "delivery": {
+    "acknowledged": true,
+    "message_id": 6831
+  },
+  "external_activation": false,
+  "frozen_build_sha256": "7ecceb1fbc110b0dc09707db9e3857e351198618b94a96a59856b3707fa0f154",
+  "notifier_source_sha256": "83b524069191a631f4a43bab1dbefec5cdd3fcb7c53f62245903428a91862a9f",
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_TELEGRAM_PROBE/v1",
+  "sha256": "b6772fa40a9c6fe4f7a230fc9d67d902bc6c730a087e0e6a4a9d7ae1477b60db",
+  "source_commit": "9f36d52d87ef998e62b26e978258d2ede7d321c5"
+}

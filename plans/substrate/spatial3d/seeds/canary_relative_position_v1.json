@@ -1,0 +1,117 @@
+{
+  "active_camera": "cam_front",
+  "cameras": [
+    {
+      "camera_id": "cam_front",
+      "fov_y_deg": 45.0,
+      "look_at": [
+        0.0,
+        0.3,
+        0.0
+      ],
+      "position": [
+        0.0,
+        1.5,
+        5.5
+      ]
+    },
+    {
+      "camera_id": "cam_side",
+      "fov_y_deg": 45.0,
+      "look_at": [
+        0.0,
+        0.3,
+        0.0
+      ],
+      "position": [
+        5.5,
+        1.5,
+        0.0
+      ]
+    }
+  ],
+  "canary_id": "relative_position",
+  "height": 96,
+  "objects": [
+    {
+      "color": [
+        70,
+        78,
+        90
+      ],
+      "object_id": "floor",
+      "position": [
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "scale": [
+        6.0,
+        1.0,
+        6.0
+      ],
+      "shape": "plane"
+    },
+    {
+      "color": [
+        220,
+        48,
+        48
+      ],
+      "object_id": "red_block",
+      "position": [
+        -1.2,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "shape": "box"
+    },
+    {
+      "color": [
+        48,
+        96,
+        220
+      ],
+      "object_id": "blue_block",
+      "position": [
+        1.2,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "shape": "box"
+    },
+    {
+      "color": [
+        48,
+        200,
+        80
+      ],
+      "object_id": "green_block",
+      "position": [
+        0.0,
+        1.1,
+        0.0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "shape": "box"
+    }
+  ],
+  "schema": "SUBSTRATE_SPATIAL3D_SEED/v1",
+  "seed": 1701,
+  "seed_id": "canary_relative_position_v1",
+  "width": 96
+}

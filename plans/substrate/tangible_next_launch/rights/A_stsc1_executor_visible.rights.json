@@ -1,0 +1,23 @@
+{
+  "activation": false,
+  "frontier": "A",
+  "license": "no external license applies: STSC-1 is material generated inside this repository by the pinned STSC-1 generator; the underlying public seed sources it composes are recorded separately in the R2 license ledger",
+  "license_text_local_path": null,
+  "notes": [
+    "The selected files live under executor_visible/, the split the STSC-1 custody layout designates as candidate-readable; the sibling evaluator_only/ tree is deliberately not selected.",
+    "Every record in the selected files carries \"hidden_state\": \"evaluator_only\" as a pointer only; no answer, score, or hidden-assignment field is present. Verified key set: action_space, cost_model, evaluator, family, generator_commit, generator_seed_commitment, hidden_state, history, history_manifest, id, observation_manifest, partial_credit, privacy_class, provenance, publication_class, source_manifest, split, success_criteria.",
+    "Records declare privacy_class \"synthetic_no_personal_data\" and publication_class \"local_evaluation\".",
+    "The records' own source_manifest field reads \"STSC-1 generated and acquired public seed assets\"; the acquired public seed sources (SWE-bench, WebArena, tau2-bench, LongMemEval) are the ones reviewed in the license ledger below.",
+    "Not legal advice; this is a recorded rights review, matching the license ledger's own license_review_status."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "review_status": "recorded_not_legal_advice",
+  "rights_basis_local_paths": [
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_STSC1_GENERATOR_AUTHORITY.json",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_STSC1_SPLITS.json",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LICENSE_LEDGER.json"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
+  "source": "STSC-1 longitudinal software/tangible-state corpus, generated in-repository",
+  "upstream_revision": "generator_commit cdf4ad78923e7197d0a5736446039800c0d095e9 as recorded in every selected task record"
+}

@@ -1,0 +1,2361 @@
+{
+  "activation": false,
+  "answers": [
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0000"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0001"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0002"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0003"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0004"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0005"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0006"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0007"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0008"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0009"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0010"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0011"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0012"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0013"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0014"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0015"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0016"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0017"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0018"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0019"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0020"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0021"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0022"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0023"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0024"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0025"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0026"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0027"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0028"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0029"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0030"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0031"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0032"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0033"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0034"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0035"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0036"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0037"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0038"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0039"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0040"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0041"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0042"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0043"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0044"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0045"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0046"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0047"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0048"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0049"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0050"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0051"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0052"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0053"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0054"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0055"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0056"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0057"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0058"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0059"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0060"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0061"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0062"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0063"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0064"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0065"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0066"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0067"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0068"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0069"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0070"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0071"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0072"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0073"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0074"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0075"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0076"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0077"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0078"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0079"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0080"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0081"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0082"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0083"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0084"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0085"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0086"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0087"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0088"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0089"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0090"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0091"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0092"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0093"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0094"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0095"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0096"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0097"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0098"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0099"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0100"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0101"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0102"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0103"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0104"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0105"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0106"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0107"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0108"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0109"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0110"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0111"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0112"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0113"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0114"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0115"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0116"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0117"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0118"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0119"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0120"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0121"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0122"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0123"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0124"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0125"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0126"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0127"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0128"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0129"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0130"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0131"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0132"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0133"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0134"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0135"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0136"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0137"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0138"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0139"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0140"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0141"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0142"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0143"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0144"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0145"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0146"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0147"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0148"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0149"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0150"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0151"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0152"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0153"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0154"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0155"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0156"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0157"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0158"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0159"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0160"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0161"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0162"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0163"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0164"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0165"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0166"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0167"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0168"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0169"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0170"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0171"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0172"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0173"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0174"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0175"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0176"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0177"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0178"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0179"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0180"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0181"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0182"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0183"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0184"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0185"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0186"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0187"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0188"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0189"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0190"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0191"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0192"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0193"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0194"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0195"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0196"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0197"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0198"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0199"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0200"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0201"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0202"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0203"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0204"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0205"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0206"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0207"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0208"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0209"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0210"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0211"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0212"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0213"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0214"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0215"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0216"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0217"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0218"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0219"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0220"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0221"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0222"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0223"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0224"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0225"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0226"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0227"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0228"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0229"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0230"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0231"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0232"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0233"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0234"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0235"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0236"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0237"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0238"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0239"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0240"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0241"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0242"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0243"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0244"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0245"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0246"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0247"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0248"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0249"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0250"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0251"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0252"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0253"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0254"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0255"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0256"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0257"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0258"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0259"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0260"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0261"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0262"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0263"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0264"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0265"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0266"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0267"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0268"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0269"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0270"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0271"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0272"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0273"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0274"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0275"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0276"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0277"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0278"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0279"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0280"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0281"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0282"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0283"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0284"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0285"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0286"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0287"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0288"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0289"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0290"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0291"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0292"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0293"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0294"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0295"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0296"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0297"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0298"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0299"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0300"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0301"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0302"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0303"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0304"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0305"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0306"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0307"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0308"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0309"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0310"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0311"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0312"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0313"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0314"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0315"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0316"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0317"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0318"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0319"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0320"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0321"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0322"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0323"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0324"
+    },
+    {
+      "activation": false,
+      "expected_answer": 3,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0325"
+    },
+    {
+      "activation": false,
+      "expected_answer": 4,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0326"
+    },
+    {
+      "activation": false,
+      "expected_answer": 6,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0327"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0328"
+    },
+    {
+      "activation": false,
+      "expected_answer": 5,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0329"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0330"
+    },
+    {
+      "activation": false,
+      "expected_answer": 2,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0331"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0332"
+    },
+    {
+      "activation": false,
+      "expected_answer": 7,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0333"
+    },
+    {
+      "activation": false,
+      "expected_answer": 9,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0334"
+    },
+    {
+      "activation": false,
+      "expected_answer": 8,
+      "schema": "SUBSTRATE_ODYSSEY_MATH_ANSWER/v1",
+      "scoring": "symbolic substitution and derivation consistency",
+      "task_id": "B-0335"
+    }
+  ],
+  "frontier": "B",
+  "schema": "SUBSTRATE_ODYSSEY_EVALUATOR_ANSWER_MANIFEST/v1",
+  "seed_commitment": "dae13f8f3a0a1e666a09192d3f5c70cb589667fec023319943fe0987ebed5e2b",
+  "sha256": "7992353517b04f0684fd75f5b07745496186785cfe0a615a12b94e3a4a405ceb"
+}

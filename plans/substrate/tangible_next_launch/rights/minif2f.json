@@ -1,0 +1,20 @@
+{
+  "acquired_at": "2026-08-03T18:06:22.108273+00:00",
+  "acquired_bytes": 324885,
+  "dataset": "minif2f",
+  "evaluator_only_separated": true,
+  "file_count": 506,
+  "frontier": "B",
+  "license": "MIT",
+  "license_text_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/minif2f/licenses/LICENSE.txt",
+  "license_url": "https://github.com/facebookresearch/miniF2F/blob/main/LICENSE",
+  "notes": [
+    "miniF2F formal mathematics benchmark. test/ and valid/ under evaluator-only/."
+  ],
+  "redistribution_permitted": true,
+  "research_use_permitted": true,
+  "revision": null,
+  "revision_note": "GitHub archive of main (facebookresearch/miniF2F) at acquisition time",
+  "source_url": "https://github.com/facebookresearch/miniF2F",
+  "upstream_checksum_verified": false
+}

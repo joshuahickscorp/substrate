@@ -1,0 +1,70 @@
+{
+  "activation": false,
+  "evidence_scope": "isolated_synthetic_control_plane_fault_injection_only",
+  "execution": {
+    "command": [
+      "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+      "-m",
+      "substrate.odyssey_mutations",
+      "<probe>",
+      "--case",
+      "control_under_resourcing",
+      "--variant",
+      "clean"
+    ],
+    "duration_milliseconds": 574,
+    "returncode": 0,
+    "stderr_sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+    "stdout_sha256": "c4a872c47da1c13638b35194dafa5a7140158ff1d6317b6f7a3d36d028073953",
+    "timed_out": false
+  },
+  "external_activation": false,
+  "frozen_build_sha256": "f9f94c4458ac0606feb09bf3595bfa15a4fd6e6131347052e9c71c1cd4e2b130",
+  "implementation_sha256": {
+    "frontier_renderer": "1d253cc1c155da9ace3f6eabe8f01813658e04ee6338d12aee01fb87ca6e498f",
+    "manifest_materializer": "0311c630f87fa09d63e05577834a5487c3192e215e130aaa4a4235c2a54bbb7d",
+    "odyssey_authority": "2aeb995943ef85940911dadbeb596ee2b22555ce46b175b4fdf932fa28578457",
+    "odyssey_clean_clone": "7cec204c5e5072dab118b18add9679b97caf511f9f2b0b16f88abebd149994e8",
+    "odyssey_mutations": "714fc3178b5ee7f004c6a3d3bdf79002ecd13be67a17172a582cf408d6f2c20f",
+    "odyssey_worker": "d868b3b911bc43ed24fe550251d2b957fcdb5ed827de32365f59fda9233590fc",
+    "r2_continuity_verifier": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+    "r2_provenance_verifier": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+    "task_bank_generator": "717d44daa49b700ec517fceed744c7d6f9a75f8ecf0efdf699dbf155b696c77e",
+    "telegram_notifier": "fb1e5d9a7b8d27930903a42b97f5b6f55aae57f04e6f768ce85e9c0f04976e58",
+    "telegram_probe": "59cfd4bbc908a417954a355f494491b941ac0bfd9850287184e0e91f58a97f28",
+    "transition_controller": "a9ab9bcb4cfbda2ceadadb0f2f183d20d18ec3741cd2d959c78e258c68fead0e"
+  },
+  "input_sha256": {
+    "autopivot_policy": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+    "frontier_contract": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+    "hardened_design": "f1a12a6470f8b9976adefd8545d962ace7b3528d0d43be52a28970a62c7f08d5",
+    "rendered_build_index": "55d713aab9dde324a753dbfa2219fea4debf38143e4a1a689aa35f6b9e57ac3b",
+    "shared_storage": "9b46703006dff7bd335094592c8656deeeaccd3c65d766739c1dbba9d23a1f72",
+    "task_bank": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9"
+  },
+  "mutation": "control_under_resourcing",
+  "passed": true,
+  "probe": {
+    "accepted": true,
+    "activation": false,
+    "control_plane_only": true,
+    "error_class": null,
+    "error_sha256": null,
+    "expected_outcome": "accepted",
+    "mutation": "control_under_resourcing",
+    "observed_outcome": "accepted",
+    "passed": true,
+    "program": "substrate-odyssey-7d-v1",
+    "rejected": false,
+    "schema": "SUBSTRATE_ODYSSEY_MUTATION_PROBE/v1",
+    "scientific_evidence": false,
+    "unexpected_error": false,
+    "variant": "clean"
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "schema": "SUBSTRATE_ODYSSEY_MUTATION_EXECUTION_RECEIPT/v1",
+  "scientific_evidence": false,
+  "sha256": "0fe8af2225c0fb9d0592eb9002fbe96a58410d8cfe4538632fa80c3e6848a05a",
+  "source_commit": "0764f0596230ec69c9b3a1caa6f575e9c11c82be",
+  "variant": "clean"
+}

@@ -1,0 +1,17 @@
+{
+  "activation": false,
+  "cells": 8,
+  "formula": "runtime_free_floor + P95_total_7d_private_growth",
+  "reproduce": [
+    "event_rate",
+    "checkpoint_rate",
+    "log_rate",
+    "model_call_ledger_rate",
+    "media_access",
+    "daily_compaction",
+    "restart",
+    "restore"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_STORAGE_REHEARSAL_TEMPLATE/v1",
+  "status": "measurement_required"
+}

@@ -1,0 +1,208 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_RESOURCE_PLAN/v1",
+  "schema_version": "1.0.0",
+  "status": "draft_unsealed_not_a_resource_admission_receipt",
+  "activation": false,
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "self_digest": {
+    "algorithm": "sha256",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme over this object with self_digest.value omitted",
+    "value": "UNSEALED",
+    "state": "recompute_only_when_source_commit_and_measured_rehearsal_evidence_are_bound"
+  },
+  "campaign_shape": {
+    "total_hours": 336,
+    "waves": 2,
+    "frontier_blocks_per_wave": 4,
+    "history_hours_per_frontier": 168,
+    "continuous_maintenance_hours_per_wave": 168,
+    "continuous_maintenance_required": true,
+    "wave_1": ["A", "B", "F", "G"],
+    "wave_2": ["C", "D", "E", "H"]
+  },
+  "resource_policy": {
+    "no_cloud_compute": true,
+    "no_remote_hardware_purchase_or_reservation": true,
+    "hard_resident_ceiling_gib": 85,
+    "broker_thresholds_gib": {
+      "deny_new_work": 75,
+      "p2_checkpoint": 80,
+      "p1_pause": 82,
+      "safe_hold": 85
+    },
+    "broker_sampling_interval_seconds": 30,
+    "dynamic_filesystem_guard_required": true,
+    "telegram_reporting_interval_minutes": 30,
+    "private_write_cap_gib_per_active_wave": 120,
+    "private_write_cap_policy": "The four-cell seven-day rehearsal may justify a lower frozen cap. It never authorizes a cap above 120 GiB.",
+    "unused_memory_policy": "Unused width-four capacity must not automatically be allocated to a larger model.",
+    "model_selection_policy": "Select the strongest locally available model that passes width four with comfortable memory headroom and demonstrated seven-day stability."
+  },
+  "calibration": {
+    "gate_id": "G06-TW",
+    "status": "not_run",
+    "activation": false,
+    "widths": [1, 2, 4],
+    "paired_frontier_cell_definition": "one candidate history and its matched control history dispatched together under the frozen simultaneity definition",
+    "full_two_wave_admission_requires_width": 4,
+    "frozen_scale_factor": null,
+    "scale_factor_policy": "The scale factor must be fixed before calibration and cannot be tuned according to which value passes.",
+    "historical_width_eight_g06": {
+      "status": "historical_refusal_evidence_only",
+      "reinterpreted_as_pass": false,
+      "recalibration_widths": [1, 2, 4]
+    },
+    "required_observations": [
+      "actual_service_side_concurrent_admission",
+      "candidate_and_control_valid_json_64_token_outputs",
+      "resident_memory",
+      "pageouts",
+      "swap_growth",
+      "wall_time_slowdown",
+      "event_checkpoint_completion",
+      "context_isolation_probes",
+      "candidate_control_parity",
+      "sustained_soak"
+    ],
+    "pass_conditions": {
+      "four_paired_frontier_cells_actually_running": true,
+      "every_candidate_control_arm_returns_valid_json_at_64_tokens": true,
+      "new_pageouts": 0,
+      "sustained_swap_growth": false,
+      "maximum_slowdown_ratio": 1.35,
+      "sustained_soak_agrees_with_scaled_calibration": true,
+      "missed_cell_work_event_or_checkpoint": false,
+      "cross_lane_context_leakage": false,
+      "candidate_control_parity": true,
+      "resident_memory_below_85_gib": true
+    },
+    "refusal_conditions": [
+      "client_queueing_masks_missing_simultaneity",
+      "cached_outputs_replace_real_model_work",
+      "real_model_work_is_suppressed",
+      "any_required_output_is_not_valid_json",
+      "new_pageout_or_sustained_swap_growth",
+      "slowdown_exceeds_1_35",
+      "soak_disagrees_with_calibration",
+      "missed_work_or_checkpoint",
+      "context_leakage_or_candidate_control_asymmetry",
+      "resident_memory_reaches_or_exceeds_85_gib"
+    ]
+  },
+  "memory_broker": {
+    "measurement_basis": "one frozen non-overlapping resident-memory accounting method must be sealed before calibration",
+    "must_include": [
+      "host",
+      "virtual_machines_or_containers",
+      "model_service",
+      "candidate_processes",
+      "control_processes",
+      "broker"
+    ],
+    "actions": {
+      "below_75_gib": "admit_only_if_other_gates_allow",
+      "at_or_above_75_gib": "deny_new_work",
+      "at_or_above_80_gib": "P2_checkpoint",
+      "at_or_above_82_gib": "P1_pause",
+      "at_or_above_85_gib": "safe_hold_and_preserve_receipts"
+    },
+    "forbidden_actions": [
+      "increase_width",
+      "increase_model_size_without_new_admission",
+      "change_scientific_protocol",
+      "unseal_answers",
+      "discard_failure_measurements"
+    ]
+  },
+  "storage_rehearsal": {
+    "gate_id": "G07",
+    "status": "not_run",
+    "activation": false,
+    "required_scope": "four paired frontier cells continuously maintained for a seven-day rehearsal projection",
+    "projection_fields": {
+      "wave_1_projected_growth_bytes": null,
+      "wave_2_projected_growth_bytes": null,
+      "retained_sealed_wave_1_evidence_bytes": null,
+      "wave_2_active_writes_bytes": null,
+      "terminal_clean_clone_and_publication_bytes": null,
+      "protected_floor_bytes": null,
+      "measured_p95_private_growth_bytes_per_active_wave": null,
+      "largest_transient_window_bytes": null,
+      "filesystem_free_bytes_at_wave_1_launch": null,
+      "filesystem_free_bytes_at_wave_2_launch": null
+    },
+    "accounting_formula": "Wave 2 launch requires current free space to cover retained sealed Wave 1 evidence plus projected Wave 2 active writes plus terminal clean-clone and publication allowance plus protected floor, without double counting shared immutable sources.",
+    "wave_1_evidence_policy": {
+      "may_compress_after_independent_verification": true,
+      "may_make_read_only_after_independent_verification": true,
+      "may_delete_before_wave_2_finishes": false,
+      "must_be_counted_in_wave_2_preflight": true
+    },
+    "shared_data_policy": [
+      "immutable_shared_inputs_are_referenced_in_place",
+      "hard_linked_or_content_addressed_payloads_are_counted_once",
+      "duplicate_private_payloads_are_forbidden",
+      "debug_logs_are_bounded",
+      "transient_media_work_is_removed_only_after_its_digest_and_receipt_are_preserved"
+    ],
+    "required_refusal": [
+      "projected_or_measured_private_writes_exceed_frozen_active_wave_cap",
+      "protected_floor_would_be_crossed",
+      "wave_2_preflight_omits_retained_wave_1_evidence",
+      "filesystem_identity_or_free_space_measurement_is_stale",
+      "terminal_allowance_is_not_accounted"
+    ]
+  },
+  "midpoint_preflight": {
+    "status": "not_run",
+    "activation": false,
+    "requires": [
+      "wave_1_trace_independently_verified",
+      "wave_1_evidence_sealed_and_retained",
+      "host_runtime_model_digests_match_frozen_identity",
+      "between_wave_public_anchor_canary_within_frozen_tolerance",
+      "fresh_memory_broker_preflight",
+      "fresh_filesystem_measurement_including_retained_wave_1_evidence",
+      "wave_2_hidden_task_commitments_already_frozen"
+    ],
+    "may_reset": ["ephemeral_execution_state"],
+    "may_not_change": [
+      "model",
+      "runtime",
+      "quantization",
+      "prompt",
+      "candidate",
+      "control",
+      "tool_panel",
+      "wave_2_tasks",
+      "curriculum",
+      "weights",
+      "evaluation"
+    ]
+  },
+  "reporting": {
+    "cadence_minutes": 30,
+    "required_fields": [
+      "wave",
+      "day",
+      "microcycle",
+      "active_paired_cells",
+      "resident_memory_by_accounting_scope",
+      "pageouts_delta",
+      "swap_delta",
+      "free_storage",
+      "private_write_growth",
+      "broker_state",
+      "event_checkpoint_completeness",
+      "host_runtime_model_digest_reference"
+    ],
+    "reporting_is_not_scientific_score_release": true
+  },
+  "source_binding": {
+    "source_commit": null,
+    "source_commit_status": "pending_future_gate_regeneration",
+    "measured_receipt_digests": [],
+    "this_draft_claims_resource_admission": false
+  }
+}

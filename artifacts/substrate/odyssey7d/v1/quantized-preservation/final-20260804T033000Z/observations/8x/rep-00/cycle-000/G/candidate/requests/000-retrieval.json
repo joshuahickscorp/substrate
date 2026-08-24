@@ -1,0 +1,25 @@
+{
+  "activation": false,
+  "authority_sha256": "96c870c4e03c77ec0b08ae13121d0338b0d59d7fb04edb0cf65f1b9dbf5895fb",
+  "candidate_manifest_sha256": "be574a02e1f21fce87013a005e4307323c93419d5ddaa77ed4ba9e5bdb49c8c2",
+  "cycle": 0,
+  "frontier": "G",
+  "phase": "retrieval",
+  "receipt_path": "artifacts/substrate/odyssey7d/v1/quantized-preservation/final-20260804T033000Z/observations/8x/rep-00/cycle-000/G/candidate/receipts/000-retrieval.json",
+  "request_sha256": "b748be84f05910a2cf7309afc30a21d5678eac4f3c4767f856db926331981403",
+  "role": "candidate",
+  "run_id": "final-20260804T033000Z",
+  "schema": "SUBSTRATE_ODYSSEY_ADAPTER_REQUEST/v1",
+  "task": {
+    "activation": false,
+    "family": "public_construction_canary",
+    "frontier": "G",
+    "program": "substrate-odyssey-7d-v1",
+    "request": "Start at grid coordinate (0,0). Move east 3, north 2, then west 1. Give the final coordinate as x,y.",
+    "required_receipt": [
+      "response"
+    ],
+    "schema": "SUBSTRATE_ODYSSEY_PUBLIC_CONSTRUCTION_CANARY_TASK/v1",
+    "task_id": "G-PUBLIC-0000-G1"
+  }
+}

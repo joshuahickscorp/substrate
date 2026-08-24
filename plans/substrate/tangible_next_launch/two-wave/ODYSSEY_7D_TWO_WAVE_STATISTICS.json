@@ -1,0 +1,184 @@
+{
+  "schema": "SUBSTRATE_ODYSSEY_7D_TWO_WAVE_STATISTICS/v1",
+  "schema_version": "1.0.0",
+  "status": "draft_unsealed_statistics_policy",
+  "activation": false,
+  "external_activation": false,
+  "program": "substrate-odyssey-7d-two-wave-v1",
+  "self_digest": {
+    "algorithm": "sha256",
+    "canonicalization": "RFC 8785 JSON Canonicalization Scheme over this object with self_digest.value omitted",
+    "value": "UNSEALED",
+    "state": "recompute_after_G11_and_source_commit_binding"
+  },
+  "unit_of_analysis": {
+    "primary_unit": "paired_frontier_history_block",
+    "independent_unit_count": 8,
+    "candidate_histories": 8,
+    "control_histories": 8,
+    "waves_are_independent_units": false,
+    "wave_role": "sequential execution epoch only",
+    "pseudoreplication_prohibited": "Microcycles, events, checkpoints, resource samples, and scored dimensions are repeated measurements within a paired frontier history block and may not be represented as independent frontier replications."
+  },
+  "preregistered_wave_assignment": {
+    "wave_1": ["A", "B", "F", "G"],
+    "wave_2": ["C", "D", "E", "H"],
+    "frozen_before_hidden_seed_materialization": true,
+    "frontier_blocks_complete_seven_day_arc": true,
+    "duration_hours_per_frontier": 168,
+    "total_campaign_hours": 336
+  },
+  "estimand": {
+    "name": "matched_candidate_minus_control_developmental_advantage",
+    "direction": "positive favors candidate",
+    "comparison": "within each separately custodied paired frontier history block",
+    "candidate_control_matching": [
+      "task_schedule",
+      "allowed_observations",
+      "base_model",
+      "tools",
+      "token_or_instruction_budget",
+      "compute_ceiling",
+      "storage_ceiling",
+      "wall_time",
+      "stimulus_family",
+      "scoring_rubric"
+    ],
+    "only_allowed_arm_difference": "sealed developmental intervention or named causal arm",
+    "null_definition": "candidate advantage below the frozen practical threshold after all required validity conditions hold"
+  },
+  "score": {
+    "dimensions": [
+      "task_utility",
+      "developmental_retention_or_transfer",
+      "epistemic_integrity",
+      "resource_adjusted_continuity"
+    ],
+    "weights": {
+      "task_utility": 0.25,
+      "developmental_retention_or_transfer": 0.25,
+      "epistemic_integrity": 0.25,
+      "resource_adjusted_continuity": 0.25
+    },
+    "weight_change_after_wave_1_begins_permitted": false,
+    "primary_practical_threshold": {
+      "metric": "paired standardized frontier effect",
+      "value": 0.05,
+      "operator": "greater_than_or_equal",
+      "status": "draft_value_must_be_bound_by_G11_before_wave_1",
+      "result_dependent_change_permitted": false
+    },
+    "day_7_cold_retention": {
+      "new_instruction_permitted": false,
+      "blind_examination_required": true,
+      "trace_lock_before_answer_reveal": true,
+      "positive_requirement_for_outcome_a": "paired Day-7 candidate-minus-control retention effect is greater than zero under the frozen scoring policy"
+    }
+  },
+  "analysis": {
+    "primary_methods": [
+      "per_frontier_paired_standardized_effect",
+      "mean_paired_effect_across_eight_frontier_blocks",
+      "median_paired_effect_across_eight_frontier_blocks",
+      "exact_sign_flip_randomization_test_over_frontier_blocks",
+      "bootstrap_interval_over_frontier_blocks"
+    ],
+    "secondary_methods": [
+      "clustered_repeated_measurement_model_with_frontier_block_clustering",
+      "descriptive_by_frontier_and_by_wave_report"
+    ],
+    "prohibited_methods": [
+      "treating_wave_1_and_wave_2_as_independent_experiments",
+      "treating_within_history_events_as_independent_frontier_replications",
+      "result_dependent_task_or_weight_selection",
+      "unblinding_wave_1_scores_to_change_wave_2"
+    ],
+    "cross_wave_interpretation": {
+      "naive_wave_comparison_permitted": false,
+      "must_record_and_account_for": [
+        "calendar_order",
+        "host_aging",
+        "software_drift",
+        "model_service_drift",
+        "environmental_differences",
+        "operator_interventions"
+      ],
+      "aggregation_valid_only_if": [
+        "model_identity_matches_frozen_pin",
+        "runtime_identity_matches_frozen_pin",
+        "candidate_control_tool_and_scoring_identities_match_frozen_pins",
+        "anchor_canary_drift_is_within_frozen_tolerance"
+      ],
+      "aggregation_invalidated_if": [
+        "model_or_runtime_identity_changes",
+        "anchor_canary_behavior_exceeds_frozen_tolerance",
+        "critical_cross_wave_drift_is_detected"
+      ]
+    }
+  },
+  "blindness_and_order_controls": {
+    "all_eight_wave_2_manifests_and_commitments_frozen_before_wave_1": true,
+    "wave_1_scores_visible_to_execution_system_before_wave_2_seal": false,
+    "wave_1_scores_visible_to_wave_2_task_or_evaluation_custodians_before_wave_2_seal": false,
+    "wave_1_results_may_modify_wave_2": false,
+    "hidden_seed_or_answer_material_created_by_this_draft": false,
+    "public_anchor_canary_schedule": [
+      "before_wave_1",
+      "between_waves",
+      "after_wave_2"
+    ],
+    "anchor_canary_may_contain_hidden_odyssey_content": false,
+    "identity_digest_cadence_hours_max": 12
+  },
+  "validity_requirements": {
+    "all_eight_paired_frontier_blocks_valid_for_outcome_a": true,
+    "both_168_hour_waves_valid_for_outcome_a_or_b": true,
+    "four_cell_g06_tw_passed": true,
+    "no_critical_drift": true,
+    "no_context_or_evaluator_leakage": true,
+    "zero_mutation_survivors": true,
+    "clean_clone_passes": true,
+    "trace_lock_before_scoring": true,
+    "no_result_dependent_protocol_edit": true
+  },
+  "terminal_outcomes": {
+    "A": {
+      "classification": "positive_valid_terminal_result",
+      "requires": [
+        "all_eight_frontier_blocks_valid",
+        "both_seven_day_waves_valid",
+        "candidate_beats_matched_control_at_or_above_frozen_practical_threshold",
+        "positive_day_7_cold_retention",
+        "no_critical_drift",
+        "no_leakage",
+        "zero_mutation_survivors",
+        "clean_clone_passes"
+      ]
+    },
+    "B": {
+      "classification": "valid_exact_null",
+      "requires": [
+        "both_waves_valid",
+        "candidate_advantage_below_frozen_practical_threshold",
+        "exact_null_published"
+      ]
+    },
+    "C": {
+      "classification": "invalid_or_resource_refusal",
+      "triggers": [
+        "quantized_preservation_test_fails_and_width_four_fails",
+        "cross_wave_model_or_runtime_drift_exceeds_tolerance",
+        "storage_memory_custody_or_isolation_gate_fails",
+        "required_frontier_becomes_invalid"
+      ]
+    }
+  },
+  "gate_binding": {
+    "statistics_gate": "G11",
+    "status": "not_run",
+    "source_commit": null,
+    "score_receipts": [],
+    "this_draft_contains_scores": false,
+    "this_draft_claims_any_outcome": false
+  }
+}
