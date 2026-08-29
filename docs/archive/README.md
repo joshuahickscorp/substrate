@@ -14,7 +14,6 @@ explain older campaigns.
 - `staging/tangible_sandbox/` — R2/Odyssey launch and custody handoffs. The
   next-launch runbook is retained here because the control-plane code embeds
   it as a frozen adapter contract.
-- `audits/` — read-only reviewer contracts and frontier notes.
 - the archive root — earlier project roadmap, handoff, and reality reports.
 
 The Genesis II source digest includes
@@ -22,3 +21,7 @@ The Genesis II source digest includes
 `experiments/final_revision/RESEARCH_SURVEY.md`. Those are deliberate frozen
 inputs, not current roadmap commitments. All activation boundaries remain
 false.
+
+`pre-substrate-event-horizon/` is a sealed archive, not disposable staging:
+its manifest and evidence authority bind the complete historical snapshot.
+Prune individual files only through a future provenance-preserving migration.

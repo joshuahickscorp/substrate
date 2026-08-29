@@ -119,3 +119,9 @@ bounded task backend that enforces the existing plan: no network by default,
 portable fixed mounts, validated argument vectors, resource limits, typed
 operations, output quarantine, and auditable receipts. Source-specific
 browser, repository, and media adapters can follow only through that broker.
+
+The detailed product contracts are kept beside this overview: [entity
+format](ENTITY_FORMAT.md), [capability packs](CAPABILITY_PACKS.md),
+[assimilation](ASSIMILATION.md), [source adapters](SOURCE_ADAPTERS.md),
+[sandbox body](SANDBOX.md), [security](SECURITY.md), and
+[portability](PORTABILITY.md).

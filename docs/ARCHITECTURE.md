@@ -1,78 +1,102 @@
-# Substrate v4 architecture
+# Substrate architecture
 
-Substrate has one installed Python package, `src/substrate`, and one public command, `substrate`. V4
-extends the existing runtime, world, evidence, and execution boundaries; it does not add a second
-cognitive runtime.
+Substrate is one installed Python package, `src/substrate`, with one public
+command, `substrate`. The repository contains a frozen research framework, its
+independent verification fabric, and a separate non-executing product
+foundation. Campaign names describe sealed scientific scopes; they are not
+multiple competing runtimes.
 
-## Runtime
+## Runtime core
 
-`runtime.Substrate` retains the canonical transition:
+`runtime.Substrate` retains the canonical state transition:
 
 ```text
 perceive → attend → select → run perspectives → arbitrate → decide
 → remember → self update → consolidate → adapt → checkpoint
 ```
 
-`runtime.StructuralSubstrate` composes structural behavior into that runtime. Verified observations enter
-the existing stages, reasoning selects structural hypotheses, perspectives execute predictions and
-interventions, arbitration preserves alternatives, consolidation revises models, and checkpoint covers
-the same semantic state used by identity.
+The runtime composes memory, perspective, metacognition, world modelling,
+plasticity, continuity, safety, and identity-like state. The structural v4
+runtime extends those existing stages rather than adding a second cognitive
+engine. `world.StructuralWorld` owns structural models, alternatives, causal
+edges, transitions, constraints, invariants, mappings, interventions,
+counterfactuals, revisions, inquiry receipts, and validation history.
 
-## Executable structural world
-
-`world.StructuralWorld` owns structural models, alternatives, causal edges, transitions, constraints,
-invariants, exceptions, mappings, interventions, counterfactuals, revisions, inquiry receipts, and
-validation history.
-
-One model supports:
+One structural model supports:
 
 ```text
-predict
-intervene
-counterfactual
-map representation
-explain
-compare alternatives
-revise
-narrow scope
-checkpoint and restore
+predict · intervene · counterfactual · map representation · explain
+compare alternatives · revise · narrow scope · checkpoint and restore
 ```
 
-Intervention severs normal causes. Counterfactual execution changes one declared premise and preserves
-background structure. Representation alignment is inferred from randomized structural constraints rather
-than hidden shared identifiers.
+Intervention severs declared normal causes. Counterfactual execution changes
+one declared premise while preserving background structure. Representation
+alignment is inferred from randomized structural constraints rather than hidden
+shared identifiers.
 
-## Workload and campaign fabric
+## Frozen campaign fabric
 
-- `v4fabric` generates eight workload families and six surface representations under disjoint splits.
-- `v4canary` owns the 46 cheap mechanism and integrity canaries.
-- `v4pilot` owns the 24-history moderate pilot, failure matrix, and worker benchmark.
-- `v4principal` owns the frozen 2,136-unit DAG, content-addressed inputs, atomic receipts, checkpoints,
-  resume, and source-drift refusal.
-- `v4verify` independently recomputes effects, classifies nulls, injects mutations, performs clean-clone
-  reproduction, and builds the external review package.
-- `v4io` is the v4 atomic writer and seal verifier.
+Campaign modules are deterministic adapters around the core, not alternate
+product entrypoints. They own their declared generators, controls, splits,
+seeds, budgets, receipts, and classifications:
 
-## State and evidence
+- v2–v5 and Genesis preserve historical developmental and structural scopes.
+- Genesis II, Nous Closure, Final Revision, the tangible sandbox, and Odyssey
+  preserve later sealed scopes and their explicit activation boundaries.
+- `verification.py` independently recomputes sealed records, attacks declared
+  invariants with mutations, and refuses mismatched evidence.
+
+The v4 fabric separates cheap mechanism canaries, the moderate pilot, the
+principal DAG, raw receipt/checkpoint handling, and independent verification.
+Its maintained authorities are arranged as:
 
 ```text
-ops/configs/substrate/v4/                  frozen generators, splits, candidates, and DAG
-evidence/substrate/v4/                     sealed scientific and terminal evidence
-evidence/artifacts/substrate/v4/           retained reports and review package
-evidence/artifacts/substrate/v4/review/    effects, controls, ledgers, mutations, and raw archive
-runs/substrate/v4/                         mutable raw receipts and checkpoints
+ops/configs/substrate/v4/                 frozen generators, splits, DAG
+evidence/substrate/v4/                    sealed classifications and results
+evidence/artifacts/substrate/v4/          reports, review package, raw archive
+runs/substrate/v4/                         mutable local receipts/checkpoints
 ```
 
-The same boundary applies to each historical campaign: committed artifacts
-and run snapshots live beneath `evidence/`, while new execution output remains
-in ignored `artifacts/` and `runs/` namespaces. Historical Git trees still use
-their original names and are compared through the canonical path mapping in
-`substrate.evidence`.
+The same ownership rule applies to the other campaigns: committed evidence
+and retained reports live under `evidence/`, while new run output belongs in
+ignored runtime namespaces. Historical predecessor paths are resolved only by
+the migration authority in `substrate.evidence`, which maps them to the
+canonical checkout for comparison without rewriting the historical record.
 
-V1, v2, and v3 evidence remain read-only. V4 references them through tags, commits, blobs, and hashes.
+## Product foundation
+
+The `substrate product` surface is a separate planning and state format. It
+records portable entity state, specialist requirements, source plans,
+capability packs, cache attestations, and future sandbox plans. It does not
+launch a campaign, container, browser, downloader, model, worker, or external
+action. Workers, if implemented in a future phase, must return untrusted output
+through quarantine and one authoritative assimilation writer.
+
+The product contracts are documented in [`docs/product`](product/ARCHITECTURE.md)
+and its linked entity, pack, source, sandbox, security, and portability
+documents. They are not evidence for the scientific classifications above.
+
+## Repository ownership
+
+| Area | Authority |
+| --- | --- |
+| `src/` | Installed Python package and the small native policy package. |
+| `tests/` | Unit, invariant, campaign, and independent-verification tests. |
+| `ops/configs/` | Frozen configuration and campaign inputs. |
+| `ops/tools/` and `ops/operations/` | Audits, validators, and operational helpers. |
+| `docs/` | Current architecture, reproduction, scientific status, product contracts, and archive index. |
+| `evidence/` | Sealed classifications, proof ledgers, receipts, and retained reports. |
+| ignored `runs/`, `artifacts/`, `data/`, and caches | Mutable local execution state, never scientific authority. |
+
+There is no second active source tree under an old root name. Historical Git
+trees and retained evidence may still mention predecessor paths; those names
+are provenance data and are handled through the explicit migration map.
 
 ## Safety and identity
 
-Activation is a constant `false`. Structural actions are internal proposals or deterministic sandboxed
-simulations. Checkpoint restore refuses corrupt model, causal, mapping, alternative, and specialization
-state. Body and tool changes preserve owned identity and structural state.
+Activation is a constant `false`. Structural actions are internal proposals or
+deterministic sandboxed simulations. Checkpoint restore refuses corrupt model,
+causal, mapping, alternative, and specialization state. Body and tool changes
+preserve owned identity and structural state. No classification, report,
+fixture, or product plan authorizes uncontrolled external action or implies
+consciousness, sentience, personhood, life, or moral status.

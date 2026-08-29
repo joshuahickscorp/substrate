@@ -1,3 +1,7 @@
+# Local agent/tool state; never a second published source tree.
+.claude/
+.worktrees/
+
 # Serena symbol index: local tool cache, regenerated on demand.
 .serena/
 

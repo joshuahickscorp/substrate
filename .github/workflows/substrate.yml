@@ -2,7 +2,7 @@ name: Substrate
 
 on:
   push:
-    branches: [main, agent/substrate-event-horizon]
+    branches: [main]
   pull_request:
     branches: [main]
 

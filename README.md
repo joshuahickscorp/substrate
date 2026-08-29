@@ -86,7 +86,7 @@ raw run tree and can therefore reject a fresh or incomplete checkout.
 | `src/` | The installed `substrate` package and native sandbox implementation. |
 | `tests/` | Package, invariant, campaign, and independent-verification tests. |
 | `ops/` | Frozen configuration, operational records, tools, and launch/run helpers. |
-| `docs/` | Current architecture, development rules, runbooks, product contracts, and historical context. |
+| `docs/` | Current architecture, reproduction guide, scientific status, product contracts, and historical context. |
 | `evidence/` | Retained classifications, proof ledgers, and reviewable historical artifacts. |
 
 The repository root contains only project metadata and entry files. Mutable
@@ -96,8 +96,10 @@ scientific authority. Historical tag paths remain recognizable to the
 independent verifiers, which map them to the canonical checkout only during
 current-filesystem comparison.
 
-The [navigation map](docs/START_HERE.md) is for browsing the tree. The
-[archive index](docs/archive/README.md) explains which historical documents
+For the shortest path through the repository, read the [architecture](docs/ARCHITECTURE.md),
+then the [reproduction guide](docs/REPRODUCTION.md) and [scientific status](docs/SCIENTIFIC_STATUS.md).
+The non-executing product foundation is documented in [docs/product](docs/product/ARCHITECTURE.md).
+The [archive index](docs/archive/README.md) explains which historical documents
 remain as evidence context rather than active instructions.
 
 ## Evidence
