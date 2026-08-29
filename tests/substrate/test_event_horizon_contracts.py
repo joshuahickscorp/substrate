@@ -15,6 +15,9 @@ def test_portability_contract_uses_no_predecessor_checkout_path():
     hits = []
     for root in active:
         for path in root.rglob("*"):
+            relative = path.relative_to(evidence.ROOT)
+            if relative.parts[:2] == ("docs", "archive"):
+                continue
             if path.suffix in {".py", ".md"} and forbidden in path.read_text(errors="ignore"):
                 hits.append(path.relative_to(evidence.ROOT).as_posix())
     assert hits == []

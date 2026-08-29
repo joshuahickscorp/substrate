@@ -445,7 +445,7 @@ def master_authority(st: dict) -> dict:
             "admission_gate": "substrate.method.gate",
             "evidence_fabric": "substrate.evidence",
             "registry": "substrate.program.ITEMS",
-            "configuration": "configs/substrate/config.json",
+            "configuration": "ops/configs/substrate/config.json",
             "cli": "substrate",
             "rule": "these are the only active infrastructure owners",
         },

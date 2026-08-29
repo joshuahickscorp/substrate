@@ -45,7 +45,7 @@ def _request(root: Path, *, role: str, cycle: int = 0, task: dict | None = None)
 
 
 def _self_sha() -> str:
-    return arms.file_digest(Path(arms.__file__).resolve())
+    return arms.canonical_source_digest(Path(arms.__file__).resolve())
 
 
 def _fake_model(monkeypatch: pytest.MonkeyPatch) -> list[dict]:

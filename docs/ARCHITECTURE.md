@@ -56,12 +56,18 @@ than hidden shared identifiers.
 ## State and evidence
 
 ```text
-configs/substrate/v4/             frozen generators, splits, candidates, and DAG
-evidence/substrate/v4/            sealed scientific and terminal evidence
-runs/substrate/v4/                mutable raw receipts and checkpoints
-artifacts/substrate/v4/           preflight, terminal report, and review package
-artifacts/substrate/v4/review/    effects, controls, ledgers, mutations, and raw archive
+ops/configs/substrate/v4/                  frozen generators, splits, candidates, and DAG
+evidence/substrate/v4/                     sealed scientific and terminal evidence
+evidence/artifacts/substrate/v4/           retained reports and review package
+evidence/artifacts/substrate/v4/review/    effects, controls, ledgers, mutations, and raw archive
+runs/substrate/v4/                         mutable raw receipts and checkpoints
 ```
+
+The same boundary applies to each historical campaign: committed artifacts
+and run snapshots live beneath `evidence/`, while new execution output remains
+in ignored `artifacts/` and `runs/` namespaces. Historical Git trees still use
+their original names and are compared through the canonical path mapping in
+`substrate.evidence`.
 
 V1, v2, and v3 evidence remain read-only. V4 references them through tags, commits, blobs, and hashes.
 

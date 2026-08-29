@@ -212,13 +212,13 @@ def test_worktree_cleanliness_allows_only_declared_roots() -> None:
     )
     assert runtime["clean_except_allowed_roots"]
 
-    frozen_config_drift = runtime_only + (" M configs/substrate/v5/frozen_configuration.json\0")
+    frozen_config_drift = runtime_only + (" M ops/configs/substrate/v5/frozen_configuration.json\0")
     frozen = v5campaign.worktree_cleanliness(
         v5campaign.PRINCIPAL_RUNTIME_ROOTS,
         status_output=frozen_config_drift,
     )
     assert not frozen["clean_except_allowed_roots"]
-    assert frozen["undeclared_dirty_paths"] == ["configs/substrate/v5/frozen_configuration.json"]
+    assert frozen["undeclared_dirty_paths"] == ["ops/configs/substrate/v5/frozen_configuration.json"]
 
 
 def test_preflight_fails_on_undeclared_dirty_paths(

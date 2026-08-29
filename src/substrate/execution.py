@@ -47,7 +47,7 @@ UNITS = SYNTHESIS_ROOT / "units"
 LOCKS = SYNTHESIS_ROOT / "locks"
 STAGING = SYNTHESIS_ROOT / "staging"
 STOP = io.STOP
-THREE_SECOND_REPORT_ROOT = io.ROOT / "artifacts" / "substrate" / "three-second-seal"
+THREE_SECOND_REPORT_ROOT = io.ROOT / "evidence" / "artifacts" / "substrate" / "three-second-seal"
 LAUNCH_CAPSULE = THREE_SECOND_REPORT_ROOT / "SUBSTRATE_LAUNCH_CAPSULE.json"
 
 SESOI = 0.05

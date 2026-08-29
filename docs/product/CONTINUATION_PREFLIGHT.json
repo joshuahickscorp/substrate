@@ -45,7 +45,7 @@
       "src/substrate/product/cache.py"
     ],
     "native_policy_package": {
-      "path": "native/substrate-sandbox",
+      "path": "src/native/substrate-sandbox",
       "crate": "substrate-sandbox",
       "schema_version": "substrate-sandbox-body-v1",
       "execution_capability": "none; policy and dry-run validation only"
@@ -118,15 +118,15 @@
       "purpose": "run focused Python product tests"
     },
     {
-      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo fmt --check --manifest-path native/substrate-sandbox/Cargo.toml",
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo fmt --check --manifest-path src/native/substrate-sandbox/Cargo.toml",
       "purpose": "check native policy formatting without creating an in-repository target directory"
     },
     {
-      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo test --manifest-path native/substrate-sandbox/Cargo.toml",
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo test --manifest-path src/native/substrate-sandbox/Cargo.toml",
       "purpose": "run native policy tests"
     },
     {
-      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo clippy --manifest-path native/substrate-sandbox/Cargo.toml -- -D warnings",
+      "command": "CARGO_TARGET_DIR=/tmp/substrate-sandbox-policy-target cargo clippy --manifest-path src/native/substrate-sandbox/Cargo.toml -- -D warnings",
       "purpose": "lint the native policy package as warnings-as-errors"
     }
   ],

@@ -873,7 +873,7 @@ def _seal_mechanism_documents(
             "sample": model,
         },
         "SUBSTRATE_V4_STRUCTURAL_MODEL_OPERATIONS.json": {
-            "schema": "substrate-v4-structural-model-operations/v1",
+            "schema": "substrate-v4-structural-model-ops/operations/v1",
             "operations": [
                 "add entity",
                 "add variable",

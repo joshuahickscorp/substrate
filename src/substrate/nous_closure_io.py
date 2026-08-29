@@ -13,10 +13,10 @@ from typing import Any
 from substrate import nous_closure_config as C
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
-CONFIG = ROOT / "configs" / "substrate" / "nous_closure"
+CONFIG = ROOT / "ops" / "configs" / "substrate" / "nous_closure"
 EVIDENCE = ROOT / "evidence" / "substrate" / "nous_closure"
 RUNS = ROOT / "runs" / "substrate" / "nous_closure"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "nous_closure"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "nous_closure"
 MEDIA = ARTIFACTS / "sandbox_media"
 EXTERNAL_REVIEW = ARTIFACTS / "external_review"
 STOP = RUNS / "STOP"
@@ -70,7 +70,7 @@ def ref_or_none(ref: str, *, peel: bool = False) -> str | None:
 
 def source_digest() -> str:
     rows: list[tuple[str, str]] = []
-    for root_name in ("src/substrate", "configs/substrate/nous_closure"):
+    for root_name in ("src/substrate", "ops/configs/substrate/nous_closure"):
         root = ROOT / root_name
         if not root.exists():
             continue

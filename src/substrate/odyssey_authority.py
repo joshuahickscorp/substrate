@@ -27,7 +27,7 @@ from substrate import odyssey_task_bank as task_bank
 from substrate import odyssey_transition
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 MACHINE_GATE_EVIDENCE = Path("evidence/substrate/odyssey/gates")
 GIB = 1024**3
 # The only fixed disk reservation for a full Odyssey is a device-wide free
@@ -460,6 +460,16 @@ def _inside(root: Path, path: Path) -> bool:
 
 
 def _resolve_relative(root: Path, raw: Any, *, label: str) -> Path:
+    if not isinstance(raw, str) or not raw or Path(raw).is_absolute():
+        raise Refused(f"{label} must be a non-empty root-relative path")
+    path = odyssey_transition.canonical_current_path(root, raw).resolve()
+    if not _inside(root, path):
+        raise Refused(f"{label} escapes the repository root")
+    return path
+
+
+def _resolve_runtime_relative(root: Path, raw: Any, *, label: str) -> Path:
+    """Resolve mutable runtime namespaces without applying retained-layout aliases."""
     if not isinstance(raw, str) or not raw or Path(raw).is_absolute():
         raise Refused(f"{label} must be a non-empty root-relative path")
     path = (root / raw).resolve()
@@ -1005,7 +1015,7 @@ def _validate_frozen_build(root: Path, expected_sha256: str) -> dict[str, Any]:
     # renderer or task-bank generator after the frozen digest was produced.
     for name, expected in frozen.get("input_sha256", {}).items():
         source = odyssey_transition.build_inputs(root).get(name)
-        if source is None or not source.is_file() or file_digest(source) != expected:
+        if source is None or not source.is_file() or odyssey_transition.canonical_source_digest(source) != expected:
             raise Refused(f"frozen input drift: {name}")
     implementation_paths = {
         **odyssey_transition.implementation_inputs(root),
@@ -1014,7 +1024,7 @@ def _validate_frozen_build(root: Path, expected_sha256: str) -> dict[str, Any]:
     }
     for name, expected in frozen.get("implementation_sha256", {}).items():
         source = implementation_paths.get(name)
-        if source is None or not source.is_file() or file_digest(source) != expected:
+        if source is None or not source.is_file() or odyssey_transition.canonical_source_digest(source) != expected:
             raise Refused(f"frozen implementation drift: {name}")
     # Every source the frozen transition declares is required.  This is more
     # robust than a hand-maintained subset: a new execution, materialization,
@@ -2744,7 +2754,7 @@ def _validate_g02(root: Path, subject: dict[str, Any], frozen: dict[str, Any]) -
     adapter_path = root / "src/substrate/odyssey_arms.py"
     if not adapter_path.is_file():
         raise Refused("G02 production arm adapter source is missing")
-    adapter_sha256 = file_digest(adapter_path)
+    adapter_sha256 = odyssey_transition.canonical_source_digest(adapter_path)
     if frozen.get("implementation_sha256", {}).get("odyssey_arms") != adapter_sha256:
         raise Refused("G02 production arm adapter is not bound by this frozen build")
     if candidate_pin["adapter_sha256"] != adapter_sha256:
@@ -3570,7 +3580,10 @@ def _validate_worker(root: Path, worker: Any, g03_subject: dict[str, Any]) -> di
     required_worker = "src/substrate/odyssey_worker.py"
     if required_worker not in {row["path"] for row in observed}:
         raise Refused("worker source binding must include src/substrate/odyssey_worker.py")
-    run_root = _resolve_relative(root, worker.get("run_root"), label="worker.run_root")
+    # ``runs/`` is an intentionally mutable runtime namespace.  Unlike
+    # retained artifacts, it is not part of the canonical tracked-layout
+    # alias map and must stay rooted at the live repository ``runs/`` tree.
+    run_root = _resolve_runtime_relative(root, worker.get("run_root"), label="worker.run_root")
     if not _inside(root / "runs", run_root):
         raise Refused("worker.run_root must live under runs/")
     if "evaluator" in str(worker.get("storage", "")).casefold():

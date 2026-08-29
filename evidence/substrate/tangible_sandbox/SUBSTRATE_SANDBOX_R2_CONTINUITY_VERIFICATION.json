@@ -1,0 +1,97 @@
+{
+  "activation": false,
+  "checks": {
+    "checkpoint_files_present": true,
+    "counts_recomputed": true,
+    "full_24_hours": true,
+    "historical_final_state_preserved": true,
+    "minimums_met": true,
+    "repair_seal_bound": true,
+    "result_complete": true,
+    "state_complete": true,
+    "supervised_worker_exit_zero": true,
+    "supervision_manifest_bound": true,
+    "trace_digest_matches": true,
+    "trace_level_intervention_receipts": true,
+    "trace_schedule_exact": true
+  },
+  "external_activation": false,
+  "historical_final_state": {
+    "classification": "terminal_tangible_sandbox_null",
+    "file_sha256": "28d456b8fc022397283434d0ba01cdeafedc2656207d91d4fce043cb9d36bc4a",
+    "longitudinal_hours": 0,
+    "outcome": "C",
+    "path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_FINAL_STATE.json",
+    "schema": "SUBSTRATE_SANDBOX_FINAL_STATE",
+    "sha256": "cef4bd1727b909e597c211bd6fd4af0ef2996a67392928bc2f66d9493a77308a",
+    "superseded": false
+  },
+  "independently_verified": true,
+  "program": "substrate-tangible-sandbox-r2",
+  "recomputed": {
+    "actual_elapsed_seconds": 86400.039,
+    "actual_wall_hours": 24.000108,
+    "counts": {
+      "checkpoints": 9,
+      "human_corrections": 2,
+      "model_replacements": 1,
+      "new_tasks_requiring_earlier_history": 2,
+      "process_restarts": 2,
+      "returns_to_old_work": 2,
+      "sensor_interruptions": 1,
+      "tool_or_body_changes": 1
+    },
+    "run_id": "r2-af2873803d99429594c557732f4140ac",
+    "scheduled_hours": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ]
+  },
+  "repair_seal": {
+    "file_sha256": "93f6417136ea159477b3b480aa4afead94042e77406506d4ae6ade8bbff28725",
+    "path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_TRACE_RECEIPT_REPAIR_LAUNCH_SEAL.json",
+    "schema": "SUBSTRATE_SANDBOX_TRACE_RECEIPT_REPAIR_LAUNCH_SEAL",
+    "sha256": "2e7a622a524d31671c37a1c05e2868a85d3ced08c83ef57219460c163492955b"
+  },
+  "result": {
+    "file_sha256": "1b0c0979e034d7a33892fe07493e60c00b749b02d94f34af2ca227ea517e50ee",
+    "path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT.json",
+    "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT",
+    "sha256": "bf3f0274839c88bba8f74e314d82540b4b25d0339d880a4dd0e9b7627f14f179"
+  },
+  "schema": "SUBSTRATE_SANDBOX_R2_CONTINUITY_VERIFICATION/v1",
+  "scientific_status": "pass",
+  "sha256": "a084762bc8ecc2da45c576b39421365784fc6a7a25284cea7e61bc4b1c107d6a",
+  "supervision_manifest": {
+    "file_sha256": "55aeb5e15a1babb6d8e6ba5b325fcf10fe136a2966a93c7bf2eb75fb4540c3df",
+    "path": "runs/substrate/tangible_sandbox/longitudinal-supervision/r2-af2873803d99429594c557732f4140ac/manifest.json",
+    "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_MANIFEST",
+    "sha256": "59219f60b4b2dd451513f162414a98fc98fd9f11526fedee07010744d74b842d"
+  },
+  "supervision_result": {
+    "file_sha256": "0cd310998907548140302dec17042f67a59cb55ebcffaeed76a4687f29f4805e",
+    "path": "runs/substrate/tangible_sandbox/longitudinal-supervision/r2-af2873803d99429594c557732f4140ac/supervisor-result.json",
+    "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_RESULT",
+    "sha256": "3361ea6035ccce3dd3e383ef5afc189f0268709585a176a4a80df1160739559b"
+  },
+  "terminal_state": {
+    "complete": true,
+    "file_sha256": "aa4e1c91770cb7fe0b031e73fd74463edc5c24cd8ab560e343fd22066dbfb8c3",
+    "path": "runs/substrate/tangible_sandbox/longitudinal/state.json"
+  },
+  "trace": {
+    "file_sha256": "0835db845f4a9565b2aee1bb00c66a1685deaba0cf8f2533a0a1d0989566dae1",
+    "path": "runs/substrate/tangible_sandbox/longitudinal/trace.jsonl",
+    "rows": 9
+  },
+  "unqualified_nous": false,
+  "verification_scope": "R2 24-hour continuity lane only; this receipt does not overwrite, reclassify, or pool the historical terminal Outcome-C evidence.",
+  "verifier_source_sha256": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a"
+}

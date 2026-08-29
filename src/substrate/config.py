@@ -8,7 +8,7 @@ import os
 
 from substrate import evidence
 
-CONFIG_PATH = evidence.ROOT / "configs" / "substrate" / "config.json"
+CONFIG_PATH = evidence.ROOT / "ops" / "configs" / "substrate" / "config.json"
 ALLOWED = {"activation", "program", "data_root", "state_root"}
 
 

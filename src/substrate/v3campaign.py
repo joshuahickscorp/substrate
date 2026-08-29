@@ -13,6 +13,7 @@ import subprocess
 from substrate import historical, v2io
 from substrate import v3config as C
 from substrate import v3io as io
+from substrate.evidence import canonical_current_path
 
 V1_TAG = "substrate-v1-terminal"
 V2_READY_TAG = "substrate-v2-developmental-ready"
@@ -101,8 +102,9 @@ def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
     for line in lines:
         metadata, path = line.split("\t", 1)
         mode, kind, blob = metadata.split()
-        current = io.ROOT / path
-        current_blob = _git("hash-object", path) if current.is_file() else None
+        current = canonical_current_path(io.ROOT, path)
+        current_relative = current.relative_to(io.ROOT).as_posix()
+        current_blob = _git("hash-object", "--", current_relative) if current.is_file() else None
         row = {
             "mode": mode,
             "kind": kind,

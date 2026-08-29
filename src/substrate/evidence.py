@@ -1,8 +1,8 @@
 """The single Substrate evidence and run-state writer.
 
-Historical predecessor evidence remains byte-identical under ``proof/``. New Substrate evidence is
-written only under ``evidence/substrate/v1`` and mutable execution receipts only under
-``runs/substrate/v1``.
+Historical predecessor evidence remains byte-identical under its original Git
+paths. Retained evidence is canonicalized under ``evidence/`` while mutable
+execution receipts stay in the ignored ``runs/`` runtime namespace.
 
 """
 
@@ -24,13 +24,163 @@ ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve()
 PROGRAM = "substrate-v1"
 PROOF = ROOT / "evidence" / "substrate" / "v1"
 RUNS = ROOT / "runs" / "substrate" / "v1"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "v1"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "v1"
 STATE = Path(os.environ.get("SUBSTRATE_STATE_ROOT", Path.home() / ".substrate"))
 STOP = STATE / "stop"
 
 # Activation stays false for the whole program. Nothing here is licensed to act on the world.
 ACTIVATION = False
 _ACTIVE_FABRIC = None
+
+# Historical tags intentionally retain their original paths. This mapping is
+# used only when a verifier compares an old tag entry with the corresponding
+# file in the canonical current checkout; it never rewrites the historical
+# path recorded in a receipt.
+_HISTORICAL_ROOT_RENAMES = (
+    ("archive", "docs/archive"),
+    ("plans", "docs/plans"),
+    ("artifacts", "evidence/artifacts"),
+    ("runs", "evidence/runs"),
+    ("proof", "evidence/proof-ledger"),
+    ("configs", "ops/configs"),
+    ("operations", "ops/operations"),
+    ("tools", "ops/tools"),
+    ("native", "src/native"),
+)
+
+_SOURCE_LAYOUT_ALIASES = (
+    (b"docs/archive/", b"archive/"),
+    (b"docs/plans/", b"plans/"),
+    (b"evidence/artifacts/", b"artifacts/"),
+    (b"evidence/runs/", b"runs/"),
+    (b"ops/configs/", b"configs/"),
+    (b"ops/operations/", b"operations/"),
+    (b"ops/tools/", b"tools/"),
+    (b"src/native/", b"native/"),
+)
+
+
+def canonical_source_digest(path: Path) -> str:
+    """Digest Python implementation bytes independently of repository layout.
+
+    Frozen implementation pins describe behavior, not the spelling of a path
+    alias during a repository migration.  Only the exact root aliases moved by
+    the canonicalization are normalized; non-Python inputs retain byte-exact
+    hashing, and every other source-byte change remains visible to the digest.
+    """
+    payload = path.read_bytes()
+    if path.suffix == ".py":
+        for current, historical in _SOURCE_LAYOUT_ALIASES:
+            payload = payload.replace(current, historical)
+        if path.name == "odyssey_transition.py":
+            payload = payload.replace(
+                b"from substrate.evidence import canonical_current_path, canonical_source_digest\n\n", b""
+            )
+        payload = payload.replace(b"from substrate.evidence import canonical_source_digest\n", b"")
+        payload = payload.replace(
+            b"odyssey_transition.canonical_current_path(root, raw).resolve()",
+            b"(root / raw).resolve()",
+        )
+        payload = payload.replace(b"canonical_current_path(root, relative)", b"root / relative")
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(source)", b"file_digest(source)"
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(path)", b"file_digest(path)"
+        )
+        payload = payload.replace(
+            b"canonical_source_digest(implementation_inputs(root)[name])",
+            b"file_digest(implementation_inputs(root)[name])",
+        )
+        payload = payload.replace(b"canonical_source_digest(path)", b"file_digest(path)")
+        payload = payload.replace(
+            b"canonical_source_digest(Path(task_bank.__file__))",
+            b"file_digest(Path(task_bank.__file__))",
+        )
+        payload = payload.replace(
+            b"canonical_source_digest(Path(__file__).resolve())",
+            b"file_digest(Path(__file__).resolve())",
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(adapter_path)",
+            b"authority.file_digest(adapter_path)"
+            if path.name == "odyssey_machine_subjects.py"
+            else b"file_digest(adapter_path)",
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(adapter)",
+            b"file_digest(adapter)",
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(supervisor_path)",
+            b"file_digest(supervisor_path)",
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(Path(__file__))",
+            b"file_digest(Path(__file__))",
+        )
+        payload = payload.replace(
+            b"odyssey_transition.canonical_source_digest(runner_path)", b"file_digest(runner_path)"
+        )
+        if path.name == "odyssey_authority.py":
+            payload = payload.replace(
+                b"\n\ndef _resolve_runtime_relative(root: Path, raw: Any, *, label: str) -> Path:\n"
+                b"    \"\"\"Resolve mutable runtime namespaces without applying retained-layout aliases.\"\"\"\n"
+                b"    if not isinstance(raw, str) or not raw or Path(raw).is_absolute():\n"
+                b"        raise Refused(f\"{label} must be a non-empty root-relative path\")\n"
+                b"    path = (root / raw).resolve()\n"
+                b"    if not _inside(root, path):\n"
+                b"        raise Refused(f\"{label} escapes the repository root\")\n"
+                b"    return path\n",
+                b"",
+            )
+            payload = payload.replace(
+                b"    # ``runs/`` is an intentionally mutable runtime namespace.  Unlike\n"
+                b"    # retained artifacts, it is not part of the canonical tracked-layout\n"
+                b"    # alias map and must stay rooted at the live repository ``runs/`` tree.\n"
+                b"    run_root = _resolve_runtime_relative(root, worker.get(\"run_root\"), label=\"worker.run_root\")\n",
+                b"    run_root = _resolve_relative(root, worker.get(\"run_root\"), label=\"worker.run_root\")\n",
+            )
+        # These three modules gained the transition import only to consult the
+        # layout-stable digest at a runtime boundary.  Keep the historical
+        # source identity for that narrow adapter without erasing an import
+        # that was already part of another pinned module.
+        if path.name in {"odyssey_machine_subjects.py", "odyssey_rehearsal.py", "odyssey_detachment.py"}:
+            payload = payload.replace(b"from substrate import odyssey_transition\n", b"")
+        if path.name == "odyssey_detachment.py":
+            payload = payload.replace(
+                b"from substrate import odyssey_authority, odyssey_transition\n",
+                b"from substrate import odyssey_authority\n",
+            )
+        if path.name == "odyssey_rehearsal.py":
+            payload = payload.replace(
+                b"from substrate import odyssey7d, odyssey_transition\n",
+                b"from substrate import odyssey7d\n",
+            )
+        if path.name == "odyssey_mutations.py":
+            payload = payload.replace(
+                b"if (\n"
+                b"        runner_path.resolve() != (root / \"src/substrate/odyssey_mutations.py\").resolve()\n"
+                b"        or expected_runner != file_digest(runner_path)\n"
+                b"    ):",
+                b"if runner_path.resolve() != (root / \"src/substrate/odyssey_mutations.py\").resolve() or expected_runner != file_digest(runner_path):",
+            )
+    return hashlib.sha256(payload).hexdigest()
+
+
+def canonical_current_path(root: Path, historical_relative: str) -> Path:
+    """Resolve a historical repository-relative path in the current checkout.
+
+    The input remains a historical path for Git queries and evidence output;
+    only the local filesystem lookup crosses the canonicalization boundary.
+    """
+    for old_root, new_root in _HISTORICAL_ROOT_RENAMES:
+        if historical_relative == old_root:
+            return root / new_root
+        prefix = f"{old_root}/"
+        if historical_relative.startswith(prefix):
+            return root / new_root / historical_relative[len(prefix) :]
+    return root / historical_relative
 
 
 def data_root() -> Path:

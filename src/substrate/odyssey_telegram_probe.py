@@ -12,8 +12,8 @@ from typing import Any
 from substrate import odyssey_authority as authority
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
-NOTIFIER = Path("tools/odyssey7d_telegram_notifier.py")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
+NOTIFIER = Path("ops/tools/odyssey7d_telegram_notifier.py")
 
 
 class Refused(RuntimeError):

@@ -59,7 +59,7 @@ envelope.
 
 ## Evidence
 
-Public canary: `artifacts/substrate/odyssey7d/tool-bearing-canary/TOOL_BEARING_CANARY.json`
+Public canary: `evidence/artifacts/substrate/odyssey7d/tool-bearing-canary/TOOL_BEARING_CANARY.json`
 
 ```bash
 PYTHONPATH=src python -c 'from pathlib import Path; from substrate.odyssey_tools import run_frontier_canary; print(run_frontier_canary(Path("."))["all_admitted"])'

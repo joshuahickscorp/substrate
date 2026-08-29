@@ -27,7 +27,11 @@ The three v4 verification transitions affected zero principal units and are reco
 ## Tests and lint
 
 ```bash
-substrate test
+make test-qualification
+make test-normal
+make test-integration
+make test-expensive
+make test-full
 ruff check src tests
 ruff format --check \
   src/substrate/cli.py src/substrate/runtime.py src/substrate/world.py \
@@ -41,12 +45,20 @@ assertions.
 ## Artifact rules
 
 - V4 sealed evidence belongs under `evidence/substrate/v4/`.
-- Mutable raw receipts belong under `runs/substrate/v4/`.
-- Reviewable terminal reports belong under `artifacts/substrate/v4/`.
+- Retained terminal reports and review packages belong under
+  `evidence/artifacts/substrate/v4/`.
+- Mutable raw receipts belong under the ignored runtime namespace
+  `runs/substrate/v4/`.
 - Every authoritative JSON document has activation `false` and a valid self-seal.
 - Raw receipt archives must be deterministic and independently hash-indexed.
 - Historical v1, v2, and v3 evidence and tags are immutable.
 - Scratch data and caches are never authorities.
+
+Frozen configuration is canonical under `ops/configs/`; current operational
+tools and transition records are under `ops/tools/` and `ops/operations/`.
+The old `configs/`, `tools/`, `operations/`, `plans/`, `proof/`, and committed
+artifact/run paths are historical names used by older tags or retained in
+provenance, not active duplicate source trees.
 
 ## Claim boundary
 

@@ -14,6 +14,7 @@ from pathlib import Path
 from substrate import historical, v2io, v3io
 from substrate import v4config as C
 from substrate import v4io as io
+from substrate.evidence import canonical_current_path
 
 V1_TAG = "substrate-v1-terminal"
 V2_TAG = "substrate-v2-terminal"
@@ -107,16 +108,17 @@ def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
     current_hashes: dict[str, str | None] = {}
     for offset in range(0, len(parsed), 200):
         batch = parsed[offset : offset + 200]
-        existing = [path for _, _, _, path in batch if (io.ROOT / path).is_file()]
+        existing = [path for _, _, _, path in batch if canonical_current_path(io.ROOT, path).is_file()]
         if existing:
-            hashes = subprocess.check_output(["git", "hash-object", *existing], cwd=io.ROOT, text=True).splitlines()
+            current_paths = [canonical_current_path(io.ROOT, path).relative_to(io.ROOT).as_posix() for path in existing]
+            hashes = subprocess.check_output(["git", "hash-object", "--", *current_paths], cwd=io.ROOT, text=True).splitlines()
             current_hashes.update(dict(zip(existing, hashes, strict=True)))
         for _, _, _, path in batch:
             current_hashes.setdefault(path, None)
     objects = {}
     drift = []
     for mode, kind, blob, path in parsed:
-        current = io.ROOT / path
+        current = canonical_current_path(io.ROOT, path)
         current_blob = current_hashes[path]
         row = {
             "mode": mode,

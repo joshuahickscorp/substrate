@@ -42,7 +42,7 @@ from substrate.final_revision_io import write_json as _write_json
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
 EVIDENCE = ROOT / "evidence" / "substrate" / "tangible_sandbox"
 RUNS = ROOT / "runs" / "substrate" / "tangible_sandbox"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "tangible_sandbox"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "tangible_sandbox"
 PUBLICATION = ARTIFACTS / "publication"
 CORPUS = ARTIFACTS / "corpus" / C.CORPUS
 DATA = ROOT / "data" / "substrate" / "tangible_sandbox"

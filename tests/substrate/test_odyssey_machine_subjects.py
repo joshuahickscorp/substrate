@@ -12,6 +12,7 @@ import pytest
 
 from substrate import odyssey_authority as authority
 from substrate import odyssey_machine_subjects as subjects
+from substrate import odyssey_transition
 from tests.substrate.test_odyssey_authority import (
     _fixture_root,
     _prepared_inputs,
@@ -33,7 +34,7 @@ def test_g04_refuses_missing_custody_limitations_and_independence(tmp_path: Path
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     g04 = authority._read_json(root / "receipts/G04.subject.json", require_digest=True)
 
@@ -59,7 +60,7 @@ def test_g04_refuses_duplicate_commitment_digests(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     g04 = json.loads(json.dumps(authority._read_json(root / "receipts/G04.subject.json", require_digest=True)))
     g04["frontiers"][2]["scorer_commitment_sha256"] = g04["frontiers"][0]["scorer_commitment_sha256"]
@@ -71,7 +72,7 @@ def test_g04_refuses_reveal_not_chained_to_trace_lock(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     g04 = json.loads(json.dumps(authority._read_json(root / "receipts/G04.subject.json", require_digest=True)))
     g04["day7_reveal"]["trace_lock_recipe_sha256"] = "0" * 64
@@ -83,7 +84,7 @@ def test_g10_refuses_denial_that_was_not_attempted(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     g10 = json.loads(json.dumps(authority._read_json(root / "receipts/G10.subject.json", require_digest=True)))
     receipt_ref = g10["isolation_receipts"]["candidate_evaluator_write_denied"]
@@ -103,7 +104,7 @@ def test_subject_refuses_stale_frozen_build_or_git_head(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     for gate_id in ("G02", "G04", "G05", "G10", "G11"):
         subject = json.loads(
@@ -129,7 +130,7 @@ def test_subject_refuses_placeholder_anywhere(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
     frozen = authority._read_json(
-        root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     g02 = json.loads(json.dumps(authority._read_json(root / "receipts/G02.subject.json", require_digest=True)))
     g02["selection_id"] = "REPLACE_WITH_PLACEHOLDER"
@@ -174,7 +175,7 @@ def test_g02_generator_pins_the_frozen_production_adapter(tmp_path: Path) -> Non
 
     subject = subjects.generate_g02(root, out)
 
-    adapter_sha256 = authority.file_digest(root / "src/substrate/odyssey_arms.py")
+    adapter_sha256 = odyssey_transition.canonical_source_digest(root / "src/substrate/odyssey_arms.py")
     assert subject["candidate"]["adapter_sha256"] == adapter_sha256
     assert {row["adapter_sha256"] for row in subject["controls_by_frontier"].values()} == {adapter_sha256}
     authority.seal_machine_gate(root, "G02", out, root / "generated/G02.gate.json")

@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from substrate import odyssey_authority as authority
+from substrate import odyssey_transition
 
 PROGRAM = authority.PROGRAM
 PLAN = authority.PLAN
@@ -30,8 +31,8 @@ G03_SUBJECT_CANDIDATES = (
     Path("evidence/substrate/odyssey/manifests/G03.subject.json"),
     Path("receipts/G03.subject.json"),
 )
-OPERATOR_DECISION = Path("operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json")
-ISOLATION_ARTIFACT_ROOT = Path("artifacts/substrate/odyssey/isolation-probe")
+OPERATOR_DECISION = Path("ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json")
+ISOLATION_ARTIFACT_ROOT = Path("evidence/artifacts/substrate/odyssey/isolation-probe")
 
 
 class Refused(authority.Refused):
@@ -113,7 +114,7 @@ def generate_g02(root: Path, output_path: Path) -> dict[str, Any]:
     adapter_path = root / "src/substrate/odyssey_arms.py"
     if not adapter_path.is_file():
         raise Refused("G02 requires the production Odyssey arm adapter source")
-    adapter_sha256 = authority.file_digest(adapter_path)
+    adapter_sha256 = odyssey_transition.canonical_source_digest(adapter_path)
     if frozen["implementation_sha256"].get("odyssey_arms") != adapter_sha256:
         raise Refused("G02 arm adapter bytes are not bound by the current frozen build")
     decision = _load_operator_decision(root)

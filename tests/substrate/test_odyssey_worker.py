@@ -103,7 +103,7 @@ def _authority(
     }
     body["sha256"] = worker._digest(body)
     name = "ODYSSEY_7D.test.authority.json" if program == worker.TEST_PROGRAM else "ODYSSEY_7D.authority.json"
-    authority_path = root / "plans/substrate/tangible_next_launch" / name
+    authority_path = root / "docs/plans/substrate/tangible_next_launch" / name
     _write(authority_path, body)
     return authority_path
 
@@ -404,7 +404,7 @@ def _frozen_fixture(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> dict:
         "implementation_sha256": {name: worker.file_digest(path) for name, path in implementations.items()},
     }
     frozen["sha256"] = worker._digest(frozen)
-    frozen_path = tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
+    frozen_path = tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
     _write(frozen_path, frozen)
     return frozen
 

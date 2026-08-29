@@ -19,9 +19,10 @@ from pathlib import Path
 from typing import Any
 
 from substrate import odyssey_task_bank as task_bank
+from substrate.evidence import canonical_source_digest
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 FRONTIERS = tuple("ABCDEFGH")
 TASKS_PER_FRONTIER = 84 * 4
 SOURCE_SELECTION_SCHEMA = "SUBSTRATE_ODYSSEY_SOURCE_SELECTION/v1"
@@ -265,7 +266,7 @@ def build_manifest_set(
     if any(not isinstance(inputs.get(name), str) for name in required_inputs):
         raise Refused("frozen build lacks frontier source bindings")
     task_bank_sha256 = _sha256(implementation.get("task_bank_generator"), label="frozen task-bank generator sha256")
-    if task_bank_sha256 != file_digest(Path(task_bank.__file__)):
+    if task_bank_sha256 != canonical_source_digest(Path(task_bank.__file__)):
         raise Refused("task-bank generator drifted after the frozen build")
     secret_seed = hashlib.sha256(seed_bytes).hexdigest()
     seed_commitment = task_bank._digest({"seed": secret_seed})

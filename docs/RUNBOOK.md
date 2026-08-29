@@ -48,9 +48,11 @@ unless a separately preregistered future campaign establishes otherwise.
 
 ## Reconstruct raw receipts
 
-The terminal review package contains `artifacts/substrate/v4/review/RAW_RECEIPTS.jsonl.gz`. Each line
-records a repository-relative path, SHA-256, and JSON document. Restore those documents under their
-recorded paths before independent recomputation in a fresh terminal checkout.
+The terminal review package contains
+`evidence/artifacts/substrate/v4/review/RAW_RECEIPTS.jsonl.gz`. Each line
+records a repository-relative path, SHA-256, and JSON document. Restore mutable
+receipts under their recorded `runs/` paths before independent recomputation
+in a fresh terminal checkout.
 
 ## Failure recovery
 

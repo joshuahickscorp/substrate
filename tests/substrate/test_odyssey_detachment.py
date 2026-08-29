@@ -51,8 +51,10 @@ def _fixture(root: Path, launch_agents: Path, monkeypatch: pytest.MonkeyPatch) -
             "input_sha256": {"hardened_design": "a" * 64},
             "implementation_sha256": {
                 "telegram_notifier": "b" * 64,
-                "odyssey_detachment": detachment.file_digest(Path(detachment.__file__)),
-                "frontier_renderer": detachment.file_digest(Path(detachment.__file__).with_name("odyssey7d.py")),
+                "odyssey_detachment": detachment.odyssey_transition.canonical_source_digest(Path(detachment.__file__)),
+                "frontier_renderer": detachment.odyssey_transition.canonical_source_digest(
+                    Path(detachment.__file__).with_name("odyssey7d.py")
+                ),
             },
         }
     )
@@ -95,8 +97,10 @@ def _staging_frozen(root: Path, launch_agents: Path, monkeypatch: pytest.MonkeyP
             "scientific_status": "frozen_waiting_for_verified_r2",
             "input_sha256": {"hardened_design": "a" * 64},
             "implementation_sha256": {
-                "odyssey_detachment": detachment.file_digest(Path(detachment.__file__)),
-                "frontier_renderer": detachment.file_digest(Path(detachment.__file__).with_name("odyssey7d.py")),
+                "odyssey_detachment": detachment.odyssey_transition.canonical_source_digest(Path(detachment.__file__)),
+                "frontier_renderer": detachment.odyssey_transition.canonical_source_digest(
+                    Path(detachment.__file__).with_name("odyssey7d.py")
+                ),
             },
         }
     )

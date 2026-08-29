@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 543, in <module>
-    admit()
-  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 379, in admit
-    "causal_graph_rejections": graph.validate(g, evidence={"pooled_control": per_bed[BEDS[0]]["control_semantics"]["pooled"]}),
-                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-KeyError: 'pooled'

@@ -1,0 +1,36 @@
+{
+  "activation": false,
+  "checks": {
+    "clean_clone_head_matches_current_head": true,
+    "clean_clone_passes": true,
+    "clean_clone_self_digested": true,
+    "clean_clone_source_matches_result": true,
+    "current_campaign_source_matches_result": true,
+    "longitudinal_result_self_digested": true
+  },
+  "clean_clone": {
+    "file_sha256": "f7307107b4590c2852a3b829b64259655bc536fac529625e683d6d73fe6a4b82",
+    "path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_CLEAN_CLONE.json",
+    "schema": "SUBSTRATE_SANDBOX_CLEAN_CLONE",
+    "sha256": "301eec86c86fb1dd1bfa130cf5989143affab9589ee0acc2e12be1bcbad926ad",
+    "source_digest": "7adeca112bbedce857f0058b848aad8357122aa5e68a507458e2d8e198807d81"
+  },
+  "external_activation": false,
+  "git_head": "0ff697167f56045b55348d7d12bda8776573b758",
+  "independently_verified": true,
+  "longitudinal_result": {
+    "file_sha256": "1b0c0979e034d7a33892fe07493e60c00b749b02d94f34af2ca227ea517e50ee",
+    "path": "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT.json",
+    "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT",
+    "sha256": "bf3f0274839c88bba8f74e314d82540b4b25d0339d880a4dd0e9b7627f14f179",
+    "source_digest": "7adeca112bbedce857f0058b848aad8357122aa5e68a507458e2d8e198807d81"
+  },
+  "program": "substrate-tangible-sandbox-r2",
+  "sandbox_campaign_source_digest": "7adeca112bbedce857f0058b848aad8357122aa5e68a507458e2d8e198807d81",
+  "schema": "SUBSTRATE_SANDBOX_R2_PROVENANCE_VERIFICATION/v1",
+  "scientific_status": "pass",
+  "sha256": "67bed85b3e5b17f6392856702459c9fc94b965f75f84f421b9b3ec5a2f90c65b",
+  "unqualified_nous": false,
+  "verification_scope": "R2 source-provenance binding only; this receipt does not alter the historical terminal classification or the continuity result.",
+  "verifier_source_sha256": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c"
+}

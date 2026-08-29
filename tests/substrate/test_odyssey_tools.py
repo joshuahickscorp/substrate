@@ -311,7 +311,7 @@ def test_per_frontier_real_tool_invocation(
             "artifact_digest": resp.output_digests[0],
             "receipt_sha256": resp.receipt_sha256,
         }
-        out = tmp_path / "artifacts/substrate/odyssey7d/frontier-proofs" / f"{frontier}-{arm}.json"
+        out = tmp_path / "evidence/artifacts/substrate/odyssey7d/frontier-proofs" / f"{frontier}-{arm}.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(proof, sort_keys=True, indent=2) + "\n", encoding="utf-8")
 
@@ -365,7 +365,7 @@ def test_arms_prompt_permits_only_declared_tools(tmp_path: Path, monkeypatch: py
         role="candidate",
         model="gpt-oss:20b",
         state_root="runs/substrate/odyssey7d/v1/private-state/A/candidate",
-        self_sha256=arms.file_digest(Path(arms.__file__).resolve()),
+        self_sha256=arms.canonical_source_digest(Path(arms.__file__).resolve()),
         request_path=path,
     )
     system = calls[0]["messages"][0]["content"]
@@ -390,7 +390,7 @@ def test_public_tool_bearing_canary_writes_evidence(tmp_path: Path, budget: Tool
     document = run_frontier_canary(tmp_path, budget=long_budget)
     assert document["all_admitted"] is True
     assert len(document["rows"]) == 16
-    out = tmp_path / "artifacts/substrate/odyssey7d/tool-bearing-canary/TOOL_BEARING_CANARY.json"
+    out = tmp_path / "evidence/artifacts/substrate/odyssey7d/tool-bearing-canary/TOOL_BEARING_CANARY.json"
     assert out.is_file()
     loaded = json.loads(out.read_text(encoding="utf-8"))
     assert loaded["sha256"] == document["sha256"]

@@ -61,7 +61,11 @@ def _frozen() -> dict:
     return _sealed(
         {
             "schema": "SUBSTRATE_ODYSSEY_FROZEN_BUILD/v1",
-            "implementation_sha256": {"task_bank_generator": materializer.file_digest(Path(__file__).parents[2] / "src/substrate/odyssey_task_bank.py")},
+            "implementation_sha256": {
+                "task_bank_generator": materializer.canonical_source_digest(
+                    Path(__file__).parents[2] / "src/substrate/odyssey_task_bank.py"
+                )
+            },
             "input_sha256": {"frontier_contract": "a" * 64, "task_bank": "b" * 64, "rendered_build_index": "c" * 64},
             "activation": False,
         }
@@ -119,7 +123,7 @@ def test_rejects_seed_inside_repository(tmp_path: Path) -> None:
     selection = _selection(tmp_path)
     selection_path = tmp_path / "selection.json"
     _write(selection_path, selection)
-    _write(tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", _frozen())
+    _write(tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", _frozen())
     seed_path = tmp_path / "secret-seed"
     _write(seed_path, b"custodian-secret")
 

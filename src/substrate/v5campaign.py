@@ -19,6 +19,7 @@ from pathlib import Path
 from types import ModuleType
 
 from substrate import v5config as C
+from substrate.evidence import canonical_current_path
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
 
@@ -326,11 +327,15 @@ def _git_tree_entries(tag: str, roots: tuple[str, ...]) -> dict[str, dict[str, s
 def _local_file_paths(roots: tuple[str, ...]) -> set[str]:
     paths: set[str] = set()
     for relative_root in roots:
-        root = ROOT / relative_root
+        root = canonical_current_path(ROOT, relative_root)
         if root.is_file() or root.is_symlink():
             paths.add(relative_root)
         elif root.is_dir():
-            paths.update(path.relative_to(ROOT).as_posix() for path in root.rglob("*") if path.is_file() or path.is_symlink())
+            paths.update(
+                f"{relative_root.rstrip('/')}/{path.relative_to(root).as_posix()}"
+                for path in root.rglob("*")
+                if path.is_file() or path.is_symlink()
+            )
     return paths
 
 
@@ -340,8 +345,9 @@ def _hash_local_paths(paths: list[str]) -> dict[str, str]:
         batch = paths[offset : offset + 200]
         if not batch:
             continue
+        current_paths = [canonical_current_path(ROOT, path).relative_to(ROOT).as_posix() for path in batch]
         output = subprocess.check_output(
-            ["git", "hash-object", "--no-filters", "--", *batch],
+            ["git", "hash-object", "--no-filters", "--", *current_paths],
             cwd=ROOT,
             text=True,
         ).splitlines()
@@ -363,7 +369,7 @@ def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
     objects: dict[str, dict[str, object]] = {}
     drift: list[str] = []
     for path, tag_row in expected.items():
-        local_path = ROOT / path
+        local_path = canonical_current_path(ROOT, path)
         local_object = local_hashes.get(path)
         local_mode = _local_mode(local_path) if path in local_paths else None
         byte_identical = local_object == tag_row["object"]
@@ -385,14 +391,14 @@ def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
     tag_manifest = {path: {"mode": row["mode"], "object": row["object"]} for path, row in expected.items()}
     local_tag_owned_manifest = {
         path: {
-            "mode": _local_mode(ROOT / path),
+            "mode": _local_mode(canonical_current_path(ROOT, path)),
             "object": local_hashes[path],
         }
         for path in sorted(local_paths & set(expected))
     }
     additions_manifest = {
         path: {
-            "mode": _local_mode(ROOT / path),
+            "mode": _local_mode(canonical_current_path(ROOT, path)),
             "object": local_hashes[path],
         }
         for path in unexpected
@@ -419,8 +425,13 @@ def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
 
 def _seal_validation(version: str) -> dict:
     rows: dict[str, dict[str, object]] = {}
-    for family in ("evidence", "artifacts", "configs"):
-        root = ROOT / family / "substrate" / version
+    family_roots = {
+        "evidence": ROOT / "evidence",
+        "artifacts": ROOT / "evidence" / "artifacts",
+        "configs": ROOT / "ops" / "configs",
+    }
+    for _family, family_root in family_roots.items():
+        root = family_root / "substrate" / version
         if not root.exists():
             continue
         for path in sorted(root.rglob("*.json")):
@@ -711,10 +722,18 @@ def _process_snapshots() -> dict:
 
 
 def _v5_namespace_snapshot() -> dict:
-    families = ("configs", "evidence", "runs", "artifacts", "models", "data", "cache")
+    family_roots = {
+        "configs": ROOT / "ops" / "configs",
+        "evidence": ROOT / "evidence",
+        "runs": ROOT / "runs",
+        "artifacts": ROOT / "evidence" / "artifacts",
+        "models": ROOT / "models",
+        "data": ROOT / "data",
+        "cache": ROOT / "cache",
+    }
     rows: dict[str, dict[str, object]] = {}
-    for family in families:
-        path = ROOT / family / "substrate" / "v5"
+    for family, family_root in family_roots.items():
+        path = family_root / "substrate" / "v5"
         files = sorted(item.relative_to(ROOT).as_posix() for item in path.rglob("*") if item.is_file()) if path.exists() else []
         rows[family] = {
             "path": str(path),

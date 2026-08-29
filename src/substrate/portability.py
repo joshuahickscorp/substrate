@@ -22,7 +22,7 @@ from typing import Any
 
 SCHEMA = "SUBSTRATE_PORTABILITY_MANIFEST/v1"
 PROGRAM = "substrate-odyssey-portability-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 MANIFEST_REL = PLAN / "SUBSTRATE_PORTABILITY_MANIFEST.json"
 TOOL_INVENTORY_REL = PLAN / "ODYSSEY_TOOL_PANEL_INVENTORY.json"
 FROZEN_BUILD_REL = PLAN / "ODYSSEY_FROZEN_BUILD.json"

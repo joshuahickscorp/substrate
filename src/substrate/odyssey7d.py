@@ -21,7 +21,7 @@ from typing import Any
 from substrate import odyssey_authority, odyssey_detachment, odyssey_worker
 
 PROGRAM = "substrate-odyssey-7d-v1"
-RELATIVE = Path("plans/substrate/tangible_next_launch")
+RELATIVE = Path("docs/plans/substrate/tangible_next_launch")
 FRONTIER_IDS = tuple("ABCDEFGH")
 GIB = 1024**3
 SUPERVISOR_STATE_SCHEMA = "SUBSTRATE_ODYSSEY_SUPERVISOR_STATE/v2"
@@ -370,7 +370,7 @@ def detached_supervisor_template(root: Path) -> dict[str, Any]:
         "activation": False,
         "program": PROGRAM,
         "label": label,
-        "authority_required": "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json",
+        "authority_required": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json",
         "must_require": [
             "all_gates_pass",
             "sealed_authority_digest",
@@ -1430,7 +1430,7 @@ def canaries(root: Path) -> dict[str, Any]:
         "broker_action": "admit_or_resume",
         "next_boundary": 3600,
     }
-    root_test = root / "artifacts/substrate/odyssey7d/v1/prelaunch-custody-canary"
+    root_test = root / "evidence/artifacts/substrate/odyssey7d/v1/prelaunch-custody-canary"
     if root_test.exists():
         shutil.rmtree(root_test)
     evaluator = root_test / "evaluator-only"

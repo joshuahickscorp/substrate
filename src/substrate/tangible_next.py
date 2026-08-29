@@ -25,7 +25,7 @@ from typing import Any
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
 PROGRAM = "substrate-tangible-next-launch"
-CONTROL_RELATIVE = Path("plans/substrate/tangible_next_launch")
+CONTROL_RELATIVE = Path("docs/plans/substrate/tangible_next_launch")
 R2_EVIDENCE_RELATIVE = Path("evidence/substrate/tangible_sandbox")
 R2_LIVE_STATE_RELATIVE = Path("runs/substrate/tangible_sandbox/longitudinal/state.json")
 RUNS_RELATIVE = Path("runs/substrate/tangible_next_launch")
@@ -417,7 +417,7 @@ turn an incomplete R2 trace into evidence.
 ```bash
 python -m substrate.tangible_next status
 python -m substrate.tangible_next review-r2
-# Review and complete the three draft JSON files under plans/substrate/tangible_next_launch/
+# Review and complete the three draft JSON files under docs/plans/substrate/tangible_next_launch/
 python -m substrate.tangible_next seal-design
 python -m substrate.tangible_next run-calibration
 python -m substrate.tangible_next preflight
@@ -450,7 +450,7 @@ until the candidate trace digest has been sealed by the custodian.
 
 Use `python -m substrate.tangible_next validate-receipt REQUEST RECEIPT` to
 check the contract before the command is admitted. The contract itself is
-sealed in `plans/substrate/tangible_next_launch/ADAPTER_CONTRACT.sealed.json`.
+sealed in `docs/plans/substrate/tangible_next_launch/ADAPTER_CONTRACT.sealed.json`.
 
 The generic control plane intentionally does not invent these scientific
 adapters. Their exact behavior depends on the R2 result and the newly selected

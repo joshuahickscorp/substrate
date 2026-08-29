@@ -1,0 +1,43 @@
+{
+  "activation": false,
+  "case": "global_hold_boundary",
+  "critical_pressure": false,
+  "decision": "safe_hold_non_p0",
+  "decision_source": "odyssey_worker._broker_action_for_bytes",
+  "external_activation": false,
+  "host_rss_bytes_input": 91268055040,
+  "lane_resident_basis": "declared_probe_partition",
+  "lane_resident_gib": {
+    "A": 1.0,
+    "B": 1.0,
+    "C": 1.0,
+    "D": 1.0,
+    "E": 1.0,
+    "F": 1.0,
+    "G": 1.0,
+    "H": 1.0
+  },
+  "live_host_sample_sha256": "384c016c74bfd215809564305c1ce18f4de937adea4ffccdb84799dafbf87d92",
+  "measured_host_rss_bytes": 60720087040,
+  "measured_memory_pools_gib": {
+    "broker": 0.136459351,
+    "container": 0.0,
+    "host": 56.413528441,
+    "model_service": 1e-09,
+    "vm": 0.0
+  },
+  "memory_pools_basis": "declared_probe_partition",
+  "memory_pools_gib": {
+    "broker": 4.15,
+    "container": 4.15,
+    "host": 45.65,
+    "model_service": 20.75,
+    "vm": 8.3
+  },
+  "program": "substrate-odyssey-7d-v1",
+  "resident_basis": "declared_probe_input_to_pure_broker_function",
+  "resident_cap_bytes": 91268055040,
+  "resident_gib": 85.0,
+  "schema": "SUBSTRATE_ODYSSEY_BROKER_DECISION_RECEIPT/v1",
+  "sha256": "9e1603f6d0679e725ff43919b22166fd390e2e59535b1bdf6f7441fb6371611c"
+}

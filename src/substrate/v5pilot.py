@@ -98,7 +98,7 @@ ADMISSION_AUTHORITY_PATHS = {
     "pilot": "evidence/substrate/v5/SUBSTRATE_V5_MODERATE_PILOT.json",
     "failure": "evidence/substrate/v5/SUBSTRATE_V5_FAILURE_MATRIX.json",
     "kernel": "evidence/substrate/v5/SUBSTRATE_V5_KERNEL_SELECTION.json",
-    "configuration": "configs/substrate/v5/frozen_configuration.json",
+    "configuration": "ops/configs/substrate/v5/frozen_configuration.json",
     "model": "evidence/substrate/v5/SUBSTRATE_V5_MODEL_REGISTRY.json",
     "corpus": "evidence/substrate/v5/SUBSTRATE_V5_CORPUS_CATALOG.json",
 }

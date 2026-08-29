@@ -58,27 +58,43 @@ From the repository root:
 
 ```bash
 make install
-make test
+make test-qualification
+make test-normal
+make test-integration     # requires the declared external services/tools
+make test-expensive
+make test-full
 make audit
 make accept
 ```
+
+The qualification tier is the seconds-scale contract gate for deterministic
+core invariants. Normal runs the ordinary package suite; integration and
+expensive tiers are explicit about external tools, long campaigns, or large
+corpora; full is the complete certification collection. Unavailable external
+dependencies are reported as unavailable or skipped by the owning test and
+never converted into a passing result.
 
 Use `substrate --help`, `substrate status`, `substrate genesis --help`, and
 `substrate sandbox --help` to inspect the available workflows. `make accept`
 runs the fail-closed verification path; some historical proofs require their
 raw run tree and can therefore reject a fresh or incomplete checkout.
 
-## Repository layout
+## Canonical repository layout
 
-- `src/substrate/` — implementation package.
-- `tests/substrate/` — package and verification tests.
-- `tools/` — campaign, audit, and evidence utilities.
-- `docs/` — current reports, runbooks, and archived handoffs.
-- `docs/archive/` — historical experiment prose, staging handoffs, and audit
-  contracts; it is not an active operating queue.
-- `evidence/` — classifications, proof records, and sandbox receipts.
-- `artifacts/` — campaign outputs and reports.
-- `run/` and `operations/` — local transition and runtime state.
+| Area | Purpose |
+|---|---|
+| `src/` | The installed `substrate` package and native sandbox implementation. |
+| `tests/` | Package, invariant, campaign, and independent-verification tests. |
+| `ops/` | Frozen configuration, operational records, tools, and launch/run helpers. |
+| `docs/` | Current architecture, development rules, runbooks, product contracts, and historical context. |
+| `evidence/` | Retained classifications, proof ledgers, and reviewable historical artifacts. |
+
+The repository root contains only project metadata and entry files. Mutable
+execution namespaces such as `runs/`, `artifacts/`, `models/`, `data/`, and
+`cache/` are local ignored runtime state; they are not a second source tree or
+scientific authority. Historical tag paths remain recognizable to the
+independent verifiers, which map them to the canonical checkout only during
+current-filesystem comparison.
 
 The [navigation map](docs/START_HERE.md) is for browsing the tree. The
 [archive index](docs/archive/README.md) explains which historical documents

@@ -623,7 +623,7 @@ def preflight(*, publish: bool = True) -> dict[str, Any]:
         C.PREFLIGHT_TAG,
         "evidence/substrate/nous_closure",
         "artifacts/substrate/nous_closure",
-        "configs/substrate/nous_closure",
+        "ops/configs/substrate/nous_closure",
         "src/substrate/nous_closure.py",
         "src/substrate/nous_closure_campaign.py",
         "src/substrate/nous_closure_config.py",
@@ -677,7 +677,7 @@ def preflight(*, publish: bool = True) -> dict[str, Any]:
             "historical_namespaces": [
                 "evidence/substrate/nous_closure",
                 "artifacts/substrate/nous_closure",
-                "configs/substrate/nous_closure",
+                "ops/configs/substrate/nous_closure",
                 "src/substrate/nous_closure*.py",
             ],
             "historical_diff_from_preflight": historical_drift,
@@ -2230,7 +2230,7 @@ _SEALED_TRANSITION_SCHEMA = "substrate-final-revision-sealed-transition/v1"
 _HISTORICAL_NAMESPACE_PATHS = (
     "evidence/substrate/nous_closure",
     "artifacts/substrate/nous_closure",
-    "configs/substrate/nous_closure",
+    "ops/configs/substrate/nous_closure",
     "src/substrate/nous_closure.py",
     "src/substrate/nous_closure_campaign.py",
     "src/substrate/nous_closure_config.py",

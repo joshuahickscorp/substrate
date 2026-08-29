@@ -195,7 +195,7 @@ def preflight() -> dict:
         "src/substrate/cli.py",
         "src/substrate/v2.py",
         "src/substrate/v2io.py",
-        "artifacts/substrate/v2/",
+        "evidence/artifacts/substrate/v2/",
     }
     worktrees = _git("worktree", "list", "--porcelain")
     prs = _json_command(
@@ -238,9 +238,9 @@ def preflight() -> dict:
         path.relative_to(io.ROOT).as_posix() for root in v2_roots if root.exists() for path in root.rglob("*") if path.is_file()
     )
     preflight_receipts = {
-        "artifacts/substrate/v2/SUBSTRATE_V1_IMMUTABILITY.json",
-        "artifacts/substrate/v2/SUBSTRATE_V2_PREFLIGHT.json",
-        "artifacts/substrate/v2/SUBSTRATE_V2_HAWKING_COEXISTENCE.json",
+        "evidence/artifacts/substrate/v2/SUBSTRATE_V1_IMMUTABILITY.json",
+        "evidence/artifacts/substrate/v2/SUBSTRATE_V2_PREFLIGHT.json",
+        "evidence/artifacts/substrate/v2/SUBSTRATE_V2_HAWKING_COEXISTENCE.json",
     }
     unexpected_v2_files = sorted(set(preexisting_v2_files) - preflight_receipts)
     checks = {

@@ -834,7 +834,7 @@ def developmental_fixture(kernel: ArchitecturePrototype) -> dict[str, Any]:
     kernel.append(
         "body_tool",
         {"target": "tools", "key": "gripper", "value": {"available": True, "latency_ms": 4}},
-        provenance="fixture://tools/gripper",
+        provenance="fixture://ops/tools/gripper",
     )
     kernel.append(
         "learning_propose",

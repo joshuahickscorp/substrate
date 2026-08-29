@@ -16,11 +16,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from substrate.evidence import canonical_current_path, canonical_source_digest
+
 PROGRAM = "substrate-odyssey-r2-handoff-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 EVIDENCE = Path("evidence/substrate/tangible_sandbox")
 RUNS = Path("runs/substrate/odyssey_transition")
-OPERATOR_DECISION = Path("operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json")
+OPERATOR_DECISION = Path("ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json")
 
 
 class Refused(RuntimeError):
@@ -107,7 +109,7 @@ def implementation_inputs(root: Path) -> dict[str, Path]:
         "odyssey_mutations": root / "src/substrate/odyssey_mutations.py",
         "odyssey_detachment": root / "src/substrate/odyssey_detachment.py",
         "telegram_probe": root / "src/substrate/odyssey_telegram_probe.py",
-        "telegram_notifier": root / "tools/odyssey7d_telegram_notifier.py",
+        "telegram_notifier": root / "ops/tools/odyssey7d_telegram_notifier.py",
         "r2_continuity_verifier": root / "src/substrate/r2_continuity_verifier.py",
         "r2_provenance_verifier": root / "src/substrate/r2_provenance_verifier.py",
     }
@@ -339,7 +341,7 @@ def freeze(root: Path) -> dict[str, Any]:
     if index.get("task_contract_sha256") != file_digest(inputs["frontier_contract"]):
         raise Refused("rendered build does not match task contract")
     for relative, expected in index.get("artifacts", {}).items():
-        artifact = root / relative
+        artifact = canonical_current_path(root, relative)
         if file_digest(artifact) != expected:
             raise Refused(f"rendered artifact drift: {relative}")
     body = {
@@ -349,7 +351,7 @@ def freeze(root: Path) -> dict[str, Any]:
         "scientific_status": "frozen_waiting_for_verified_r2",
         "purpose": "complete static Odyssey build; transition only after R2 verification",
         "input_sha256": {name: file_digest(path) for name, path in inputs.items()},
-        "implementation_sha256": {name: file_digest(path) for name, path in implementation_inputs(root).items()},
+        "implementation_sha256": {name: canonical_source_digest(path) for name, path in implementation_inputs(root).items()},
         "r2_requirements": {
             "longitudinal_result": {"scientific_status": "complete", "actual_wall_hours": 24, "continuity_passing": True},
             "continuity_verification": {
@@ -441,7 +443,7 @@ def transition(root: Path) -> dict[str, Any]:
         if observed != expected:
             raise Refused(f"frozen input drift: {name}")
     for name, expected in frozen["implementation_sha256"].items():
-        if file_digest(implementation_inputs(root)[name]) != expected:
+        if canonical_source_digest(implementation_inputs(root)[name]) != expected:
             raise Refused(f"frozen implementation drift: {name}")
     complete, details = _complete_r2(root, frozen)
     base = {

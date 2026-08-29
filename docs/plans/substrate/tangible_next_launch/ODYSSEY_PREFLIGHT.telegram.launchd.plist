@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>org.substrate.odyssey-preflight.telegram</string>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/scammermike/Downloads/substrate/.venv/bin/python</string>
+		<string>/Users/scammermike/Downloads/substrate/ops/tools/odyssey7d_telegram_notifier.py</string>
+		<string>tick</string>
+		<string>--phase</string>
+		<string>preflight</string>
+		<string>--deliver</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/scammermike/Downloads/substrate/runs/substrate/odyssey_transition/preflight-telegram.stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/scammermike/Downloads/substrate/runs/substrate/odyssey_transition/preflight-telegram.stdout.log</string>
+	<key>StartInterval</key>
+	<integer>120</integer>
+	<key>ThrottleInterval</key>
+	<integer>60</integer>
+	<key>Umask</key>
+	<integer>63</integer>
+	<key>WorkingDirectory</key>
+	<string>/Users/scammermike/Downloads/substrate</string>
+</dict>
+</plist>

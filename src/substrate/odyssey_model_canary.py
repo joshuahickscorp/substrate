@@ -28,7 +28,7 @@ from substrate import odyssey_density as density
 from substrate import odyssey_transition
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 TEMPLATE = PLAN / "ODYSSEY_PUBLIC_MODEL_CANARY.template.json"
 SCHEMA = "SUBSTRATE_ODYSSEY_PUBLIC_MODEL_CANARY/v1"
 GIB = 1024**3

@@ -40,47 +40,11 @@ artifacts/substrate/tangible_sandbox/corpus/**/evaluator_only/**/answers/
 .ruff_cache/
 *.egg-info/
 /data
-runs/
 *.npy
 *.memmap
-runs/cpu_campaign/ckpt/
-runs/studio_rehearsal/
 reports/telegram_notifier/
 logs/
-!runs/
-runs/*
-!runs/substrate/
-runs/substrate/*
-!runs/substrate/v1/
-runs/substrate/v1/*
-!runs/substrate/v1/result_ledger.json
-!runs/substrate/v1/experiments/
-!runs/substrate/v1/experiments/**
-!runs/substrate/final_revision/
-runs/substrate/final_revision/*
-!runs/substrate/final_revision/instrument_liveness_check.json
-!runs/substrate/final_revision/instrument_liveness_check.py
-!runs/substrate/final_revision/independent_rerun_check.json
-!runs/substrate/final_revision/continuity_receipt_consistency.py
-!runs/substrate/final_revision/continuity_receipt_consistency.json
-!runs/substrate/final_revision/cleanclone_verify_frozen_afeb.json
-!runs/substrate/final_revision/cleanclone_regen_frozen_afeb.json
-!runs/substrate/final_revision/collect_campaign_evidence.py
-!runs/substrate/final_revision/blocker_batch_1.json
-!runs/substrate/final_revision/blocker_batch_2.json
-!runs/substrate/final_revision/terminal_handoff_20260728.md
-!runs/pre_studio/
-runs/pre_studio/*
-!runs/pre_studio/close_e7_sparse.json
-!runs/pre_studio/close_ex5_local_rules.json
-!runs/pre_studio/close_ex2_planning.json
-!runs/pre_studio/close_b5_degeneracy.json
-!runs/pre_studio/frozen_random_census.json
-!runs/pre_studio/census_reaudit.json
-!runs/pre_studio/RESULTS_PRE_STUDIO.md
-!runs/mot/
-runs/mot/*
-!runs/mot/dr13_predictor_fidelity.json
+/runs/
 *.pt
 *.pth
 *.safetensors
@@ -89,3 +53,26 @@ runs/mot/*
 GO.md
 .collapse/
 artifacts/substrate/execution-forge/.benchmark-*/
+
+# The tracked checkout has one canonical home for each maintained concern.
+# These root-level compatibility/runtime namespaces may still exist in a
+# developer's working directory, but they are local-only and must not become a
+# second published source tree.
+/archive/
+/artifacts/
+/configs/
+/native/
+/operations/
+/plans/
+/proof/
+/tools/
+/code/
+/inputs/
+/project/
+/protocol/
+/run/
+
+# Local evidence scratch copies are preserved on disk but are not authorities.
+/evidence/archive
+/evidence/proof
+/evidence/r2

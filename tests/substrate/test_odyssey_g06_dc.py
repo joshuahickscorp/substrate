@@ -25,7 +25,7 @@ def _write(path: Path, value: dict[str, Any]) -> Path:
 
 
 def _frozen(root: Path) -> dict[str, Any]:
-    document = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    document = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     return authority._validate_frozen_build(root, document["sha256"])
 
 
@@ -248,7 +248,7 @@ def test_g06_dc_replaces_g06_in_the_launch_set() -> None:
     from pathlib import Path
 
     design = json.loads(
-        (Path(__file__).parents[2] / "plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json").read_text()
+        (Path(__file__).parents[2] / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json").read_text()
     )
     assert [row["id"] for row in design["launch_gates"]] == list(authority.GATE_SPECS)
     assert authority.G06_DC_PRESERVED_WIDTH8_SLOWDOWN == 4.392411013227944
@@ -258,7 +258,7 @@ def test_g06_still_rejects_slowdown_above_1_35() -> None:
     """Historical G06 limit is not weakened by this transition."""
     # The frozen calibration still encodes 1.35; validator path for G06 is intact.
     assert authority._frozen_g06_phase_contract  # callable exists
-    cal = _read(ROOT / "plans/substrate/tangible_next_launch/RESOURCE_CALIBRATION_SPEC.draft.json")
+    cal = _read(ROOT / "docs/plans/substrate/tangible_next_launch/RESOURCE_CALIBRATION_SPEC.draft.json")
     assert cal["max_slowdown_ratio"] == 1.35
 
 

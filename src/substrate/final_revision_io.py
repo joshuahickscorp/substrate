@@ -13,10 +13,10 @@ from typing import Any
 from substrate import final_revision_config as C
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
-CONFIG = ROOT / "configs" / "substrate" / "final_revision"
+CONFIG = ROOT / "ops" / "configs" / "substrate" / "final_revision"
 EVIDENCE = ROOT / "evidence" / "substrate" / "final_revision"
 RUNS = ROOT / "runs" / "substrate" / "final_revision"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "final_revision"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "final_revision"
 READINESS = ARTIFACTS / "real_world_sandbox_readiness"
 STOP = RUNS / "STOP"
 

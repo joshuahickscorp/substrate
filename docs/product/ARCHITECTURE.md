@@ -59,7 +59,7 @@ evidence handling:
   archive digest alongside SBOM, notices, license, and verification material,
   but do not download, install, or launch a tool.
 
-`native/substrate-sandbox` is a small Rust policy package. It defines the
+`src/native/substrate-sandbox` is a small Rust policy package. It defines the
 closed, typed `substrate-sandbox-body-v1` dry-run plan contract for mounts,
 resource limits, capability grants, and tool roles. It is deliberately not a
 process launcher, container runtime, browser controller, downloader, or media

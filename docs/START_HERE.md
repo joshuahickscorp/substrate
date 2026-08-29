@@ -9,24 +9,20 @@ map. The active engineering and product surface is intentionally small:
   product contracts.
 - `docs/SUBSTRATE_COGNITIVE_MATERIAL_GENESIS_II_REPORT.md` records the current
   Genesis II conclusion.
-- `src/substrate/`, `tests/substrate/`, and `tools/` are the implementation,
+- `src/substrate/`, `tests/substrate/`, and `ops/tools/` are the implementation,
   verification, and audit surfaces.
-- `evidence/` contains sealed classifications and proof records; `artifacts/`
-  and `runs/` contain campaign outputs and mutable runtime state.
+- `ops/configs/`, `ops/tools/`, and `ops/operations/` are the canonical
+  operational surfaces.
+- `evidence/` contains retained classifications, proof records, and historical
+  review artifacts. Local `runs/`, `artifacts/`, `models/`, `data/`, and
+  `cache/` directories are ignored runtime state, not tracked authorities.
 
-The Finder-facing compatibility layout remains available through the lowercase
-directories below. They are views into the existing canonical paths, not a
-second source tree:
-
-- `run` — transition receipts and runtime state.
-- `inputs` — corpora and derived artifacts.
-- `evidence` — evidence, proof, and archive material.
-- `protocol` — plans and runbook views.
-- `code` — source, tests, tools, and configuration.
-- `project` — project entry files.
-- `operations` — runtime state, logs, and launch templates.
+The canonical tree has five maintained areas: `src/`, `tests/`, `ops/`,
+`docs/`, and `evidence/`. Root-level metadata and entry files are intentionally
+few. Historical tag manifests may still name predecessor paths; verifiers map
+those names to the canonical checkout without changing the historical record.
 
 Historical experiment prose, staging handoffs, and reviewer contracts are
-under [`docs/archive`](archive/README.md). Nothing in that archive is an
+under [`docs/archive`](docs/archive/README.md). Nothing in that archive is an
 active launch instruction; code references to a few archived documents are
 frozen source-input contracts and are listed in the archive index.

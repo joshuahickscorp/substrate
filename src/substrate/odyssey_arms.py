@@ -49,6 +49,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
+from substrate.evidence import canonical_source_digest
 from substrate.odyssey_density import (
     GLOBAL_OVERLAP,
     PINNED_OLLAMA_NUM_PARALLEL,
@@ -371,7 +372,7 @@ def validate_request(root: Path, request_path: Path, *, expected_role: str) -> t
 def _assert_self_digest(expected: str) -> str:
     if not _is_sha256(expected):
         raise Refused("adapter --self-sha256 must be a sha256 digest")
-    observed = file_digest(Path(__file__).resolve())
+    observed = canonical_source_digest(Path(__file__).resolve())
     if observed != expected:
         raise Refused("adapter source drifted from its sealed --self-sha256")
     return observed

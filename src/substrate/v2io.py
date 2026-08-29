@@ -17,8 +17,8 @@ from substrate import evidence as v1
 ROOT = v1.ROOT
 EVIDENCE = ROOT / "evidence" / "substrate" / "v2"
 RUNS = ROOT / "runs" / "substrate" / "v2"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "v2"
-CONFIGS = ROOT / "configs" / "substrate" / "v2"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "v2"
+CONFIGS = ROOT / "ops" / "configs" / "substrate" / "v2"
 STATE = v1.STATE / "v2"
 STOP = STATE / "stop"
 PROGRAM = "substrate-v2"

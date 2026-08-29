@@ -26,8 +26,10 @@ def _copy(source: Path, target: Path) -> None:
 def _fixture_transition() -> str:
     return """from pathlib import Path
 
+from substrate.evidence import canonical_current_path, canonical_source_digest
+
 PROGRAM = "substrate-odyssey-r2-handoff-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 
 
 def build_inputs(root: Path) -> dict[str, Path]:
@@ -42,7 +44,7 @@ def build_inputs(root: Path) -> dict[str, Path]:
         "source_selection_template": root / PLAN / "ODYSSEY_SOURCE_SELECTION.template.json",
         "public_model_canary_template": root / PLAN / "ODYSSEY_PUBLIC_MODEL_CANARY.template.json",
         "human_evidence_pack_template": root / PLAN / "ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
-        "operator_decision": root / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        "operator_decision": root / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
     }
 
 
@@ -59,7 +61,7 @@ def implementation_inputs(root: Path) -> dict[str, Path]:
         "odyssey_clean_clone": root / "src/substrate/odyssey_clean_clone.py",
         "odyssey_detachment": root / "src/substrate/odyssey_detachment.py",
         "telegram_probe": root / "src/substrate/odyssey_telegram_probe.py",
-        "telegram_notifier": root / "tools/odyssey7d_telegram_notifier.py",
+        "telegram_notifier": root / "ops/tools/odyssey7d_telegram_notifier.py",
         "r2_continuity_verifier": root / "src/substrate/r2_continuity_verifier.py",
         "r2_provenance_verifier": root / "src/substrate/r2_provenance_verifier.py",
         "odyssey_mutations": root / "src/substrate/odyssey_mutations.py",
@@ -72,6 +74,7 @@ def _fixture_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     repository = Path(__file__).parents[2]
     root = tmp_path / "odyssey-mutation-fixture"
     _copy(repository / "src/substrate/__init__.py", root / "src/substrate/__init__.py")
+    _copy(repository / "src/substrate/evidence.py", root / "src/substrate/evidence.py")
     for filename in (
         "odyssey_mutations.py",
         "odyssey_authority.py",
@@ -92,8 +95,8 @@ def _fixture_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     transition = root / "src/substrate/odyssey_transition.py"
     transition.parent.mkdir(parents=True, exist_ok=True)
     transition.write_text(_fixture_transition(), encoding="utf-8")
-    _copy(repository / "tools/odyssey7d_telegram_notifier.py", root / "tools/odyssey7d_telegram_notifier.py")
-    plan = repository / "plans/substrate/tangible_next_launch"
+    _copy(repository / "ops/tools/odyssey7d_telegram_notifier.py", root / "ops/tools/odyssey7d_telegram_notifier.py")
+    plan = repository / "docs/plans/substrate/tangible_next_launch"
     for filename in (
         "ODYSSEY_7D.hardened.draft.json",
         "R2_TO_ODYSSEY_AUTOPIVOT_POLICY.sealed.json",
@@ -109,10 +112,10 @@ def _fixture_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         # 90 GB audio corpus is intentionally absent from mutation fixtures.
         "LIBRISPEECH_CLIP_INDEX.json",
     ):
-        _copy(plan / filename, root / "plans/substrate/tangible_next_launch" / filename)
+        _copy(plan / filename, root / "docs/plans/substrate/tangible_next_launch" / filename)
     _copy(
-        repository / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
-        root / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        repository / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        root / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
     )
 
     fixture_paths = {
@@ -127,23 +130,23 @@ def _fixture_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "odyssey_clean_clone": root / "src/substrate/odyssey_clean_clone.py",
         "odyssey_detachment": root / "src/substrate/odyssey_detachment.py",
         "telegram_probe": root / "src/substrate/odyssey_telegram_probe.py",
-        "telegram_notifier": root / "tools/odyssey7d_telegram_notifier.py",
+        "telegram_notifier": root / "ops/tools/odyssey7d_telegram_notifier.py",
         "r2_continuity_verifier": root / "src/substrate/r2_continuity_verifier.py",
         "r2_provenance_verifier": root / "src/substrate/r2_provenance_verifier.py",
         "odyssey_mutations": root / "src/substrate/odyssey_mutations.py",
     }
     fixture_inputs = {
-        "hardened_design": root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json",
-        "autopivot_policy": root / "plans/substrate/tangible_next_launch/R2_TO_ODYSSEY_AUTOPIVOT_POLICY.sealed.json",
-        "task_bank": root / "plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json",
-        "resource_calibration": root / "plans/substrate/tangible_next_launch/RESOURCE_CALIBRATION_SPEC.draft.json",
-        "shared_storage": root / "plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json",
-        "frontier_contract": root / "plans/substrate/tangible_next_launch/ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json",
-        "rendered_build_index": root / "plans/substrate/tangible_next_launch/frontiers/FRONTIER_BUILD_INDEX.json",
-        "source_selection_template": root / "plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.template.json",
-        "public_model_canary_template": root / "plans/substrate/tangible_next_launch/ODYSSEY_PUBLIC_MODEL_CANARY.template.json",
-        "human_evidence_pack_template": root / "plans/substrate/tangible_next_launch/ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
-        "operator_decision": root / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        "hardened_design": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json",
+        "autopivot_policy": root / "docs/plans/substrate/tangible_next_launch/R2_TO_ODYSSEY_AUTOPIVOT_POLICY.sealed.json",
+        "task_bank": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json",
+        "resource_calibration": root / "docs/plans/substrate/tangible_next_launch/RESOURCE_CALIBRATION_SPEC.draft.json",
+        "shared_storage": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json",
+        "frontier_contract": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json",
+        "rendered_build_index": root / "docs/plans/substrate/tangible_next_launch/frontiers/FRONTIER_BUILD_INDEX.json",
+        "source_selection_template": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.template.json",
+        "public_model_canary_template": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_PUBLIC_MODEL_CANARY.template.json",
+        "human_evidence_pack_template": root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
+        "operator_decision": root / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
     }
     frozen = {
         "schema": "SUBSTRATE_ODYSSEY_FROZEN_BUILD/v1",
@@ -151,7 +154,9 @@ def _fixture_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "activation": False,
         "scientific_status": "frozen_waiting_for_verified_r2",
         "input_sha256": {name: mutations.file_digest(path) for name, path in fixture_inputs.items()},
-        "implementation_sha256": {name: mutations.file_digest(path) for name, path in fixture_paths.items()},
+        "implementation_sha256": {
+            name: mutations.odyssey_transition.canonical_source_digest(path) for name, path in fixture_paths.items()
+        },
     }
     frozen["sha256"] = mutations.digest(frozen)
     frozen_path = root / mutations.PLAN / "ODYSSEY_FROZEN_BUILD.json"

@@ -44,3 +44,10 @@ files = ["src/substrate"]
 testpaths = ["tests/substrate"]
 addopts = "-q"
 filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
+markers = [
+  "qualification: deterministic seconds-scale core invariants",
+  "normal: ordinary package and contract tests",
+  "integration: tests that require external services, tools, or cross-process boundaries",
+  "expensive: long-running campaigns, large corpora, or resource-heavy checks",
+  "certification: full freeze, portability, and release certification checks",
+]

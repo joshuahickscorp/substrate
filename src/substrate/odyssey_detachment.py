@@ -22,7 +22,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from substrate import odyssey_authority
+from substrate import odyssey_authority, odyssey_transition
 
 PROGRAM = "substrate-odyssey-7d-v1"
 AUTHORITY_SCHEMA = "SUBSTRATE_ODYSSEY_7D_AUTHORITY/v1"
@@ -30,7 +30,7 @@ FROZEN_SCHEMA = "SUBSTRATE_ODYSSEY_FROZEN_BUILD/v1"
 RECEIPT_SCHEMA = "SUBSTRATE_ODYSSEY_DETACHMENT_CONFIG_RECEIPT/v1"
 STAGE_SCHEMA = "SUBSTRATE_ODYSSEY_SUPERVISOR_STAGE/v1"
 HANDOFF_SCHEMA = "SUBSTRATE_ODYSSEY_DETACHMENT_HANDOFF/v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 RUN_ROOT = Path("runs/substrate/odyssey7d/v1")
 STAGING_ROOT = Path("runs/substrate/odyssey_transition/detachment-staging")
 AUTHORITY_NAME = "ODYSSEY_7D.authority.json"
@@ -214,7 +214,7 @@ def expected_run_notifier_plist(root: Path) -> dict[str, Any]:
     """Return the exact live-status notifier shape; no credentials live here."""
     workspace = _root(root)
     python = workspace / ".venv/bin/python"
-    notifier = workspace / "tools/odyssey7d_telegram_notifier.py"
+    notifier = workspace / "ops/tools/odyssey7d_telegram_notifier.py"
     logs = workspace / "runs/substrate/odyssey7d"
     return {
         "Label": RUN_NOTIFIER_LABEL,
@@ -233,7 +233,7 @@ def expected_preflight_notifier_plist(root: Path) -> dict[str, Any]:
     """Return the exact preflight notifier shape; it has no secret environment."""
     workspace = _root(root)
     python = workspace / ".venv/bin/python"
-    notifier = workspace / "tools/odyssey7d_telegram_notifier.py"
+    notifier = workspace / "ops/tools/odyssey7d_telegram_notifier.py"
     logs = workspace / "runs/substrate/odyssey_transition"
     return {
         "Label": PREFLIGHT_NOTIFIER_LABEL,
@@ -369,11 +369,11 @@ def _frozen_staging_context(root: Path) -> tuple[dict[str, Any], str, str, str]:
     implementation = frozen.get("implementation_sha256")
     if not isinstance(implementation, dict):
         raise Refused("current Odyssey frozen build has no implementation map")
-    detachment_source = file_digest(Path(__file__))
+    detachment_source = odyssey_transition.canonical_source_digest(Path(__file__))
     supervisor_path = workspace / "src/substrate/odyssey7d.py"
     if not supervisor_path.is_file():
         raise Refused("Odyssey supervisor source is missing")
-    supervisor_source = file_digest(supervisor_path)
+    supervisor_source = odyssey_transition.canonical_source_digest(supervisor_path)
     if (
         implementation.get("odyssey_detachment") != detachment_source
         or implementation.get("frontier_renderer") != supervisor_source
@@ -654,7 +654,7 @@ def _sealed_authority_context(root: Path) -> tuple[str, str, str]:
         raise Refused("sealed authority does not bind the current frozen build")
     if not _is_sha256(seal.get("protocol_digest")) or not _is_sha256(seal.get("authority_source_sha256")):
         raise Refused("sealed authority has invalid source/protocol bindings")
-    source_sha256 = file_digest(Path(__file__))
+    source_sha256 = odyssey_transition.canonical_source_digest(Path(__file__))
     if frozen["implementation_sha256"].get("odyssey_detachment") != source_sha256:
         raise Refused("frozen build does not bind the detachment verifier source")
     try:

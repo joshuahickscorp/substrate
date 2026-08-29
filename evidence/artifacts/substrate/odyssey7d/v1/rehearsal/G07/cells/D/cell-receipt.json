@@ -1,0 +1,20 @@
+{
+  "activation": false,
+  "cell": "D",
+  "checkpoint_count": 4,
+  "daily_compaction": true,
+  "dir_size_after_bytes": 1312800,
+  "dir_size_before_bytes": 0,
+  "durable_growth_bytes": 1312800,
+  "event_count": 8,
+  "external_activation": false,
+  "largest_transient_bytes": 33554432,
+  "log_bytes": 65536,
+  "media_access_count": 4,
+  "model_call_ledger_bytes": 32832,
+  "program": "substrate-odyssey-7d-v1",
+  "restart_count": 2,
+  "restore_count": 2,
+  "schema": "SUBSTRATE_ODYSSEY_STORAGE_CELL_RECEIPT/v1",
+  "sha256": "2bbdc8312640dbc20f59cba4c8cd69496a52bc93772d0c9c22de88fe24d623bb"
+}

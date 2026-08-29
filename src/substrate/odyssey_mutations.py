@@ -31,7 +31,7 @@ from typing import Any
 from substrate import odyssey_transition
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 SCHEMA = "SUBSTRATE_ODYSSEY_MUTATION_REPORT/v1"
 RUNNER_SOURCE_KEY = "odyssey_mutations"
 FIXTURE_MARKER = ".odyssey-g12-isolated-fixture.json"
@@ -251,7 +251,7 @@ def _frozen_source_binding(root: Path) -> tuple[dict[str, Any], dict[str, Path]]
     for name, path in paths.items():
         if not path.is_file():
             raise Refused(f"frozen implementation source is missing: {name}")
-        observed[name] = file_digest(path)
+        observed[name] = odyssey_transition.canonical_source_digest(path)
     if observed != implementation:
         raise Refused("current Odyssey implementation drifts from the frozen source map")
     input_paths = odyssey_transition.build_inputs(root)
@@ -266,7 +266,10 @@ def _frozen_source_binding(root: Path) -> tuple[dict[str, Any], dict[str, Path]]
         raise Refused("current Odyssey protocol inputs drift from the frozen input map")
     runner_path = paths[RUNNER_SOURCE_KEY]
     expected_runner = implementation.get(RUNNER_SOURCE_KEY)
-    if runner_path.resolve() != (root / "src/substrate/odyssey_mutations.py").resolve() or expected_runner != file_digest(runner_path):
+    if (
+        runner_path.resolve() != (root / "src/substrate/odyssey_mutations.py").resolve()
+        or expected_runner != odyssey_transition.canonical_source_digest(runner_path)
+    ):
         raise Refused("mutation runner is not exactly source-bound to this frozen build")
     return frozen, paths
 
@@ -1253,7 +1256,7 @@ def _worker_fixture_authority(root: Path, *, mutation_id: str, variant: str) -> 
         "worker": worker_fields,
     }
     body["sha256"] = worker._digest(body)
-    path = root / f"plans/substrate/tangible_next_launch/ODYSSEY_7D.test.{mutation_id}.{variant}.json"
+    path = root / f"docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.test.{mutation_id}.{variant}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(body, sort_keys=True), encoding="utf-8")
     return path

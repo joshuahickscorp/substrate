@@ -1,0 +1,22 @@
+{
+  "activation": false,
+  "frontier": "G",
+  "license": "CC-BY-4.0 as recorded in this repository's own prefetch document; the upstream license text is present inside the selected archive at CLEVR_v1.0/LICENSE.txt (18651 bytes) alongside CLEVR_v1.0/COPYRIGHT.txt",
+  "license_text_local_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/clevr_v1/CLEVR_v1.0.zip#CLEVR_v1.0/LICENSE.txt",
+  "notes": [
+    "The license text is inside the archive, not a standalone file on disk. Its presence and size were confirmed by reading the zip central directory; the text itself has not been extracted or re-read here, so the CC-BY-4.0 label rests on this repository's own recorded statement in docs/archive/staging/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md until a custodian extracts and reads CLEVR_v1.0/LICENSE.txt.",
+    "The archive is complete: the zip central directory lists 100015 entries totalling 20002875087 uncompressed bytes. The task-bank draft still records this source as \"prefetch_in_progress\"; that status is stale relative to the bytes on disk.",
+    "The upstream etag recorded in ODYSSEY_TASK_BANK_MANIFEST.draft.json is 3426f0a360618fcf2179966a8d1428c3-1210; the sha256 in the source selection is computed from the local bytes and is the binding pin.",
+    "Scene and question data only; contains no Odyssey answer or scoring material.",
+    "Not legal advice; recorded rights review only."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "review_status": "recorded_not_legal_advice",
+  "rights_basis_local_paths": [
+    "docs/archive/staging/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md",
+    "docs/plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
+  "source": "CLEVR v1.0 visual-spatial dataset archive",
+  "upstream_revision": "CLEVR_v1.0 release; upstream etag 3426f0a360618fcf2179966a8d1428c3-1210"
+}

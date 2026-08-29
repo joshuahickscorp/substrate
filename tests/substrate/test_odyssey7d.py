@@ -15,8 +15,8 @@ from substrate import odyssey_worker
 
 
 def make_root(tmp_path: Path) -> Path:
-    source_root = Path(__file__).parents[2] / "plans/substrate/tangible_next_launch"
-    target_root = tmp_path / "plans/substrate/tangible_next_launch"
+    source_root = Path(__file__).parents[2] / "docs/plans/substrate/tangible_next_launch"
+    target_root = tmp_path / "docs/plans/substrate/tangible_next_launch"
     target_root.mkdir(parents=True)
     for filename in ("ODYSSEY_7D.hardened.draft.json", "ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json"):
         (target_root / filename).write_bytes((source_root / filename).read_bytes())
@@ -34,8 +34,8 @@ def test_render_creates_eight_templates_and_schedule(tmp_path: Path) -> None:
     assert len(result["frontier_templates"]) == 8
     assert len(result["custodian_skeletons"]) == 8
     assert result["schedule_entries"] == 8 * 7 * 12
-    philosophy = json.loads((root / "plans/substrate/tangible_next_launch/frontiers/E_philosophy_self_model.manifest.template.json").read_text())
-    logic = json.loads((root / "plans/substrate/tangible_next_launch/frontiers/C_formal_logic.manifest.template.json").read_text())
+    philosophy = json.loads((root / "docs/plans/substrate/tangible_next_launch/frontiers/E_philosophy_self_model.manifest.template.json").read_text())
+    logic = json.loads((root / "docs/plans/substrate/tangible_next_launch/frontiers/C_formal_logic.manifest.template.json").read_text())
     assert "epistemic_commitment_revision" in philosophy["task_contract"]["task_families"]
     assert "satisfiability_and_countermodel" in logic["task_contract"]["task_families"]
 
@@ -93,7 +93,7 @@ def test_supervisor_refuses_non_launchd_and_unsealed_authority(tmp_path: Path, m
     root = make_root(tmp_path)
     monkeypatch.delenv("SUBSTRATE_ODYSSEY_SUPERVISOR", raising=False)
     with __import__("pytest").raises(odyssey.Refused):
-        odyssey.supervise(root, root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
+        odyssey.supervise(root, root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
 
 
 def test_supervisor_requires_a_verified_detachment_receipt_before_spawn(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -114,7 +114,7 @@ def test_supervisor_requires_a_verified_detachment_receipt_before_spawn(tmp_path
     monkeypatch.setattr(odyssey.subprocess, "Popen", lambda *_args, **_kwargs: pytest.fail("receipt failure must prevent spawn"))
 
     with pytest.raises(odyssey.Refused, match="detachment configuration receipt"):
-        odyssey.supervise(root, root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
+        odyssey.supervise(root, root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
 
 
 def test_supervisor_refuses_missing_current_user_caffeinate_contract(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -263,7 +263,7 @@ path.write_text(json.dumps(receipt, sort_keys=True))
         "worker": worker_config,
     }
     authority["sha256"] = odyssey_worker._digest(authority)
-    authority_path = root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.test.authority.json"
+    authority_path = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.test.authority.json"
     authority_path.parent.mkdir(parents=True)
     authority_path.write_text(json.dumps(authority, sort_keys=True), encoding="utf-8")
     result = odyssey_worker.run(root, authority_file=authority_path)
@@ -328,7 +328,7 @@ def test_recovered_postflight_marks_complete_before_interrupted_attempt_recovery
 
 
 def test_validated_launch_authority_requires_a_self_digest_before_any_source_check(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    authority_path = tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
+    authority_path = tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
     authority_path.parent.mkdir(parents=True)
     authority_path.write_text(json.dumps({"run_id": "missing-digest"}), encoding="utf-8")
 
@@ -345,7 +345,7 @@ def test_validated_launch_authority_requires_current_frozen_map_and_returns_argv
     worker_path = tmp_path / "src/substrate/odyssey_worker.py"
     worker_path.parent.mkdir(parents=True)
     worker_path.write_text("# synthetic worker fixture\n", encoding="utf-8")
-    authority_path = tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
+    authority_path = tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
     authority_path.parent.mkdir(parents=True)
     worker_argv = ["/usr/bin/true", "--synthetic-worker"]
     frozen_sha256 = "f" * 64
@@ -469,7 +469,7 @@ def test_supervisor_retries_only_bounded_abnormal_exits_and_writes_terminal_stat
 
     monkeypatch.setattr(odyssey.subprocess, "Popen", FailingWorker)
 
-    result = odyssey.supervise(root, root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
+    result = odyssey.supervise(root, root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
 
     assert result == {"status": "terminal_safe_hold", "reason": "restart_budget_exhausted", "run_id": "restart-fixture"}
     assert [command for command, _kwargs in calls] == [argv] * (odyssey.MAX_ABNORMAL_RESTARTS + 1)
@@ -522,7 +522,7 @@ def test_supervisor_treats_a_zero_exit_without_verified_postflight_as_a_safe_hol
 
     monkeypatch.setattr(odyssey.subprocess, "Popen", SuccessfulButUnverifiedWorker)
 
-    result = odyssey.supervise(root, root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
+    result = odyssey.supervise(root, root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
 
     assert result == {
         "status": "terminal_safe_hold",
@@ -592,7 +592,7 @@ def test_supervisor_cleans_the_active_worker_before_releasing_its_flock_on_inter
     monkeypatch.setattr(odyssey, "_terminate_worker_group", lambda worker: cleaned.append(worker.pid) or 0)
 
     with pytest.raises(KeyboardInterrupt):
-        odyssey.supervise(root, root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
+        odyssey.supervise(root, root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json")
 
     assert cleaned == [RunningWorker.pid]
     handle = odyssey._acquire_supervisor_lock(run_root)
@@ -612,8 +612,8 @@ def _copy_transition_inputs(root: Path) -> None:
         "ODYSSEY_PUBLIC_MODEL_CANARY.template.json",
         "ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
     ):
-        source = source_root / "plans/substrate/tangible_next_launch" / filename
-        target = root / "plans/substrate/tangible_next_launch" / filename
+        source = source_root / "docs/plans/substrate/tangible_next_launch" / filename
+        target = root / "docs/plans/substrate/tangible_next_launch" / filename
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(source.read_bytes())
     decision_source = source_root / transition.OPERATOR_DECISION
@@ -672,7 +672,7 @@ def test_frozen_r2_transition_waits_then_authorizes_preflight_only(tmp_path: Pat
 
 def test_freeze_binds_the_exact_g06_calibration_ladder_and_source_selection_template(tmp_path: Path) -> None:
     _copy_transition_inputs(tmp_path)
-    plan = tmp_path / "plans/substrate/tangible_next_launch"
+    plan = tmp_path / "docs/plans/substrate/tangible_next_launch"
     design = json.loads((plan / "ODYSSEY_7D.hardened.draft.json").read_text(encoding="utf-8"))
     calibration = json.loads((plan / "RESOURCE_CALIBRATION_SPEC.draft.json").read_text(encoding="utf-8"))
 
@@ -701,7 +701,7 @@ def test_freeze_rejects_operator_decision_that_no_longer_matches_the_design(tmp_
 def test_frozen_transition_rejects_task_contract_drift(tmp_path: Path) -> None:
     _copy_transition_inputs(tmp_path)
     transition.freeze(tmp_path)
-    contract = tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json"
+    contract = tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json"
     value = json.loads(contract.read_text())
     value["frontiers"][4]["task_families"].append("result_dependent_rewrite")
     contract.write_text(json.dumps(value))

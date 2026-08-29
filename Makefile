@@ -1,7 +1,7 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install verify-install test lint types fmt accept audit clean
+.PHONY: install verify-install test test-qualification test-normal test-integration test-expensive test-full test-certification certify lint types fmt accept audit clean
 
 install:
 	uv venv --python 3.12 .venv
@@ -13,6 +13,25 @@ verify-install:
 
 test:
 	$(VENV)/substrate test
+
+test-qualification:
+	$(PY) -m pytest -m qualification
+
+test-normal:
+	$(PY) -m pytest -m "normal and not integration and not expensive and not certification"
+
+test-integration:
+	$(PY) -m pytest -m integration
+
+test-expensive:
+	$(PY) -m pytest -m expensive
+
+test-full:
+	$(PY) -m pytest tests/substrate --durations=20
+
+test-certification: test-full
+
+certify: test-certification
 
 lint:
 	$(VENV)/ruff check src tests

@@ -32,9 +32,9 @@ from substrate import odyssey_authority as authority
 from substrate import odyssey_tools as tools
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 EVIDENCE = Path("evidence/substrate/odyssey")
-ARTIFACTS = Path("artifacts/substrate/odyssey7d/g06-dc")
+ARTIFACTS = Path("evidence/artifacts/substrate/odyssey7d/g06-dc")
 SUBJECT_SCHEMA = "SUBSTRATE_ODYSSEY_DEADLINE_CAPACITY_CALIBRATION/v1"
 WIDTHS = (1, 2, 4, 6, 8)
 REPETITIONS = 3

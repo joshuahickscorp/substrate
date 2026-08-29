@@ -1,7 +1,9 @@
 """Hash-bound access to immutable predecessor evidence.
 
-Historical product names and filenames exist only in the migration authority. Active modules use neutral
-aliases and this reader refuses any object whose bytes no longer match the recorded SHA-256.
+Historical product names and filenames exist only in the migration authority.
+The authority retains its original repository paths; the reader resolves those
+paths through the canonical checkout mapping and refuses any object whose bytes
+no longer match the recorded SHA-256.
 """
 
 from __future__ import annotations
@@ -12,6 +14,8 @@ import os
 import sys
 from functools import lru_cache
 from pathlib import Path
+
+from substrate.evidence import canonical_current_path
 
 
 class Refused(RuntimeError):
@@ -39,7 +43,7 @@ def root(alias: str) -> Path:
         relative = authority()["roots"][alias]
     except KeyError as exc:
         raise Refused(f"unknown historical root alias {alias!r}") from exc
-    return repository() / relative
+    return canonical_current_path(repository(), relative)
 
 
 def artifact(alias: str, *, verify: bool = True) -> Path:

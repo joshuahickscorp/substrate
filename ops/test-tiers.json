@@ -1,0 +1,52 @@
+{
+  "schema": "substrate-test-tiers/v1",
+  "policy": {
+    "qualification": "Deterministic core invariants; seconds-scale and safe to run before any campaign work.",
+    "normal": "Ordinary package and contract tests selected by the central pytest tier policy.",
+    "integration": "External services, installed tools, or cross-process boundaries; unavailable dependencies remain unavailable or skipped.",
+    "expensive": "Long campaigns, large corpora, or resource-heavy historical checks.",
+    "certification": "The complete collection used for freeze, portability, and release certification."
+  },
+  "tiers": [
+    {
+      "id": 0,
+      "name": "qualification",
+      "command": "make test-qualification",
+      "selector": "qualification",
+      "dependencies": [],
+      "writes": "temporary test state only"
+    },
+    {
+      "id": 1,
+      "name": "normal",
+      "command": "make test-normal",
+      "selector": "normal and not integration and not expensive and not certification",
+      "dependencies": ["Python development environment"],
+      "writes": "temporary test state only"
+    },
+    {
+      "id": 2,
+      "name": "integration",
+      "command": "make test-integration",
+      "selector": "integration",
+      "dependencies": ["declared external services/tools per test"],
+      "writes": "temporary or explicitly configured external test state"
+    },
+    {
+      "id": 2,
+      "name": "expensive",
+      "command": "make test-expensive",
+      "selector": "expensive",
+      "dependencies": ["Python development environment", "campaign fixtures where required"],
+      "writes": "temporary test state and declared local runtime output"
+    },
+    {
+      "id": 3,
+      "name": "certification",
+      "command": "make test-certification",
+      "selector": "full collection",
+      "dependencies": ["all dependencies required by the selected checks"],
+      "writes": "only declared test/runtime output; no scientific authority is silently regenerated"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ plan and validate the body, but it cannot launch it. Every current plan keeps
 
 ## Current native package
 
-`native/substrate-sandbox` is a Rust crate named `substrate-sandbox`. Its
+`src/native/substrate-sandbox` is a Rust crate named `substrate-sandbox`. Its
 `substrate-sandbox-body-v1` contract represents:
 
 - a closed capability vocabulary;

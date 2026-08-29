@@ -21,8 +21,8 @@ from substrate import evidence as v1
 ROOT = v1.ROOT
 EVIDENCE = ROOT / "evidence" / "substrate" / "v5"
 RUNS = ROOT / "runs" / "substrate" / "v5"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "v5"
-CONFIGS = ROOT / "configs" / "substrate" / "v5"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "v5"
+CONFIGS = ROOT / "ops" / "configs" / "substrate" / "v5"
 MODELS = ROOT / "models" / "substrate" / "v5"
 DATA = ROOT / "data" / "substrate" / "v5"
 CACHE = ROOT / "cache" / "substrate" / "v5"

@@ -629,7 +629,7 @@ def _validate_exact_frozen_map(
         raise Refused(f"frozen {name} source map does not exactly match the transition controller")
     for key, path in current.items():
         digest = expected.get(key)
-        if not _is_sha256(digest) or not path.is_file() or file_digest(path) != digest:
+        if not _is_sha256(digest) or not path.is_file() or odyssey_transition.canonical_source_digest(path) != digest:
             raise Refused(f"frozen {name} source drift: {key}")
 
 
@@ -640,7 +640,7 @@ def _validate_full_frozen_build(root: Path, authority: dict[str, Any]) -> None:
     cannot continue after any implementation or static-input drift, including
     a changed worker module between the authority seal and process launch.
     """
-    frozen_path = root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
+    frozen_path = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
     frozen = _read_json(frozen_path)
     _require_self_digest(frozen, label="current frozen build")
     frozen_sha256 = frozen["sha256"]
@@ -738,7 +738,7 @@ def _validate_runtime_lease(
 def validate_authority(root: Path, authority_path: Path) -> tuple[dict[str, Any], dict[str, Any], str]:
     """Validate only executable, non-scientific authority conditions."""
     authority_path = authority_path.resolve()
-    expected = (root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json").resolve()
+    expected = (root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json").resolve()
     if authority_path != expected and not authority_path.name.startswith("ODYSSEY_7D.test."):
         raise Refused("worker requires the canonical sealed authority path")
     authority = _read_json(authority_path)

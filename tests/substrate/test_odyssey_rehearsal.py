@@ -11,7 +11,7 @@ from substrate import odyssey_authority as authority
 from substrate import odyssey_rehearsal as rehearsal
 
 ROOT = Path(__file__).resolve().parents[2]
-PY_OUT = ROOT / "artifacts/substrate/odyssey7d/v1/rehearsal"
+PY_OUT = ROOT / "evidence/artifacts/substrate/odyssey7d/v1/rehearsal"
 
 
 def _seal(gate_id: str, subject_path: Path, tmp_path: Path) -> dict:

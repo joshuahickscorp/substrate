@@ -756,7 +756,7 @@ def finalize(clean: dict) -> dict:
         "constitution": "evidence/substrate/v3/SUBSTRATE_V3_SCIENTIFIC_CONSTITUTION.json",
         "hypotheses": "evidence/substrate/v3/SUBSTRATE_V3_HYPOTHESIS_GRAPH.json",
         "generators": "evidence/substrate/v3/SUBSTRATE_V3_GENERATOR_AUTHORITY.json",
-        "splits": "configs/substrate/v3/split_manifest.json",
+        "splits": "ops/configs/substrate/v3/split_manifest.json",
         "dag": "evidence/substrate/v3/SUBSTRATE_V3_PRINCIPAL_DAG.json",
         "raw_receipts": "runs/substrate/v3/principal/units",
         "effects": "evidence/substrate/v3/SUBSTRATE_V3_INDEPENDENT_VERIFICATION.json",

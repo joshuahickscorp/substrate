@@ -51,10 +51,10 @@ __all__ = [
 ]
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
-CONFIG = ROOT / "configs" / "substrate" / "genesis"
+CONFIG = ROOT / "ops" / "configs" / "substrate" / "genesis"
 EVIDENCE = ROOT / "evidence" / "substrate" / "genesis"
 RUNS = ROOT / "runs" / "substrate" / "genesis"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "genesis"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "genesis"
 STOP = RUNS / "STOP"
 
 

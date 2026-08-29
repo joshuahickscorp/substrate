@@ -34,7 +34,7 @@ def _sealed(schema: str, payload: dict, *, status: str = "pass") -> dict:
 
 def _fixture_root(tmp_path: Path) -> Path:
     repository = Path(__file__).parents[2]
-    plan = repository / "plans/substrate/tangible_next_launch"
+    plan = repository / "docs/plans/substrate/tangible_next_launch"
     for filename in (
         "ODYSSEY_7D.hardened.draft.json",
         "R2_TO_ODYSSEY_AUTOPIVOT_POLICY.sealed.json",
@@ -47,10 +47,10 @@ def _fixture_root(tmp_path: Path) -> Path:
         "ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
         "frontiers/FRONTIER_BUILD_INDEX.json",
     ):
-        _copy(plan / filename, tmp_path / "plans/substrate/tangible_next_launch" / filename)
+        _copy(plan / filename, tmp_path / "docs/plans/substrate/tangible_next_launch" / filename)
     _copy(
-        repository / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
-        tmp_path / "operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        repository / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+        tmp_path / "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
     )
     for filename in (
         "odyssey_transition.py",
@@ -71,8 +71,8 @@ def _fixture_root(tmp_path: Path) -> Path:
     ):
         _copy(repository / "src/substrate" / filename, tmp_path / "src/substrate" / filename)
     _copy(
-        repository / "tools/odyssey7d_telegram_notifier.py",
-        tmp_path / "tools/odyssey7d_telegram_notifier.py",
+        repository / "ops/tools/odyssey7d_telegram_notifier.py",
+        tmp_path / "ops/tools/odyssey7d_telegram_notifier.py",
     )
     # G06-DC binds the historical width-calibration diagnostic; the fixture root
     # must carry the same sealed prior so the launch subject can verify it.
@@ -94,12 +94,14 @@ def _fixture_root(tmp_path: Path) -> Path:
         "activation": False,
         "scientific_status": "frozen_waiting_for_verified_r2",
         "input_sha256": {name: authority.file_digest(path) for name, path in transition.build_inputs(tmp_path).items()},
-        "implementation_sha256": {name: authority.file_digest(path) for name, path in implementation.items()},
+        "implementation_sha256": {
+            name: transition.canonical_source_digest(path) for name, path in implementation.items()
+        },
         "r2_requirements": {},
         "transition": {},
     }
     body["sha256"] = authority.digest(body)
-    _write(tmp_path / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", body)
+    _write(tmp_path / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", body)
     return tmp_path
 
 
@@ -662,7 +664,7 @@ def _g07_payload(root: Path, frozen: dict[str, Any], storage: dict[str, int]) ->
         "full_width_concurrent_transient_bound": True,
         "formula_bound": True,
     }
-    design = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json")
+    design = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json")
     return {
         **_machine_binding(frozen),
         "cells": len(authority.FRONTIER_IDS),
@@ -864,7 +866,7 @@ def _fixture_selected_base(frozen: dict[str, Any]) -> dict[str, str]:
 
 
 def _public_model_canary_ref(root: Path, frozen: dict[str, Any]) -> tuple[dict[str, str], dict[str, str]]:
-    template = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_PUBLIC_MODEL_CANARY.template.json")
+    template = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_PUBLIC_MODEL_CANARY.template.json")
     runtime_sha256 = _fixture_digest("public-canary", "runtime")
     scores = {"gpt-oss:20b": 14, "qwen3:30b": 16, "deepseek-r1:32b": 15}
     service_peaks = {"gpt-oss:20b": 14 * 1024**3, "qwen3:30b": 19 * 1024**3, "deepseek-r1:32b": 20 * 1024**3}
@@ -929,7 +931,7 @@ def _arm_pin(root: Path, name: str, base_model: dict[str, str]) -> dict[str, str
         "id": f"{name}-id",
         "revision": base_model["revision"],
         "artifact_sha256": base_model["weight_sha256"],
-        "adapter_sha256": authority.file_digest(root / "src/substrate/odyssey_arms.py"),
+        "adapter_sha256": transition.canonical_source_digest(root / "src/substrate/odyssey_arms.py"),
     }
 
 
@@ -1173,7 +1175,7 @@ def _subject_payload(
 
 
 def _prepared_inputs(root: Path, *, model_reserve: int = 0) -> tuple[Path, dict]:
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     p95, transient, terminal = 8 * 1024**2, 2 * 1024**2, 1 * 1024**2
     runtime_required = (
         authority.BASE_PROTECTED_FLOOR_BYTES
@@ -1339,7 +1341,7 @@ def test_sealed_authority_requires_exact_15_gate_receipts_and_worker_binding(tmp
     assert result["preflight_admitted"] is True
     assert result["storage"]["launch_required_free_bytes"] == result["storage"]["measured_required_free_bytes"]
     assert result["storage"]["required_free_bytes"] == result["storage"]["runtime_required_free_bytes"]
-    sealed_path = root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
+    sealed_path = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
     sealed = authority.seal(root, inputs, preflight, sealed_path)
     assert sealed["seal"]["status"] == "sealed"
     assert sealed["program"]["launch_allowed"] is True
@@ -1395,7 +1397,7 @@ def test_human_subject_validators_reject_shallow_or_incompatible_claims(tmp_path
     """Converted machine subjects keep closed shapes and refuse shallow claims."""
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
 
     def subject(gate_id: str) -> dict[str, Any]:
         return authority._read_json(root / "receipts" / f"{gate_id}.subject.json", require_digest=True)
@@ -1499,7 +1501,7 @@ def test_human_gate_cross_bindings_reject_subjects_from_different_selections(tmp
 
 def test_human_evidence_pack_is_fill_only_and_current_frozen_validation_is_read_only(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
-    frozen_path = root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
+    frozen_path = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
     before = frozen_path.read_bytes()
     frozen = authority.validate_current_frozen_build(root)
     assert frozen["sha256"]
@@ -1529,7 +1531,7 @@ def test_human_evidence_pack_is_fill_only_and_current_frozen_validation_is_read_
 def test_clean_clone_gate_requires_current_commit_and_exact_frozen_maps(tmp_path: Path) -> None:
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     subject = authority._read_json(root / "receipts/G13.subject.json", require_digest=True)
     subject["source_commit"] = "stale-fixture-head"
     subject.pop("sha256")
@@ -1573,7 +1575,7 @@ def test_protocol_digest_receipt_is_derived_from_the_exact_frozen_build(tmp_path
 
     subject = authority.emit_protocol_digests(root, output)
 
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     assert subject["source_digest"] == authority.source_digest_for_frozen(frozen)
     assert subject["protocol_digest"] == authority.protocol_digest_for_frozen(frozen)
     subject["protocol_digest"] = "0" * 64
@@ -1636,7 +1638,7 @@ def test_machine_gate_validators_reject_shallow_or_spoofed_workloads(tmp_path: P
     """Each strengthened gate must reject more than a forged ``all_pass`` flag."""
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
 
     def subject(gate_id: str) -> dict[str, Any]:
         return authority._read_json(root / "receipts" / f"{gate_id}.subject.json", require_digest=True)
@@ -1703,7 +1705,7 @@ def test_historical_g06_validator_rejects_shallow_or_spoofed_width_subjects(tmp_
     """
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     subject = authority._read_json(root / "receipts/G06.subject.json", require_digest=True)
 
     wrong_model = json.loads(json.dumps(subject))
@@ -1720,7 +1722,7 @@ def test_historical_g06_validator_rejects_shallow_or_spoofed_width_subjects(tmp_
     receipt_root = _fixture_root(tmp_path / "receipt")
     _prepared_inputs(receipt_root)
     receipt_frozen = authority._read_json(
-        receipt_root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        receipt_root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     forged = authority._read_json(receipt_root / "receipts/G06.subject.json", require_digest=True)
     receipt_ref = forged["observations"][0]["cells"][0]["candidate_receipt"]
@@ -1738,7 +1740,7 @@ def test_historical_g06_validator_rejects_shallow_or_spoofed_width_subjects(tmp_
     boundary_root = _fixture_root(tmp_path / "boundary")
     _prepared_inputs(boundary_root)
     boundary_frozen = authority._read_json(
-        boundary_root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
+        boundary_root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True
     )
     broken_boundary = authority._read_json(boundary_root / "receipts/G06.subject.json", require_digest=True)
     boundary_ref = broken_boundary["observations"][0]["metrics"]["phase_boundary_receipt"]
@@ -1753,7 +1755,7 @@ def test_historical_g06_receipt_remains_verifiable_through_preserved_validator(t
     """A structurally complete historical G06 subject still passes ``_validate_g06``."""
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     subject = authority._read_json(root / "receipts/G06.subject.json", require_digest=True)
 
     assert "G06" not in authority.GATE_SPECS
@@ -1767,7 +1769,7 @@ def test_g09_structurally_valid_recovery_subject_passes_once_per_arm(tmp_path: P
     """A genuine candidate/control rehearsal remains admissible as-is."""
     root = _fixture_root(tmp_path)
     _prepared_inputs(root)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     g09 = authority._read_json(root / "receipts/G09.subject.json", require_digest=True)
 
     authority._gate_specific_checks(root, "G09", g09, frozen)
@@ -1795,7 +1797,7 @@ def test_g03_authority_accepts_the_source_bound_materializer_subject(
     """The real materializer's candidate-only receipt matches the gate contract."""
     install_librispeech_audio_fixture(monkeypatch)
     root = _fixture_root(tmp_path)
-    frozen = authority._read_json(root / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
+    frozen = authority._read_json(root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json", require_digest=True)
     frontiers = []
     for frontier in authority.FRONTIER_IDS:
         asset = root / "inputs" / "assets" / f"{frontier}.json"

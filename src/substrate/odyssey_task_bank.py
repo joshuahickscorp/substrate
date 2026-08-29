@@ -25,7 +25,7 @@ _AUDIO_CLIP_PATH_PREFIX = (
 # Committed clip index: seed→clip + duration mapping without the 90 GB corpus.
 # Order matches the sealed corpus MANIFEST.sha256 FLAC listing. Transcripts are
 # intentionally absent — they are the evaluator answer.
-_AUDIO_CLIP_INDEX_PATH = Path("plans/substrate/tangible_next_launch/LIBRISPEECH_CLIP_INDEX.json")
+_AUDIO_CLIP_INDEX_PATH = Path("docs/plans/substrate/tangible_next_launch/LIBRISPEECH_CLIP_INDEX.json")
 _AUDIO_LICENSED_BANK = "LibriSpeech_or_FSD50K"
 _AUDIO_DISTURBANCES = ("masked_interval", "timestamp_shift", "signal_dropout")
 # Cached committed index rows: (clip_rel, duration_s, utterance_id).
@@ -1020,7 +1020,7 @@ def _main(argv: list[str] | None = None) -> int:
     """CLI: regenerate the committed LibriSpeech clip index from a local corpus."""
     parser = argparse.ArgumentParser(
         description=(
-            "Regenerate plans/substrate/tangible_next_launch/LIBRISPEECH_CLIP_INDEX.json "
+            "Regenerate docs/plans/substrate/tangible_next_launch/LIBRISPEECH_CLIP_INDEX.json "
             "from a local LibriSpeech corpus (MANIFEST order + FLAC STREAMINFO durations). "
             "Transcripts are never written."
         )

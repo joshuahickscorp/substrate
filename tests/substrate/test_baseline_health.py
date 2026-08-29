@@ -13,22 +13,17 @@ A direct check names the cause immediately.
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 
 from substrate import odyssey_transition
 
 ROOT = Path(__file__).resolve().parents[2]
-FROZEN = ROOT / "plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
+FROZEN = ROOT / "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json"
 
 
 def _digest(path: Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as handle:
-        for block in iter(lambda: handle.read(1 << 20), b""):
-            h.update(block)
-    return h.hexdigest()
+    return odyssey_transition.canonical_source_digest(path)
 
 
 def _implementation_paths() -> dict[str, Path]:
@@ -95,7 +90,7 @@ def test_the_drift_detector_itself_detects_drift() -> None:
 def test_every_pinned_module_resolves_to_a_real_file() -> None:
     """The pinned boundary is not confined to src/substrate.
 
-    telegram_notifier resolves to tools/odyssey7d_telegram_notifier.py.  Any audit
+    telegram_notifier resolves to ops/tools/odyssey7d_telegram_notifier.py.  Any audit
     that scans only src/substrate leaves part of the boundary unclassified.
     """
     pins = json.loads(FROZEN.read_text()).get("implementation_sha256", {})

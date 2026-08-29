@@ -186,9 +186,6 @@ _DEFAULT_TOOL_PATHS: dict[str, Path] = {
     "pytest": _VENV_BIN / "pytest",
 }
 
-_LEAN_TOOLCHAIN = "leanprover/lean4:v4.33.0-rc1"
-_ELAN = Path(os.path.expanduser("~/.elan/bin/elan"))
-
 _STRUCTURED_MEDIA = "application/x-substrate-tool-result+json"
 
 
@@ -353,7 +350,7 @@ def _warm_pool(root: Path) -> WarmToolPool:
     global _WARM_POOL
     with _WARM_POOL_LOCK:
         if _WARM_POOL is None:
-            pool_root = root / "artifacts/substrate/odyssey7d/tool-warm"
+            pool_root = root / "evidence/artifacts/substrate/odyssey7d/tool-warm"
             _WARM_POOL = WarmToolPool(pool_root)
         return _WARM_POOL
 
@@ -421,7 +418,7 @@ def _probe_version(tool_id: str, path: Path) -> str:
     try:
         if tool_id == "lean":
             completed = subprocess.run(  # noqa: S603 - fixed argv, no shell
-                [str(_ELAN), "run", _LEAN_TOOLCHAIN, "lean", "--version"],
+                [str(path), "--version"],
                 capture_output=True,
                 text=True,
                 timeout=30,
@@ -1136,7 +1133,11 @@ class OperationExecutor:
         _assert_no_evaluator_tokens(source, label="lean source")
         lean_file = self.mounts.work / "check.lean"
         lean_file.write_text(source, encoding="utf-8")
-        argv = [str(_ELAN), "run", _LEAN_TOOLCHAIN, "lean", str(lean_file)]
+        # The inventory already binds the exact Lean executable and digest.  Invoke
+        # that pinned binary directly: the sandbox deliberately supplies an
+        # isolated HOME, so `elan run` would try to resolve or download a separate
+        # toolchain and make the canary depend on ambient machine state.
+        argv = [lean.path, str(lean_file)]
         code, out, err = self._tool_run("lean", argv, wall_seconds=min(90, self.budget.wall_seconds))
         result = {
             "operation": "formal.check_lean",
@@ -1918,7 +1919,7 @@ class ToolBroker:
                 error_class="parity",
             )
         self.inventory = dict(inventory) if inventory is not None else discover_tool_inventory()
-        cache_root = self.root / "artifacts/substrate/odyssey7d/tool-cache" / lane_id / arm
+        cache_root = self.root / "evidence/artifacts/substrate/odyssey7d/tool-cache" / lane_id / arm
         self.cache = LaneToolCache(root=cache_root, lane_id=lane_id, arm=arm)
         # Pre-admit tool pins so derivatives can reference them.
         for revision in self.inventory.values():
@@ -1928,7 +1929,7 @@ class ToolBroker:
 
     def _sandbox_root(self, task_id: str) -> Path:
         safe_task = re.sub(r"[^a-zA-Z0-9._-]+", "_", task_id)[:80]
-        return self.root / "artifacts/substrate/odyssey7d/tool-work" / self.lane_id / self.arm / safe_task
+        return self.root / "evidence/artifacts/substrate/odyssey7d/tool-work" / self.lane_id / self.arm / safe_task
 
     def execute(self, request: ToolRequest) -> ToolResponse:
         started = time.monotonic()
@@ -2105,7 +2106,7 @@ class ToolBroker:
         }
         receipt_sha = digest(unsigned)
         # Persist receipt under lane output for canary inspection.
-        receipt_dir = self.root / "artifacts/substrate/odyssey7d/tool-receipts" / self.lane_id / self.arm
+        receipt_dir = self.root / "evidence/artifacts/substrate/odyssey7d/tool-receipts" / self.lane_id / self.arm
         receipt_dir.mkdir(parents=True, exist_ok=True)
         receipt_path = receipt_dir / f"{re.sub(r'[^a-zA-Z0-9._-]+', '_', request.task_id)[:80]}-{request.operation.replace('.', '_')}.json"
         receipt_body = {**unsigned, "receipt_sha256": receipt_sha}
@@ -2307,7 +2308,7 @@ def run_frontier_canary(
         "registry_size": len(REGISTRY_OPERATIONS),
     }
     document["sha256"] = digest({key: value for key, value in document.items() if key != "sha256"})
-    out_dir = root / "artifacts/substrate/odyssey7d/tool-bearing-canary"
+    out_dir = root / "evidence/artifacts/substrate/odyssey7d/tool-bearing-canary"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "TOOL_BEARING_CANARY.json"
     out_path.write_text(json.dumps(document, sort_keys=True, indent=2) + "\n", encoding="utf-8")

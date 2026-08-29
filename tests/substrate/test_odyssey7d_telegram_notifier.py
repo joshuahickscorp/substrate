@@ -14,7 +14,7 @@ import pytest
 
 
 def _notifier() -> object:
-    source = Path(__file__).parents[2] / "tools/odyssey7d_telegram_notifier.py"
+    source = Path(__file__).parents[2] / "ops/tools/odyssey7d_telegram_notifier.py"
     specification = importlib.util.spec_from_file_location("odyssey7d_telegram_notifier_test", source)
     assert specification is not None and specification.loader is not None
     module = importlib.util.module_from_spec(specification)
@@ -42,7 +42,7 @@ def _configured_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[ob
     notifier = _notifier()
     root = tmp_path / "workspace"
     run_root = root / "runs/substrate/odyssey7d/v1"
-    authority_path = root / "plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
+    authority_path = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.authority.json"
     state_path = root / "runs/substrate/odyssey7d/notifier-state.json"
     monkeypatch.setattr(notifier, "ROOT", root)
     monkeypatch.setattr(notifier, "RUNS", run_root)
@@ -269,7 +269,7 @@ def test_busy_ledger_lock_prevents_a_second_delivery_attempt(tmp_path: Path, mon
 def test_preflight_capacity_forecast_keeps_the_max_cap_distinct_from_g07(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     notifier = _notifier()
     root = tmp_path / "workspace"
-    reserve = root / "plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json"
+    reserve = root / "docs/plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json"
     _write(
         reserve,
         {

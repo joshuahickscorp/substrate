@@ -1,0 +1,59 @@
+{
+  "schema": "SUBSTRATE_SANDBOX_SHARED_STORAGE_HANDOFF/v1",
+  "program": "substrate-tangible-sandbox-r2",
+  "scientific_status": "operational_handoff",
+  "activation": false,
+  "unqualified_nous": false,
+  "measured_at": "2026-08-02T17:23:13Z",
+  "filesystem": {
+    "capacity_bytes": 994662584320,
+    "free_bytes": 363011293184,
+    "free_gb_decimal": 363.011293184,
+    "free_gib": 338.0806121826172
+  },
+  "retained_shared_substrate": {
+    "physical_bytes": 175857762304,
+    "physical_gb_decimal": 175.857762304,
+    "physical_gib": 163.78030395507812,
+    "acquisition_bytes_downloaded": 86036677480,
+    "accounting": "retained input data is already reflected in filesystem free space and is counted once; it is not added again as a generation reservation"
+  },
+  "r2": {
+    "status": "complete",
+    "actual_wall_hours": 24.000108,
+    "checkpoints": 9,
+    "private_generated_bytes_receipted": 38532,
+    "measured_own_run_growth_budget_bytes": 1048576,
+    "protected_floor_bytes": 198932516864,
+    "protected_floor_gib": 185.27034378051758,
+    "continuity_required_free_bytes": 200008355840,
+    "continuity_required_free_gib": 186.27229690551758,
+    "host_free_delta_during_lane_bytes": 59402186752,
+    "host_free_delta_attribution": "not a generation receipt; host-level change is not charged to R2 without a file-level receipt",
+    "live_writer": false
+  },
+  "odyssey": {
+    "status": "private_generation_not_started",
+    "private_generated_bytes_verified": 0,
+    "initial_task_material_upper_budget_bytes": 107374182400,
+    "private_write_cap_bytes": 128849018880,
+    "private_write_cap_gib": 120,
+    "note": "these are future bounded-write allowances, not current substrate consumption; Odyssey is not authorized by this handoff"
+  },
+  "other_projects": {
+    "residual_above_r2_continuity_floor_bytes": 163002937344,
+    "residual_above_r2_continuity_floor_gb_decimal": 163.002937344,
+    "residual_above_r2_continuity_floor_gib": 151.8083152770996,
+    "residual_if_optional_100_gib_user_reserve_is_held_bytes": 55628754944,
+    "residual_if_optional_100_gib_user_reserve_is_held_gb_decimal": 55.628754944,
+    "residual_if_optional_100_gib_user_reserve_is_held_gib": 51.80831527709961,
+    "explicit_user_reserve_is_substrate_requirement": false,
+    "model_ladder_and_user_reserve_must_not_be_double_counted": true
+  },
+  "source_refs": [
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_DYNAMIC_STORAGE_PLAN.json",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT.json",
+    "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_ACQUISITION_RESULT.json",
+    "plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json"
+  ]
+}

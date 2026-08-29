@@ -129,7 +129,7 @@ def master_authority(st: dict) -> dict:
             "engine": "substrate.execution",
             "admission_gate": "substrate.method.gate through substrate.admission",
             "registry": "substrate.program.ITEMS",
-            "configuration_authority": "configs/substrate/config.json through substrate.config",
+            "configuration_authority": "ops/configs/substrate/config.json through substrate.config",
             "cli": "substrate",
             "evidence_fabric": "evidence/substrate/v1 through substrate.evidence",
         },

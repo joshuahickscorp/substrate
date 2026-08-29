@@ -151,7 +151,7 @@ def collect(launch_documents: list[dict[str, Any]], *, publish: bool = True) -> 
             )
     roles = {str(row["role"]) for row in rows if row["completed"]}
     document = IO2.authority(
-        "substrate-genesis2-grok-archive/v1",
+        "substrate-genesis2-grok-docs/archive/v1",
         {
             "reviews": rows,
             "distinct_completed_roles": len(roles),

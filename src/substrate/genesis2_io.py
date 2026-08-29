@@ -21,10 +21,10 @@ from substrate.final_revision_io import (
 from substrate.final_revision_io import write_json as _write_json
 
 ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).resolve()
-CONFIG = ROOT / "configs" / "substrate" / "genesis2"
+CONFIG = ROOT / "ops" / "configs" / "substrate" / "genesis2"
 EVIDENCE = ROOT / "evidence" / "substrate" / "genesis2"
 RUNS = ROOT / "runs" / "substrate" / "genesis2"
-ARTIFACTS = ROOT / "artifacts" / "substrate" / "genesis2"
+ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "genesis2"
 STOP = RUNS / "STOP"
 MASTER_PLAN_RELATIVE = Path("docs/archive/experiments/genesis2/MASTER_PLAN.md")
 

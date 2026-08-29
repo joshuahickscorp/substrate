@@ -36,7 +36,7 @@ from ctypes import byref, c_int, c_uint32, c_ulonglong, c_void_p, sizeof
 from pathlib import Path
 from typing import Any
 
-from substrate import odyssey7d
+from substrate import odyssey7d, odyssey_transition
 from substrate import odyssey_arms as arms
 from substrate import odyssey_authority as authority
 from substrate import odyssey_density as density
@@ -55,10 +55,10 @@ from substrate.odyssey_authority import (
     file_digest,
 )
 
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 FROZEN_BUILD = PLAN / "ODYSSEY_FROZEN_BUILD.json"
 CALIBRATION_SPEC = PLAN / "RESOURCE_CALIBRATION_SPEC.draft.json"
-REHEARSAL_ROOT = Path("artifacts/substrate/odyssey7d/v1/rehearsal")
+REHEARSAL_ROOT = Path("evidence/artifacts/substrate/odyssey7d/v1/rehearsal")
 PINNED_MODEL = "gpt-oss:20b"
 RESIDENT_CAP_BYTES = 85 * GIB
 OLLAMA = "http://127.0.0.1:11434"
@@ -2092,7 +2092,7 @@ def _g06_arm_command(
 ) -> list[str]:
     """Construct the same executable production arm used by the full worker."""
     adapter = root / "src/substrate/odyssey_arms.py"
-    if not adapter.is_file() or file_digest(adapter) != adapter_sha256:
+    if not adapter.is_file() or odyssey_transition.canonical_source_digest(adapter) != adapter_sha256:
         raise Refused("G06 production adapter source is missing or drifted")
     return [
         sys.executable,

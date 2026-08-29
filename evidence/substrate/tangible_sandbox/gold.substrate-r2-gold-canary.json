@@ -1,0 +1,47 @@
+{
+    "total_instances": 1,
+    "submitted_instances": 25,
+    "completed_instances": 1,
+    "resolved_instances": 1,
+    "unresolved_instances": 0,
+    "empty_patch_instances": 0,
+    "error_instances": 0,
+    "completed_ids": [
+        "astropy__astropy-12907"
+    ],
+    "incomplete_ids": [],
+    "empty_patch_ids": [],
+    "submitted_ids": [
+        "astropy__astropy-12907",
+        "astropy__astropy-13033",
+        "astropy__astropy-13236",
+        "django__django-10097",
+        "django__django-10554",
+        "django__django-10880",
+        "matplotlib__matplotlib-13989",
+        "matplotlib__matplotlib-14623",
+        "matplotlib__matplotlib-20488",
+        "mwaskom__seaborn-3069",
+        "mwaskom__seaborn-3187",
+        "pallets__flask-5014",
+        "psf__requests-1142",
+        "psf__requests-1724",
+        "psf__requests-1766",
+        "pydata__xarray-2905",
+        "pydata__xarray-3095",
+        "pydata__xarray-3151",
+        "pylint-dev__pylint-4551",
+        "pylint-dev__pylint-4604",
+        "pylint-dev__pylint-4661",
+        "pytest-dev__pytest-10051",
+        "pytest-dev__pytest-10081",
+        "pytest-dev__pytest-10356",
+        "scikit-learn__scikit-learn-10297"
+    ],
+    "resolved_ids": [
+        "astropy__astropy-12907"
+    ],
+    "unresolved_ids": [],
+    "error_ids": [],
+    "schema_version": 2
+}

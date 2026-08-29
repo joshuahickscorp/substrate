@@ -12,10 +12,10 @@ Include explicitly:
 
 | Path | Why |
 | --- | --- |
-| All git-tracked sources (`src/`, `plans/`, `evidence/`, `configs/`, …) | Program code and sealed plans |
+| All git-tracked sources (`src/`, `docs/plans/`, `evidence/`, `ops/configs/`, …) | Program code and sealed plans |
 | `data/` (gitignored, about 176 GiB) | Odyssey public corpus under `data/substrate/tangible_sandbox/…` |
 | `uv.lock` | Locked Python resolution |
-| `plans/substrate/tangible_next_launch/SUBSTRATE_PORTABILITY_MANIFEST.json` | Host portability record |
+| `docs/plans/substrate/tangible_next_launch/SUBSTRATE_PORTABILITY_MANIFEST.json` | Host portability record |
 
 You may omit:
 
@@ -135,10 +135,10 @@ Do not hand-edit digests.
 
 | Record | Role |
 | --- | --- |
-| `plans/.../SUBSTRATE_PORTABILITY_MANIFEST.json` | Portable host/tool/corpus/model inventory |
-| `plans/.../ODYSSEY_TOOL_PANEL_INVENTORY.json` | Original tool panel measurement |
-| `plans/.../ODYSSEY_FROZEN_BUILD.json` | Frozen build digest |
-| `plans/.../ODYSSEY_SOURCE_SELECTION.sealed.v2.json` | Sealed source selection digest |
+| `docs/plans/.../SUBSTRATE_PORTABILITY_MANIFEST.json` | Portable host/tool/corpus/model inventory |
+| `docs/plans/.../ODYSSEY_TOOL_PANEL_INVENTORY.json` | Original tool panel measurement |
+| `docs/plans/.../ODYSSEY_FROZEN_BUILD.json` | Frozen build digest |
+| `docs/plans/.../ODYSSEY_SOURCE_SELECTION.sealed.v2.json` | Sealed source selection digest |
 | `data/.../<dataset>/MANIFEST.sha256` | Per-dataset corpus integrity |
 
 Activation remains off. This procedure does not launch Odyssey or alter sealed

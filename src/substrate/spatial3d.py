@@ -1753,7 +1753,7 @@ def run_all_canaries() -> dict[str, Any]:
 
 
 def write_committed_seeds(out_dir: Path) -> list[Path]:
-    """Materialize public seed JSON files under plans/ or artifacts/."""
+    """Materialize public seed JSON files under docs/plans/ or artifacts/."""
     out_dir.mkdir(parents=True, exist_ok=True)
     paths: list[Path] = []
     for seed_id, definition in _seed_defs().items():

@@ -1,0 +1,22 @@
+{
+  "activation": false,
+  "frontier": "B",
+  "license": "MIT",
+  "license_text_local_path": "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/math/LICENSE",
+  "notes": [
+    "Local checkout HEAD verified as 985bdc1696e88e8643f081a0ff4719da39f2ae2a, exactly the revision pinned in ODYSSEY_TASK_BANK_MANIFEST.draft.json.",
+    "MATERIAL GAP: this checkout contains only the repository's code and dataset file lists. The MATH problem corpus itself (MATH/train/**, MATH/test/**) is NOT present locally. The odyssey task bank's B tasks carry source_selector {\"dataset\": \"MATH\"}, so that selector currently has no local problem corpus behind it.",
+    "modeling/math_equivalence.py is the repository's deterministic expression-equivalence comparator, i.e. the checker component the task bank lists under requires. It contains no problem instances and no Odyssey answer material.",
+    "Not legal advice; recorded rights review only."
+  ],
+  "program": "substrate-odyssey-7d-v1",
+  "review_status": "recorded_not_legal_advice",
+  "rights_basis_local_paths": [
+    "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/math/LICENSE",
+    "docs/plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json",
+    "docs/archive/staging/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md"
+  ],
+  "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
+  "source": "hendrycks/math (MATH)",
+  "upstream_revision": "985bdc1696e88e8643f081a0ff4719da39f2ae2a"
+}

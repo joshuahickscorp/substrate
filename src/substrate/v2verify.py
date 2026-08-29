@@ -956,7 +956,7 @@ def finalize(clean_clone_document: dict) -> dict:
         raise Refused("terminal artifacts are not byte reproducible")
     return {
         "documents": second,
-        "terminal_report": "artifacts/substrate/v2/SUBSTRATE_V2_TERMINAL_REPORT.md",
+        "terminal_report": "evidence/artifacts/substrate/v2/SUBSTRATE_V2_TERMINAL_REPORT.md",
         "regenerated_twice_byte_identical": reproducible,
         "activation": False,
     }

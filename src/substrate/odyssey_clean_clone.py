@@ -21,7 +21,7 @@ from typing import Any
 from substrate import odyssey_transition
 
 PROGRAM = "substrate-odyssey-7d-v1"
-PLAN = Path("plans/substrate/tangible_next_launch")
+PLAN = Path("docs/plans/substrate/tangible_next_launch")
 TEST_TARGETS = (
     "tests/substrate/test_odyssey7d.py",
     "tests/substrate/test_odyssey_authority.py",
@@ -57,7 +57,7 @@ LINT_TARGETS = (
     "src/substrate/odyssey_arms.py",
     "src/substrate/r2_continuity_verifier.py",
     "src/substrate/r2_provenance_verifier.py",
-    "tools/odyssey7d_telegram_notifier.py",
+    "ops/tools/odyssey7d_telegram_notifier.py",
     *TEST_TARGETS,
 )
 REQUIRED_CHECKS = (
@@ -139,7 +139,7 @@ def _source_map(root: Path, paths: dict[str, Path]) -> dict[str, str]:
     if not all(path.is_file() for path in paths.values()):
         missing = sorted(name for name, path in paths.items() if not path.is_file())
         raise Refused(f"required frozen source is missing: {missing}")
-    return {name: file_digest(path) for name, path in paths.items()}
+    return {name: odyssey_transition.canonical_source_digest(path) for name, path in paths.items()}
 
 
 def _frozen_build(root: Path) -> dict[str, Any]:

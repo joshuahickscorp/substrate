@@ -14,6 +14,7 @@ from dataclasses import asdict, dataclass
 from substrate import v4config as C
 from substrate import v4fabric as F
 from substrate import v4io as io
+from substrate.evidence import canonical_current_path
 from substrate.runtime import StructuralSubstrate
 
 READY_TAG = "substrate-v4-structural-ready"
@@ -33,9 +34,10 @@ def _input_digests() -> tuple[tuple[str, str], ...]:
     return tuple(
         (
             relative,
-            hashlib.sha256((io.ROOT / relative).read_bytes()).hexdigest() if (io.ROOT / relative).is_file() else "missing",
+            hashlib.sha256(current.read_bytes()).hexdigest() if current.is_file() else "missing",
         )
         for relative in FROZEN_INPUTS
+        for current in (canonical_current_path(io.ROOT, relative),)
     )
 
 
