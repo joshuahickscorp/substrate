@@ -13,7 +13,7 @@
   "review_status": "recorded_not_legal_advice",
   "rights_basis_local_paths": [
     "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/ai2_arc/README.md",
-    "docs/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md"
+    "docs/archive/staging/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md"
   ],
   "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",
   "source": "AI2 ARC (allenai/ai2_arc), ARC-Challenge and ARC-Easy train splits",

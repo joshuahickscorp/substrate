@@ -7,7 +7,6 @@ subsystem requires all twelve, so a Substrate preregistration that simply omits 
 here rather than sliding through as a silent default pass. That is the same failure shape the kernel exists
 to stop, one level up.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

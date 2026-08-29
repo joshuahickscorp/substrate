@@ -1,6 +1,5 @@
 """Developmental safety, the claim boundary, goal authority and cognitive integrity all fail closed.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

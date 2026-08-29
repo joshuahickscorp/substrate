@@ -28,6 +28,8 @@ from substrate.final_revision_kernel import ArchitecturePrototype, EventSourcedK
 from substrate.final_revision_readiness import bounded_smoke
 from substrate.final_revision_sensorium import controlled_media, structural_sensorium_report
 
+RESEARCH_SURVEY_RELATIVE = Path("docs/archive/experiments/final_revision/RESEARCH_SURVEY.md")
+
 
 def _write(name: str, schema: str, payload: dict[str, Any], *, status: str = "implemented") -> dict[str, Any]:
     document = io.authority(schema, payload, status=status)
@@ -743,7 +745,7 @@ def preflight(*, publish: bool = True) -> dict[str, Any]:
 
 
 def research(*, publish: bool = True) -> dict[str, Any]:
-    survey = io.ROOT / "docs/final_revision/RESEARCH_SURVEY.md"
+    survey = io.ROOT / RESEARCH_SURVEY_RELATIVE
     ledger_path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_RESEARCH_LEDGER.json"
     ledger = json.loads(ledger_path.read_text())
     report = io.authority(

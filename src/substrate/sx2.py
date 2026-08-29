@@ -13,7 +13,6 @@ is a real compute matched competitor rather than a hypothetical one.
 If oracle selection over the set does not beat the strongest matched single alternative by the SESOI, SX2
 closes. No selector is trained, no arbitration canary runs, and the closure is the result.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

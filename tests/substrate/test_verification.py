@@ -4,7 +4,6 @@ The mutation suite itself is run from the CLI because each mutation costs a subp
 here is the property that makes the sealed report meaningful: every mutation names a distinct guard, and
 none of them survived.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

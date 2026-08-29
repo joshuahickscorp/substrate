@@ -1,6 +1,5 @@
 """The closure gate: six canaries, and the distinctions the verdict must keep.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

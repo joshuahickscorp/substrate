@@ -3,7 +3,6 @@
 The constants in this module are the preregistration.  Principal execution consumes their digest and
 refuses a mismatch.  Targets are generated privately by v2fabric and are never placed in observations.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

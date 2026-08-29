@@ -9,7 +9,6 @@ Cognitive integrity here means memory consistency, evidence integrity, goal inte
 self model accuracy and active task continuity. It is not biological self preservation and carries no
 implication of one.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

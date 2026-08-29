@@ -39,7 +39,7 @@ def _source_digest(repository: Path) -> str:
         rows.append((str(path.relative_to(repository)), IO2.file_digest(path)))
     for path in sorted((repository / "tests" / "substrate").glob("test_genesis2*.py")):
         rows.append((str(path.relative_to(repository)), IO2.file_digest(path)))
-    plan = repository / "docs" / "genesis2_master_plan.md"
+    plan = repository / IO2.MASTER_PLAN_RELATIVE
     if plan.is_file():
         rows.append((str(plan.relative_to(repository)), IO2.file_digest(plan)))
     return IO2.digest(rows)

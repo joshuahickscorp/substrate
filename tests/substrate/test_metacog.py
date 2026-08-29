@@ -1,6 +1,5 @@
 """Metacognition and endogenous attention.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

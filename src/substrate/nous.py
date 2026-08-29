@@ -10,7 +10,6 @@ scored.
 
 No new architecture. Every gate runs the existing runtime over existing beds and the sealed session.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

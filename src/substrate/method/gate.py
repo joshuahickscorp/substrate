@@ -8,7 +8,6 @@ The second job of this module is classification. A result is only a mechanism nu
 bed, the mechanism, the baseline and the power all held. Otherwise the failure belongs to the method, and
 saying so is the whole point.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

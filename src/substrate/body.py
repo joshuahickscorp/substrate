@@ -9,7 +9,6 @@ dominant system is to find out how much of the intelligence has to live in weigh
 memory, tools and cognitive organization. That comparison is not run here. What is here is the contract it
 would need, and the conformance report says plainly that no body has been attached.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

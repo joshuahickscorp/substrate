@@ -9,7 +9,6 @@ the same discipline the experimental method kernel applies to experiments.
 Evidence percentages are therefore not derived from implementation. Code existing raises implementation and
 nothing else. The master plan says evidence remains earned, and this is where that is enforced.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
@@ -21,7 +20,7 @@ from dataclasses import dataclass
 from substrate import evidence as io
 from substrate import historical
 
-PLAN = io.ROOT / "docs" / "LONG_RUN_PLAN.md"
+PLAN = io.ROOT / "docs" / "archive" / "experiments" / "v4" / "LONG_RUN_PLAN.md"
 
 PROOF_ROOTS = {"": io.PROOF}
 
@@ -1239,7 +1238,7 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
         "level": level,
         "dependencies": list(item.deps),
         "unmet_dependencies": blocked,
-        "authority": f"SUBSTRATE_MASTER_PLAN.md section {item.section}",
+        "authority": f"docs/archive/experiments/genesis2/MASTER_PLAN.md section {item.section}",
         "implementation": {"declared": list(item.impl), "present": present},
         "tests": {"declared": list(item.tests), "recorded": ran, "all_passed": passed},
         "evidence": {

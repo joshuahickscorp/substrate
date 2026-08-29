@@ -1,6 +1,5 @@
 """The section 6.2 ontology battery, all ten required tests.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

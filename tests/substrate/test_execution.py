@@ -1,6 +1,5 @@
 """The frozen long run: units, freeze, rehearsal and the claim ceiling.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

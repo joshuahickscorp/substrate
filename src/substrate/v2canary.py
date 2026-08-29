@@ -3,7 +3,6 @@
 Every margin in this module is computed from raw generated tasks or explicit state mutations.  Canary
 positives license mechanisms for rehearsal; they never assign a terminal classification.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

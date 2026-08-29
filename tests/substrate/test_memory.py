@@ -1,6 +1,5 @@
 """The memory hierarchy, with the four defect shaped guards it exists to hold.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

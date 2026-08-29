@@ -15,7 +15,6 @@ The comparison section 14 actually wants is the ablation ladder, and that is wha
 body plus memory, body plus temporal core, body plus arbitration, body plus bounded adaptation, and the
 full substrate. That ladder is the test of what has to live in weights.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

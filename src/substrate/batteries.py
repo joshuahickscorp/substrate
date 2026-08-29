@@ -11,7 +11,6 @@ availability, which is a read property, and a battery that measured shared mutab
 reward exactly the corruption the workspace exists to prevent. A reflective report fails closed when
 provenance is missing, because a report that quietly omits its source is worse than no report.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

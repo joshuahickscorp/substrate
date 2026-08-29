@@ -3,7 +3,6 @@
 Workers return documents.  Only the supervisor validates source, configuration, split, seed, activation,
 and content identity before atomically publishing a unit receipt.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

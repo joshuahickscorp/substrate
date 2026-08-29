@@ -1,6 +1,5 @@
 """The runtime loop: eleven stages, every one receipted, and no path to acting on the world.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

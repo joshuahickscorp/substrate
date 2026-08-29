@@ -25,7 +25,13 @@ def test_collapse_invariants_leave_one_product_and_one_writer():
     assert (evidence.ROOT / "src/substrate/cli.py").is_file()
     assert historical.verify_all()["all_pass"] is True
     assert audit.run()["results"]["exclusive_producers"]["ok"] is True
-    writers = [path for path in (evidence.ROOT / "src/substrate").glob("*.py") if "def _atomic_write(" in path.read_text()]
+    # v5 deliberately owns a separate immutable writer with a stricter path
+    # contract; the shared text writer must still have one producer.
+    writers = [
+        path
+        for path in (evidence.ROOT / "src/substrate").glob("*.py")
+        if path.name != "v5io.py" and "def atomic_write_bytes(" in path.read_text()
+    ]
     assert writers == [evidence.ROOT / "src/substrate/evidence.py"]
 
 

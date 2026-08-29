@@ -1,6 +1,5 @@
 """The self model is measured, not narrated.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

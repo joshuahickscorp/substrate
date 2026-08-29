@@ -55,6 +55,11 @@ def main(argv: list[str] | None = None) -> None:
 
         sandbox.main(argv)
         return
+    if command == "product":
+        from substrate.product import cli as product_cli
+
+        product_cli.main(argv)
+        return
 
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)

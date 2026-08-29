@@ -13,7 +13,6 @@ resumes without redoing finished work, that two writers cannot claim the same un
 is refused, and that injected failures do not destroy completed work. A rehearsal that only proves the
 happy path proves nothing worth knowing.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

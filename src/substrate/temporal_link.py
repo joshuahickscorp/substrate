@@ -15,7 +15,6 @@ memory retrieval, and world model prediction. Collapsing them is how a system cl
 was really a lookup. Every read here is tagged with which of the five it came from, and a reader that asks
 for a merged view gets the tags with it.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

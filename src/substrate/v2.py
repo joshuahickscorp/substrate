@@ -3,7 +3,6 @@
 The developmental mechanisms extend the existing eleven stage runtime.  V1 evidence and receipts are
 read only inputs identified by the immutable terminal tag.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

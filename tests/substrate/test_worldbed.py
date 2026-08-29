@@ -1,6 +1,5 @@
 """The world model bed and the clean clone contract.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

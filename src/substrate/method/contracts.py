@@ -6,7 +6,6 @@ the whole class of defects this kernel exists to stop looked exactly like a sile
 
 Quantities carry a provenance label. A number that was true by construction may not be reported as measured.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -10,7 +10,6 @@ Typing is the mechanism under test, so the untyped control lives here too and sh
 the same capacity and the same cost accounting. It differs in exactly one way: it has no reader or writer
 sets. That is what makes the pair an arm and a control rather than two unrelated implementations.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

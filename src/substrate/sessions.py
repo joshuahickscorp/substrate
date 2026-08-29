@@ -12,7 +12,6 @@ chosen by the compute rather than by us, and every entry is already sealed and h
 That is the whole argument for it, and it is also its limitation: it is one session, from one program, in
 one domain. It is recorded as such.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

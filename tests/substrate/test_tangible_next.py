@@ -80,7 +80,7 @@ def _approved_drafts(root: Path, review: dict) -> None:
         "candidate_command": "substrate.next_candidate:run@v1",
         "control_command": "substrate.next_control:run@v1",
         "evaluator_command": "substrate.next_evaluator:run@v1",
-        "contract": "docs/tangible_sandbox/NEXT_LAUNCH_RUNBOOK.md#adapter-contract",
+        "contract": "docs/archive/staging/tangible_sandbox/NEXT_LAUNCH_RUNBOOK.md#adapter-contract",
     }
     _write(paths["design"], design)
     data = next._read_json(paths["data"])

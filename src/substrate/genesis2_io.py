@@ -26,16 +26,17 @@ EVIDENCE = ROOT / "evidence" / "substrate" / "genesis2"
 RUNS = ROOT / "runs" / "substrate" / "genesis2"
 ARTIFACTS = ROOT / "artifacts" / "substrate" / "genesis2"
 STOP = RUNS / "STOP"
+MASTER_PLAN_RELATIVE = Path("docs/archive/experiments/genesis2/MASTER_PLAN.md")
 
 
 def source_digest() -> str:
-    """Digest exactly the Genesis II implementation and copied master plan."""
+    """Digest exactly the Genesis II implementation and frozen master plan."""
     rows: list[tuple[str, str]] = []
     for path in sorted((ROOT / "src" / "substrate").glob("genesis2*.py")):
         rows.append((str(path.relative_to(ROOT)), file_digest(path)))
     for path in sorted((ROOT / "tests" / "substrate").glob("test_genesis2*.py")):
         rows.append((str(path.relative_to(ROOT)), file_digest(path)))
-    plan = ROOT / "docs" / "genesis2_master_plan.md"
+    plan = ROOT / MASTER_PLAN_RELATIVE
     if plan.is_file():
         rows.append((str(plan.relative_to(ROOT)), file_digest(plan)))
     return digest(rows)

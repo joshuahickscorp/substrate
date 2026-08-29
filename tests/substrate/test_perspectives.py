@@ -1,7 +1,6 @@
 """Perspectives as declared processes, a selection ladder that refuses to skip rungs, and arbitration
 that keeps the minority.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -1,6 +1,5 @@
 """SX5: the first Substrate experiment the gate licensed, and the null it produced.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

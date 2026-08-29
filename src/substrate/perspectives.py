@@ -11,7 +11,6 @@ dominant hypothesis, the alternatives that lost and why, the contradictions noth
 would resolve them, and a confidence interval wide enough to contain the disagreement. A minority that
 turns out to be right is only recoverable if it was kept.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

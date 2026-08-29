@@ -37,7 +37,7 @@ The result is an architectural null: the program improved associative plasticity
 
 The clean clone passed and exactly recomputed principal, replication, and hidden-composition statistics from committed raw rows.
 
-56 distinct Grok review roles completed; their opinions were archived but never used as evidence.
+56 distinct external review roles completed; their opinions were archived but never used as evidence.
 
 ## Limitations
 
@@ -45,7 +45,7 @@ The clean clone passed and exactly recomputed principal, replication, and hidden
 - The Genesis II pilot selected the associative monolith within the preregistered simplicity tie band.
 - L2-L10 are bounded scheduling and mechanism variants over a shared field core; their labels do not establish nine unrelated substrate architectures.
 - Post-hoc compression, learned-codebook, and adaptive-mixed-radix precision arms were declared but not executed, so P5 can pass only on the implemented native-quinary field contrast.
-- Grok reviews are advisory opinions and are not experimental evidence.
+- External reviews are advisory opinions and are not experimental evidence.
 - The challenge generator is synthetic and does not establish human-like cognition or general intelligence.
 - Continuity is established only for the frozen event/cycle protocol; no continuous-time or twelve-hour lane was required for the selected material.
 - Repository-wide mypy has inherited legacy failures; Genesis II's scoped type check passes.

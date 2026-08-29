@@ -8,7 +8,6 @@ what to do next. A successor that has to be told what happened has not been give
 Rollback is the field most easily left blank and is filled here for every item, because an item whose
 undo is unknown is not bounded work.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
@@ -24,7 +23,7 @@ from substrate import evidence as io
 from substrate import graph as G
 from substrate import program as P
 
-FINAL_PLAN = io.ROOT / "docs" / "LONG_RUN_PLAN.md"
+FINAL_PLAN = io.ROOT / "docs" / "archive" / "experiments" / "v4" / "LONG_RUN_PLAN.md"
 
 # every program whose evidence this authority inherits, and what it contributes
 ANCESTRY = (

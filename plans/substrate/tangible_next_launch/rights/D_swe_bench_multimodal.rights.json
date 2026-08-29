@@ -15,7 +15,7 @@
   "rights_basis_local_paths": [
     "evidence/substrate/tangible_sandbox/SUBSTRATE_SANDBOX_LICENSE_LEDGER.json",
     "plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json",
-    "docs/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md",
+    "docs/archive/staging/tangible_sandbox/ODYSSEY_PUBLIC_CORPUS_PREFETCH.md",
     "data/substrate/tangible_sandbox/prefetch/odyssey-public-v1/swe_bench_multimodal/README.md"
   ],
   "schema": "SUBSTRATE_ODYSSEY_SOURCE_RIGHTS_RECORD/v1",

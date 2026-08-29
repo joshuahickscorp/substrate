@@ -15,7 +15,6 @@ Metacognitive control operates on epistemic value rather than confidence. A beli
 nothing at stake and no available test is not worth verifying; a belief held at 0.9 that everything else
 rests on is. Confidence alone cannot tell those apart, so it is not what chooses.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

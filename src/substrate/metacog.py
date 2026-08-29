@@ -10,7 +10,6 @@ the system verified something that was already right, and missed verification co
 verify something that was wrong. A policy that always verifies looks perfect on one and terrible on the
 other, which is exactly the tradeoff that should be visible.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -13,7 +13,6 @@ Learned policies stay shut. The inherited fast state result already found no sta
 plasticity policy over simple triggered rules, so that hypothesis is closed and this module refuses to open
 its descendants without new measured headroom rather than re running a settled question.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

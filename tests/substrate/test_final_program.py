@@ -1,7 +1,6 @@
 """The final autonomous program: graph, authority, temporal link, bodies, sessions, goals, grounding,
 divergence.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -1,6 +1,5 @@
 """Deterministic paired statistics for developmental histories.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

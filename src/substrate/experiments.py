@@ -19,7 +19,6 @@ SX1b is the version that could run: the same question on a bed where the undecla
 measured from held out data rather than chosen by the generator, which turns a closed form into a real
 question about whether a write restriction fitted on training units survives on units it has never seen.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

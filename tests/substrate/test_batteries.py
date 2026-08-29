@@ -1,6 +1,5 @@
 """The four entity batteries, each built to be failable.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

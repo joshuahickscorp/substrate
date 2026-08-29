@@ -12,7 +12,6 @@ is supposed to catch it, in a fresh process. A mutation that survives is a guard
 it is reported as a survivor rather than folded into a pass rate. The suite is only meaningful if every
 mutation dies.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

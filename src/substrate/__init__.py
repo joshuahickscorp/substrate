@@ -4,5 +4,4 @@ The historical program identities stay valid inside their own authorities. MOP i
 program, Mixture of Perspectives is the perspective subsystem, Mixture of Thinking is the composition of
 heterogeneous cognitive processes. Substrate is the full program that contains them.
 
-House style: no dashes.
 """

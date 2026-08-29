@@ -1,6 +1,5 @@
 """SX1 is refused, and the refusal is classified as a method failure rather than a scientific null.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

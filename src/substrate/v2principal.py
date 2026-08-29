@@ -3,7 +3,6 @@
 Core units are full eleven phase histories.  Divergence units are matched specialized histories.  Workers
 compute state but never publish; the supervisor validates and atomically owns receipts and checkpoints.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

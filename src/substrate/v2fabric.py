@@ -4,7 +4,6 @@ Observations contain available alternatives and preoutcome context.  Targets are
 only by ``reveal`` after a proposal is committed.  All tools are pure functions and external activation is
 absent.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

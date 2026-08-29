@@ -9,7 +9,6 @@ removal changes nothing was decorative.
 The referents come from the real session authority: stages, identities, error codes and outcomes recorded
 by a program that had no interest in whether they were grounded.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -1,6 +1,5 @@
 """The world model battery, and the separation it exists to enforce.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

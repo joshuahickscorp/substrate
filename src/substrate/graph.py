@@ -14,7 +14,6 @@ other, and they run.
 A node is terminal only when its exit gate passes. A gate is a predicate over the tree, not a promise, so
 a node cannot be marked done by declaring it done.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

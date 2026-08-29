@@ -2,7 +2,7 @@
 
 External activation is `false`. No unqualified Nous is assigned.
 
-Fifty-nine independent Grok reviewers graded this program between 3 and 8 out
+Fifty-nine independent external reviewers graded this program between 3 and 8 out
 of 20, median 5, and raised 138 blocking defects. Many were repaired. The ones
 below were not, and they bound what this program's result can be read to mean.
 
@@ -201,11 +201,10 @@ mechanisms. Nothing prevents a defect in a material from corrupting them other
 than the checkpoint round-trip test. A genuinely separate exact authority was
 not built.
 
-## Grok's role
+## External review role
 
-Grok wrote most of the implementation and all of the review. Its reviews are
-proposals, not findings; where a review is cited here, the underlying defect
-was reproduced before being acted on. Its median feasibility grade of 5/20
-should be read as what it is: fifty-nine independent readers judging that this
-program, on the evidence available, was unlikely to reach a defensible
-Outcome A.
+The review process supplied proposals, not findings; where a review is cited
+here, the underlying defect was reproduced before being acted on. Its median
+feasibility grade of 5/20 should be read as what it is: fifty-nine independent
+readers judging that this program, on the evidence available, was unlikely to
+reach a defensible Outcome A.

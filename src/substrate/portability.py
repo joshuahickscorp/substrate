@@ -5,7 +5,6 @@ machine. This module records everything required that is not inside the repo,
 checks the current host against that record, and performs only the restores that
 are safe without sudo or an interactive app installer.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -5,7 +5,6 @@ engine: execution, scheduling, evidence indexing and configuration stay where th
 one question only, asked before compute is spent rather than after: is this experiment capable of producing
 the finding it claims it will produce.
 
-House style: no dashes.
 """
 
 from substrate.method import contracts, gate, graph, voi  # noqa: F401

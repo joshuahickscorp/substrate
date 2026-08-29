@@ -9,7 +9,6 @@ here for the same reason the untyped workspace lives beside the typed one: the i
 whether the self model is accurate, it is whether updating it beats not updating it, and that comparison
 needs both arms in the same module.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

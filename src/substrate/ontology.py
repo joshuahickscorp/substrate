@@ -15,7 +15,6 @@ Unknown is a type, not a failure. A system that must classify everything will cl
 wrong type propagates into every relation built on it. `unknown` is first class and carries the reason it
 is unknown.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

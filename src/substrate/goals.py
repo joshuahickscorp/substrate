@@ -9,7 +9,6 @@ a decomposition inherits its parent's constraints and cannot widen them, and the
 loaded from a declared authority rather than fitted to what the system would have chosen anyway. A test
 plants a preference and asserts the weights do not move toward it.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

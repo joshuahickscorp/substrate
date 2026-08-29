@@ -625,7 +625,7 @@ Total minority/uncertain points: 141.
 - Class 7 composition is intentionally unanswered by selected/S2/transcript (_kernel_answers omits key 7), supplying oracle headroom without testing candidate composition competence.
 - Endogenous plastic field adds large co-located code (final_revision_field.py ~4k LOC) at freeze; isolation claims (classification_credit=0, current_campaign_endpoint_credit=0, foundation_feasibility_only) are documented and tested but remain a claim-boundary watch surface for principal receipts.
 - Field canary credit key is current_final_revision_endpoint_credit while freeze/final-state use current_campaign_endpoint_credit (both zero); naming drift only.
-- docs/final_revision/LIMITATIONS.md still states Candidate H has no admissible proposal, but evidence admits H_causal_temporal_ledger to the bounded tournament after adjudication (then rejects on complexity).
+- docs/archive/experiments/final_revision/LIMITATIONS.md still states Candidate H has no admissible proposal, but evidence admits H_causal_temporal_ledger to the bounded tournament after adjudication (then rejects on complexity).
 - Grok authority is externally_blocked/terminal_complete=false (missing final_candidate_review and publication_and_claim_boundary_review); this blocks terminal Outcome B seal per campaign outcome_b_checks.grok_swarm_complete, not pilot authorization of the null campaign.
 - Challenge authority is valid_for_outcome_b_null_not_outcome_a; Outcome A isolation is incomplete by design.
 - Decisive Outcome B campaign artifacts are not yet present; resource/determinism of the planned ~1.77M microepisode scale is planned, not re-verified here.
@@ -1894,7 +1894,7 @@ Each blocking defect from validated outputs, the role that raised it, and its re
   - **Disposition:** `accepted_terminal_limit`
   - **Rationale:** Shared cue-feature points are disclosed as a bounded generator limitation and are not used to claim owned-state, general-competence, P1, or P3 advantage.
   - **Resolution commit:** `74b1f79f385fff03d82b2845ec3e8e04ac35b6a0`
-  - **Evidence paths:** `evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_PRINCIPAL_RESULT.json`, `docs/final_revision/LIMITATIONS.md`
+  - **Evidence paths:** `evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_PRINCIPAL_RESULT.json`, `docs/archive/experiments/final_revision/LIMITATIONS.md`
 - **Defect:** Architecture tournament selected I_simplest_sufficient as engineering default under behavioral tie (why_it_won simplicity after equivalence); architectural_advantage=null. Publishing 'selected kernel won on cognition' is a claim boundary violation.
   - **Disposition:** `accepted_terminal_limit`
   - **Rationale:** Candidate I is retained strictly as the engineering simplicity default after behavioral equivalence; architectural advantage remains null.

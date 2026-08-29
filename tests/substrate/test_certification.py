@@ -1,6 +1,5 @@
 """The cheap certification: audit, SX2, runtime activity, session and body canaries.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

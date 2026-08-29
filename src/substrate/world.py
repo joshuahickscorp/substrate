@@ -14,7 +14,6 @@ ponytail: the dynamics are a tabular conditional model over a declared parent gr
 inspectable, and enough to separate the four distinctions. The upgrade path when a bed needs continuous
 state is a learned transition function behind the same four way report, not a wider table.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

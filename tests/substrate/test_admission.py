@@ -4,7 +4,6 @@ The load bearing case is the third one. The experiment validity kernel walks its
 with no contracts has no violations, so an experiment that simply never declares oracle headroom passes the
 kernel. Substrate refuses it. If that ever stops being true, this test fails.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

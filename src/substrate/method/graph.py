@@ -5,7 +5,6 @@ more than the arrow: an implemented causal path is a claim about code that must 
 guarantee is a claim about construction that must not be reported as a measurement, and a forbidden
 information path is a claim that must never be realized.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

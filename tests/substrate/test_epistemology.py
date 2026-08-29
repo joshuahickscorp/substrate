@@ -1,6 +1,5 @@
 """The section 7.3 epistemology battery, all twelve required cases.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

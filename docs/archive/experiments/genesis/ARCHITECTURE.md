@@ -65,7 +65,7 @@ K3's locality is testable rather than asserted: rewiring a non-neighbour leaves
 K3's durable digest unchanged while K2's changes. K6 is the only material with
 unfrozen allocation; every other arm has that mechanism frozen.
 
-K11 was designed by the Grok `grok_original_material_author` role and adopted
+K11 was designed by a distinct `original_material_author` role and adopted
 after review.
 
 ## Controls and baselines

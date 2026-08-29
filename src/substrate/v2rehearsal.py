@@ -4,7 +4,6 @@ The rehearsal uses development seeds only.  It runs one continuing entity across
 interrupts and restores it, replaces its body, exercises negative transfer, and injects each declared
 failure against the same validation paths principal execution uses.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

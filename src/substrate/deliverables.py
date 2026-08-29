@@ -5,7 +5,6 @@ path and hash and marks an unresolvable source as unresolved rather than quietly
 graph inherits the method reformation graph instead of restating it, because that graph is sealed evidence
 and this program is not licensed to rewrite it.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
@@ -156,10 +155,10 @@ PROTECTED_SURFACES = (
 )
 
 GOAL_AUTHORITY = {
-    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "origin": "docs/archive/experiments/genesis2/MASTER_PLAN.md, supplied by the operator",
     "scope": "the items declared in substrate.program.ITEMS",
     "authority": "operator issued, bounded by this file",
-    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "resources": "local compute already licensed to the temporal core supervisor plus the retained execution run",
     "constraints": "activation stays false, no autonomous removal of protected surfaces",
     "termination": "the declared authority is terminal and no dependency ready work remains",
     "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
@@ -626,7 +625,7 @@ def capability_map(st: dict) -> dict:
         )
     return {
         "schema": "substrate-capability-map/v1",
-        "source": "SUBSTRATE_MASTER_PLAN.md section 5",
+        "source": "docs/archive/experiments/genesis2/MASTER_PLAN.md section 5",
         "capabilities": rows,
         "implemented_count": sum(1 for r in rows if r["implemented"]),
         "with_evidence_count": sum(1 for r in rows if r["has_evidence"]),

@@ -19,6 +19,16 @@ __pycache__/
 artifacts/substrate/odyssey7d/tool-work/
 artifacts/substrate/odyssey7d/tool-cache/
 
+# Unsealed Odyssey rehearsal workspaces are disposable local runs. Their
+# reviewable conclusions must be copied into evidence/ before publication.
+artifacts/substrate/odyssey7d/refresh-*/
+artifacts/substrate/odyssey7d/two-wave-v1/
+artifacts/substrate/odyssey7d/g06-dc/work/
+
+# Tangible Sandbox evaluator answer keys are generated from the supplied corpus;
+# they are not source, executor-visible traces, or retained evidence.
+artifacts/substrate/tangible_sandbox/corpus/**/evaluator_only/**/answers/
+
 # Finder metadata
 .DS_Store
 
@@ -29,13 +39,14 @@ artifacts/substrate/odyssey7d/tool-cache/
 .mypy_cache/
 .ruff_cache/
 *.egg-info/
-data/
+/data
 runs/
 *.npy
 *.memmap
 runs/cpu_campaign/ckpt/
 runs/studio_rehearsal/
 reports/telegram_notifier/
+logs/
 !runs/
 runs/*
 !runs/substrate/

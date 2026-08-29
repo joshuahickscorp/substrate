@@ -30,6 +30,7 @@ R2_EVIDENCE_RELATIVE = Path("evidence/substrate/tangible_sandbox")
 R2_LIVE_STATE_RELATIVE = Path("runs/substrate/tangible_sandbox/longitudinal/state.json")
 RUNS_RELATIVE = Path("runs/substrate/tangible_next_launch")
 EVIDENCE_RELATIVE = Path("evidence/substrate/tangible_next_launch")
+RUNBOOK_RELATIVE = Path("docs/archive/staging/tangible_sandbox/NEXT_LAUNCH_RUNBOOK.md")
 GIB = 1024**3
 
 
@@ -135,7 +136,7 @@ def _paths(root: Path) -> dict[str, Path]:
         "sealed_design": control / "BLIND_SHADOW_DESIGN.sealed.json",
         "preflight": control / "BLIND_SHADOW_PREFLIGHT.json",
         "calibration_result": control / "RESOURCE_CALIBRATION_RESULT.json",
-        "runbook": root / "docs/tangible_sandbox/NEXT_LAUNCH_RUNBOOK.md",
+        "runbook": root / RUNBOOK_RELATIVE,
     }
 
 
@@ -206,7 +207,7 @@ def _default_design() -> dict[str, Any]:
             "candidate_command": "REPLACE_WITH_VERSIONED_CANDIDATE_ENTRYPOINT",
             "control_command": "REPLACE_WITH_VERSIONED_MATCHED_CONTROL_ENTRYPOINT",
             "evaluator_command": "REPLACE_WITH_INDEPENDENT_SCORER_ENTRYPOINT",
-            "contract": "docs/tangible_sandbox/NEXT_LAUNCH_RUNBOOK.md#adapter-contract",
+            "contract": f"{RUNBOOK_RELATIVE.as_posix()}#adapter-contract",
         },
         "storage": {
             "same_filesystem_static_project_is_double_counted": False,

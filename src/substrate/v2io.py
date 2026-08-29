@@ -3,16 +3,13 @@
 V1 remains immutable under its existing paths.  V2 writes only to its own evidence, run, artifact and
 configuration roots.  Activation is false for every v2 object and there is no external action surface.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
-import os
 import subprocess
-import tempfile
 from pathlib import Path
 
 from substrate import evidence as v1
@@ -27,13 +24,14 @@ STOP = STATE / "stop"
 PROGRAM = "substrate-v2"
 ACTIVATION = False
 
+# The publication mechanics are shared; this module still owns the v2 roots,
+# seal defaults, and compatibility surface.
+atomic_write = v1.atomic_write
+sha_obj = v1.sha_obj
+
 
 class Refused(RuntimeError):
     """A v2 evidence or publication operation that fails closed."""
-
-
-def sha_obj(value) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
 
 
 def commit() -> str:
@@ -51,20 +49,6 @@ def source_inventory() -> dict[str, str]:
 
 def source_digest() -> str:
     return sha_obj(source_inventory())
-
-
-def atomic_write(path: Path, payload: str) -> Path:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-    try:
-        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
-            handle.write(payload)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temporary, path)
-    finally:
-        Path(temporary).unlink(missing_ok=True)
-    return path
 
 
 def sealed_document(document: dict) -> dict:

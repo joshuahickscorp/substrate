@@ -7,7 +7,6 @@ purpose so that a wrong ranking is visibly wrong rather than authoritative.
 The one rule that is not advisory: an experiment that repeats a closed premise is refused, whatever it
 scores.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

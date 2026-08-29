@@ -13,7 +13,6 @@ The null fixture is the control that makes the positive fixture mean anything. I
 the outcome on a stream where it should be irrelevant, the difference was noise and the positive result on
 the other fixture cannot be trusted either.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

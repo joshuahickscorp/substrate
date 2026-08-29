@@ -4,7 +4,6 @@ This module extends the v1 cognitive loop with verified semantic consolidation, 
 memory, conditional competence, contextual allocation, bounded credit, and exact state continuity.  It
 does not act externally.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

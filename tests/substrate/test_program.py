@@ -4,7 +4,6 @@ Each of these guards one property the master plan states in a way that a later e
 historical names stay valid, deliverables bind to something real, batch selection stays dependency ready
 and independent, and evidence never rises because code was written.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

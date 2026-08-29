@@ -16,7 +16,6 @@ upper bound rather than a candidate.
 Hygiene never deletes what audit requires. It decays, supersedes, quarantines or archives, and a delete
 request against an audit required record is refused and recorded.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

@@ -3,7 +3,6 @@
 The independent route consumes unit receipts and checkpoints directly.  It never trusts a principal
 summary.  Functional classifications remain bounded by the declared claim authority.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

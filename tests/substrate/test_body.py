@@ -1,6 +1,5 @@
 """The model body contract is explicit enough that a body can fail it.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

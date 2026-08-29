@@ -9,7 +9,6 @@ The control matters here more than the measurement. Two instances given the same
 or the divergence measured on different histories is noise wearing a developmental costume. That control
 runs first and its result gates the rest.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

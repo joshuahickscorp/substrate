@@ -13,7 +13,6 @@ which and why rather than being indistinguishable from a cycle that did not skip
 Nothing here acts on the world. The decision region records what would be done; nothing executes it.
 Activation stays false, and there is no code path that sets it true.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

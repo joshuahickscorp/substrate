@@ -8,7 +8,6 @@ The check that matters most is the last one. Regenerating the sealed artifacts i
 their hashes against the committed ones proves the artifacts are a function of the tree rather than of the
 machine that happened to produce them.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

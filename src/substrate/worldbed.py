@@ -13,7 +13,6 @@ not to test a cognitive architecture.
 The bed is only admissible if no single cap is best in every resource class. That is checked rather than
 assumed, and if it fails the bed is refused with the number that refused it.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

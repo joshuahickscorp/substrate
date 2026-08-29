@@ -4,7 +4,6 @@ Historical predecessor evidence remains byte-identical under ``proof/``. New Sub
 written only under ``evidence/substrate/v1`` and mutable execution receipts only under
 ``runs/substrate/v1``.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
@@ -54,11 +53,11 @@ def commit() -> str:
     return subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
 
 
-def _atomic_write(path: Path, payload: str) -> Path:
+def atomic_write_bytes(path: Path, payload: bytes) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     try:
-        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+        with os.fdopen(descriptor, "wb") as handle:
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
@@ -67,6 +66,15 @@ def _atomic_write(path: Path, payload: str) -> Path:
         if os.path.exists(temporary):
             os.unlink(temporary)
     return path
+
+
+def atomic_write(path: Path, payload: str) -> Path:
+    return atomic_write_bytes(path, payload.encode("utf-8"))
+
+
+# Internal compatibility alias for the runtime canary helpers. New writers use
+# the public name above; keeping this alias avoids changing the canary surface.
+_atomic_write = atomic_write
 
 
 class ArtifactFabric:
@@ -130,7 +138,7 @@ class ArtifactFabric:
                 self.cache_hits += 1
                 reused.append(path.name)
             else:
-                _atomic_write(path, payload.decode("utf-8"))
+                atomic_write(path, payload.decode("utf-8"))
                 self.writes += 1
                 self.published_bytes += len(payload)
                 published.append(path.name)
@@ -172,12 +180,12 @@ def seal(name: str, obj: dict, subdir: str = "") -> Path:
     obj["sha256"] = sha_obj({k: v for k, v in obj.items() if k != "sha256"})
     path = PROOF / subdir / name
     payload = json.dumps(obj, indent=2, default=str)
-    return _ACTIVE_FABRIC.propose(path, payload) if _ACTIVE_FABRIC is not None else _atomic_write(path, payload)
+    return _ACTIVE_FABRIC.propose(path, payload) if _ACTIVE_FABRIC is not None else atomic_write(path, payload)
 
 
 def seal_md(name: str, text: str, subdir: str = "") -> Path:
     path = PROOF / subdir / name
-    return _ACTIVE_FABRIC.propose(path, text) if _ACTIVE_FABRIC is not None else _atomic_write(path, text)
+    return _ACTIVE_FABRIC.propose(path, text) if _ACTIVE_FABRIC is not None else atomic_write(path, text)
 
 
 def load(name: str, subdir: str = "") -> dict:
@@ -203,11 +211,11 @@ def exists(name: str, subdir: str = "") -> bool:
 
 
 def run_json(name: str, obj: dict, subdir: str = "") -> Path:
-    return _atomic_write(RUNS / subdir / name, json.dumps(obj, indent=2, default=str))
+    return atomic_write(RUNS / subdir / name, json.dumps(obj, indent=2, default=str))
 
 
 def stop() -> Path:
-    return _atomic_write(STOP, "operator stop\n")
+    return atomic_write(STOP, "operator stop\n")
 
 
 def resume() -> None:

@@ -1,6 +1,5 @@
 """The typed workspace: broad reads, narrow writes, and a control that removes exactly one capability.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

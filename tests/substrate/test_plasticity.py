@@ -1,6 +1,5 @@
 """Bounded plasticity and bounded reorganization.
 
-House style: no dashes.
 """
 
 from __future__ import annotations

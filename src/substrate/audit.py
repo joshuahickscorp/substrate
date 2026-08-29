@@ -7,7 +7,6 @@ check is what a rebase trips. The activation check is the one that must never go
 Nothing here is a subsystem. It reads the tree and answers yes or no, and it is cheap enough to run before
 every commit.
 
-House style: no dashes.
 """
 
 from __future__ import annotations
@@ -34,9 +33,10 @@ CHECKS = (
     "no_activation_path",
 )
 
-# an assignment that would turn activation on. The boundary document may describe it; no module may do it.
+# An executable assignment that would turn activation on. Declarative boundary
+# documents may describe a future, externally gated activation step; those are
+# checked as data and must not be mistaken for an assignment in the runtime.
 ACTIVATION_PATTERNS = (
-    re.compile(r'"activation"\s*:\s*True'),
     re.compile(r"\bactivation\s*=\s*True\b"),
     re.compile(r"ACTIVATION\s*=\s*True"),
 )
