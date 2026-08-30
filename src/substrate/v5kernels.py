@@ -256,10 +256,10 @@ def evaluate(kernel_type: type[Kernel], *, iterations: int = 64) -> dict[str, An
         kernel = kernel_type(identity=f"entity-{index}")
         for event in fixture():
             kernel.apply(event)
-        before = kernel.checkpoint()
         kernel.replace_model("model-beta")
-        restored = kernel_type().restore(kernel.checkpoint())
-        if before["body"]["identity"] != restored.identity:
+        checkpoint = kernel.checkpoint()
+        restored = kernel_type().restore(checkpoint)
+        if checkpoint["body"]["identity"] != restored.identity:
             raise Refused("kernel replacement changed entity identity")
         last = restored
     elapsed = max(1, time.perf_counter_ns() - start)
