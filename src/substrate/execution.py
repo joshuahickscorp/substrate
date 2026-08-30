@@ -862,13 +862,14 @@ def run_unit(unit: Unit, *, dry: bool = False, attempt: int = 1) -> dict:
 
 def status() -> dict:
     claims = reconcile_claims()
+    done_by_unit = {u.identity: done(u.identity) for u in UNIT_LIST}
     return {
         "schema": "substrate-terminal-synthesis-status/v1",
         "classification": "terminal deterministic synthesis",
         "units": [
             {
                 "unit": u.identity,
-                "done": done(u.identity),
+                "done": done_by_unit[u.identity],
                 "depends_on": list(u.depends_on),
                 "certified": u.certified,
                 "work_classification": u.work_classification,
@@ -885,14 +886,18 @@ def status() -> dict:
             }
             for u in UNIT_LIST
         ],
-        "completed": sum(done(u.identity) for u in UNIT_LIST),
+        "completed": sum(done_by_unit.values()),
         "total": len(UNIT_LIST),
         "completed_scientific_units": 0,
         "total_scientific_units": 0,
-        "ready": [u.identity for u in ready()],
+        "ready": [
+            u.identity
+            for u in UNIT_LIST
+            if not done_by_unit[u.identity] and all(done_by_unit[d] for d in u.depends_on)
+        ],
         "claims": claims,
         "stop_switch_active": STOP.exists(),
-        "terminal": all(done(u.identity) for u in UNIT_LIST),
+        "terminal": all(done_by_unit.values()),
     }
 
 

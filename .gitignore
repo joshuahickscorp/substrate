@@ -35,6 +35,10 @@ artifacts/substrate/tangible_sandbox/corpus/**/evaluator_only/**/answers/
 # Finder metadata
 .DS_Store
 
+# Local credentials and environment overrides; never commit populated values.
+.env
+.env.*
+
 # --- from main ---
 .venv/
 *.pyc

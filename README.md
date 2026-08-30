@@ -52,6 +52,11 @@ consciousness, sentience, personhood, life, or moral status.
 - The separate `substrate product` surface records specialist state and plans;
   it does not launch a campaign, container, or tool.
 
+The read-only `substrate status` path keeps receipt state bounded to one
+per-invocation scan and leaves expensive synthesis, external tools, and large
+corpora behind explicit commands. This improves operator feedback latency
+without changing the fail-closed activation, resource, or evidence gates.
+
 ## Run the checks
 
 From the repository root:
