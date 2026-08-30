@@ -64,46 +64,66 @@ def main(argv: list[str] | None = None) -> None:
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)
 
-    from substrate import audit, authority, deliverables, evidence, execution, verification
-
     if command == "verify":
+        from substrate import audit, verification
+
         structural = audit.run()
         independent = verification.recompute()
         _print({"structural": structural, "independent": independent, "activation": False})
         raise SystemExit(0 if structural["all_pass"] and independent["all_pass"] else 1)
     if command == "rehearse":
+        from substrate import execution
+
         document = execution.rehearse()
         _print(document)
         raise SystemExit(0 if document["all_pass"] else 1)
     if command == "run":
+        from substrate import execution
+
         execution.main(["launch", *argv])
         return
     if command == "status":
+        from substrate import execution
+
         _print(execution.status())
         return
     if command == "workers":
+        from substrate import execution
+
         _print(execution.workers())
         return
     if command == "resources":
+        from substrate import execution
+
         document = execution.resources()
         _print(document)
         raise SystemExit(0 if document["launch_permitted"] else 1)
     if command == "doctor":
+        from substrate import execution
+
         document = execution.doctor()
         _print(document)
         raise SystemExit(0 if document["all_pass"] else 1)
     if command == "stop":
+        from substrate import evidence
+
         _print({"stopped": True, "stop_switch": str(evidence.stop()), "activation": False})
         return
     if command == "resume":
+        from substrate import evidence, execution
+
         evidence.resume()
         execution.main(["launch", *argv])
         return
     if command == "audit":
+        from substrate import audit
+
         document = audit.run()
         _print(document)
         raise SystemExit(0 if document["all_pass"] else 1)
     if command == "regenerate":
+        from substrate import authority, deliverables, execution, verification
+
         deliverables.main(["seal-modules"])
         deliverables.main(["write"])
         authority.main(["seal"])

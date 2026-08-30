@@ -37,9 +37,7 @@ from functools import lru_cache
 from io import StringIO
 from pathlib import Path
 
-from substrate import audit as A
 from substrate import evidence as io
-from substrate import graph as G
 
 PY = sys.executable
 SYNTHESIS_ROOT = io.RUNS / "terminal_synthesis"
@@ -773,6 +771,7 @@ def workers() -> dict:
 
 
 def doctor() -> dict:
+    from substrate import audit as A
     from substrate import config as configuration
     from substrate import data, historical
 
@@ -964,6 +963,8 @@ def _seal_document(name: str, document: dict) -> None:
 
 
 def _direct_audit() -> None:
+    from substrate import audit as A
+
     _seal_document("SUBSTRATE_STRUCTURAL_AUDIT.json", A.run())
 
 
@@ -1543,6 +1544,8 @@ def rehearse() -> dict:
 
 
 def _rehearse_body(shutil) -> dict:
+    from substrate import audit as A
+
     shutil.rmtree(UNITS, ignore_errors=True)
     shutil.rmtree(LOCKS, ignore_errors=True)
     checks: dict[str, dict] = {}
@@ -1909,6 +1912,8 @@ def claim_boundary() -> dict:
 
 
 def authority(cert: dict, reh: dict) -> dict:
+    from substrate import audit as A
+
     man = manifest()
     audit_doc = A.run()
     green = audit_doc["all_pass"] and cert["green"] and reh["all_pass"]
@@ -1959,6 +1964,7 @@ def main(argv=None) -> None:
         )
     elif command == "seal":
         from substrate import certify as CT
+        from substrate import graph as G
 
         cert = (
             json.loads((io.PROOF / "SUBSTRATE_LONG_RUN_CERTIFICATION.json").read_text())

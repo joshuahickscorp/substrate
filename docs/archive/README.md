@@ -14,7 +14,9 @@ explain older campaigns.
 - `staging/tangible_sandbox/` — R2/Odyssey launch and custody handoffs. The
   next-launch runbook is retained here because the control-plane code embeds
   it as a frozen adapter contract.
-- the archive root — earlier project roadmap, handoff, and reality reports.
+- historical orientation notes formerly kept at the archive root are not part of
+  the current surface; their superseded prose remains recoverable from Git
+  history rather than being presented as a live report.
 
 The Genesis II source digest includes
 `experiments/genesis2/MASTER_PLAN.md`; Final Revision research includes

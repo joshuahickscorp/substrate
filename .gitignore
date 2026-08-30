@@ -9,7 +9,6 @@
 # owned by nobody and unreadable by the operator. Not committable, and git
 # cannot descend into it.
 artifacts/substrate/odyssey/isolation-probe/
-__pycache__/
 
 # Private key material must never enter the index.  Commit 6dc1e066 added sixteen
 # unencrypted Ed25519 verifier private keys explicitly, so an ignore rule alone would
@@ -39,6 +38,7 @@ artifacts/substrate/tangible_sandbox/corpus/**/evaluator_only/**/answers/
 # --- from main ---
 .venv/
 *.pyc
+__pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -53,7 +53,6 @@ logs/
 *.pth
 *.safetensors
 *.bin
-**/.DS_Store
 GO.md
 .collapse/
 artifacts/substrate/execution-forge/.benchmark-*/

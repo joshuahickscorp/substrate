@@ -2101,7 +2101,6 @@ def _run_clean_tree_checks() -> dict[str, Any]:
                 "src/substrate/sandbox.py",
                 "src/substrate/sandbox_config.py",
                 "src/substrate/sandbox_campaign.py",
-                "tests/substrate/__init__.py",
                 "tests/substrate/test_sandbox_r2.py",
             ],
             cwd=ROOT,
