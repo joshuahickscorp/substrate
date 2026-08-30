@@ -56,6 +56,10 @@ def test_the_frozen_manifest_covers_everything_the_authority_lists():
     assert "zero new scientific trials" in man["completion"]
 
 
+def test_terminal_source_digest_matches_the_immutable_terminal_tree():
+    assert L.source_digest() == "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4"
+
+
 def test_a_live_edit_after_the_freeze_is_detectable():
     man = L.manifest()
     assert L.live_edit_detected(man)["live_edit"] is False

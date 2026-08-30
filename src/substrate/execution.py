@@ -30,11 +30,12 @@ import re
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import time
 from dataclasses import dataclass
 from functools import lru_cache
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 
 from substrate import evidence as io
@@ -420,9 +421,8 @@ def source_digest() -> str:
     tagged = subprocess.run(
         [
             "git",
-            "ls-tree",
-            "-r",
-            "--name-only",
+            "archive",
+            "--format=tar",
             terminal_tag,
             "--",
             "src/substrate",
@@ -430,13 +430,16 @@ def source_digest() -> str:
         ],
         cwd=io.ROOT,
         capture_output=True,
-        text=True,
     )
     parts = []
     if tagged.returncode == 0:
-        for relative in sorted(path for path in tagged.stdout.splitlines() if path.endswith(".py")):
-            payload = subprocess.check_output(["git", "show", f"{terminal_tag}:{relative}"], cwd=io.ROOT)
-            parts.append(f"{relative}:{hashlib.sha256(payload).hexdigest()}")
+        with tarfile.open(fileobj=BytesIO(tagged.stdout)) as archive:
+            for member in sorted(archive.getmembers(), key=lambda row: row.name):
+                if not member.isfile() or not member.name.endswith(".py"):
+                    continue
+                payload = archive.extractfile(member)
+                assert payload is not None
+                parts.append(f"{member.name}:{hashlib.sha256(payload.read()).hexdigest()}")
     else:
         # Source checkouts before the terminal tag retain the original development behavior.
         for root in (io.ROOT / "src" / "substrate", io.ROOT / "tests" / "substrate"):
