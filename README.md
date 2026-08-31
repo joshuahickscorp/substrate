@@ -136,6 +136,12 @@ Representative local profiles for the pass were:
   of once for validation and again for the receipt digest. Representative
   phase-19 execution moved from roughly 7.6 to 7.2 milliseconds with exact
   output parity.
+- The per-registry model router now caches only its shape-dependent ranking
+  inputs, while rebuilding each task-bound decision and invalidating on model
+  registration. A bounded 20,000-call route profile moved from roughly 47.2
+  to 11.6 milliseconds; representative phase-15 producer and verifier work
+  moved from about 4.66 to 4.43 and 4.70 to 4.28 milliseconds respectively,
+  with exact decision and receipt parity.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in

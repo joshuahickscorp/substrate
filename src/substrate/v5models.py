@@ -245,12 +245,19 @@ class RoutingDecision:
     outcome_information_used: bool = False
 
 
+_ROUTE_CACHE_MAX_ENTRIES = 128
+
+
 class ModelRegistry:
     """Registry, relationship graph, and outcome-blind deterministic router."""
 
     def __init__(self) -> None:
         self._models: dict[str, CallableModel] = {}
         self._relationships: list[SupportRelationship] = []
+        self._route_cache: dict[
+            tuple[str, ModelRole, float, float, float],
+            tuple[str, tuple[str, ...], tuple[tuple[str, float], ...]],
+        ] = {}
 
     @property
     def contracts(self) -> tuple[ModelContract, ...]:
@@ -265,6 +272,7 @@ class ModelRegistry:
         if identity in self._models:
             raise ModelContractError(f"duplicate model identity {identity!r}")
         self._models[identity] = model
+        self._route_cache.clear()
 
     def connect(self, relationship: SupportRelationship) -> None:
         if relationship.source_model not in self._models or relationship.target_model not in self._models:
@@ -281,6 +289,24 @@ class ModelRegistry:
         return model.invoke(request)
 
     def route(self, request: ModelRequest) -> RoutingDecision:
+        cache_key = (
+            request.modality,
+            request.role,
+            request.minimum_confidence,
+            request.maximum_cost,
+            request.maximum_latency_ms,
+        )
+        cached = self._route_cache.get(cache_key)
+        if cached is not None:
+            selected_model, eligible_models, scores = cached
+            return RoutingDecision(
+                task_id=request.task_id,
+                selected_model=selected_model,
+                eligible_models=eligible_models,
+                scores=scores,
+                inputs_used=("modality", "role", "minimum_confidence", "maximum_cost", "maximum_latency_ms"),
+            )
+
         eligible = []
         for model in self._models.values():
             contract = model.contract
@@ -305,11 +331,16 @@ class ModelRegistry:
         if not eligible:
             raise ModelContractError("no model satisfies modality, role, confidence, and budget")
         ranked = sorted(eligible, key=lambda row: (-row[1], row[0]))
+        eligible_models = tuple(sorted(identity for identity, _ in eligible))
+        scores = tuple(ranked)
+        if len(self._route_cache) >= _ROUTE_CACHE_MAX_ENTRIES:
+            self._route_cache.clear()
+        self._route_cache[cache_key] = (ranked[0][0], eligible_models, scores)
         return RoutingDecision(
             task_id=request.task_id,
             selected_model=ranked[0][0],
-            eligible_models=tuple(sorted(identity for identity, _ in eligible)),
-            scores=tuple(ranked),
+            eligible_models=eligible_models,
+            scores=scores,
             inputs_used=("modality", "role", "minimum_confidence", "maximum_cost", "maximum_latency_ms"),
         )
 
