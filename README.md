@@ -83,6 +83,12 @@ Representative local profiles for the pass were:
   post-reduction full-state walk with a strict root invariant moved the same
   64-event build profile from about 2.35 ms to about 0.96 ms per build; the
   cProfile view moved from roughly 9 ms to roughly 3 ms.
+- Copy-on-write reducer setup now uses shared module-level helpers instead of
+  creating two closures for every event. In an isolated 10,000-call local
+  profile, branch preparation moved from roughly 0.55 to 0.43 microseconds for
+  context transitions, with the goal and memory shapes moving from roughly
+  0.48 to 0.42 and 0.57 to 0.46 microseconds respectively; state isolation
+  tests remain unchanged.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state

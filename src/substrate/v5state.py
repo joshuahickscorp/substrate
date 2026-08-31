@@ -573,6 +573,28 @@ def _event_summary(event: CognitiveEvent) -> dict[str, Any]:
     }
 
 
+def _copy_reduction_branch(
+    state: dict[str, Any], candidate: dict[str, Any], key: str
+) -> None:
+    value = state.get(key)
+    if isinstance(value, (dict, list)):
+        candidate[key] = value.copy()
+    else:
+        candidate[key] = copy.deepcopy(value)
+
+
+def _copy_reduction_nested_record(
+    state: dict[str, Any],
+    candidate: dict[str, Any],
+    branch: str,
+    identity: str,
+) -> None:
+    _copy_reduction_branch(state, candidate, branch)
+    records = candidate.get(branch)
+    if isinstance(records, dict) and isinstance(records.get(identity), dict):
+        records[identity] = records[identity].copy()
+
+
 def _copy_state_for_reduction(
     state: dict[str, Any], event: CognitiveEvent
 ) -> dict[str, Any]:
@@ -593,83 +615,72 @@ def _copy_state_for_reduction(
     }
     candidate["events"] = list(state["events"])
 
-    def copy_branch(key: str) -> None:
-        value = state.get(key)
-        if isinstance(value, (dict, list)):
-            candidate[key] = value.copy()
-        else:
-            candidate[key] = copy.deepcopy(value)
-
-    def copy_nested_record(branch: str, identity: str) -> None:
-        copy_branch(branch)
-        records = candidate.get(branch)
-        if isinstance(records, dict) and isinstance(records.get(identity), dict):
-            records[identity] = records[identity].copy()
-
     kind = event.kind
     payload = event.payload
     if kind in {"goal_upserted", "goal_resolved"}:
-        copy_branch("active_goals")
+        _copy_reduction_branch(state, candidate, "active_goals")
     elif kind in {"task_upserted", "task_resolved"}:
-        copy_branch("unfinished_tasks")
+        _copy_reduction_branch(state, candidate, "unfinished_tasks")
     elif kind in {"hypothesis_upserted", "hypothesis_resolved"}:
-        copy_branch("unresolved_hypotheses")
+        _copy_reduction_branch(state, candidate, "unresolved_hypotheses")
     elif kind == "memory_recorded":
         tier = payload.get("tier")
         if tier in MEMORY_TIERS:
-            copy_branch(f"{tier}_memory")
+            _copy_reduction_branch(state, candidate, f"{tier}_memory")
     elif kind == "world_updated":
         collection = payload.get("collection")
         if collection in WORLD_COLLECTIONS:
-            copy_branch(str(collection))
+            _copy_reduction_branch(state, candidate, str(collection))
     elif kind == "belief_upserted":
-        copy_branch("beliefs")
+        _copy_reduction_branch(state, candidate, "beliefs")
     elif kind == "knowledge_upserted":
-        copy_branch("knowledge")
+        _copy_reduction_branch(state, candidate, "knowledge")
     elif kind == "sensor_attached":
-        copy_branch("sensors")
-        copy_branch("sensory_buffers")
+        _copy_reduction_branch(state, candidate, "sensors")
+        _copy_reduction_branch(state, candidate, "sensory_buffers")
     elif kind in {"sensor_interrupted", "sensor_detached"}:
         identity = payload.get("identity")
         if identity is not None:
-            copy_nested_record("sensors", str(identity))
+            _copy_reduction_nested_record(state, candidate, "sensors", str(identity))
     elif kind == "sensory_observed":
         identity = payload.get("sensor_identity")
         if identity is not None:
             identity = str(identity)
-            copy_nested_record("sensors", identity)
-            copy_branch("sensory_buffers")
+            _copy_reduction_nested_record(state, candidate, "sensors", identity)
+            _copy_reduction_branch(state, candidate, "sensory_buffers")
             buffers = candidate.get("sensory_buffers")
             if isinstance(buffers, dict) and isinstance(buffers.get(identity), list):
                 buffers[identity] = buffers[identity].copy()
     elif kind == "tool_updated":
-        copy_branch("tool_state")
+        _copy_reduction_branch(state, candidate, "tool_state")
     elif kind == "model_registered":
-        copy_branch("model_registry")
-        copy_branch("model_availability")
+        _copy_reduction_branch(state, candidate, "model_registry")
+        _copy_reduction_branch(state, candidate, "model_availability")
     elif kind == "model_relationship_set":
-        copy_branch("model_relationships")
+        _copy_reduction_branch(state, candidate, "model_relationships")
     elif kind == "model_replaced":
-        copy_branch("model_registry")
+        _copy_reduction_branch(state, candidate, "model_registry")
         old_identity = payload.get("old_identity")
         if old_identity is not None:
-            copy_nested_record("model_availability", str(old_identity))
-        copy_branch("model_relationships")
+            _copy_reduction_nested_record(
+                state, candidate, "model_availability", str(old_identity)
+            )
+        _copy_reduction_branch(state, candidate, "model_relationships")
     elif kind in {"queue_enqueued", "queue_dequeued"}:
         queue = payload.get("queue")
         if queue in QUEUE_NAMES:
-            copy_branch(str(queue))
+            _copy_reduction_branch(state, candidate, str(queue))
     elif kind == "competence_updated":
-        copy_branch("self_model_competence")
+        _copy_reduction_branch(state, candidate, "self_model_competence")
     elif kind == "consolidated":
-        copy_branch("episodic_memory")
-        copy_branch("semantic_memory")
+        _copy_reduction_branch(state, candidate, "episodic_memory")
+        _copy_reduction_branch(state, candidate, "semantic_memory")
         archival = state.get("archival_tiers")
         if isinstance(archival, dict) and isinstance(archival.get("episodic"), list):
             candidate["archival_tiers"] = archival.copy()
             candidate["archival_tiers"]["episodic"] = archival["episodic"].copy()
     elif kind == "schema_migrated":
-        copy_branch("migration_history")
+        _copy_reduction_branch(state, candidate, "migration_history")
 
     return candidate
 
