@@ -42,6 +42,7 @@ ACTIVATION_PATTERNS = (
     re.compile(r"\bactivation\s*=\s*True\b"),
     re.compile(r"ACTIVATION\s*=\s*True"),
 )
+ACTIVATION_NEEDLES = ("activation", "ACTIVATION")
 
 
 def _source_texts() -> tuple[tuple[Path, str], ...]:
@@ -204,10 +205,17 @@ def no_activation_path(
     source_texts = _source_texts() if source_texts is None else source_texts
     hits = []
     for f, text in source_texts:
-        for pattern in ACTIVATION_PATTERNS:
-            for m in pattern.finditer(text):
-                line = text[: m.start()].count("\n") + 1
-                hits.append({"file": f.name, "line": line, "match": m.group(0)})
+        for needle, pattern in zip(ACTIVATION_NEEDLES, ACTIVATION_PATTERNS, strict=True):
+            offset = 0
+            while True:
+                candidate = text.find(needle, offset)
+                if candidate < 0:
+                    break
+                match = pattern.match(text, candidate)
+                if match:
+                    line = text.count("\n", 0, candidate) + 1
+                    hits.append({"file": f.name, "line": line, "match": match.group(0)})
+                offset = candidate + len(needle)
     sealed = []
     proof_documents = _proof_documents() if proof_documents is None else proof_documents
     for path, doc, exc in proof_documents:

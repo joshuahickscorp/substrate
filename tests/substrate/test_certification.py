@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -41,6 +42,12 @@ def test_shared_proof_snapshot_matches_independent_audit_checks():
     proof_documents = A._proof_documents()
     assert A.no_stale_outputs(proof_documents) == A.no_stale_outputs()
     assert A.no_activation_path(source_texts, proof_documents) == A.no_activation_path(source_texts)
+
+
+def test_activation_scan_preserves_assignment_boundaries():
+    source = ((Path("synthetic.py"), "activation=True\nxactivation=True\nACTIVATION = True\n"),)
+    hits = A.no_activation_path(source, ())["source_hits"]
+    assert [hit["match"] for hit in hits] == ["activation=True", "ACTIVATION = True"]
 
 
 def test_the_seal_survives_a_json_round_trip():
