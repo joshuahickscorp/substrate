@@ -13,7 +13,7 @@ import threading
 from collections.abc import Callable, Iterator, Mapping
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from substrate import v5io as io
 
@@ -157,6 +157,13 @@ def _json_copy(value: Any) -> Any:
 def _copy_normalized(value: Any) -> Any:
     """Detach a tree that is already known to be canonical JSON."""
 
+    value_type = type(value)
+    if value_type is dict:
+        return {key: _copy_normalized(child) for key, child in value.items()}
+    if value_type is list:
+        return [_copy_normalized(child) for child in value]
+    # Internal normalized trees are built only from the exact JSON containers;
+    # retain the defensive fallback for callers supplying a dict/list subclass.
     if isinstance(value, dict):
         return {key: _copy_normalized(child) for key, child in value.items()}
     if isinstance(value, list):
@@ -1761,7 +1768,7 @@ class PermanentEntity:
         storage_root: Path | None = None,
     ) -> PermanentEntity:
         try:
-            document = io.validate_seal(dict(checkpoint))
+            document = cast(dict[str, Any], io.validate_seal(dict(checkpoint)))
         except io.Refused as error:
             raise Refused(f"checkpoint seal is invalid: {error}") from error
         if document.get("schema") != CHECKPOINT_SCHEMA:

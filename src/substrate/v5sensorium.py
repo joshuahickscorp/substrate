@@ -7,14 +7,14 @@ those can be attached through the contracts in :mod:`substrate.v5models`.
 
 from __future__ import annotations
 
-import dataclasses
+import copy
 import hashlib
 import json
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import StrEnum
-from typing import Any
+from typing import Any, cast
 
 _CANONICAL_JSON_ENCODER = json.JSONEncoder(
     sort_keys=True,
@@ -119,6 +119,108 @@ def _preprocessed_signal_document(signal: PreprocessedSignal) -> dict[str, Any]:
         "model_identity": signal.model_identity,
         "features": tuple(signal.features),
         "precision": signal.precision,
+    }
+
+
+def _detach_document_tree(value: Any) -> Any:
+    """Detach ordinary JSON-shaped values without generic deepcopy overhead."""
+
+    value_type = type(value)
+    if value_type is dict:
+        return {key: _detach_document_tree(child) for key, child in value.items()}
+    if value_type is list:
+        return [_detach_document_tree(child) for child in value]
+    if value_type is tuple:
+        return tuple(_detach_document_tree(child) for child in value)
+    if value is None or value_type in (bool, int, float, str):
+        return value
+    return copy.deepcopy(value)
+
+
+def _proposal_document(proposal: PerceptualProposal) -> dict[str, Any]:
+    """Detach a proposal without the generic dataclass walker."""
+
+    return {
+        "proposal_id": proposal.proposal_id,
+        "kind": proposal.kind,
+        "coordinate_frame": proposal.coordinate_frame,
+        "properties": _detach_document_tree(proposal.properties),
+        "confidence": proposal.confidence,
+        "uncertainty": proposal.uncertainty,
+        "evidence_references": tuple(proposal.evidence_references),
+    }
+
+
+def _tracked_entity_document(entity: TrackedEntity) -> dict[str, Any]:
+    return {
+        "track_id": entity.track_id,
+        "kind": entity.kind,
+        "coordinate_frame": entity.coordinate_frame,
+        "position": tuple(entity.position),
+        "velocity": tuple(entity.velocity),
+        "appearance": tuple(entity.appearance),
+        "status": entity.status,
+        "confidence": entity.confidence,
+        "uncertainty": entity.uncertainty,
+        "first_seen": entity.first_seen,
+        "last_seen": entity.last_seen,
+        "proposal_references": tuple(entity.proposal_references),
+        "viewpoints": tuple(entity.viewpoints),
+        "occluded_steps": entity.occluded_steps,
+    }
+
+
+def _inferred_event_document(event: InferredEvent) -> dict[str, Any]:
+    return {
+        "event_id": event.event_id,
+        "event_type": event.event_type,
+        "participant_tracks": tuple(event.participant_tracks),
+        "roles": _detach_document_tree(event.roles),
+        "start_time": event.start_time,
+        "end_time": event.end_time,
+        "temporal_relations": tuple(event.temporal_relations),
+        "spatial_relations": tuple(event.spatial_relations),
+        "causal_hypotheses": tuple(event.causal_hypotheses),
+        "evidence_references": tuple(event.evidence_references),
+        "unresolved_alternatives": tuple(event.unresolved_alternatives),
+        "confidence": event.confidence,
+        "uncertainty": event.uncertainty,
+    }
+
+
+def _verified_relation_document(relation: VerifiedRelation) -> dict[str, Any]:
+    return {
+        "relation_id": relation.relation_id,
+        "relation": relation.relation,
+        "arguments": tuple(relation.arguments),
+        "verification_method": relation.verification_method,
+        "evidence_references": tuple(relation.evidence_references),
+        "contradicting_evidence": tuple(relation.contradicting_evidence),
+        "confidence": relation.confidence,
+        "uncertainty": relation.uncertainty,
+    }
+
+
+def _structural_belief_document(belief: StructuralBelief) -> dict[str, Any]:
+    return {
+        "belief_id": belief.belief_id,
+        "statement": belief.statement,
+        "supporting_relations": tuple(belief.supporting_relations),
+        "defeaters": tuple(belief.defeaters),
+        "verification_state": belief.verification_state,
+        "confidence": belief.confidence,
+        "uncertainty": belief.uncertainty,
+    }
+
+
+def _knowledge_record_document(record: KnowledgeRecord) -> dict[str, Any]:
+    return {
+        "knowledge_id": record.knowledge_id,
+        "statement": record.statement,
+        "source_beliefs": tuple(record.source_beliefs),
+        "admitted_by": record.admitted_by,
+        "confidence": record.confidence,
+        "uncertainty": record.uncertainty,
     }
 
 
@@ -262,7 +364,7 @@ def _hidden_mapping_keys(value: object) -> set[str]:
     if type(value) is dict:
         nested = False
         for key, child in value.items():
-            normalized = str(key).lower()
+            normalized = key.lower() if type(key) is str else str(key).lower()
             if normalized in _HIDDEN_ID_KEYS:
                 keys.add(normalized)
             if isinstance(child, (Mapping, tuple, list)):
@@ -274,9 +376,19 @@ def _hidden_mapping_keys(value: object) -> set[str]:
         pending = [value]
     while pending:
         current = pending.pop()
-        if isinstance(current, Mapping):
+        current_type = type(current)
+        if current_type is dict:
+            mapping = cast(dict[object, object], current)
+            for key in mapping:
+                normalized = key.lower() if type(key) is str else str(key).lower()
+                if normalized in _HIDDEN_ID_KEYS:
+                    keys.add(normalized)
+            pending.extend(mapping.values())
+        elif current_type is tuple or current_type is list:
+            pending.extend(cast(Iterable[object], current))
+        elif isinstance(current, Mapping):
             for key in current:
-                normalized = str(key).lower()
+                normalized = key.lower() if type(key) is str else str(key).lower()
                 if normalized in _HIDDEN_ID_KEYS:
                     keys.add(normalized)
             pending.extend(current.values())
@@ -372,27 +484,25 @@ class SensorEvent:
             "layers": {
                 "raw": _raw_signal_document(self.raw),
                 "preprocessed": _preprocessed_signal_document(self.preprocessed),
-                "proposals": [dataclasses.asdict(value) for value in self.proposals],
-                "tracked": [dataclasses.asdict(value) for value in self.tracked_entities],
-                "inferred_events": [dataclasses.asdict(value) for value in self.inferred_events],
-                "verified": [dataclasses.asdict(value) for value in self.verified_relations],
-                "structural": [dataclasses.asdict(value) for value in self.structural_beliefs],
-                "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
+                "proposals": [_proposal_document(value) for value in self.proposals],
+                "tracked": [_tracked_entity_document(value) for value in self.tracked_entities],
+                "inferred_events": [_inferred_event_document(value) for value in self.inferred_events],
+                "verified": [_verified_relation_document(value) for value in self.verified_relations],
+                "structural": [_structural_belief_document(value) for value in self.structural_beliefs],
+                "knowledge": [_knowledge_record_document(value) for value in self.knowledge],
             },
         }
         # When the optional typed layers are empty, the only mutable JSON
         # mapping in this event is the observation itself; avoid walking the
         # already-materialized scalar envelope and empty layer lists. Events
         # carrying any optional layer retain the complete public-body audit.
-        if any(
-            (
-                self.proposals,
-                self.tracked_entities,
-                self.inferred_events,
-                self.verified_relations,
-                self.structural_beliefs,
-                self.knowledge,
-            )
+        if (
+            self.proposals
+            or self.tracked_entities
+            or self.inferred_events
+            or self.verified_relations
+            or self.structural_beliefs
+            or self.knowledge
         ):
             leaked = _hidden_mapping_keys(body)
         else:

@@ -32,6 +32,8 @@ from substrate.v5sensorium import (
     CrossModalEvidence,
     EventTracker,
     ExpectedInformationPolicy,
+    InferredEvent,
+    KnowledgeRecord,
     Modality,
     ObjectTracker,
     PerceptionOption,
@@ -43,7 +45,10 @@ from substrate.v5sensorium import (
     SensoriumError,
     SpatialObject,
     SpatialSceneState,
+    StructuralBelief,
     TimedCue,
+    TrackedEntity,
+    VerifiedRelation,
     canonical_event_digest,
     raw_signal,
 )
@@ -131,6 +136,93 @@ def test_sensor_event_has_eight_modalities_and_noncollapsed_typed_layers() -> No
                 1.0,
                 observation={"nested": [{"authority": {forbidden_key: "leaked"}}]},
             )
+
+
+def test_sensor_event_layer_documents_match_dataclass_contract() -> None:
+    base = _event(0, 0.0)
+    tracked = TrackedEntity(
+        "track-1",
+        "object",
+        "world",
+        (1.0, 2.0, 3.0),
+        (0.1, 0.2, 0.3),
+        (0.2, 0.7, 0.4),
+        "visible",
+        0.9,
+        0.1,
+        0.0,
+        1.0,
+        ("proposal-0",),
+        ("front",),
+    )
+    inferred = InferredEvent(
+        "event-1",
+        "approach",
+        ("track-1",),
+        {"participant_0": "track-1"},
+        0.0,
+        None,
+        (),
+        (),
+        ("intentional_motion",),
+        ("video:0",),
+        ("near_miss",),
+        0.7,
+        0.3,
+    )
+    verified = VerifiedRelation(
+        "relation-1",
+        "near",
+        ("track-1", "track-2"),
+        "independent-check-v1",
+        ("video:0",),
+        (),
+        0.8,
+        0.2,
+    )
+    structural = StructuralBelief(
+        "belief-1",
+        "the object is near the tool",
+        ("relation-1",),
+        (),
+        "supported",
+        0.8,
+        0.2,
+    )
+    knowledge = KnowledgeRecord(
+        "knowledge-1",
+        "the object is near the tool",
+        ("belief-1",),
+        "verifier-v1",
+        0.8,
+        0.2,
+    )
+    event = dataclasses.replace(
+        base,
+        proposals=(
+            dataclasses.replace(
+                base.proposals[0],
+                properties={"nested": {"values": [1, 2]}},
+            ),
+        ),
+        tracked_entities=(tracked,),
+        inferred_events=(inferred,),
+        verified_relations=(verified,),
+        structural_beliefs=(structural,),
+        knowledge=(knowledge,),
+    )
+
+    layers = event.public_observation()["layers"]
+    assert layers["raw"] == dataclasses.asdict(event.raw)
+    assert layers["preprocessed"] == dataclasses.asdict(event.preprocessed)
+    assert layers["proposals"] == [dataclasses.asdict(event.proposals[0])]
+    assert layers["tracked"] == [dataclasses.asdict(tracked)]
+    assert layers["inferred_events"] == [dataclasses.asdict(inferred)]
+    assert layers["verified"] == [dataclasses.asdict(verified)]
+    assert layers["structural"] == [dataclasses.asdict(structural)]
+    assert layers["knowledge"] == [dataclasses.asdict(knowledge)]
+    layers["proposals"][0]["properties"]["nested"]["values"].append(3)
+    assert event.proposals[0].properties["nested"]["values"] == [1, 2]
 
 
 def test_sensor_event_digest_preserves_canonical_json_bytes() -> None:

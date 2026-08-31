@@ -173,6 +173,20 @@ Representative local profiles for the pass were:
   mapping directly instead of walking their scalar envelope and empty layer
   lists. The warmed one-shard harness measures roughly 21 ms per regeneration;
   events carrying optional layers still use the complete public-body audit.
+- Typed optional sensor layers now use explicit field serializers with a
+  JSON-shaped detacher for mapping fields instead of generic dataclass walking.
+  In a matched local harness, proposal-only public observation moved from about
+  18.5 to 17.3 microseconds, while a fully populated optional-layer observation
+  moved from about 46.6 to 33.2 microseconds; dataclass-shape and mutation
+  isolation parity remain covered.
+- The recurrent and hybrid v5 kernels now cache bounded modality/signal digest
+  inputs, and normalized state copies use exact built-in dict/list fast paths
+  with defensive subclass fallbacks. The matched kernel comparison moved from
+  about 2.44 to 2.06 milliseconds per 100-candidate benchmark batch; the
+  latent-value and checkpoint-isolation contracts remain unchanged.
+- Normalized state detachment now avoids redundant ABC dispatch on the common
+  built-in tree. A representative 100,000-copy profile moved from about 159
+  to 138 milliseconds without changing the defensive copy boundary.
 - Hidden-target scans now return after one pass for the common flat sensor
   observation shape, while nested mappings and sequences retain the complete
   recursive walk. A direct 30,000-call flat-observation profile moved from

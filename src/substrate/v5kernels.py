@@ -27,17 +27,38 @@ def _digest(value: object) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+@lru_cache(maxsize=32)
+def _modality_digest(modality: str) -> bytes:
+    """Cache the small immutable input to repeated latent updates."""
+
+    return hashlib.sha256(modality.encode()).digest()
+
+
+@lru_cache(maxsize=128)
+def _signal_digest(kind: str, subject: str) -> bytes:
+    return hashlib.sha256(f"{kind}:{subject}".encode()).digest()
+
+
 def _detach_tree(value: Any) -> Any:
     """Copy the JSON-shaped kernel state without generic recursion overhead."""
 
+    value_type = type(value)
+    if value_type is dict:
+        return {key: _detach_tree(child) for key, child in value.items()}
+    if value_type is list:
+        return [_detach_tree(child) for child in value]
+    if value_type is tuple:
+        return tuple(_detach_tree(child) for child in value)
+    if value is None or value_type in (bool, int, float, str):
+        return value
+    # Preserve the previous behavior for JSON-shaped subclasses and unusual
+    # caller values while keeping the built-in hot path free of ABC checks.
     if isinstance(value, dict):
         return {key: _detach_tree(child) for key, child in value.items()}
     if isinstance(value, list):
         return [_detach_tree(child) for child in value]
     if isinstance(value, tuple):
         return tuple(_detach_tree(child) for child in value)
-    if value is None or isinstance(value, (bool, int, float, str)):
-        return value
     return copy.deepcopy(value)
 
 
@@ -83,10 +104,10 @@ class Kernel:
         self.last_sequence = event.sequence
 
     def _latent_update(self, event: KernelEvent) -> None:
-        modality_digest = hashlib.sha256(event.modality.encode()).digest()
+        modality_digest = _modality_digest(event.modality)
         index = int.from_bytes(modality_digest[:2], "big")
         index %= len(self.latent_state)
-        signal_digest = hashlib.sha256(f"{event.kind}:{event.subject}".encode()).digest()
+        signal_digest = _signal_digest(event.kind, event.subject)
         signal = (
             int.from_bytes(signal_digest[:4], "big")
             / 0xFFFFFFFF
