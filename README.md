@@ -204,6 +204,11 @@ Representative local profiles for the pass were:
   nested public payloads, validation moved from roughly 0.49 to 0.40 and 1.21
   to 1.13 microseconds respectively; hidden-key refusal tests remain in the
   normal suite.
+- The model-request forbidden-key walk now short-circuits exact built-in scalar
+  leaves while retaining defensive custom-container fallbacks. In a matched
+  100,000-call profile, flat payload scanning moved from about 129 to 95 ms and
+  nested scanning from about 397 to 298 ms; subclass traversal is explicitly
+  covered by refusal tests.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state

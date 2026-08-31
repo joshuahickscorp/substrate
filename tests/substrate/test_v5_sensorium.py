@@ -481,6 +481,16 @@ def test_at_least_ten_model_equivalents_are_independently_callable_and_auditable
                 "text",
                 {"nested": [{"authority": {forbidden_key: "secret"}}]},
             )
+    class ListSubclass(list):
+        pass
+
+    with pytest.raises(ModelContractError, match="leaked"):
+        ModelRequest(
+            "bad-subclass",
+            "independent",
+            "text",
+            {"nested": ListSubclass([{"target": "secret"}])},
+        )
 
 
 def test_model_support_and_outcome_blind_routing_have_positive_fixtures() -> None:

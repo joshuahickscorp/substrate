@@ -15,7 +15,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 from functools import lru_cache
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 
 class ModelContractError(ValueError):
@@ -122,6 +122,32 @@ def _forbidden_request_keys(value: object) -> set[str]:
 
 
 def _collect_forbidden_request_keys(value: object, leaked: set[str]) -> None:
+    value_type = type(value)
+    if value_type is dict:
+        mapping = cast(dict[object, object], value)
+        for key, child in mapping.items():
+            normalized = key.lower() if type(key) is str else str(key).lower()
+            if normalized in _FORBIDDEN_REQUEST_KEYS:
+                leaked.add(normalized)
+            child_type = type(child)
+            if child_type is dict or child_type is list or child_type is tuple or (
+                child is not None
+                and child_type not in (bool, int, float, str, bytes, bytearray)
+                and isinstance(child, (Mapping, list, tuple))
+            ):
+                _collect_forbidden_request_keys(child, leaked)
+        return
+    if value_type is list or value_type is tuple:
+        sequence = cast(list[object] | tuple[object, ...], value)
+        for child in sequence:
+            child_type = type(child)
+            if child_type is dict or child_type is list or child_type is tuple or (
+                child is not None
+                and child_type not in (bool, int, float, str, bytes, bytearray)
+                and isinstance(child, (Mapping, list, tuple))
+            ):
+                _collect_forbidden_request_keys(child, leaked)
+        return
     if isinstance(value, Mapping):
         for key, child in value.items():
             normalized = str(key).lower()
