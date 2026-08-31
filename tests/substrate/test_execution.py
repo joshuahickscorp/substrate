@@ -60,6 +60,27 @@ def test_terminal_source_digest_matches_the_immutable_terminal_tree():
     assert L.source_digest() == "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4"
 
 
+def test_status_receipt_census_preserves_validated_receipt_semantics(tmp_path, monkeypatch):
+    units = tmp_path / "units"
+    units.mkdir()
+    monkeypatch.setattr(L, "UNITS", units)
+    identity = {
+        "source_commit": io.commit(),
+        "source_digest": "d" * 64,
+        "configuration_sha256": "c" * 64,
+    }
+    receipt = L._logical_receipt(L.BY_UNIT["audit"], identity=identity)
+    (units / "audit.json").write_text(json.dumps(receipt))
+    (units / "declarations.json").write_text(json.dumps({"ok": False}))
+    (units / "unknown.json").write_text(json.dumps({"ok": True}))
+
+    states = L._done_by_unit()
+    assert states["audit"] is True
+    assert states["declarations"] is False
+    assert all(not states[unit.identity] for unit in L.UNIT_LIST if unit.identity != "audit")
+    assert L.done("audit") is True
+
+
 def test_a_live_edit_after_the_freeze_is_detectable():
     man = L.manifest()
     assert L.live_edit_detected(man)["live_edit"] is False

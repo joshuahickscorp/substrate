@@ -79,6 +79,11 @@ Representative local profiles for the pass were:
   sealed artifact. In a fresh audit-plus-independent-verification profile, the
   combined path moved from about 174 to 148 ms; reachable, stale, and malformed
   evidence refusal checks remain unchanged.
+- Terminal synthesis `status` and dependency readiness now census the receipt
+  directory once per invocation instead of statting every declared unit
+  separately. In a warmed 1,000-call loop, `status` moved from about 151 to
+  73 microseconds per call with the same validated receipt and dependency
+  results.
 - Versioned v2–v4 provenance now pays for its immutable source snapshot once per
   process. Across eight same-process calls, v2 context construction moved from
   about 148 to 1.5 ms and v3 manifest construction from about 231 to 82 ms;

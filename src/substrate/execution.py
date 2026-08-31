@@ -495,9 +495,8 @@ def _units_subdir() -> str:
     return UNITS.relative_to(io.RUNS).as_posix()
 
 
-def done(unit: str) -> bool:
-    path = _receipt(unit)
-    if not path.is_file():
+def _receipt_done(path: Path | None) -> bool:
+    if path is None or not path.is_file():
         return False
     try:
         document = json.loads(path.read_text())
@@ -506,8 +505,22 @@ def done(unit: str) -> bool:
         return False
 
 
+def _done_by_unit() -> dict[str, bool]:
+    """Read the receipt directory once and return validated state for every unit."""
+    try:
+        paths = {path.stem: path for path in UNITS.glob("*.json")}
+    except OSError:
+        paths = {}
+    return {unit.identity: _receipt_done(paths.get(unit.identity)) for unit in UNIT_LIST}
+
+
+def done(unit: str) -> bool:
+    return _receipt_done(_receipt(unit))
+
+
 def ready() -> list[Unit]:
-    return [u for u in UNIT_LIST if not done(u.identity) and all(done(d) for d in u.depends_on)]
+    done_by_unit = _done_by_unit()
+    return [u for u in UNIT_LIST if not done_by_unit[u.identity] and all(done_by_unit[d] for d in u.depends_on)]
 
 
 def validate_receipt(document: dict) -> bool:
@@ -865,7 +878,7 @@ def run_unit(unit: Unit, *, dry: bool = False, attempt: int = 1) -> dict:
 
 def status() -> dict:
     claims = reconcile_claims()
-    done_by_unit = {u.identity: done(u.identity) for u in UNIT_LIST}
+    done_by_unit = _done_by_unit()
     return {
         "schema": "substrate-terminal-synthesis-status/v1",
         "classification": "terminal deterministic synthesis",
