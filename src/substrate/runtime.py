@@ -504,14 +504,18 @@ class Substrate:
         return record
 
     def _state_for_hash(self) -> dict:
+        # sha_obj uses sort_keys=True for mappings. Sorting mapping items here
+        # duplicated that work in Python before the encoder sorted them again;
+        # keep explicit sorting only for lists, whose order is part of the
+        # canonical value.
         return {
             "step": self.step_index,
             "workspace": sorted(self.ws.store),
             "episodes": sorted(self.episodes.store),
-            "episode_classes": {k: v.klass for k, v in sorted(self.episodes.store.items())},
+            "episode_classes": {k: v.klass for k, v in self.episodes.store.items()},
             "facts": sorted(self.semantic.store),
-            "beliefs": {k: (v.retracted, round(v.confidence, 6)) for k, v in sorted(self.beliefs.beliefs.items())},
-            "reliability": {k: round(v, 6) for k, v in sorted(self.reliability.items())},
+            "beliefs": {k: (v.retracted, round(v.confidence, 6)) for k, v in self.beliefs.beliefs.items()},
+            "reliability": {k: round(v, 6) for k, v in self.reliability.items()},
             "extension": self._extension_state(),
         }
 

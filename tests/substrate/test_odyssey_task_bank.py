@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 from substrate import odyssey_task_bank as task_bank
-from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 
 def _candidate(frontier: str = "A") -> dict:

@@ -146,7 +146,10 @@ class Refused(RuntimeError):
 
 def _json_copy(value: Any) -> Any:
     try:
-        return copy.deepcopy(io._normal_json(value))  # noqa: SLF001
+        # json.loads already returns a detached tree. A second deepcopy added
+        # no isolation while doubling the traversal cost of every event
+        # payload and semantic-state snapshot.
+        return io._normal_json(value)  # noqa: SLF001
     except io.Refused as error:
         raise Refused(str(error)) from error
 
@@ -160,6 +163,15 @@ def _identifier(value: str, label: str = "identity") -> str:
 def _assert_activation(value: Any) -> None:
     try:
         io.assert_activation_false(value)
+    except io.Refused as error:
+        raise Refused(str(error)) from error
+
+
+def _assert_normalized_activation(value: Any) -> None:
+    """Check an already JSON-normalized tree without normalizing it again."""
+
+    try:
+        io._assert_normalized_activation_false(value)  # noqa: SLF001
     except io.Refused as error:
         raise Refused(str(error)) from error
 
@@ -209,7 +221,7 @@ class CognitiveEvent:
         if uncertainty < 0:
             raise Refused("temporal uncertainty cannot be negative")
         normalized = _json_copy(dict(payload))
-        _assert_activation(normalized)
+        _assert_normalized_activation(normalized)
         body = {
             "schema": EVENT_SCHEMA,
             "sequence": sequence,
@@ -395,9 +407,9 @@ class DeterministicModel:
     def __call__(self, request: Mapping[str, Any]) -> Any:
         self.contract.validate()
         normalized = _json_copy(dict(request))
-        _assert_activation(normalized)
+        _assert_normalized_activation(normalized)
         result = _json_copy(self.operation(normalized))
-        _assert_activation(result)
+        _assert_normalized_activation(result)
         return result
 
 
@@ -920,14 +932,19 @@ class PermanentEntity:
                 source_timestamp=source_timestamp,
                 temporal_uncertainty=temporal_uncertainty,
             )
-            candidate = self.semantic_state()
+            # _state is an internally-owned canonical JSON tree: every event
+            # payload is normalized before reduction and every committed
+            # transition is activation-checked. Copy directly for the
+            # speculative reduction; semantic_state() remains the public
+            # normalized snapshot boundary.
+            candidate = copy.deepcopy(self._state)
             try:
                 _reduce(candidate, event)
             except Refused:
                 raise
             except (KeyError, TypeError, ValueError) as error:
                 raise Refused(f"invalid payload for event {kind!r}") from error
-            _assert_activation(candidate)
+            _assert_normalized_activation(candidate)
             self._persist_event(event)
             self._events.append(event)
             self._state = candidate

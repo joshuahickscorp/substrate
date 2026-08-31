@@ -108,6 +108,24 @@ def test_checkpoint_and_restore_reproduce_the_entity_identity():
     assert set(revived.episodes.store) == set(entity.episodes.store)
 
 
+def test_state_hash_projection_keeps_the_legacy_canonical_digest():
+    entity = R.Substrate()
+    for i in range(4):
+        entity.step({"label": "a", "label_confidence": 0.7 + i / 100}, outcome="a")
+    current = entity._state_for_hash()
+    legacy = {
+        "step": entity.step_index,
+        "workspace": sorted(entity.ws.store),
+        "episodes": sorted(entity.episodes.store),
+        "episode_classes": {k: v.klass for k, v in sorted(entity.episodes.store.items())},
+        "facts": sorted(entity.semantic.store),
+        "beliefs": {k: (v.retracted, round(v.confidence, 6)) for k, v in sorted(entity.beliefs.beliefs.items())},
+        "reliability": {k: round(v, 6) for k, v in sorted(entity.reliability.items())},
+        "extension": entity._extension_state(),
+    }
+    assert R.io.sha_obj(current) == R.io.sha_obj(legacy)
+
+
 def test_a_tampered_checkpoint_is_refused_rather_than_silently_restored():
     entity = R.Substrate()
     entity.step(OBS, outcome="a")

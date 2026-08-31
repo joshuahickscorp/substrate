@@ -63,19 +63,28 @@ def _normal_json(value: Any) -> JSONValue:
 
 
 def canonical_json(value: Any) -> bytes:
-    """Encode finite JSON in the byte-stable v5 canonical form."""
+    """Encode finite JSON in the byte-stable v5 canonical form.
 
-    normal = _normal_json(value)
-    return (
-        json.dumps(
-            normal,
-            allow_nan=False,
-            ensure_ascii=False,
-            separators=(",", ":"),
-            sort_keys=True,
-        )
-        + "\n"
-    ).encode("utf-8")
+    ``json.dumps`` already performs the same type and finite-number
+    validation used by ``_normal_json``. The old path dumped, parsed, and
+    dumped the value again even though the first byte representation was
+    already canonical; retaining that second pass added CPU and allocation
+    cost to every digest and publication.
+    """
+
+    try:
+        return (
+            json.dumps(
+                value,
+                allow_nan=False,
+                ensure_ascii=False,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+            + "\n"
+        ).encode("utf-8")
+    except (TypeError, ValueError) as error:
+        raise Refused(f"value is not finite canonical JSON: {error}") from error
 
 
 def sha_bytes(payload: bytes) -> str:
@@ -86,7 +95,10 @@ def sha_obj(value: Any) -> str:
     return sha_bytes(canonical_json(value))
 
 
+@lru_cache(maxsize=1)
 def commit() -> str:
+    """Return the process-scoped source commit used by sealed documents."""
+
     return subprocess.check_output(
         ["git", "rev-parse", "HEAD"],
         cwd=ROOT,
@@ -110,19 +122,27 @@ def source_digest() -> str:
 
 def _contains_true_activation(value: JSONValue) -> bool:
     if isinstance(value, dict):
-        return any(
-            (key == "activation" and child is not False)
-            or _contains_true_activation(child)
-            for key, child in value.items()
-        )
-    if isinstance(value, list):
-        return any(_contains_true_activation(child) for child in value)
+        for key, child in value.items():
+            if key == "activation" and child is not False:
+                return True
+            if _contains_true_activation(child):
+                return True
+    elif isinstance(value, list):
+        for child in value:
+            if _contains_true_activation(child):
+                return True
     return False
 
 
 def assert_activation_false(value: Any) -> None:
     normal = _normal_json(value)
-    if _contains_true_activation(normal):
+    _assert_normalized_activation_false(normal)
+
+
+def _assert_normalized_activation_false(value: JSONValue) -> None:
+    """Reject activation in a tree already normalized as JSON."""
+
+    if _contains_true_activation(value):
         raise Refused("v5 activation must remain exactly false")
 
 
@@ -197,7 +217,7 @@ def sealed_document(document: dict[str, Any]) -> dict[str, JSONValue]:
     normal.setdefault("source_commit", commit())
     normal.setdefault("source_digest", source_digest())
     normal.setdefault("activation", ACTIVATION)
-    assert_activation_false(normal)
+    _assert_normalized_activation_false(normal)
     normal["sha256"] = sha_obj(normal)
     return normal
 
@@ -223,7 +243,7 @@ def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
         or len(source_digest_value) != 64
     ):
         raise Refused("sealed JSON is missing exact source identity")
-    assert_activation_false(normal)
+    _assert_normalized_activation_false(normal)
     return normal
 
 

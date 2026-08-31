@@ -9,15 +9,15 @@ import subprocess
 from pathlib import Path
 
 import pytest
-
-from substrate import odyssey_authority as authority
-from substrate import odyssey_machine_subjects as subjects
-from substrate import odyssey_transition
 from tests.substrate.test_odyssey_authority import (
     _fixture_root,
     _prepared_inputs,
     _write,
 )
+
+from substrate import odyssey_authority as authority
+from substrate import odyssey_machine_subjects as subjects
+from substrate import odyssey_transition
 
 
 @pytest.fixture(autouse=True)

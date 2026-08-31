@@ -9,12 +9,12 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 from substrate import odyssey_authority as authority
 from substrate import odyssey_manifest_materializer as materializer
 from substrate import odyssey_task_bank as task_bank
 from substrate import odyssey_transition as transition
-from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 Usage = namedtuple("Usage", "total used free")
 

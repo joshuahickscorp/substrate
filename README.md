@@ -57,6 +57,28 @@ per-invocation scan and leaves expensive synthesis, external tools, and large
 corpora behind explicit commands. This improves operator feedback latency
 without changing the fail-closed activation, resource, or evidence gates.
 
+## Performance posture
+
+The latest bounded pass removes duplicate canonical-JSON work, caches the
+process-scoped source-commit lookup, reuses detached event-state copies, and
+avoids sorting mapping keys before the canonical encoder sorts them. Local
+parity, seal, activation-false, event-isolation, and checkpoint tests preserve
+the existing evidence contracts; scientific classifications and activation
+boundaries are unchanged. Measured details are recorded in the implementation
+history and are not claims about external hardware or campaign throughput.
+
+Representative local profiles for the pass were:
+
+- A 12.25 KB canonical-JSON payload took about 645 ms for 2,000 old-path
+  encodes and about 245 ms through the direct encoder, with byte-parity tests.
+- A 64-event permanent-state profile moved from about 78 ms to about 51 ms
+  after redundant normalization and copying were removed.
+- Twelve repeated checkpoints over an 80-event context moved from about 209 ms
+  to about 57 ms after the process-scoped source-identity lookup was cached.
+
+These are bounded local profiles, not claims about campaign-scale throughput;
+the source, seal, and state-isolation boundaries remain explicit.
+
 ## Run the checks
 
 From the repository root:

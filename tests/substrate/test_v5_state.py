@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import copy
+import json
+import math
 from pathlib import Path
 
 import pytest
@@ -59,6 +61,42 @@ def reseal(document: dict) -> dict:
     return io.sealed_document(
         {key: value for key, value in document.items() if key != "sha256"}
     )
+
+
+def test_v5_canonical_json_keeps_legacy_bytes_and_rejects_nonfinite_values() -> None:
+    value = {
+        "z": (1, 2.0),
+        "a": {2: "two", 1: "one"},
+        "large": 9007199254740993,
+        "unicode": "é",
+    }
+    normalized = io._normal_json(value)  # noqa: SLF001 - parity with the prior canonical path
+    expected = (
+        json.dumps(
+            normalized,
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+    assert io.canonical_json(value) == expected
+    with pytest.raises(io.Refused, match="finite canonical JSON"):
+        io.canonical_json({"not_a_number": math.nan})
+
+
+def test_event_payload_and_semantic_snapshots_remain_detached() -> None:
+    payload = {"layer": "active_context", "value": {"nested": ["before"]}}
+    entity = S.PermanentEntity("entity:isolation")
+    entity.append_event("context_updated", payload)
+
+    payload["value"]["nested"].append("caller-mutation")
+    assert entity.state["active_context"]["nested"] == ["before"]
+
+    snapshot = entity.semantic_state()
+    snapshot["active_context"]["nested"].append("snapshot-mutation")
+    assert entity.state["active_context"]["nested"] == ["before"]
 
 
 def test_v5_io_is_atomic_content_addressed_and_fail_closed(

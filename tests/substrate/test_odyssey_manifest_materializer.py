@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 
 import pytest
+from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 from substrate import odyssey_manifest_materializer as materializer
-from tests.substrate.librispeech_audio_fixture import install_librispeech_audio_fixture
 
 
 def _write(path: Path, value: dict | bytes) -> None:
