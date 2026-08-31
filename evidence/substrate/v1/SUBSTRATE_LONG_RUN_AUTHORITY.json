@@ -3,7 +3,7 @@
   "run_classification": "terminal deterministic synthesis",
   "scientific_work_units": 0,
   "frozen_manifest": {
-    "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+    "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
     "data_root_declared_by": "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json canonical_root",
     "sessions": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
     "splits": "group disjoint by source unit, sealed in the temporal receipts",
@@ -36,7 +36,7 @@
     "activation": false,
     "source_digest": "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4",
     "configuration_sha256": "797e2ca437258960aedc32ec7ee432b05f4b62ef32eec6211534d27c0b5ce68b",
-    "source_tree": "cdbe6ec3643606a777a7b87e8025e1fa0cf75cc4",
+    "source_tree": "ef430bea7528bc3bc5d01acfdd9753a11497f341",
     "units": [
       "audit",
       "declarations",
@@ -62,13 +62,11 @@
     "scientific_work_unit_count": 0,
     "run_classification": "terminal deterministic synthesis",
     "completion": "all synthesis units terminal; the workload performs zero new scientific trials",
-    "manifest_sha256": "7c3734713d72ea88c8a12132d7ac861c425b1ced6f60592c2df39d6997291ea9"
+    "manifest_sha256": "e32dd3f6c3947c9429467ecb527d84b9f481410af0c9fe39f5af2c0fb5de2ce3"
   },
   "audit": {
-    "all_pass": false,
-    "failed": [
-      "no_stale_outputs"
-    ]
+    "all_pass": true,
+    "failed": []
   },
   "certification": {
     "green": true,
@@ -81,13 +79,11 @@
     }
   },
   "rehearsal": {
-    "all_pass": false,
-    "failed": [
-      "audit_still_passes"
-    ]
+    "all_pass": true,
+    "failed": []
   },
-  "admission": "refused",
-  "refusal_reason": "no_stale_outputs; audit_still_passes",
+  "admission": "green",
+  "refusal_reason": "",
   "no_live_edits_after_launch": "the frozen manifest carries the source commit and tree. A later run whose tree differs is a live edit and is detectable",
   "defect_procedure": "pause, append only repair, regression test, transition receipt, safe resume. Completed units are not redone",
   "commands": {
@@ -98,6 +94,6 @@
   },
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
-  "sha256": "d5e74379e1ef3869ccc736ea18bdac0c08a14364c6be24fd81351863785c02b0"
+  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
+  "sha256": "486e92a3d933d53d4a7a1a42c67db012bf6aa15866a930fe0a4afb8d5cf57e01"
 }

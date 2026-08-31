@@ -25,18 +25,6 @@
           "keys": [
             "all_pass"
           ]
-        },
-        {
-          "artifact": "SUBSTRATE_LONG_RUN_REHEARSAL.json",
-          "keys": [
-            "all_pass"
-          ]
-        },
-        {
-          "artifact": "SUBSTRATE_STRUCTURAL_AUDIT.json",
-          "keys": [
-            "all_pass"
-          ]
         }
       ],
       "note": "an artifact reporting a failure is not stale. Evidence still refuses to count it, which is substrate.program.evidence_state, a different question from whether the tree carries an output it can no longer reproduce",
@@ -364,9 +352,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
-  "sha256": "ca44e77f100854ef6fae1382af38e137dd4be012cc47ff8930727c51c7850a17"
+  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
+  "sha256": "b0cbe6a3f5e6c26c0c5289cfeee1fe40eff02dafda2a5f4033c3a3f40b9909d6"
 }

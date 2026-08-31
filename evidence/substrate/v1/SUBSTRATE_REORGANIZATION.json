@@ -24,6 +24,6 @@
   "permitted_is_not_sufficient": "appearing on the permitted list bounds a change, it does not earn it",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
-  "sha256": "352596c87fc1408b9708a38b6806988e4d1f8db8c077203e13c4b1bb982a8622"
+  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
+  "sha256": "e0f68ae8d9e9ca90200c62cb259fcdf373a6c6def9001abe1a852fbfe33e2891"
 }

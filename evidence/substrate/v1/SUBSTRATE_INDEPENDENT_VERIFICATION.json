@@ -259,6 +259,30 @@
       "recomputed": 0,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
+    },
+    "sx5_effect_har_stream_to_harth_stream": {
+      "reported": 0.032393,
+      "recomputed": 0.032393,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_har_stream_to_harth_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
+    },
+    "sx5_effect_harth_stream_to_har_stream": {
+      "reported": 0.019539,
+      "recomputed": 0.019539,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_harth_stream_to_har_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
     }
   },
   "seal_integrity": {
@@ -330,7 +354,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "substrate-v1",
-  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
   "activation": false,
-  "sha256": "cdd2fc9a39d88b7568705d3825b3717b536da4614b0f26654131c87d5fa78ac8"
+  "sha256": "b624c6e4c634c2c6dc52781293ff2822fdf20053bc712273311d7df1da264f48"
 }

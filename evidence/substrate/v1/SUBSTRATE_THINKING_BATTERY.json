@@ -24,7 +24,7 @@
     "latency"
   ],
   "program": "substrate-v1",
-  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
   "activation": false,
-  "sha256": "d37afaf83e845a869c4cae3c37478b19a39fa9f4729d11934fd0ede0a0d29ef6"
+  "sha256": "79f0740e0f3c6e864d16195c8c038baf565391b2b805b1be7c84a85a90669195"
 }
