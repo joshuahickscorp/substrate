@@ -315,6 +315,41 @@ def test_checkpoint_restore_is_exact_and_rejects_state_or_event_corruption() -> 
         S.PermanentEntity.restore(seal_corrupt)
 
 
+def test_checkpoint_cache_is_detached_and_invalidated_after_append(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    entity = populated_entity()
+    seal_calls = 0
+    original_sealed_document = io.sealed_document
+
+    def counted_seal(document: dict) -> dict:
+        nonlocal seal_calls
+        seal_calls += 1
+        return original_sealed_document(document)
+
+    monkeypatch.setattr(io, "sealed_document", counted_seal)
+    first = entity.checkpoint()
+    second = entity.checkpoint()
+    assert first == second
+    assert seal_calls == 1
+
+    first["state"]["active_goals"]["goal:learn"]["description"] = "caller mutation"
+    first["events"][0]["payload"]["entity_id"] = "caller mutation"
+    assert entity.checkpoint() == second
+    assert seal_calls == 1
+
+    entity.events[1].payload["goal"]["description"] = "event mutation"
+    changed_by_event = entity.checkpoint()
+    assert changed_by_event != second
+    assert changed_by_event["events"][1]["payload"]["goal"]["description"] == "event mutation"
+    assert seal_calls == 2
+
+    entity.set_mode("observing")
+    changed = entity.checkpoint()
+    assert changed["event_chain_head"] != second["event_chain_head"]
+    assert seal_calls == 3
+
+
 def test_events_and_checkpoint_persist_under_v5_as_self_sealed_objects(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -382,6 +417,22 @@ def test_models_remain_independent_and_replacement_preserves_owned_state() -> No
         entity.call_model("model:verify", {"candidate": 4})
 
 
+def test_model_invocation_keeps_runner_mutation_out_of_input_identity() -> None:
+    registry = S.ModelRegistry()
+
+    def mutating_runner(request: dict) -> dict:
+        request["nested"]["items"].append("runner-mutation")
+        return {"items": request["nested"]["items"]}
+
+    registry.register(contract("model:isolated", "sha256:isolated"), mutating_runner)
+    request = {"nested": {"items": ["caller"]}}
+    result = registry.invoke("model:isolated", request)
+
+    assert request == {"nested": {"items": ["caller"]}}
+    assert result["output"]["items"] == ["caller", "runner-mutation"]
+    assert result["receipt"]["input_sha256"] == io.sha_obj(request)
+
+
 def test_sensor_interruption_and_body_replacement_preserve_cognition() -> None:
     entity = populated_entity()
     entity.attach_sensor(
@@ -443,6 +494,32 @@ def test_consolidation_and_workspace_projection_are_bounded_and_traceable() -> N
     assert len(io.canonical_json(projection)) <= 2_048
     assert "events" not in projection
     assert projection["identity"]["entity_id"] == "entity:bounded"
+
+
+def test_workspace_projection_byte_ledger_preserves_exact_boundary() -> None:
+    entity = S.PermanentEntity("entity:projection-budget")
+    for index in range(40):
+        entity.update_context("active_context", {"index": index, "payload": ["x"] * 8})
+
+    budget = 4_096
+    for _ in range(5):
+        projection = entity.workspace_projection(max_items=32, max_bytes=budget)
+        size = len(io.canonical_json(projection))
+        if size == budget:
+            break
+        budget = size
+
+    exact = entity.workspace_projection(max_items=32, max_bytes=budget)
+    assert exact == projection
+    assert len(io.canonical_json(exact)) <= budget
+
+    for smaller_budget in range(budget - 1, 511, -1):
+        smaller = entity.workspace_projection(max_items=32, max_bytes=smaller_budget)
+        if smaller["bounds"]["included_items"] < exact["bounds"]["included_items"]:
+            break
+    else:
+        raise AssertionError("no smaller budget rejected a projection candidate")
+    assert len(io.canonical_json(smaller)) <= smaller_budget
 
 
 def test_schema_migration_and_rollback_recover_the_exact_prior_checkpoint() -> None:

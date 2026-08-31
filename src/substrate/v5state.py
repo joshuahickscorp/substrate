@@ -8,9 +8,8 @@ every checkpoint is verified both by replay and by cryptographic self-seals.
 
 from __future__ import annotations
 
-import copy
 import threading
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -157,7 +156,11 @@ def _json_copy(value: Any) -> Any:
 def _copy_normalized(value: Any) -> Any:
     """Detach a tree that is already known to be canonical JSON."""
 
-    return copy.deepcopy(value)
+    if isinstance(value, dict):
+        return {key: _copy_normalized(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_copy_normalized(child) for child in value]
+    return value
 
 
 def _identifier(value: str, label: str = "identity") -> str:
@@ -277,6 +280,22 @@ class CognitiveEvent:
 
     def to_dict(self) -> dict[str, Any]:
         return {**self.body(), "event_sha256": self.event_sha256, "activation": False}
+
+    def _checkpoint_dict(self) -> dict[str, Any]:
+        """Project an internally-owned event without a second JSON round trip."""
+
+        return {
+            "schema": self.schema,
+            "sequence": self.sequence,
+            "event_time": self.event_time,
+            "source_timestamp": self.source_timestamp,
+            "temporal_uncertainty": self.temporal_uncertainty,
+            "kind": self.kind,
+            "payload": _copy_normalized(self.payload),
+            "previous_sha256": self.previous_sha256,
+            "event_sha256": self.event_sha256,
+            "activation": False,
+        }
 
     def validate(self) -> None:
         if self.schema != EVENT_SCHEMA:
@@ -470,7 +489,7 @@ class ModelRegistry:
             raise Refused(f"model {model_id!r} has no available runtime")
         normalized_request = _json_copy(dict(request))
         _assert_normalized_activation(normalized_request)
-        output = _json_copy(runner(copy.deepcopy(normalized_request)))
+        output = _json_copy(runner(_copy_normalized(normalized_request)))
         _assert_normalized_activation(output)
         receipt = {
             "model_identity": model_id,
@@ -580,7 +599,7 @@ def _copy_reduction_branch(
     if isinstance(value, (dict, list)):
         candidate[key] = value.copy()
     else:
-        candidate[key] = copy.deepcopy(value)
+        candidate[key] = value
 
 
 def _copy_reduction_nested_record(
@@ -992,6 +1011,7 @@ class PermanentEntity:
         self._events: list[CognitiveEvent] = []
         self._state = _blank_state(entity_id, schema_version)
         self._state_sha256: str | None = None
+        self._checkpoint_cache: dict[str, Any] | None = None
         self._model_runners: dict[str, Callable[[dict[str, Any]], Any]] = {}
         self.append_event(
             "entity_created",
@@ -1039,7 +1059,7 @@ class PermanentEntity:
             / "events"
             / f"{event.sequence:020d}-{event.event_sha256}.json"
         )
-        io.publish_json(self._storage_root / relative, event.to_dict())
+        io.publish_json(self._storage_root / relative, event._checkpoint_dict())
 
     def append_event(
         self,
@@ -1084,6 +1104,7 @@ class PermanentEntity:
             self._events.append(event)
             self._state = candidate
             self._state_sha256 = None
+            self._checkpoint_cache = None
             return event.to_dict()
 
     def advance_time(self, event_time: int, *, reason: str = "idle") -> dict[str, Any]:
@@ -1546,11 +1567,12 @@ class PermanentEntity:
 
         if max_items < 0 or max_bytes < 512:
             raise Refused("workspace projection bounds are invalid")
+        state = self._state
         projection: dict[str, Any] = {
-            "identity": _copy_normalized(self._state["identity"]),
-            "event_time": self.event_time,
-            "mode": self.mode,
-            "body_state": _copy_normalized(self._state["body_state"]),
+            "identity": _copy_normalized(state["identity"]),
+            "event_time": int(state["continuous_time"]["event_time"]),
+            "mode": str(state["mode"]),
+            "body_state": _copy_normalized(state["body_state"]),
             "active_goals": {},
             "unfinished_tasks": {},
             "unresolved_hypotheses": {},
@@ -1569,68 +1591,140 @@ class PermanentEntity:
             },
             "activation": False,
         }
-        candidates: list[tuple[str, str, Any]] = []
 
-        def add_mapping(category: str, values: Mapping[str, Any]) -> None:
-            for key, value in sorted(values.items()):
-                candidates.append((category, str(key), value))
+        def iter_candidates() -> Iterator[tuple[str, str, Any]]:
+            def mapping(
+                category: str, values: Mapping[str, Any]
+            ) -> Iterator[tuple[str, str, Any]]:
+                for key, value in sorted(values.items()):
+                    yield category, str(key), value
 
-        goals = self._state["active_goals"]
-        if goal_id is not None and goal_id in goals:
-            candidates.append(("active_goals", goal_id, goals[goal_id]))
-        else:
-            add_mapping("active_goals", goals)
-        add_mapping("unfinished_tasks", self._state["unfinished_tasks"])
-        add_mapping("unresolved_hypotheses", self._state["unresolved_hypotheses"])
-        add_mapping("tracked_objects", self._state["tracked_objects"])
-        for event in reversed(self._state["events"]):
-            candidates.append(("recent_events", str(event["sequence"]), event))
-        for tier in ("episodic", "semantic", "procedural"):
-            add_mapping(f"{tier}_memory", self._state[f"{tier}_memory"])
-        add_mapping("beliefs", self._state["beliefs"])
-        add_mapping("knowledge", self._state["knowledge"])
-        contracts = self._state["model_registry"]
-        if model_id is not None and model_id in contracts:
-            candidates.append(("model_contracts", model_id, contracts[model_id]))
+            goals = state["active_goals"]
+            if goal_id is not None and goal_id in goals:
+                yield "active_goals", goal_id, goals[goal_id]
+            else:
+                yield from mapping("active_goals", goals)
+            yield from mapping("unfinished_tasks", state["unfinished_tasks"])
+            yield from mapping("unresolved_hypotheses", state["unresolved_hypotheses"])
+            yield from mapping("tracked_objects", state["tracked_objects"])
+            for event in reversed(state["events"]):
+                yield "recent_events", str(event["sequence"]), event
+            for tier in ("episodic", "semantic", "procedural"):
+                yield from mapping(f"{tier}_memory", state[f"{tier}_memory"])
+            yield from mapping("beliefs", state["beliefs"])
+            yield from mapping("knowledge", state["knowledge"])
+            contracts = state["model_registry"]
+            if model_id is not None and model_id in contracts:
+                yield "model_contracts", model_id, contracts[model_id]
 
-        accepted: list[tuple[str, str]] = []
-        for category, key, value in candidates:
-            if len(accepted) >= max_items:
+        # The normal bound is generous enough for the first max_items rows in
+        # most calls. Try that monotonic fast path with one full encoding; the
+        # exact greedy ledger below remains the fallback when a candidate does
+        # not fit and later candidates may still fit.
+        fast_count = 0
+        for category, key, value in iter_candidates():
+            if fast_count >= max_items:
                 break
             if category == "recent_events":
-                projection[category].append(_copy_normalized(value))
+                projection[category].append(value)
             else:
-                projection[category][key] = _copy_normalized(value)
-            projection["bounds"]["included_items"] = len(accepted) + 1
-            if len(io.canonical_json(projection)) > max_bytes:
-                if category == "recent_events":
-                    projection[category].pop()
+                projection[category][key] = value
+            fast_count += 1
+        projection["bounds"]["included_items"] = fast_count
+        if len(io.canonical_json(projection)) <= max_bytes:
+            return _copy_normalized(projection)
+
+        for category in (
+            "active_goals",
+            "unfinished_tasks",
+            "unresolved_hypotheses",
+            "tracked_objects",
+            "recent_events",
+            "episodic_memory",
+            "semantic_memory",
+            "procedural_memory",
+            "beliefs",
+            "knowledge",
+            "model_contracts",
+        ):
+            projection[category] = [] if category == "recent_events" else {}
+        projection["bounds"]["included_items"] = 0
+
+        # Every fallback candidate remains detached and is encoded once for its
+        # exact contribution. Tracking the canonical byte delta avoids
+        # re-encoding the entire growing projection for every candidate.
+        projection_size = len(io.canonical_json(projection))
+        accepted_count = 0
+        for category, key, value in iter_candidates():
+            if accepted_count >= max_items:
+                break
+            if category == "recent_events":
+                branch = projection[category]
+                value_size = len(io.canonical_json(value)) - 1
+                size_delta = value_size + (1 if branch else 0)
+            else:
+                branch = projection[category]
+                value_size = len(io.canonical_json({key: value})) - 3
+                if key in branch:
+                    prior_size = len(io.canonical_json({key: branch[key]})) - 3
+                    size_delta = value_size - prior_size
                 else:
-                    projection[category].pop(key, None)
-                projection["bounds"]["included_items"] = len(accepted)
+                    size_delta = value_size + (1 if branch else 0)
+            next_count = accepted_count + 1
+            size_delta += len(str(next_count)) - len(str(accepted_count))
+            if projection_size + size_delta > max_bytes:
                 continue
-            accepted.append((category, key))
-        if len(io.canonical_json(projection)) > max_bytes:
+            detached = _copy_normalized(value)
+            if category == "recent_events":
+                branch.append(detached)
+            else:
+                branch[key] = detached
+            accepted_count = next_count
+            projection_size += size_delta
+            projection["bounds"]["included_items"] = accepted_count
+        if projection_size > max_bytes:
             raise Refused("projection byte bound is too small for required identity state")
         return projection
 
     project = workspace_projection
 
     def checkpoint(self) -> dict[str, Any]:
-        state = self.semantic_state()
-        document = {
-            "schema": CHECKPOINT_SCHEMA,
-            "schema_version": int(state["schema_version"]),
-            "owned_identity": self.entity_id,
-            "events": [event.to_dict() for event in self._events],
-            "event_chain_head": (
-                self._events[-1].event_sha256 if self._events else None
-            ),
-            "state": state,
-            "state_sha256": self.state_identity(),
-            "activation": False,
-        }
-        return io.sealed_document(document)
+        with self._lock:
+            cached = self._checkpoint_cache
+            if cached is not None:
+                cached_events = cached["events"]
+                cache_matches = (
+                    cached["state"] == self._state
+                    and cached["event_chain_head"]
+                    == (self._events[-1].event_sha256 if self._events else None)
+                    and len(cached_events) == len(self._events)
+                    and all(
+                        cached_event["payload"] == event.payload
+                        for cached_event, event in zip(
+                            cached_events, self._events, strict=True
+                        )
+                    )
+                )
+                if not cache_matches:
+                    cached = None
+                    self._checkpoint_cache = None
+            if cached is None:
+                state = self.semantic_state()
+                document = {
+                    "schema": CHECKPOINT_SCHEMA,
+                    "schema_version": int(state["schema_version"]),
+                    "owned_identity": self.entity_id,
+                    "events": [event._checkpoint_dict() for event in self._events],
+                    "event_chain_head": (
+                        self._events[-1].event_sha256 if self._events else None
+                    ),
+                    "state": state,
+                    "state_sha256": self.state_identity(),
+                    "activation": False,
+                }
+                self._checkpoint_cache = io.sealed_document(document)
+                cached = self._checkpoint_cache
+            return _copy_normalized(cached)
 
     snapshot = checkpoint
 
@@ -1725,6 +1819,7 @@ class PermanentEntity:
         entity._events = parsed_events
         entity._state = _copy_normalized(replayed)
         entity._state_sha256 = None
+        entity._checkpoint_cache = None
         entity._model_runners = dict(runners or {})
         for model_id in entity._model_runners:
             if model_id not in entity._state["model_registry"]:

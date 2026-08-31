@@ -89,6 +89,22 @@ Representative local profiles for the pass were:
   context transitions, with the goal and memory shapes moving from roughly
   0.48 to 0.42 and 0.57 to 0.46 microseconds respectively; state isolation
   tests remain unchanged.
+- Internal detachment of already-canonical JSON trees now uses a focused
+  dict/list copy instead of generic `copy.deepcopy`; this preserves the public
+  snapshot boundary while making representative tree copies about 3.2x faster.
+- Bounded workspace projection uses one full encoding when its first
+  `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
+  deterministic candidates are generated on demand rather than materialized in
+  a second full list. In the same 64-event/32-goal local harness, the wide
+  projection moved from roughly 623 to 63 microseconds per call, while the
+  2 KB bounded case moved from roughly 350 to 286 microseconds;
+  bounded-selection parity matched the prior greedy implementation across
+  thousands of byte limits.
+- Checkpoints now cache the sealed snapshot for the unchanged event chain while
+  returning a detached tree and invalidating on append. With source metadata
+  warmed, an 80-event/48 KB profile moved repeated reads from roughly 1.24 ms
+  to 0.235 ms each; state/event mutation checks still force a rebuild, and exact
+  restore, persistence, and caller-mutation tests remain green.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state
