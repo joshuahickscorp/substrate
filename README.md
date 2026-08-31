@@ -73,8 +73,16 @@ Representative local profiles for the pass were:
   encodes and about 245 ms through the direct encoder, with byte-parity tests.
 - A 64-event permanent-state profile moved from about 78 ms to about 51 ms
   after redundant normalization and copying were removed.
+- The next reducer-copy profile moved from about 22 ms to about 8 ms under
+  cProfile by cloning only mutable state branches; a regression test checks
+  that prior nested branches remain unchanged.
+- Internal detachments now copy already-normalized trees directly, removing
+  another JSON round-trip from reducer, snapshot, projection, and restore
+  paths while keeping external normalization and seal validation unchanged.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
+- In the same local 12-checkpoint/80-event harness, caching the unchanged state
+  digest moved the current batch median from about 15.6 ms to about 14.1 ms.
 
 These are bounded local profiles, not claims about campaign-scale throughput;
 the source, seal, and state-isolation boundaries remain explicit.

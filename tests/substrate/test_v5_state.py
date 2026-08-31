@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import math
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -99,6 +100,46 @@ def test_event_payload_and_semantic_snapshots_remain_detached() -> None:
     assert entity.state["active_context"]["nested"] == ["before"]
 
 
+def test_reducer_copy_on_write_preserves_prior_state_branches() -> None:
+    entity = S.PermanentEntity("entity:copy-on-write")
+
+    def assert_prior_untouched(operation: Callable[[], object]) -> None:
+        prior = entity._state  # noqa: SLF001 - inspect the reducer boundary
+        expected = copy.deepcopy(prior)
+        operation()
+        assert prior == expected
+
+    assert_prior_untouched(
+        lambda: entity.update_context("active_context", {"topic": "copy-on-write"})
+    )
+    assert_prior_untouched(
+        lambda: entity.upsert_goal("goal:copy", "preserve prior branches")
+    )
+    assert_prior_untouched(
+        lambda: entity.attach_sensor(
+            "sensor:copy", {"modality": "text", "coordinate_frame": "document"}
+        )
+    )
+    assert_prior_untouched(
+        lambda: entity.observe_sensor(
+            "sensor:copy", {"observation": "detached"}, source_timestamp=1
+        )
+    )
+    assert_prior_untouched(lambda: entity.interrupt_sensor("sensor:copy"))
+    assert_prior_untouched(
+        lambda: entity.register_model(contract("model:copy", "sha256:copy"))
+    )
+    assert_prior_untouched(
+        lambda: entity.replace_model(
+            "model:copy", contract("model:copy-v2", "sha256:copy-v2")
+        )
+    )
+    assert_prior_untouched(
+        lambda: entity.enqueue("learning_queue", {"identity": "item:copy"})
+    )
+    assert_prior_untouched(lambda: entity.dequeue("learning_queue", "item:copy"))
+
+
 def test_v5_io_is_atomic_content_addressed_and_fail_closed(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -132,8 +173,12 @@ def test_v5_io_is_atomic_content_addressed_and_fail_closed(
 def test_event_sourced_state_has_stable_identity_and_monotonic_time() -> None:
     entity = populated_entity()
     identity = entity.state["identity"]
+    state_sha256 = entity.state_identity()
+    assert state_sha256 == entity.state_identity()
     event = entity.advance_time(100, reason="simulated week-scale idle")
     assert event["event_time"] == 100
+    assert entity.state_identity() != state_sha256
+    assert entity.checkpoint()["state_sha256"] == entity.state_identity()
     assert entity.state["continuous_time"]["gaps"][-1]["missing_intervals"] > 0
     assert entity.state["identity"] == identity
     assert entity.state["active_goals"]["goal:learn"]["status"] == "active"

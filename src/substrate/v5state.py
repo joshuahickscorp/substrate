@@ -154,6 +154,12 @@ def _json_copy(value: Any) -> Any:
         raise Refused(str(error)) from error
 
 
+def _copy_normalized(value: Any) -> Any:
+    """Detach a tree that is already known to be canonical JSON."""
+
+    return copy.deepcopy(value)
+
+
 def _identifier(value: str, label: str = "identity") -> str:
     if not isinstance(value, str) or not value.strip() or len(value) > 256:
         raise Refused(f"{label} must be a nonempty string of at most 256 characters")
@@ -263,7 +269,7 @@ class CognitiveEvent:
             raise Refused("unsupported cognitive event schema")
         if self.event_sha256 != io.sha_obj(self.body()):
             raise Refused(f"corrupt cognitive event at sequence {self.sequence}")
-        _assert_activation(self.to_dict())
+        _assert_normalized_activation(self.to_dict())
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> CognitiveEvent:
@@ -449,9 +455,9 @@ class ModelRegistry:
         if runner is None:
             raise Refused(f"model {model_id!r} has no available runtime")
         normalized_request = _json_copy(dict(request))
-        _assert_activation(normalized_request)
+        _assert_normalized_activation(normalized_request)
         output = _json_copy(runner(copy.deepcopy(normalized_request)))
-        _assert_activation(output)
+        _assert_normalized_activation(output)
         receipt = {
             "model_identity": model_id,
             "checkpoint_identity": self.contracts[model_id].checkpoint_identity,
@@ -553,6 +559,107 @@ def _event_summary(event: CognitiveEvent) -> dict[str, Any]:
     }
 
 
+def _copy_state_for_reduction(
+    state: dict[str, Any], event: CognitiveEvent
+) -> dict[str, Any]:
+    """Copy only state branches a reduction can mutate.
+
+    The event reducer mutates a fixed set of top-level collections. Copying
+    those collections shallowly, plus the few nested records it edits, keeps
+    unrelated permanent state shared for the speculative transition. This is
+    safe because event payloads are normalized before reduction and the
+    public snapshot boundary still returns a detached tree.
+    """
+
+    candidate = state.copy()
+    continuous_time = state["continuous_time"]
+    candidate["continuous_time"] = {
+        **continuous_time,
+        "gaps": list(continuous_time["gaps"]),
+    }
+    candidate["events"] = list(state["events"])
+
+    def copy_branch(key: str) -> None:
+        value = state.get(key)
+        if isinstance(value, (dict, list)):
+            candidate[key] = value.copy()
+        else:
+            candidate[key] = copy.deepcopy(value)
+
+    def copy_nested_record(branch: str, identity: str) -> None:
+        copy_branch(branch)
+        records = candidate.get(branch)
+        if isinstance(records, dict) and isinstance(records.get(identity), dict):
+            records[identity] = records[identity].copy()
+
+    kind = event.kind
+    payload = event.payload
+    if kind in {"goal_upserted", "goal_resolved"}:
+        copy_branch("active_goals")
+    elif kind in {"task_upserted", "task_resolved"}:
+        copy_branch("unfinished_tasks")
+    elif kind in {"hypothesis_upserted", "hypothesis_resolved"}:
+        copy_branch("unresolved_hypotheses")
+    elif kind == "memory_recorded":
+        tier = payload.get("tier")
+        if tier in MEMORY_TIERS:
+            copy_branch(f"{tier}_memory")
+    elif kind == "world_updated":
+        collection = payload.get("collection")
+        if collection in WORLD_COLLECTIONS:
+            copy_branch(str(collection))
+    elif kind == "belief_upserted":
+        copy_branch("beliefs")
+    elif kind == "knowledge_upserted":
+        copy_branch("knowledge")
+    elif kind == "sensor_attached":
+        copy_branch("sensors")
+        copy_branch("sensory_buffers")
+    elif kind in {"sensor_interrupted", "sensor_detached"}:
+        identity = payload.get("identity")
+        if identity is not None:
+            copy_nested_record("sensors", str(identity))
+    elif kind == "sensory_observed":
+        identity = payload.get("sensor_identity")
+        if identity is not None:
+            identity = str(identity)
+            copy_nested_record("sensors", identity)
+            copy_branch("sensory_buffers")
+            buffers = candidate.get("sensory_buffers")
+            if isinstance(buffers, dict) and isinstance(buffers.get(identity), list):
+                buffers[identity] = buffers[identity].copy()
+    elif kind == "tool_updated":
+        copy_branch("tool_state")
+    elif kind == "model_registered":
+        copy_branch("model_registry")
+        copy_branch("model_availability")
+    elif kind == "model_relationship_set":
+        copy_branch("model_relationships")
+    elif kind == "model_replaced":
+        copy_branch("model_registry")
+        old_identity = payload.get("old_identity")
+        if old_identity is not None:
+            copy_nested_record("model_availability", str(old_identity))
+        copy_branch("model_relationships")
+    elif kind in {"queue_enqueued", "queue_dequeued"}:
+        queue = payload.get("queue")
+        if queue in QUEUE_NAMES:
+            copy_branch(str(queue))
+    elif kind == "competence_updated":
+        copy_branch("self_model_competence")
+    elif kind == "consolidated":
+        copy_branch("episodic_memory")
+        copy_branch("semantic_memory")
+        archival = state.get("archival_tiers")
+        if isinstance(archival, dict) and isinstance(archival.get("episodic"), list):
+            candidate["archival_tiers"] = archival.copy()
+            candidate["archival_tiers"]["episodic"] = archival["episodic"].copy()
+    elif kind == "schema_migrated":
+        copy_branch("migration_history")
+
+    return candidate
+
+
 def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
     payload = event.payload
     kind = event.kind
@@ -572,20 +679,20 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
         layer = payload.get("layer")
         if layer not in {"active_context", "latent_context"}:
             raise Refused("context layer must be active_context or latent_context")
-        state[layer] = _json_copy(payload.get("value", {}))
+        state[layer] = _copy_normalized(payload.get("value", {}))
     elif kind == "goal_upserted":
-        goal = _json_copy(payload["goal"])
+        goal = _copy_normalized(payload["goal"])
         goal_id = _identifier(str(goal["identity"]), "goal identity")
         state["active_goals"][goal_id] = goal
     elif kind == "goal_resolved":
         state["active_goals"].pop(str(payload["identity"]), None)
     elif kind == "task_upserted":
-        task = _json_copy(payload["task"])
+        task = _copy_normalized(payload["task"])
         state["unfinished_tasks"][_identifier(str(task["identity"]), "task identity")] = task
     elif kind == "task_resolved":
         state["unfinished_tasks"].pop(str(payload["identity"]), None)
     elif kind == "hypothesis_upserted":
-        hypothesis = _json_copy(payload["hypothesis"])
+        hypothesis = _copy_normalized(payload["hypothesis"])
         identity = _identifier(str(hypothesis["identity"]), "hypothesis identity")
         state["unresolved_hypotheses"][identity] = hypothesis
     elif kind == "hypothesis_resolved":
@@ -594,7 +701,7 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
         tier = str(payload["tier"])
         if tier not in MEMORY_TIERS:
             raise Refused(f"unsupported memory tier {tier!r}")
-        record = _json_copy(payload["record"])
+        record = _copy_normalized(payload["record"])
         identity = _identifier(str(record["identity"]), "memory identity")
         state[f"{tier}_memory"][identity] = record
     elif kind == "world_updated":
@@ -605,12 +712,12 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
         if payload.get("remove") is True:
             state[collection].pop(identity, None)
         else:
-            state[collection][identity] = _json_copy(payload["value"])
+            state[collection][identity] = _copy_normalized(payload["value"])
     elif kind == "belief_upserted":
-        record = _json_copy(payload["record"])
+        record = _copy_normalized(payload["record"])
         state["beliefs"][_identifier(str(record["identity"]), "belief identity")] = record
     elif kind == "knowledge_upserted":
-        record = _json_copy(payload["record"])
+        record = _copy_normalized(payload["record"])
         provenance_value = record.get("provenance")
         verifiers_value = record.get("verification")
         evidence_value = record.get("verification_evidence")
@@ -651,17 +758,17 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
             _identifier(value, "knowledge verification evidence")
         state["knowledge"][_identifier(str(record["identity"]), "knowledge identity")] = record
     elif kind == "body_replaced":
-        body = _json_copy(payload["body"])
+        body = _copy_normalized(payload["body"])
         _identifier(str(body["identity"]), "body identity")
         body["generation"] = int(state["body_state"].get("generation", 0)) + 1
         state["body_state"] = body
     elif kind == "tool_updated":
         identity = _identifier(str(payload["identity"]), "tool identity")
-        state["tool_state"][identity] = _json_copy(payload["value"])
+        state["tool_state"][identity] = _copy_normalized(payload["value"])
     elif kind == "sensor_attached":
         identity = _identifier(str(payload["identity"]), "sensor identity")
         state["sensors"][identity] = {
-            **_json_copy(payload["contract"]),
+            **_copy_normalized(payload["contract"]),
             "status": "attached",
             "last_event_time": event.event_time,
         }
@@ -684,7 +791,7 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
             raise Refused(f"unknown sensor {identity!r}")
         if state["sensors"][identity]["status"] == "detached":
             raise Refused("a detached sensor cannot emit observations")
-        observation = _json_copy(payload["observation"])
+        observation = _copy_normalized(payload["observation"])
         state["sensory_buffers"][identity].append(observation)
         state["sensory_buffers"][identity] = state["sensory_buffers"][identity][
             -MAX_SENSOR_OBSERVATIONS:
@@ -743,7 +850,7 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
             raise Refused(f"unsupported cognitive queue {queue!r}")
         if len(state[queue]) >= MAX_QUEUE_DEPTH:
             raise Refused(f"bounded queue {queue!r} is full")
-        state[queue].append(_json_copy(payload["item"]))
+        state[queue].append(_copy_normalized(payload["item"]))
     elif kind == "queue_dequeued":
         queue = str(payload["queue"])
         if queue not in QUEUE_NAMES:
@@ -753,18 +860,18 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
             item for item in state[queue] if str(item.get("identity")) != identity
         ]
     elif kind == "resource_updated":
-        state["resource_state"] = _json_copy(payload["resource_state"])
+        state["resource_state"] = _copy_normalized(payload["resource_state"])
     elif kind == "competence_updated":
         identity = _identifier(str(payload["model_identity"]), "model identity")
-        state["self_model_competence"][identity] = _json_copy(payload["estimate"])
+        state["self_model_competence"][identity] = _copy_normalized(payload["estimate"])
     elif kind == "consolidated":
         for identity in payload["source_memory_ids"]:
             state["episodic_memory"].pop(str(identity), None)
-        record = _json_copy(payload["semantic_record"])
+        record = _copy_normalized(payload["semantic_record"])
         state["semantic_memory"][str(record["identity"])] = record
         if state["schema_version"] >= 2:
             archive = state["archival_tiers"]["episodic"]
-            archive.append(_json_copy(payload["archive_entry"]))
+            archive.append(_copy_normalized(payload["archive_entry"]))
             state["archival_index_count"] += 1
             if len(archive) > MAX_ARCHIVAL_INDEX:
                 del archive[: len(archive) - MAX_ARCHIVAL_INDEX]
@@ -859,6 +966,7 @@ class PermanentEntity:
         self._storage_root = storage_root
         self._events: list[CognitiveEvent] = []
         self._state = _blank_state(entity_id, schema_version)
+        self._state_sha256: str | None = None
         self._model_runners: dict[str, Callable[[dict[str, Any]], Any]] = {}
         self.append_event(
             "entity_created",
@@ -890,10 +998,12 @@ class PermanentEntity:
         return self.semantic_state()
 
     def semantic_state(self) -> dict[str, Any]:
-        return _json_copy(self._state)
+        return _copy_normalized(self._state)
 
     def state_identity(self) -> str:
-        return io.sha_obj(self._state)
+        if self._state_sha256 is None:
+            self._state_sha256 = io.sha_obj(self._state)
+        return self._state_sha256
 
     def _persist_event(self, event: CognitiveEvent) -> None:
         if self._storage_root is None:
@@ -937,7 +1047,7 @@ class PermanentEntity:
             # transition is activation-checked. Copy directly for the
             # speculative reduction; semantic_state() remains the public
             # normalized snapshot boundary.
-            candidate = copy.deepcopy(self._state)
+            candidate = _copy_state_for_reduction(self._state, event)
             try:
                 _reduce(candidate, event)
             except Refused:
@@ -948,6 +1058,7 @@ class PermanentEntity:
             self._persist_event(event)
             self._events.append(event)
             self._state = candidate
+            self._state_sha256 = None
             return event.to_dict()
 
     def advance_time(self, event_time: int, *, reason: str = "idle") -> dict[str, Any]:
@@ -1304,14 +1415,14 @@ class PermanentEntity:
 
     def _continuity_fields(self) -> dict[str, Any]:
         return {
-            "identity": _json_copy(self._state["identity"]),
-            "goals": _json_copy(self._state["active_goals"]),
+            "identity": _copy_normalized(self._state["identity"]),
+            "goals": _copy_normalized(self._state["active_goals"]),
             "memory": {
-                tier: _json_copy(self._state[f"{tier}_memory"])
+                tier: _copy_normalized(self._state[f"{tier}_memory"])
                 for tier in sorted(MEMORY_TIERS)
             },
             "world": {
-                collection: _json_copy(self._state[collection])
+                collection: _copy_normalized(self._state[collection])
                 for collection in sorted(WORLD_COLLECTIONS)
             },
         }
@@ -1411,10 +1522,10 @@ class PermanentEntity:
         if max_items < 0 or max_bytes < 512:
             raise Refused("workspace projection bounds are invalid")
         projection: dict[str, Any] = {
-            "identity": _json_copy(self._state["identity"]),
+            "identity": _copy_normalized(self._state["identity"]),
             "event_time": self.event_time,
             "mode": self.mode,
-            "body_state": _json_copy(self._state["body_state"]),
+            "body_state": _copy_normalized(self._state["body_state"]),
             "active_goals": {},
             "unfinished_tasks": {},
             "unresolved_hypotheses": {},
@@ -1462,9 +1573,9 @@ class PermanentEntity:
             if len(accepted) >= max_items:
                 break
             if category == "recent_events":
-                projection[category].append(_json_copy(value))
+                projection[category].append(_copy_normalized(value))
             else:
-                projection[category][key] = _json_copy(value)
+                projection[category][key] = _copy_normalized(value)
             projection["bounds"]["included_items"] = len(accepted) + 1
             if len(io.canonical_json(projection)) > max_bytes:
                 if category == "recent_events":
@@ -1491,7 +1602,7 @@ class PermanentEntity:
                 self._events[-1].event_sha256 if self._events else None
             ),
             "state": state,
-            "state_sha256": io.sha_obj(state),
+            "state_sha256": self.state_identity(),
             "activation": False,
         }
         return io.sealed_document(document)
@@ -1587,7 +1698,8 @@ class PermanentEntity:
         entity._lock = threading.RLock()
         entity._storage_root = storage_root
         entity._events = parsed_events
-        entity._state = _json_copy(replayed)
+        entity._state = _copy_normalized(replayed)
+        entity._state_sha256 = None
         entity._model_runners = dict(runners or {})
         for model_id in entity._model_runners:
             if model_id not in entity._state["model_registry"]:
