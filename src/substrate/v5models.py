@@ -112,18 +112,26 @@ _FORBIDDEN_REQUEST_KEYS = frozenset(
 )
 
 
-def _walk_keys(value: object) -> set[str]:
+def _forbidden_request_keys(value: object) -> set[str]:
+    """Return only outcome-authority keys found in a JSON-shaped payload."""
+
+    leaked: set[str] = set()
+    _collect_forbidden_request_keys(value, leaked)
+    return leaked
+
+
+def _collect_forbidden_request_keys(value: object, leaked: set[str]) -> None:
     if isinstance(value, Mapping):
-        keys = {str(key).lower() for key in value}
-        for child in value.values():
-            keys.update(_walk_keys(child))
-        return keys
-    if isinstance(value, (list, tuple)):
-        keys: set[str] = set()
+        for key, child in value.items():
+            normalized = str(key).lower()
+            if normalized in _FORBIDDEN_REQUEST_KEYS:
+                leaked.add(normalized)
+            if isinstance(child, (Mapping, list, tuple)):
+                _collect_forbidden_request_keys(child, leaked)
+    elif isinstance(value, (list, tuple)):
         for child in value:
-            keys.update(_walk_keys(child))
-        return keys
-    return set()
+            if isinstance(child, (Mapping, list, tuple)):
+                _collect_forbidden_request_keys(child, leaked)
 
 
 @dataclass(frozen=True)
@@ -141,7 +149,7 @@ class ModelRequest:
     def __post_init__(self) -> None:
         if not self.task_id or not self.operation:
             raise ModelContractError("task and operation identities are required")
-        leaked = _FORBIDDEN_REQUEST_KEYS & _walk_keys(self.payload)
+        leaked = _forbidden_request_keys(self.payload)
         if leaked:
             raise ModelContractError(f"outcome authority leaked into model request: {sorted(leaked)}")
         if not 0.0 <= self.minimum_confidence <= 1.0:

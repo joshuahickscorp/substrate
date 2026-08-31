@@ -191,6 +191,9 @@ _PRIMARY_MECHANISMS = frozenset(
         "conflict_arbitration",
     }
 )
+_VIDEO_CAPABILITIES = frozenset({"video_state", "motion", "event_model"})
+_DEPTH_CAPABILITIES = frozenset({"depth", "spatial", "three_d"})
+_COMMIT_SINGLE_CAPABILITIES = frozenset({"cross_modal_binding", "integrated_state"})
 _ARM_DISABLED: dict[str, frozenset[str]] = {
     "full_v5": frozenset(),
     "v4_cognitive_core_control": _CAPABILITIES - frozenset({"structured_state", "persistence", "auditability", "recovery"}),
@@ -254,6 +257,13 @@ _ARM_DISABLED: dict[str, frozenset[str]] = {
         }
     ),
     "fresh_reset": frozenset({"persistence", "long_history", "recovery", "structured_state"}),
+}
+_PHASE_MISSING_REQUIREMENTS = {
+    arm: tuple(
+        tuple(sorted(set(requirements) & disabled))
+        for requirements in _PHASE_REQUIREMENTS
+    )
+    for arm, disabled in _ARM_DISABLED.items()
 }
 _MODEL_FOR_MODALITY = {
     "text": "language_interpreter",
@@ -647,29 +657,19 @@ def _independent_commit(
     learned_correction: float,
 ) -> dict[str, Any]:
     disabled = _ARM_DISABLED[arm]
-    missing = sorted(set(_PHASE_REQUIREMENTS[phase_index]) & disabled)
+    missing = list(_PHASE_MISSING_REQUIREMENTS[arm][phase_index])
     usable: list[tuple[str, str, float]] = []
     for modality, cue in observation["modality_cues"].items():
         if (
             modality in {"video", "motion"}
-            and {
-                "video_state",
-                "motion",
-                "event_model",
-            }
-            & disabled
+            and _VIDEO_CAPABILITIES & disabled
         ):
             continue
         if modality == "audio" and "audio" in disabled:
             continue
         if (
             modality in {"depth", "three_d"}
-            and {
-                "depth",
-                "spatial",
-                "three_d",
-            }
-            & disabled
+            and _DEPTH_CAPABILITIES & disabled
         ):
             continue
         if modality in {"body", "tool"} and "body_schema" in disabled:
@@ -694,8 +694,7 @@ def _independent_commit(
             )
         )
     if (
-        "cross_modal_binding" in disabled
-        or "integrated_state" in disabled
+        _COMMIT_SINGLE_CAPABILITIES & disabled
         or ("model_routing" in disabled and arm != "largest_model_always")
         or (phase_index >= 13 and {"persistence", "structured_state"} & disabled)
         or (

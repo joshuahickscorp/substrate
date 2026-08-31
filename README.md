@@ -123,6 +123,11 @@ Representative local profiles for the pass were:
   mapping directly instead of walking their scalar envelope and empty layer
   lists. The warmed one-shard harness measures roughly 21 ms per regeneration;
   events carrying optional layers still use the complete public-body audit.
+- Model-request validation now accumulates only forbidden outcome-authority keys
+  while retaining the same recursive payload walk. On representative flat and
+  nested public payloads, validation moved from roughly 0.49 to 0.40 and 1.21
+  to 1.13 microseconds respectively; hidden-key refusal tests remain in the
+  normal suite.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state
