@@ -101,6 +101,12 @@ def _seal_intact(doc: dict) -> bool:
 def recompute() -> dict:
     """Recompute each headline number from sealed bytes, by a route the producing module does not share."""
     checks: dict[str, dict] = {}
+    sealed_cache: dict[str, dict] = {}
+
+    def sealed(name: str) -> dict:
+        if name not in sealed_cache:
+            sealed_cache[name] = _sealed(name)
+        return sealed_cache[name]
 
     def check(name: str, reported, recomputed, how: str):
         checks[name] = {
@@ -110,7 +116,7 @@ def recompute() -> dict:
             "route": how,
         }
 
-    ws = _sealed("SUBSTRATE_WORKSPACE.json")
+    ws = sealed("SUBSTRATE_WORKSPACE.json")
     globally_writable = sum(1 for r in ws["regions"] if r["writers"] == ["*"])
     check(
         "workspace_no_region_is_globally_writable",
@@ -125,7 +131,7 @@ def recompute() -> dict:
         "counted reader sets in the sealed region table",
     )
 
-    ps = _sealed("SUBSTRATE_PERSPECTIVE_SYSTEM.json")
+    ps = sealed("SUBSTRATE_PERSPECTIVE_SYSTEM.json")
     check(
         "perspective_families_are_distinct",
         len(ps["catalog"]),
@@ -139,7 +145,7 @@ def recompute() -> dict:
         "added the implemented and missing family lists from the sealed artifact",
     )
 
-    mem = _sealed("SUBSTRATE_MEMORY_SYSTEM.json")
+    mem = sealed("SUBSTRATE_MEMORY_SYSTEM.json")
     selections = mem["consolidation"]["comparison_on_a_probe_stream"]["selected"]
     check(
         "consolidation_selections_are_distinct",
@@ -155,7 +161,7 @@ def recompute() -> dict:
         "filtered the sealed policy table on availability at decision time",
     )
 
-    world = _sealed("SUBSTRATE_WORLD_MODEL.json")
+    world = sealed("SUBSTRATE_WORLD_MODEL.json")
     tests, group = world["battery"]["tests"], world["test_to_distinction"]
     for distinction, reported in world["battery"]["distinctions"].items():
         members = [tests[t] for t, d in group.items() if d == distinction]
@@ -167,7 +173,7 @@ def recompute() -> dict:
             "averaged the sealed per test scores back into their declared distinction",
         )
 
-    mk = _sealed("SUBSTRATE_METACOGNITION.json")
+    mk = sealed("SUBSTRATE_METACOGNITION.json")
     h = mk["oracle_headroom"]
     check(
         "metacognition_residual_headroom",
@@ -182,7 +188,7 @@ def recompute() -> dict:
         "reapplied the SESOI rule to the sealed residual",
     )
 
-    cont = _sealed("SUBSTRATE_CONTINUITY_BATTERY.json")
+    cont = sealed("SUBSTRATE_CONTINUITY_BATTERY.json")
     contested = [k for k, r in cont["surfaces"].items() if r["probed"] and r["replay_full"]]
     check(
         "continuity_contested_surfaces",
@@ -197,8 +203,8 @@ def recompute() -> dict:
         "reapplied the support rule to the sealed margins",
     )
 
-    state = _sealed("SUBSTRATE_STATE.json")
-    card = _sealed("SUBSTRATE_PROGRESS_SCORECARD.json")
+    state = sealed("SUBSTRATE_STATE.json")
+    card = sealed("SUBSTRATE_PROGRESS_SCORECARD.json")
     for category, row in card["categories"].items():
         if not row["items"]:
             continue
@@ -222,7 +228,7 @@ def recompute() -> dict:
             for name, row in _recompute_sx5(doc).items():
                 checks[name] = row
 
-    seals = {name: _seal_intact(_sealed(name)) for name in sorted(p.name for p in io.PROOF.glob("SUBSTRATE_*.json"))}
+    seals = {name: _seal_intact(sealed(name)) for name in sorted(p.name for p in io.PROOF.glob("SUBSTRATE_*.json"))}
     disagreements = sorted(k for k, v in checks.items() if not v["agrees"])
     broken_seals = sorted(k for k, v in seals.items() if not v)
     return {

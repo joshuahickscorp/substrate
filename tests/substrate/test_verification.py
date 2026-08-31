@@ -33,6 +33,20 @@ def test_a_tampered_seal_is_detected():
     assert V._seal_intact({**doc, "regions": []}) is False
 
 
+def test_recomputation_reads_each_sealed_artifact_once(monkeypatch):
+    calls = []
+    original = V._sealed
+
+    def counted(name):
+        calls.append(name)
+        return original(name)
+
+    monkeypatch.setattr(V, "_sealed", counted)
+    report = V.recompute()
+    assert report["all_pass"] is True
+    assert len(calls) == len(set(calls))
+
+
 def test_every_mutation_names_a_distinct_guard_and_died():
     guards = [m[3] for m in V.MUTATIONS]
     names = [m[0] for m in V.MUTATIONS]
