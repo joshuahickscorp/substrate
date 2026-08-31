@@ -447,6 +447,11 @@ def _signed_fraction(identity: str) -> float:
     return 2.0 * _fraction(identity) - 1.0
 
 
+@lru_cache(maxsize=256)
+def _history_signed_fraction(split: str, history_seed: int, label: str) -> float:
+    return _signed_fraction(f"{split}:{history_seed}:{label}")
+
+
 def _independent_public_task(
     split: str,
     history_seed: int,
@@ -454,9 +459,13 @@ def _independent_public_task(
     episode_index: int,
 ) -> tuple[str, dict[str, Any], int]:
     task_identity = f"{split}:{history_seed}:{phase_index}:{episode_index}:substrate-v5-frozen-generator-v2"
-    stable_context = 0.28 * _signed_fraction(f"{split}:{history_seed}:context")
+    stable_context = 0.28 * _history_signed_fraction(
+        split, history_seed, "context"
+    )
     latent = 0.82 * _signed_fraction(task_identity + ":latent") + stable_context
-    sensor_bias = 0.48 * _signed_fraction(f"{split}:{history_seed}:sensor-calibration")
+    sensor_bias = 0.48 * _history_signed_fraction(
+        split, history_seed, "sensor-calibration"
+    )
     target = int(latent + 0.16 * _signed_fraction(task_identity + ":oracle-noise") >= 0.0)
     sensor_noise = 2.40 if phase_index in {8, 9, 12} else (2.00 if phase_index in {10, 11} else (1.55 if phase_index == 14 else 1.05))
     mechanism_noise = 1.10 if phase_index in {9, 10, 11} else 0.32
@@ -549,11 +558,7 @@ def _independent_sensor_event(
         "phase_index": phase_index,
         "episode_index": episode_index,
     }
-    payload = json.dumps(
-        public,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
+    payload = _STABLE_JSON_ENCODER.encode(public).encode("utf-8")
     reference = f"generated://{_stable_digest((task_identity, modality))}"
     raw_signal = VS.raw_signal(
         reference,
@@ -634,7 +639,8 @@ def _independent_environment_trace(
     }
 
 
-def _independent_v4_retention(
+@lru_cache(maxsize=256)
+def _independent_v4_retention_cached(
     split: str,
     history_seed: int,
 ) -> dict[str, Any]:
@@ -675,6 +681,13 @@ def _independent_v4_retention(
         ),
         "activation": False,
     }
+
+
+def _independent_v4_retention(
+    split: str,
+    history_seed: int,
+) -> dict[str, Any]:
+    return dict(_independent_v4_retention_cached(split, history_seed))
 
 
 def _independent_commit(

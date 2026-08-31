@@ -114,6 +114,15 @@ Representative local profiles for the pass were:
   event again for the aggregate receipt. Representative full-v5 phase 19
   execution moved from roughly 11.3 to 8.5 milliseconds across this pass, with
   exact output parity across the sampled phases.
+- The default model fabric now caches its immutable contract and relationship
+  definitions while still creating fresh per-registry modules, preserving
+  isolated call counts. Registry construction moved from roughly 52 to 3
+  microseconds locally, and a representative full-v5 phase 19 run moved from
+  about 8.2 to 7.8 milliseconds with identical receipt bytes.
+- Independent verification now caches the deterministic v4-retention probe
+  behind the same bounded pure-function boundary; repeated verifier phase-19
+  work moved from roughly 176 to 8 milliseconds locally with identical
+  independently reconstructed receipt bytes.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in

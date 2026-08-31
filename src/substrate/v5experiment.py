@@ -449,7 +449,10 @@ def _environment_trace(
 
 
 @lru_cache(maxsize=256)
-def _v4_retention_probe(split: str, history_seed: int) -> dict[str, Any]:
+def _v4_retention_probe_cached(
+    split: str,
+    history_seed: int,
+) -> dict[str, Any]:
     """Execute one frozen v4 workload after loading the v5 implementation."""
 
     from substrate import v4config, v4principal
@@ -482,6 +485,10 @@ def _v4_retention_probe(split: str, history_seed: int) -> dict[str, Any]:
         ),
         "activation": False,
     }
+
+
+def _v4_retention_probe(split: str, history_seed: int) -> dict[str, Any]:
+    return dict(_v4_retention_probe_cached(split, history_seed))
 
 
 def _request(

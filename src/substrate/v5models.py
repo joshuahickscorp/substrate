@@ -14,6 +14,7 @@ import math
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
+from functools import lru_cache
 from typing import Any, Protocol
 
 
@@ -399,32 +400,70 @@ _DEFAULT_MODULE_SPECS = (
 )
 
 
+@lru_cache(maxsize=1)
+def _default_model_contracts() -> tuple[ModelContract, ...]:
+    """Build immutable default contracts once; modules remain per-registry."""
+
+    return tuple(
+        _contract(
+            identity,
+            modalities,
+            roles,
+            cost=cost,
+            latency_ms=latency_ms,
+            confidence=confidence,
+            output=output,
+        )
+        for identity, modalities, roles, cost, latency_ms, confidence, output in _DEFAULT_MODULE_SPECS
+    )
+
+
+_DEFAULT_RELATIONSHIPS = (
+    SupportRelationship(
+        "image_object_detector",
+        "evidence_verifier",
+        "drafts_for",
+        "uncertainty_above_threshold",
+        "cost_adjusted_accuracy",
+    ),
+    SupportRelationship(
+        "evidence_verifier",
+        "image_object_detector",
+        "verifies",
+        "draft_is_uncertain",
+        "verified_accuracy",
+    ),
+    SupportRelationship(
+        "plan_simulator",
+        "body_dynamics_predictor",
+        "simulates_for",
+        "plan_has_body_action",
+        "physical_validity",
+    ),
+    SupportRelationship(
+        "speech_grounder",
+        "cross_modal_binder",
+        "translates_for",
+        "spoken_visible_reference",
+        "binding_accuracy",
+    ),
+    SupportRelationship(
+        "contextual_router",
+        "depth_estimator",
+        "routes_to",
+        "depth_modality_present",
+        "routing_utility",
+    ),
+)
+
+
 def default_model_registry() -> ModelRegistry:
     """Return thirteen independently callable, role-plural local modules."""
 
     registry = ModelRegistry()
-    for identity, modalities, roles, cost, latency, confidence, output in _DEFAULT_MODULE_SPECS:
-        registry.register(
-            DeterministicModelModule(
-                _contract(
-                    identity,
-                    modalities,
-                    roles,
-                    cost=cost,
-                    latency_ms=latency,
-                    confidence=confidence,
-                    output=output,
-                ),
-                _default_evaluator,
-            ),
-        )
-    for relationship in (
-        SupportRelationship("image_object_detector", "evidence_verifier", "drafts_for", "uncertainty_above_threshold", "cost_adjusted_accuracy"),
-        SupportRelationship("evidence_verifier", "image_object_detector", "verifies", "draft_is_uncertain", "verified_accuracy"),
-        SupportRelationship("plan_simulator", "body_dynamics_predictor", "simulates_for", "plan_has_body_action", "physical_validity"),
-        SupportRelationship("speech_grounder", "cross_modal_binder", "translates_for", "spoken_visible_reference", "binding_accuracy"),
-        SupportRelationship("contextual_router", "depth_estimator", "routes_to", "depth_modality_present", "routing_utility"),
-    ):
+    for contract in _default_model_contracts():
+        registry.register(DeterministicModelModule(contract, _default_evaluator))
+    for relationship in _DEFAULT_RELATIONSHIPS:
         registry.connect(relationship)
     return registry
 
