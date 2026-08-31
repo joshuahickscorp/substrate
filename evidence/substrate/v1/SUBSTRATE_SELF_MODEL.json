@@ -105,6 +105,6 @@
   },
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "2923c9d51a8e2da75f26cd9bb7dfd6bfbae3a1e7",
-  "sha256": "29af27a7a1934caa28ce74f32c1a11d7e5084a3f9f5f3422261494aaa3e5214b"
+  "source_commit": "f864643bc334cbca3bd3a0e7acc862c2279e4257",
+  "sha256": "3878a0e4574d8e86b23b1ebc159c0b436ea78e85635e590af7b5543e36ae8f38"
 }

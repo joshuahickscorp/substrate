@@ -658,6 +658,6 @@
   "no_prose_waves": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "2923c9d51a8e2da75f26cd9bb7dfd6bfbae3a1e7",
-  "sha256": "85d4c0ce28fd3e4bb35f540562811194b0ba8714dd28b7a776d1d70f6018c98c"
+  "source_commit": "f864643bc334cbca3bd3a0e7acc862c2279e4257",
+  "sha256": "15042db1ee2ec1c102b2ef5d3f57ba3fae8b8db7f9ac0cfde9dcece774a29a05"
 }
