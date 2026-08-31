@@ -255,7 +255,23 @@ def _hidden_mapping_keys(value: object) -> set[str]:
     # recursive form rebuilt and unioned every key even though callers only
     # need the hidden-target intersection.
     keys: set[str] = set()
-    pending: list[object] = [value]
+    # Sensor events normally carry a small, flat observation mapping.  Check
+    # that common shape in one pass so we do not push each scalar onto the
+    # general-purpose worklist.  Nested mappings and sequences still take the
+    # complete walk below, preserving the public recursive validation contract.
+    if type(value) is dict:
+        nested = False
+        for key, child in value.items():
+            normalized = str(key).lower()
+            if normalized in _HIDDEN_ID_KEYS:
+                keys.add(normalized)
+            if isinstance(child, (Mapping, tuple, list)):
+                nested = True
+        if not nested:
+            return keys
+        pending: list[object] = list(value.values())
+    else:
+        pending = [value]
     while pending:
         current = pending.pop()
         if isinstance(current, Mapping):

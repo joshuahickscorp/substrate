@@ -173,6 +173,10 @@ Representative local profiles for the pass were:
   mapping directly instead of walking their scalar envelope and empty layer
   lists. The warmed one-shard harness measures roughly 21 ms per regeneration;
   events carrying optional layers still use the complete public-body audit.
+- Hidden-target scans now return after one pass for the common flat sensor
+  observation shape, while nested mappings and sequences retain the complete
+  recursive walk. A direct 30,000-call flat-observation profile moved from
+  roughly 27.4 to 19.1 milliseconds with identical leak detection.
 - Model-request validation now accumulates only forbidden outcome-authority keys
   while retaining the same recursive payload walk. On representative flat and
   nested public payloads, validation moved from roughly 0.49 to 0.40 and 1.21
