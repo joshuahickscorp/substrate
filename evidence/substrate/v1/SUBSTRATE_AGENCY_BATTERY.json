@@ -50,6 +50,6 @@
   "no_unrestricted_autonomous_goals": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
-  "sha256": "a107864293b3189dcd03febb48d098bfb053bcef19152e962d6e832a814217ca"
+  "source_commit": "3fe42f9640339ad32e10341801252eba32979623",
+  "sha256": "5f8992c697ebb841cc4c6d630ef0ef5092849fd53eed7b889723559b8bb60218"
 }

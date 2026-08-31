@@ -27,6 +27,6 @@
   "sesoi": 0.05,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
-  "sha256": "f3a5b368e6445ec91a6821270c31eb0bb4d4195d03ca984550d09a4ae48ef01c"
+  "source_commit": "3fe42f9640339ad32e10341801252eba32979623",
+  "sha256": "4b77a8d8f9e07078a43370ea7a9a46195cdb9af1d774e024350dae240b3ccefd"
 }
