@@ -1,13 +1,13 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
+  "commit": "e3f73e5db9852f00a24197fedec9955574146d79",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
     "declared_tests": true,
     "graph_valid": true,
-    "artifacts_regenerate_identically": false,
+    "artifacts_regenerate_identically": true,
     "independent_recomputation": true,
     "no_activation": true
   },
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
-      "expected": "abe3e6b579a284a16ca9682f5a82dde44444b98a"
+      "head": "e3f73e5db9852f00a24197fedec9955574146d79",
+      "expected": "e3f73e5db9852f00a24197fedec9955574146d79"
     },
     "package_import": {
       "ok": true,
@@ -45,7 +45,7 @@
         "--ignore=tests/substrate/test_final_revision_field.py"
       ],
       "isolated_test_clone": true,
-      "test_clone_head": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
+      "test_clone_head": "e3f73e5db9852f00a24197fedec9955574146d79",
       "detail": [
         "........................................................................ [ 29%]",
         "........................................................................ [ 59%]",
@@ -58,11 +58,9 @@
       "detail": "{\"valid\": true, \"blocked\": []}"
     },
     "artifacts_regenerate_identically": {
-      "ok": false,
+      "ok": true,
       "drifted_from_committed": [],
-      "nondeterministic_across_two_runs": [
-        "SUBSTRATE_STRUCTURAL_AUDIT.json"
-      ],
+      "nondeterministic_across_two_runs": [],
       "compared": 63,
       "excluded_fields": [
         "sha256",
@@ -85,13 +83,11 @@
       "detail": "false"
     }
   },
-  "failed": [
-    "artifacts_regenerate_identically"
-  ],
-  "all_pass": false,
+  "failed": [],
+  "all_pass": true,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
-  "sha256": "dd4b46f4effbc9c296f1a5f31375d7e6892b1864b634ac3cbc677b2414dbe333"
+  "source_commit": "e3f73e5db9852f00a24197fedec9955574146d79",
+  "sha256": "f808afd81745cafc1f2c2b17803869fd4e6e01ccb8f61e2ffbd5e91c3d0f5e8f"
 }
