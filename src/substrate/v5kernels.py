@@ -27,6 +27,20 @@ def _digest(value: object) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def _detach_tree(value: Any) -> Any:
+    """Copy the JSON-shaped kernel state without generic recursion overhead."""
+
+    if isinstance(value, dict):
+        return {key: _detach_tree(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_detach_tree(child) for child in value]
+    if isinstance(value, tuple):
+        return tuple(_detach_tree(child) for child in value)
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    return copy.deepcopy(value)
+
+
 @dataclass(frozen=True)
 class KernelEvent:
     sequence: int
@@ -100,7 +114,7 @@ class Kernel:
             "messages": self.messages,
             "activation": False,
         }
-        return {"body": copy.deepcopy(body), "sha256": _digest(body)}
+        return {"body": _detach_tree(body), "sha256": _digest(body)}
 
     def restore(self, checkpoint: dict[str, Any]) -> Kernel:
         body = checkpoint.get("body")
@@ -111,11 +125,11 @@ class Kernel:
         self.identity = str(body["identity"])
         self.model_identity = str(body["model_identity"])
         self.last_sequence = int(body["last_sequence"])
-        self.objects = copy.deepcopy(body["objects"])
-        self.goals = copy.deepcopy(body["goals"])
-        self.events = copy.deepcopy(body["events"])
+        self.objects = _detach_tree(body["objects"])
+        self.goals = _detach_tree(body["goals"])
+        self.events = _detach_tree(body["events"])
         self.latent_state = [float(value) for value in body["latent_state"]]
-        self.messages = copy.deepcopy(body["messages"])
+        self.messages = _detach_tree(body["messages"])
         return self
 
 

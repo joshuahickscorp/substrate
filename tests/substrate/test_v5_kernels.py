@@ -45,6 +45,18 @@ def test_v5_kernel_refuses_reordered_events_and_corrupt_checkpoint() -> None:
         v5kernels.HybridKernel().restore(corrupted)
 
 
+def test_v5_kernel_checkpoint_is_detached_from_live_state() -> None:
+    kernel = v5kernels.HybridKernel()
+    kernel.apply(v5kernels.KernelEvent(1, "image", "observation", "object", True))
+    checkpoint = kernel.checkpoint()
+
+    checkpoint["body"]["objects"]["object"]["visible"] = False
+    checkpoint["body"]["events"][0]["subject"] = "mutated"
+
+    assert kernel.objects["object"]["visible"] is True
+    assert kernel.events[0]["subject"] == "object"
+
+
 def test_v5_latent_digest_projection_preserves_prefix_values() -> None:
     kernel = v5kernels.RecurrentLatentKernel()
     expected = [0.0] * len(kernel.latent_state)

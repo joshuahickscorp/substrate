@@ -92,6 +92,11 @@ Representative local profiles for the pass were:
 - Internal detachment of already-canonical JSON trees now uses a focused
   dict/list copy instead of generic `copy.deepcopy`; this preserves the public
   snapshot boundary while making representative tree copies about 3.2x faster.
+- The bounded v5 kernel candidates now use the same focused tree detacher for
+  checkpoint and restore state, with generic copying reserved for non-tree
+  leaves. On a representative hybrid checkpoint body, focused detachment is
+  roughly 13.1 microseconds versus 25.0 microseconds for generic copying, and
+  checkpoint-isolation coverage remains explicit.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in
