@@ -353,6 +353,6 @@
   "rule": "a failed component is gated out of the run rather than blocking the run",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "71fb22dc723597decffadd9295fa2fc70ed5357f",
-  "sha256": "ce97fcd0c1173977f71c620badef2d7a3b73c2ccd8b629cd030bf0071c40fd72"
+  "source_commit": "6ba4b8a9749e902f7531783a5080ee1cdc70ebc8",
+  "sha256": "4ed724df33accb4efb72bfcbd5bda570bbdf2de469a1f894351df829b2289424"
 }

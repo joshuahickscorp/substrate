@@ -206,6 +206,6 @@
     "adaptation_constraints"
   ],
   "program": "substrate-v1",
-  "source_commit": "71fb22dc723597decffadd9295fa2fc70ed5357f",
-  "sha256": "2ff5d0c7ead062c831cc8d8003feed043cb6d71415fd5a8e0f99d15708e94f1b"
+  "source_commit": "6ba4b8a9749e902f7531783a5080ee1cdc70ebc8",
+  "sha256": "3d5af8026f7ddd5be0b0cfd7643d1bebe70bb1c17d595e5becb80195c6846bff"
 }
