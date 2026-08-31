@@ -177,6 +177,12 @@ Representative local profiles for the pass were:
   observation shape, while nested mappings and sequences retain the complete
   recursive walk. A direct 30,000-call flat-observation profile moved from
   roughly 27.4 to 19.1 milliseconds with identical leak detection.
+- Clean clones now read retained current experiment receipts when the mutable
+  `runs/` tree is absent, and their declared test gate is the reproducible
+  normal tier. Certification, integration, and corpus-heavy checks remain
+  explicit gates; the one historical supervisor log required by the live
+  session authority is tracked under `docs/archive/`, while disposable logs
+  stay ignored.
 - Model-request validation now accumulates only forbidden outcome-authority keys
   while retaining the same recursive payload walk. On representative flat and
   nested public payloads, validation moved from roughly 0.49 to 0.40 and 1.21

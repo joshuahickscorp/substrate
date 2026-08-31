@@ -76,21 +76,15 @@ def canonical_source_digest(path: Path) -> str:
         for current, historical in _SOURCE_LAYOUT_ALIASES:
             payload = payload.replace(current, historical)
         if path.name == "odyssey_transition.py":
-            payload = payload.replace(
-                b"from substrate.evidence import canonical_current_path, canonical_source_digest\n\n", b""
-            )
+            payload = payload.replace(b"from substrate.evidence import canonical_current_path, canonical_source_digest\n\n", b"")
         payload = payload.replace(b"from substrate.evidence import canonical_source_digest\n", b"")
         payload = payload.replace(
             b"odyssey_transition.canonical_current_path(root, raw).resolve()",
             b"(root / raw).resolve()",
         )
         payload = payload.replace(b"canonical_current_path(root, relative)", b"root / relative")
-        payload = payload.replace(
-            b"odyssey_transition.canonical_source_digest(source)", b"file_digest(source)"
-        )
-        payload = payload.replace(
-            b"odyssey_transition.canonical_source_digest(path)", b"file_digest(path)"
-        )
+        payload = payload.replace(b"odyssey_transition.canonical_source_digest(source)", b"file_digest(source)")
+        payload = payload.replace(b"odyssey_transition.canonical_source_digest(path)", b"file_digest(path)")
         payload = payload.replace(
             b"canonical_source_digest(implementation_inputs(root)[name])",
             b"file_digest(implementation_inputs(root)[name])",
@@ -106,9 +100,7 @@ def canonical_source_digest(path: Path) -> str:
         )
         payload = payload.replace(
             b"odyssey_transition.canonical_source_digest(adapter_path)",
-            b"authority.file_digest(adapter_path)"
-            if path.name == "odyssey_machine_subjects.py"
-            else b"file_digest(adapter_path)",
+            b"authority.file_digest(adapter_path)" if path.name == "odyssey_machine_subjects.py" else b"file_digest(adapter_path)",
         )
         payload = payload.replace(
             b"odyssey_transition.canonical_source_digest(adapter)",
@@ -122,18 +114,16 @@ def canonical_source_digest(path: Path) -> str:
             b"odyssey_transition.canonical_source_digest(Path(__file__))",
             b"file_digest(Path(__file__))",
         )
-        payload = payload.replace(
-            b"odyssey_transition.canonical_source_digest(runner_path)", b"file_digest(runner_path)"
-        )
+        payload = payload.replace(b"odyssey_transition.canonical_source_digest(runner_path)", b"file_digest(runner_path)")
         if path.name == "odyssey_authority.py":
             payload = payload.replace(
                 b"\n\ndef _resolve_runtime_relative(root: Path, raw: Any, *, label: str) -> Path:\n"
-                b"    \"\"\"Resolve mutable runtime namespaces without applying retained-layout aliases.\"\"\"\n"
+                b'    """Resolve mutable runtime namespaces without applying retained-layout aliases."""\n'
                 b"    if not isinstance(raw, str) or not raw or Path(raw).is_absolute():\n"
-                b"        raise Refused(f\"{label} must be a non-empty root-relative path\")\n"
+                b'        raise Refused(f"{label} must be a non-empty root-relative path")\n'
                 b"    path = (root / raw).resolve()\n"
                 b"    if not _inside(root, path):\n"
-                b"        raise Refused(f\"{label} escapes the repository root\")\n"
+                b'        raise Refused(f"{label} escapes the repository root")\n'
                 b"    return path\n",
                 b"",
             )
@@ -141,8 +131,8 @@ def canonical_source_digest(path: Path) -> str:
                 b"    # ``runs/`` is an intentionally mutable runtime namespace.  Unlike\n"
                 b"    # retained artifacts, it is not part of the canonical tracked-layout\n"
                 b"    # alias map and must stay rooted at the live repository ``runs/`` tree.\n"
-                b"    run_root = _resolve_runtime_relative(root, worker.get(\"run_root\"), label=\"worker.run_root\")\n",
-                b"    run_root = _resolve_relative(root, worker.get(\"run_root\"), label=\"worker.run_root\")\n",
+                b'    run_root = _resolve_runtime_relative(root, worker.get("run_root"), label="worker.run_root")\n',
+                b'    run_root = _resolve_relative(root, worker.get("run_root"), label="worker.run_root")\n',
             )
         # These three modules gained the transition import only to consult the
         # layout-stable digest at a runtime boundary.  Keep the historical
@@ -163,10 +153,10 @@ def canonical_source_digest(path: Path) -> str:
         if path.name == "odyssey_mutations.py":
             payload = payload.replace(
                 b"if (\n"
-                b"        runner_path.resolve() != (root / \"src/substrate/odyssey_mutations.py\").resolve()\n"
+                b'        runner_path.resolve() != (root / "src/substrate/odyssey_mutations.py").resolve()\n'
                 b"        or expected_runner != file_digest(runner_path)\n"
                 b"    ):",
-                b"if runner_path.resolve() != (root / \"src/substrate/odyssey_mutations.py\").resolve() or expected_runner != file_digest(runner_path):",
+                b'if runner_path.resolve() != (root / "src/substrate/odyssey_mutations.py").resolve() or expected_runner != file_digest(runner_path):',
             )
     return hashlib.sha256(payload).hexdigest()
 

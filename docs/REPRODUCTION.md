@@ -65,6 +65,12 @@ frozen units. Verification independently recomputes effects, checks controls
 and checkpoint identity, injects declared mutations, and performs clean-clone
 and isolated-install checks where the required raw run tree is available.
 
+The clean-clone gate intentionally runs the reproducible normal tier. It does
+not silently claim certification, integration, or corpus-heavy coverage when
+those external or expensive dependencies are unavailable; invoke those tiers
+explicitly with `make test-qualification`, `make test-integration`,
+`make test-expensive`, or `make test-full`.
+
 The detailed v4 scientific readout is in
 [`SCIENTIFIC_STATUS.md`](SCIENTIFIC_STATUS.md). Current cross-campaign
 classifications and the Genesis II conclusion are authoritative only through

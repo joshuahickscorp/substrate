@@ -354,7 +354,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "substrate-v1",
-  "source_commit": "ed046bc4906fa06375ae7479ec2c092ffd70772c",
+  "source_commit": "40812f9111262d8ac3bd3ed662a2b334ebba86c0",
   "activation": false,
-  "sha256": "b624c6e4c634c2c6dc52781293ff2822fdf20053bc712273311d7df1da264f48"
+  "sha256": "6c8e4445ec05fae74729279130402793322207b854d23e4da80f5ed45c28447d"
 }
