@@ -223,18 +223,25 @@ _HIDDEN_ID_KEYS = frozenset(
 )
 
 
-def _mapping_keys(value: object) -> set[str]:
-    if isinstance(value, Mapping):
-        keys = {str(key).lower() for key in value}
-        for child in value.values():
-            keys.update(_mapping_keys(child))
-        return keys
-    if isinstance(value, (tuple, list)):
-        keys: set[str] = set()
-        for child in value:
-            keys.update(_mapping_keys(child))
-        return keys
-    return set()
+def _hidden_mapping_keys(value: object) -> set[str]:
+    """Return forbidden key names found anywhere in a JSON-shaped value."""
+
+    # Keep one accumulator while walking the JSON-shaped tree.  The prior
+    # recursive form rebuilt and unioned every key even though callers only
+    # need the hidden-target intersection.
+    keys: set[str] = set()
+    pending: list[object] = [value]
+    while pending:
+        current = pending.pop()
+        if isinstance(current, Mapping):
+            for key in current:
+                normalized = str(key).lower()
+                if normalized in _HIDDEN_ID_KEYS:
+                    keys.add(normalized)
+            pending.extend(current.values())
+        elif isinstance(current, (tuple, list)):
+            pending.extend(current)
+    return keys
 
 
 @dataclass(frozen=True)
@@ -289,7 +296,7 @@ class SensorEvent:
             "structural": [dataclasses.asdict(value) for value in self.structural_beliefs],
             "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
         }
-        leaked = _HIDDEN_ID_KEYS & _mapping_keys(public_content)
+        leaked = _hidden_mapping_keys(public_content)
         if leaked:
             raise SensoriumError(f"hidden target authority in public sensor event: {sorted(leaked)}")
 
@@ -337,7 +344,7 @@ class SensorEvent:
                 "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
             },
         }
-        leaked = _HIDDEN_ID_KEYS & _mapping_keys(body)
+        leaked = _hidden_mapping_keys(body)
         if leaked:
             raise SensoriumError(f"hidden target authority leaked during serialization: {sorted(leaked)}")
         return body
@@ -358,6 +365,16 @@ class Sensorium:
 
     def ingest(self, event: SensorEvent) -> None:
         event.public_observation()
+        self._append_validated(event)
+
+    def ingest_and_digest(self, event: SensorEvent) -> str:
+        """Validate, append, and digest one event without rebuilding its body."""
+
+        public = event.public_observation()
+        self._append_validated(event)
+        return _canonical_observation_digest(public)
+
+    def _append_validated(self, event: SensorEvent) -> None:
         if not self.coordinate_frames.has_frame(event.coordinate_frame):
             raise SensoriumError(f"unknown coordinate frame {event.coordinate_frame!r}")
         previous_time = self._last_timestamp.get(event.sensor_identity)
@@ -1022,7 +1039,10 @@ def raw_signal(reference: str, payload: bytes, encoding: str) -> RawSignal:
 def canonical_event_digest(event: SensorEvent) -> str:
     """Stable receipt identity suitable for deterministic replay comparisons."""
 
-    body = event.public_observation()
+    return _canonical_observation_digest(event.public_observation())
+
+
+def _canonical_observation_digest(body: Mapping[str, Any]) -> str:
     encoded = json.dumps(body, sort_keys=True, separators=(",", ":"), default=str).encode()
     return hashlib.sha256(encoded).hexdigest()
 

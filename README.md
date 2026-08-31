@@ -105,6 +105,11 @@ Representative local profiles for the pass were:
   warmed, an 80-event/48 KB profile moved repeated reads from roughly 1.24 ms
   to 0.235 ms each; state/event mutation checks still force a rebuild, and exact
   restore, persistence, and caller-mutation tests remain green.
+- Independent v5 regeneration now walks layered sensor keys with one iterative
+  accumulator and uses a single validated ingest-and-digest observation rather
+  than rebuilding the same public body twice. A representative one-shard
+  verifier run measures roughly 28 ms per regeneration after these reductions,
+  with the existing exact-reproduction and hidden-target tests unchanged.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state

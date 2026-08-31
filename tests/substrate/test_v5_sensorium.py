@@ -156,6 +156,16 @@ def test_sensorium_rejects_corrupted_time_sequence_and_coordinate_frames() -> No
         sensorium.ingest(unknown_frame)
 
 
+def test_sensorium_ingest_and_digest_reuses_the_validated_public_observation() -> None:
+    event = _event(0, 0.0)
+    sensorium = Sensorium()
+
+    digest = sensorium.ingest_and_digest(event)
+
+    assert digest == canonical_event_digest(event)
+    assert sensorium.events == (event,)
+
+
 def test_tracking_preserves_object_through_occlusion_and_viewpoint_change() -> None:
     frames = CoordinateFrameRegistry()
     frames.add_transform(CoordinateTransform("camera-left", "world", translation=(1.0, 0.0, 0.0)))

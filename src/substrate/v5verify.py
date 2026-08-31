@@ -168,6 +168,29 @@ _PHASE_MODALITIES = (
     ("text", "video", "audio", "three_d", "body"),
     ("text", "image", "video", "audio", "depth", "body", "tool"),
 )
+_PRIMARY_MECHANISMS = frozenset(
+    {
+        "video_state",
+        "motion",
+        "event_model",
+        "spatial",
+        "depth",
+        "three_d",
+        "cross_modal_binding",
+        "audiovisual_binding",
+        "active_perception",
+        "model_routing",
+        "model_support",
+        "body_schema",
+        "continual_learning",
+        "human_teaching",
+        "model_replacement",
+        "persistence",
+        "long_history",
+        "integrated_state",
+        "conflict_arbitration",
+    }
+)
 _ARM_DISABLED: dict[str, frozenset[str]] = {
     "full_v5": frozenset(),
     "v4_cognitive_core_control": _CAPABILITIES - frozenset({"structured_state", "persistence", "auditability", "recovery"}),
@@ -686,6 +709,7 @@ def _independent_commit(
     sensorium = VS.Sensorium()
     calls: list[dict[str, Any]] = []
     votes: list[float] = []
+    sensor_event_digests: list[str] = []
     routing_inputs: set[str] = set()
     for modality, source, cue in usable:
         request = _independent_request(task_identity, modality, cue)
@@ -731,35 +755,14 @@ def _independent_commit(
             episode_index,
             output.model_identity,
         )
-        sensorium.ingest(event)
-        sensor_digest = VS.canonical_event_digest(event)
+        sensor_digest = sensorium.ingest_and_digest(event)
+        sensor_event_digests.append(sensor_digest)
         mechanism = source.removeprefix("mechanism:")
-        primary_mechanisms = {
-            "video_state",
-            "motion",
-            "event_model",
-            "spatial",
-            "depth",
-            "three_d",
-            "cross_modal_binding",
-            "audiovisual_binding",
-            "active_perception",
-            "model_routing",
-            "model_support",
-            "body_schema",
-            "continual_learning",
-            "human_teaching",
-            "model_replacement",
-            "persistence",
-            "long_history",
-            "integrated_state",
-            "conflict_arbitration",
-        }
         evidence_weight = (
             10.00
             if source == "mechanism:body_schema"
             else 4.50
-            if source.startswith("mechanism:") and mechanism in primary_mechanisms
+            if source.startswith("mechanism:") and mechanism in _PRIMARY_MECHANISMS
             else (1.50 if source.startswith("mechanism:") else 1.0)
         )
         votes.append((1.0 if output.value == "present" else -1.0) * max(0.1, output.confidence) * evidence_weight)
@@ -901,7 +904,7 @@ def _independent_commit(
         "model_identities": sorted({str(row["model_identity"]) for row in calls}),
         "model_families": sorted({str(row["model_identity"]).split("_", 1)[0] for row in calls}),
         "sensor_event_count": len(sensorium.events),
-        "sensor_event_digests": [VS.canonical_event_digest(event) for event in sensorium.events],
+        "sensor_event_digests": sensor_event_digests,
         "routing_inputs": sorted(routing_inputs),
         "active_perception_source": policy_source,
         "active_perception_action": policy_action,
