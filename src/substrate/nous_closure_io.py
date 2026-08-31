@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import tempfile
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -68,6 +69,7 @@ def ref_or_none(ref: str, *, peel: bool = False) -> str | None:
     return result.stdout.strip() if result.returncode == 0 else None
 
 
+@lru_cache(maxsize=1)
 def source_digest() -> str:
     rows: list[tuple[str, str]] = []
     for root_name in ("src/substrate", "ops/configs/substrate/nous_closure"):

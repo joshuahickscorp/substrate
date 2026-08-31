@@ -78,6 +78,10 @@ Representative local profiles for the pass were:
   process. Across eight same-process calls, v2 context construction moved from
   about 148 to 1.5 ms and v3 manifest construction from about 231 to 82 ms;
   commit and source-digest parity remained exact.
+- Nous Closure authority construction now applies the same process-scoped cache
+  to its exact implementation/configuration snapshot. In two paired no-publish
+  pilot trials, 13 digest calls moved from 3.34–3.40 to 3.15–3.21 seconds with
+  identical report and admission bytes; the cold snapshot remains about 19 ms.
 - A 64-event permanent-state profile moved from about 78 ms to about 51 ms
   after redundant normalization and copying were removed.
 - The next reducer-copy profile moved from about 22 ms to about 8 ms under
