@@ -101,12 +101,18 @@ def no_stale_outputs(
     """
     stale, reporting_failure = [], []
     proof_documents = _proof_documents() if proof_documents is None else proof_documents
+    # The proof snapshot carries many artifacts sealed at the same handful of
+    # commits. Load the fail-closed reachability set once, then do cheap local
+    # membership checks instead of routing every row through the per-reference
+    # cache. The program helper still owns Git loading and its invalidation
+    # semantics for callers that validate one reference at a time.
+    reachable = P._reachable_commits()
     for path, doc, exc in proof_documents:
         if exc is not None:
             stale.append({"artifact": path.name, "reason": f"unreadable: {exc.__class__.__name__}"})
             continue
         sha = doc.get("source_commit")
-        if not P._commit_reachable(sha):
+        if not isinstance(sha, str) or len(sha) != 40 or sha not in reachable:
             stale.append({"artifact": path.name, "reason": "sealed at a commit this tree cannot reach"})
             continue
         failing = [k for k in P.TERMINAL_KEYS if k in doc and doc[k] is not True]
