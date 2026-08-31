@@ -292,6 +292,8 @@ HYPOTHESES = (
 
 def bed_screen_result() -> dict:
     path = io.RUNS / "experiments" / "bed_screen.json"
+    if not path.is_file():
+        path = io.RETAINED_RUNS / "experiments" / "bed_screen.json"
     try:
         return json.loads(path.read_text())
     except (OSError, json.JSONDecodeError):
@@ -361,9 +363,10 @@ def hypothesis_graph(st: dict) -> dict:
 
 def methodological_refusals() -> list[dict]:
     """Experiments the gate refused. A refusal is not a null and is kept in its own list to prove it."""
-    root = io.RUNS / "experiments"
+    roots = (io.RETAINED_RUNS / "experiments", io.RUNS / "experiments")
+    paths = {path.name: path for root in roots if root.is_dir() for path in root.glob("*_decision.json")}
     rows = []
-    for path in sorted(root.glob("*_decision.json")) if root.is_dir() else []:
+    for path in sorted(paths.values(), key=lambda item: item.name):
         try:
             d = json.loads(path.read_text())
         except (OSError, json.JSONDecodeError):

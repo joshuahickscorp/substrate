@@ -210,6 +210,8 @@ def recompute() -> dict:
     # shares no code with the experiment: it re reads the sealed convergence and principal files, rebuilds
     # the pairing, refits the offset and re derives the per family errors from scratch.
     sx5 = io.RUNS / "experiments" / "SX5_decision.json"
+    if not sx5.is_file():
+        sx5 = io.RETAINED_RUNS / "experiments" / "SX5_decision.json"
     if sx5.is_file():
         doc = json.loads(sx5.read_text())
         if doc.get("licensed"):

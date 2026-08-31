@@ -1039,6 +1039,8 @@ def sx5_classify() -> dict:
     from substrate import program as P
 
     decision_path = io.RUNS / "experiments" / "SX5_decision.json"
+    if not decision_path.is_file():
+        decision_path = io.RETAINED_RUNS / "experiments" / "SX5_decision.json"
     decision = json.loads(decision_path.read_text()) if decision_path.is_file() else sx5_run()
     if not decision.get("licensed"):
         raise RuntimeError("SX5 was never licensed, so there is nothing to classify")

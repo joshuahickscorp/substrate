@@ -24,6 +24,9 @@ ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve()
 PROGRAM = "substrate-v1"
 PROOF = ROOT / "evidence" / "substrate" / "v1"
 RUNS = ROOT / "runs" / "substrate" / "v1"
+# Canonical tracked snapshots retained for clean-clone reads. Runtime writers
+# continue to use RUNS; readers fall back here when no local run exists.
+RETAINED_RUNS = ROOT / "evidence" / "runs" / "substrate" / "v1"
 ARTIFACTS = ROOT / "evidence" / "artifacts" / "substrate" / "v1"
 STATE = Path(os.environ.get("SUBSTRATE_STATE_ROOT", Path.home() / ".substrate"))
 STOP = STATE / "stop"

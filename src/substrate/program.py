@@ -1101,6 +1101,8 @@ BY_ID = {item.id: item for item in ITEMS}
 def _ledger(name: str) -> dict:
     path = io.RUNS / name
     if not path.is_file():
+        path = io.RETAINED_RUNS / name
+    if not path.is_file():
         path = historical.predecessor_receipt(name)
     try:
         return json.loads(path.read_text())
