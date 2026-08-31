@@ -79,6 +79,10 @@ Representative local profiles for the pass were:
   sealed artifact. In a fresh audit-plus-independent-verification profile, the
   combined path moved from about 174 to 148 ms; reachable, stale, and malformed
   evidence refusal checks remain unchanged.
+- Structural audit source checks now share one immutable in-process source
+  snapshot between producer ownership and activation scanning. Across 12 local
+  `audit.run()` calls, the repeated audit moved from about 75.0 to 67.5 ms per
+  call; the producer and activation reports remain exact.
 - Terminal synthesis `status` and dependency readiness now census the receipt
   directory once per invocation instead of statting every declared unit
   separately. In a warmed 1,000-call loop, `status` moved from about 151 to

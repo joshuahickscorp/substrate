@@ -15,6 +15,7 @@ import json
 import re
 import sys
 from collections import defaultdict
+from pathlib import Path
 
 from substrate import evidence as io
 from substrate import graph as G
@@ -42,10 +43,15 @@ ACTIVATION_PATTERNS = (
 )
 
 
-def producers() -> dict:
+def _source_texts() -> tuple[tuple[Path, str], ...]:
+    """Read the source snapshot once for checks that inspect the same files."""
+    return tuple((path, path.read_text()) for path in sorted(SRC.glob("*.py")))
+
+
+def producers(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
+    source_texts = _source_texts() if source_texts is None else source_texts
     out = defaultdict(set)
-    for f in sorted(SRC.glob("*.py")):
-        text = f.read_text()
+    for f, text in source_texts:
         # a literal first argument, and a literal inside a dict passed as the first argument. An
         # artifact name built at runtime is invisible to this scan, so building one is refused by the
         # orphan half of the check below rather than tolerated.
@@ -57,8 +63,8 @@ def producers() -> dict:
     return {k: sorted(v) for k, v in out.items()}
 
 
-def exclusive_producers() -> dict:
-    p = producers()
+def exclusive_producers(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
+    p = producers(source_texts)
     duplicated = {k: v for k, v in p.items() if len(v) > 1}
     orphans = sorted(a.name for a in io.PROOF.glob("SUBSTRATE_*") if a.name not in p)
     return {
@@ -179,10 +185,10 @@ def runtime_stages_reachable() -> dict:
     }
 
 
-def no_activation_path() -> dict:
+def no_activation_path(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
+    source_texts = _source_texts() if source_texts is None else source_texts
     hits = []
-    for f in sorted(SRC.glob("*.py")):
-        text = f.read_text()
+    for f, text in source_texts:
         for pattern in ACTIVATION_PATTERNS:
             for m in pattern.finditer(text):
                 line = text[: m.start()].count("\n") + 1
@@ -203,14 +209,15 @@ def no_activation_path() -> dict:
 
 
 def run() -> dict:
+    source_texts = _source_texts()
     results = {
-        "exclusive_producers": exclusive_producers(),
+        "exclusive_producers": exclusive_producers(source_texts),
         "no_stale_outputs": no_stale_outputs(),
         "no_duplicate_stages": no_duplicate_stages(),
         "causal_paths_present": causal_paths_present(),
         "every_node_actionable": every_node_actionable(),
         "runtime_stages_reachable": runtime_stages_reachable(),
-        "no_activation_path": no_activation_path(),
+        "no_activation_path": no_activation_path(source_texts),
     }
     failed = sorted(k for k, v in results.items() if not v["ok"])
     return {
