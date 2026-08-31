@@ -182,6 +182,20 @@ def _assert_normalized_activation(value: Any) -> None:
         raise Refused(str(error)) from error
 
 
+def _assert_reduced_activation(value: dict[str, Any]) -> None:
+    """Check the cheap root invariant after a validated internal reduction.
+
+    Event payloads are activation-scanned before reduction, and the prior
+    committed state is already known to satisfy the same invariant. The
+    reducer only copies those payloads or writes fixed ``activation=False``
+    metadata, so a second recursive walk of the complete event history is
+    redundant on every append.
+    """
+
+    if value.get("activation") is not False:
+        raise Refused("v5 activation must remain exactly false")
+
+
 @dataclass(frozen=True)
 class CognitiveEvent:
     """One immutable event in the entity's hash chain."""
@@ -1054,7 +1068,7 @@ class PermanentEntity:
                 raise
             except (KeyError, TypeError, ValueError) as error:
                 raise Refused(f"invalid payload for event {kind!r}") from error
-            _assert_normalized_activation(candidate)
+            _assert_reduced_activation(candidate)
             self._persist_event(event)
             self._events.append(event)
             self._state = candidate

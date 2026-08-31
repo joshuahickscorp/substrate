@@ -79,6 +79,10 @@ Representative local profiles for the pass were:
 - Internal detachments now copy already-normalized trees directly, removing
   another JSON round-trip from reducer, snapshot, projection, and restore
   paths while keeping external normalization and seal validation unchanged.
+- Retaining the payload-boundary activation scan but replacing the redundant
+  post-reduction full-state walk with a strict root invariant moved the same
+  64-event build profile from about 2.35 ms to about 0.96 ms per build; the
+  cProfile view moved from roughly 9 ms to roughly 3 ms.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state
