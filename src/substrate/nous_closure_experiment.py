@@ -124,6 +124,7 @@ def _candidate_histories(split: str, seeds: Iterable[int]) -> dict[int, dict[str
                 arm="full_v5",
                 phase_index=phase,
                 development_state=state,
+                include_v4_retention=False,
             )
             state = dict(result["development_update"])
             phase_accuracies.append(float(result["accuracy"]))

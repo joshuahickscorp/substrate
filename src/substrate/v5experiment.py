@@ -885,6 +885,7 @@ def phase_result(
     arm: str,
     phase_index: int,
     development_state: dict[str, Any] | None = None,
+    include_v4_retention: bool = True,
 ) -> dict[str, Any]:
     state = dict(development_state or {})
     registry = models.default_model_registry()
@@ -929,7 +930,7 @@ def phase_result(
     audiovisual_tolerance = 0.08 if audiovisual_offset is not None else None
     v4_retention = (
         _v4_retention_probe(split, history_seed)
-        if arm == "full_v5" and phase_index == len(C.PHASES) - 1
+        if include_v4_retention and arm == "full_v5" and phase_index == len(C.PHASES) - 1
         else None
     )
     return {

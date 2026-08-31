@@ -52,3 +52,23 @@ def test_v5_generator_is_deterministic_and_mechanism_ablations_are_active() -> N
     assert "active_perception" in ablated["mechanisms_missing"]
     assert full["event_digest"] != ablated["event_digest"]
     assert E.oracle_headroom(9)["has_headroom"]
+
+
+def test_v5_terminal_retention_is_default_but_explicitly_optional() -> None:
+    retained = E.phase_result(
+        split="construction",
+        history_seed=102,
+        arm="full_v5",
+        phase_index=len(C.PHASES) - 1,
+    )
+    summary_only = E.phase_result(
+        split="construction",
+        history_seed=102,
+        arm="full_v5",
+        phase_index=len(C.PHASES) - 1,
+        include_v4_retention=False,
+    )
+    assert retained["v4_retention"]["preserved"] is True
+    assert summary_only["v4_retention"] is None
+    for field in ("phase", "accuracy", "mean_cost", "utility", "event_digest", "development_update"):
+        assert summary_only[field] == retained[field]

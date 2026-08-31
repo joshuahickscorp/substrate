@@ -136,6 +136,10 @@ Representative local profiles for the pass were:
   behind the same bounded pure-function boundary; repeated verifier phase-19
   work moved from roughly 176 to 8 milliseconds locally with identical
   independently reconstructed receipt bytes.
+- The Nous Closure pilot now disables the terminal v4-retention probe when its
+  candidate-history reducer discards that field; the `phase_result` default
+  remains enabled for callers that consume it. The representative pilot moved
+  from about 8.56 to 3.18 seconds with the exact report digest unchanged.
 - Frozen producer and independent-verifier request paths now cache bounded
   task identities and generated sensor references, removing 40–60 duplicate
   digest computations from representative phases. A same-process phase-15
