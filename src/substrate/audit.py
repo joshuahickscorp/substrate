@@ -16,6 +16,7 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 from substrate import evidence as io
 from substrate import graph as G
@@ -48,6 +49,17 @@ def _source_texts() -> tuple[tuple[Path, str], ...]:
     return tuple((path, path.read_text()) for path in sorted(SRC.glob("*.py")))
 
 
+def _proof_documents() -> tuple[tuple[Path, Any, Exception | None], ...]:
+    """Read and decode the proof snapshot once for checks that inspect the same files."""
+    documents: list[tuple[Path, Any, Exception | None]] = []
+    for path in sorted(io.PROOF.glob("SUBSTRATE_*.json")):
+        try:
+            documents.append((path, json.loads(path.read_text()), None))
+        except (OSError, json.JSONDecodeError) as exc:
+            documents.append((path, None, exc))
+    return tuple(documents)
+
+
 def producers(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
     source_texts = _source_texts() if source_texts is None else source_texts
     out = defaultdict(set)
@@ -75,7 +87,9 @@ def exclusive_producers(source_texts: tuple[tuple[Path, str], ...] | None = None
     }
 
 
-def no_stale_outputs() -> dict:
+def no_stale_outputs(
+    proof_documents: tuple[tuple[Path, Any, Exception | None], ...] | None = None,
+) -> dict:
     """Stale means unreadable or sealed at a commit this tree cannot reach.
 
     It does not mean the artifact reports a failure. A report carrying all_pass false is a true report of
@@ -84,11 +98,9 @@ def no_stale_outputs() -> dict:
     here, and a failing report is surfaced under its own name rather than as staleness.
     """
     stale, reporting_failure = [], []
-    paths = sorted(io.PROOF.glob("SUBSTRATE_*.json"))
-    for path in paths:
-        try:
-            doc = json.loads(path.read_text())
-        except (OSError, json.JSONDecodeError) as exc:
+    proof_documents = _proof_documents() if proof_documents is None else proof_documents
+    for path, doc, exc in proof_documents:
+        if exc is not None:
             stale.append({"artifact": path.name, "reason": f"unreadable: {exc.__class__.__name__}"})
             continue
         sha = doc.get("source_commit")
@@ -99,7 +111,7 @@ def no_stale_outputs() -> dict:
         if failing:
             reporting_failure.append({"artifact": path.name, "keys": failing})
     return {
-        "checked": len(paths),
+        "checked": len(proof_documents),
         "stale": stale,
         "artifacts_reporting_failure": reporting_failure,
         "note": (
@@ -185,7 +197,10 @@ def runtime_stages_reachable() -> dict:
     }
 
 
-def no_activation_path(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
+def no_activation_path(
+    source_texts: tuple[tuple[Path, str], ...] | None = None,
+    proof_documents: tuple[tuple[Path, Any, Exception | None], ...] | None = None,
+) -> dict:
     source_texts = _source_texts() if source_texts is None else source_texts
     hits = []
     for f, text in source_texts:
@@ -194,10 +209,9 @@ def no_activation_path(source_texts: tuple[tuple[Path, str], ...] | None = None)
                 line = text[: m.start()].count("\n") + 1
                 hits.append({"file": f.name, "line": line, "match": m.group(0)})
     sealed = []
-    for path in sorted(io.PROOF.glob("SUBSTRATE_*.json")):
-        try:
-            doc = json.loads(path.read_text())
-        except (OSError, json.JSONDecodeError):
+    proof_documents = _proof_documents() if proof_documents is None else proof_documents
+    for path, doc, exc in proof_documents:
+        if exc is not None:
             continue
         if doc.get("activation") is True:
             sealed.append(path.name)
@@ -210,14 +224,15 @@ def no_activation_path(source_texts: tuple[tuple[Path, str], ...] | None = None)
 
 def run() -> dict:
     source_texts = _source_texts()
+    proof_documents = _proof_documents()
     results = {
         "exclusive_producers": exclusive_producers(source_texts),
-        "no_stale_outputs": no_stale_outputs(),
+        "no_stale_outputs": no_stale_outputs(proof_documents),
         "no_duplicate_stages": no_duplicate_stages(),
         "causal_paths_present": causal_paths_present(),
         "every_node_actionable": every_node_actionable(),
         "runtime_stages_reachable": runtime_stages_reachable(),
-        "no_activation_path": no_activation_path(source_texts),
+        "no_activation_path": no_activation_path(source_texts, proof_documents),
     }
     failed = sorted(k for k, v in results.items() if not v["ok"])
     return {

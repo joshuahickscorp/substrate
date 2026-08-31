@@ -36,6 +36,13 @@ def test_a_dynamically_named_artifact_is_refused_by_the_producer_scan():
     assert report["on_disk_without_a_producer"] == [], report["on_disk_without_a_producer"]
 
 
+def test_shared_proof_snapshot_matches_independent_audit_checks():
+    source_texts = A._source_texts()
+    proof_documents = A._proof_documents()
+    assert A.no_stale_outputs(proof_documents) == A.no_stale_outputs()
+    assert A.no_activation_path(source_texts, proof_documents) == A.no_activation_path(source_texts)
+
+
 def test_the_seal_survives_a_json_round_trip():
     """A dict keyed by integers is written with string keys, so a seal taken before the write fails."""
     from substrate import verification as V
