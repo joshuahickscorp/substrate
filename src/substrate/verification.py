@@ -41,8 +41,11 @@ def _recompute_sx5(doc: dict) -> dict:
     import statistics
 
     runs = historical.root("temporal_receipts")
+    pair_cache: dict[str, dict] = {}
 
     def pairs(bed: str) -> dict:
+        if bed in pair_cache:
+            return pair_cache[bed]
         cfg = json.loads((runs / "e2_converge" / f"converge_{bed}.json").read_text())["configs"]
         by_cell: dict[str, list] = {}
         for path in sorted(Path(runs / "e2_principal").glob(f"{bed}_*.json")):
@@ -57,6 +60,7 @@ def _recompute_sx5(doc: dict) -> dict:
             predicted = curve.get(str(sel), curve.get(sel))
             if predicted is not None:
                 out[cell] = (float(predicted), sum(scores) / len(scores))
+        pair_cache[bed] = out
         return out
 
     checks = {}
