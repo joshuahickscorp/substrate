@@ -1140,16 +1140,33 @@ def _artifact_path(ref: str):
 TERMINAL_KEYS = ("all_pass", "all_terminal", "all_converged", "selected", "licensed", "met")
 
 _REACHABLE: dict[str, bool] = {}
+_REACHABLE_SET: frozenset[str] | None = None
+
+
+def _reachable_commits() -> frozenset[str]:
+    """Return the commits reachable from HEAD, loading the graph once per process."""
+    global _REACHABLE_SET
+    # Tests and the reusable synthesis worker clear _REACHABLE between isolated
+    # source snapshots. Treat that as an invalidation of the graph snapshot too.
+    if _REACHABLE_SET is None or not _REACHABLE:
+        import subprocess
+
+        result = subprocess.run(["git", "rev-list", "HEAD"], cwd=io.ROOT, capture_output=True, text=True)
+        if result.returncode == 0:
+            _REACHABLE_SET = frozenset(line.strip() for line in result.stdout.splitlines() if line.strip())
+        else:
+            # A missing/unreadable Git graph must never make stale evidence
+            # count. An empty set preserves the existing fail-closed behavior.
+            _REACHABLE_SET = frozenset()
+        _REACHABLE.clear()
+    return _REACHABLE_SET
 
 
 def _commit_reachable(sha: str) -> bool:
     if not isinstance(sha, str) or len(sha) != 40:
         return False
     if sha not in _REACHABLE:
-        import subprocess
-
-        r = subprocess.run(["git", "merge-base", "--is-ancestor", sha, "HEAD"], cwd=io.ROOT, capture_output=True, text=True)
-        _REACHABLE[sha] = r.returncode == 0
+        _REACHABLE[sha] = sha in _reachable_commits()
     return _REACHABLE[sha]
 
 

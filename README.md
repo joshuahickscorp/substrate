@@ -74,6 +74,11 @@ Representative local profiles for the pass were:
 
 - A 12.25 KB canonical-JSON payload took about 645 ms for 2,000 old-path
   encodes and about 245 ms through the direct encoder, with byte-parity tests.
+- Structural stale-evidence checking now loads the exact ancestor set of `HEAD`
+  once per process instead of spawning one `git merge-base` subprocess per
+  sealed artifact. In a fresh audit-plus-independent-verification profile, the
+  combined path moved from about 174 to 148 ms; reachable, stale, and malformed
+  evidence refusal checks remain unchanged.
 - Versioned v2–v4 provenance now pays for its immutable source snapshot once per
   process. Across eight same-process calls, v2 context construction moved from
   about 148 to 1.5 ms and v3 manifest construction from about 231 to 82 ms;
