@@ -58,7 +58,7 @@
   "defect_rule": "a reproduced defect overrides reviewer votes, becomes an append only correction and becomes a permanent regression test",
   "method_failure_rule": "a methodological failure is not a scientific null",
   "program": "substrate-v1",
-  "source_commit": "3fe42f9640339ad32e10341801252eba32979623",
+  "source_commit": "86616bb6c883a737e38a0340ec6b4c0a0ca65f47",
   "activation": false,
-  "sha256": "24045ca2dd06495c0459135ba3e4a8e080df618f9f84833a0ccc87225608e244"
+  "sha256": "add2e6fe22a6f884a5f009600230ce18a6266ae39fb42154d2dae679697e1bdc"
 }

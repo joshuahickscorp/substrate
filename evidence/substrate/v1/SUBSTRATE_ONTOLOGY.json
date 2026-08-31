@@ -111,6 +111,6 @@
   "unknown_rule": "unknown is a first class type and carries the reason it is unknown",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "3fe42f9640339ad32e10341801252eba32979623",
-  "sha256": "aa7c4d9c138785a829ff8fea3d111191454ff4dbdd491796fc6136402d6f038b"
+  "source_commit": "86616bb6c883a737e38a0340ec6b4c0a0ca65f47",
+  "sha256": "f59357497e1345171f440555881beb1ca5dfcddec425eb0ef4afe6ed3565f259"
 }
