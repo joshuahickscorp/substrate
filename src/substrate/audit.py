@@ -55,7 +55,8 @@ def _proof_documents() -> tuple[tuple[Path, Any, Exception | None], ...]:
     documents: list[tuple[Path, Any, Exception | None]] = []
     for path in sorted(io.PROOF.glob("SUBSTRATE_*.json")):
         try:
-            documents.append((path, json.loads(path.read_text()), None))
+            with path.open("rb") as handle:
+                documents.append((path, json.load(handle), None))
         except (OSError, json.JSONDecodeError) as exc:
             documents.append((path, None, exc))
     return tuple(documents)
@@ -181,9 +182,17 @@ def every_node_actionable() -> dict:
     }
 
 
-def runtime_stages_reachable() -> dict:
+def runtime_stages_reachable(source_texts: tuple[tuple[Path, str], ...] | None = None) -> dict:
     """Every declared stage must be written by the loop and leave a receipt when it runs."""
-    source = (SRC / "runtime.py").read_text()
+    source = None
+    if source_texts is not None:
+        runtime_path = SRC / "runtime.py"
+        for path, text in source_texts:
+            if path == runtime_path:
+                source = text
+                break
+    if source is None:
+        source = (SRC / "runtime.py").read_text()
     recorded = set(re.findall(r'trace\.(?:record|skip)\(\s*"(\w+)"', source))
     entity = R.Substrate()
     trace = entity.step({"label": "a", "label_confidence": 0.8}, outcome="a", goal=["audit"])
@@ -239,7 +248,7 @@ def run() -> dict:
         "no_duplicate_stages": no_duplicate_stages(),
         "causal_paths_present": causal_paths_present(),
         "every_node_actionable": every_node_actionable(),
-        "runtime_stages_reachable": runtime_stages_reachable(),
+        "runtime_stages_reachable": runtime_stages_reachable(source_texts),
         "no_activation_path": no_activation_path(source_texts, proof_documents),
     }
     failed = sorted(k for k, v in results.items() if not v["ok"])
