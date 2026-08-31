@@ -32,8 +32,14 @@ SELECTED_MUTATION_WORKERS = 12
 # ---------------------------------------------------------------- independent recomputation
 
 
+def _load_json(path: Path) -> dict:
+    """Load one receipt directly from its bytes without an intermediate text copy."""
+    with path.open("rb") as handle:
+        return json.load(handle)
+
+
 def _sealed(name: str) -> dict:
-    return json.loads((io.PROOF / name).read_text())
+    return _load_json(io.PROOF / name)
 
 
 def _recompute_sx5(doc: dict) -> dict:
@@ -46,10 +52,10 @@ def _recompute_sx5(doc: dict) -> dict:
     def pairs(bed: str) -> dict:
         if bed in pair_cache:
             return pair_cache[bed]
-        cfg = json.loads((runs / "e2_converge" / f"converge_{bed}.json").read_text())["configs"]
+        cfg = _load_json(runs / "e2_converge" / f"converge_{bed}.json")["configs"]
         by_cell: dict[str, list] = {}
         for path in sorted(Path(runs / "e2_principal").glob(f"{bed}_*.json")):
-            for row in json.loads(path.read_text())["runs"]:
+            for row in _load_json(path)["runs"]:
                 by_cell.setdefault(row["cell"], []).append(float(row["accuracy"]))
         out = {}
         for cell, scores in by_cell.items():
@@ -223,7 +229,7 @@ def recompute() -> dict:
     if not sx5.is_file():
         sx5 = io.RETAINED_RUNS / "experiments" / "SX5_decision.json"
     if sx5.is_file():
-        doc = json.loads(sx5.read_text())
+        doc = _load_json(sx5)
         if doc.get("licensed"):
             for name, row in _recompute_sx5(doc).items():
                 checks[name] = row
