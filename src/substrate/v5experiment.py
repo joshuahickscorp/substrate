@@ -632,8 +632,7 @@ def _commit(
             episode_index,
             output.model_identity,
         )
-        sensorium.ingest(event)
-        sensor_digest = sensors.canonical_event_digest(event)
+        sensor_digest = sensorium.ingest_and_digest(event)
         sensor_event_digests.append(sensor_digest)
         mechanism = source.removeprefix("mechanism:")
         evidence_weight = (

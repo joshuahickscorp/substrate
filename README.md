@@ -131,6 +131,11 @@ Representative local profiles for the pass were:
   profile moved from roughly 5.2 to 4.8 milliseconds for the producer and
   4.8 to 4.3 milliseconds for the verifier, with exact output parity across
   the sampled phases.
+- The frozen producer now uses the sensorium’s combined validate-and-digest
+  operation, so each event’s public observation is materialized once instead
+  of once for validation and again for the receipt digest. Representative
+  phase-19 execution moved from roughly 7.6 to 7.2 milliseconds with exact
+  output parity.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in
