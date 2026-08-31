@@ -385,6 +385,16 @@ def _stable_digest(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+@lru_cache(maxsize=4096)
+def _independent_request_task_id(task_identity: str, modality: str, role: str) -> str:
+    return _stable_digest((task_identity, modality, role))
+
+
+@lru_cache(maxsize=4096)
+def _independent_sensor_reference(task_identity: str, modality: str) -> str:
+    return f"generated://{_stable_digest((task_identity, modality))}"
+
+
 def _fraction(identity: str) -> float:
     value = struct.unpack(">Q", hashlib.sha256(identity.encode("utf-8")).digest()[:8])[0]
     return value / 0xFFFFFFFFFFFFFFFF
@@ -513,7 +523,7 @@ def _independent_request(
     role: VM.ModelRole = VM.ModelRole.SPECIALIST,
 ) -> VM.ModelRequest:
     return VM.ModelRequest(
-        task_id=_stable_digest((task_identity, modality, role.value)),
+        task_id=_independent_request_task_id(task_identity, modality, role.value),
         operation="modality_classify",
         modality=_MODEL_MODALITY.get(modality, modality),
         payload={"observable_cue": float(cue)},
@@ -559,7 +569,7 @@ def _independent_sensor_event(
         "episode_index": episode_index,
     }
     payload = _STABLE_JSON_ENCODER.encode(public).encode("utf-8")
-    reference = f"generated://{_stable_digest((task_identity, modality))}"
+    reference = _independent_sensor_reference(task_identity, modality)
     raw_signal = VS.raw_signal(
         reference,
         payload,

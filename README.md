@@ -61,7 +61,9 @@ without changing the fail-closed activation, resource, or evidence gates.
 
 The latest bounded pass removes duplicate canonical-JSON work, caches the
 process-scoped source-commit lookup, reuses detached event-state copies, and
-avoids sorting mapping keys before the canonical encoder sorts them. Local
+avoids sorting mapping keys before the canonical encoder sorts them. Frozen
+producer and independent-verifier paths also reuse bounded deterministic
+request/reference identities. Local
 parity, seal, activation-false, event-isolation, and checkpoint tests preserve
 the existing evidence contracts; scientific classifications and activation
 boundaries are unchanged. Measured details are recorded in the implementation
@@ -123,6 +125,12 @@ Representative local profiles for the pass were:
   behind the same bounded pure-function boundary; repeated verifier phase-19
   work moved from roughly 176 to 8 milliseconds locally with identical
   independently reconstructed receipt bytes.
+- Frozen producer and independent-verifier request paths now cache bounded
+  task identities and generated sensor references, removing 40–60 duplicate
+  digest computations from representative phases. A same-process phase-15
+  profile moved from roughly 5.2 to 4.8 milliseconds for the producer and
+  4.8 to 4.3 milliseconds for the verifier, with exact output parity across
+  the sampled phases.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in

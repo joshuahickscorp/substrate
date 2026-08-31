@@ -274,6 +274,16 @@ def _digest(value: object) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+@lru_cache(maxsize=4096)
+def _request_task_id(task_identity: str, modality: str, role: str) -> str:
+    return _digest((task_identity, modality, role))
+
+
+@lru_cache(maxsize=4096)
+def _sensor_reference(task_identity: str, modality: str) -> str:
+    return f"generated://{_digest((task_identity, modality))}"
+
+
 @lru_cache(maxsize=256)
 def _history_signed_fraction(split: str, history_seed: int, label: str) -> float:
     return _signed_fraction(f"{split}:{history_seed}:{label}")
@@ -370,7 +380,7 @@ def _sensor_event(
         "episode_index": episode_index,
     }
     payload = _CANONICAL_JSON_ENCODER.encode(public).encode("utf-8")
-    reference = f"generated://{_digest((task_identity, modality))}"
+    reference = _sensor_reference(task_identity, modality)
     raw = sensors.raw_signal(reference, payload, "application/json")
     preprocessed = sensors.PreprocessedSignal(
         reference,
@@ -498,7 +508,7 @@ def _request(
     role: models.ModelRole = models.ModelRole.SPECIALIST,
 ) -> models.ModelRequest:
     return models.ModelRequest(
-        task_id=_digest((task_identity, modality, role.value)),
+        task_id=_request_task_id(task_identity, modality, role.value),
         operation="modality_classify",
         modality=_MODEL_MODALITY.get(modality, modality),
         payload={"observable_cue": float(cue)},
