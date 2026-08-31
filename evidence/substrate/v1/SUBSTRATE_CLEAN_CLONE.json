@@ -1,13 +1,13 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "commit": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
     "declared_tests": true,
     "graph_valid": true,
-    "artifacts_regenerate_identically": true,
+    "artifacts_regenerate_identically": false,
     "independent_recomputation": true,
     "no_activation": true
   },
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-      "expected": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff"
+      "head": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
+      "expected": "abe3e6b579a284a16ca9682f5a82dde44444b98a"
     },
     "package_import": {
       "ok": true,
@@ -27,8 +27,30 @@
     },
     "declared_tests": {
       "ok": true,
+      "exit_code": 0,
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "--no-header",
+        "-p",
+        "no:cacheprovider",
+        "-m",
+        "not integration and not expensive and not certification",
+        "tests/substrate/test_final_revision.py",
+        "tests/substrate/test_final_revision_field.py",
+        "tests/substrate",
+        "--ignore=tests/substrate/test_final_revision.py",
+        "--ignore=tests/substrate/test_final_revision_field.py"
+      ],
+      "isolated_test_clone": true,
+      "test_clone_head": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
       "detail": [
-        "...............                                                          [100%]"
+        "........................................................................ [ 29%]",
+        "........................................................................ [ 59%]",
+        "........................................................................ [ 88%]",
+        "...........................                                              [100%]"
       ]
     },
     "graph_valid": {
@@ -36,10 +58,12 @@
       "detail": "{\"valid\": true, \"blocked\": []}"
     },
     "artifacts_regenerate_identically": {
-      "ok": true,
+      "ok": false,
       "drifted_from_committed": [],
-      "nondeterministic_across_two_runs": [],
-      "compared": 61,
+      "nondeterministic_across_two_runs": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "compared": 63,
       "excluded_fields": [
         "sha256",
         "source_commit"
@@ -61,11 +85,13 @@
       "detail": "false"
     }
   },
-  "failed": [],
-  "all_pass": true,
+  "failed": [
+    "artifacts_regenerate_identically"
+  ],
+  "all_pass": false,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "5166e3cf46d7dc3b8fa3af7c898cb13df415d6a91f8d300a7aaa93617559b619"
+  "source_commit": "abe3e6b579a284a16ca9682f5a82dde44444b98a",
+  "sha256": "dd4b46f4effbc9c296f1a5f31375d7e6892b1864b634ac3cbc677b2414dbe333"
 }
