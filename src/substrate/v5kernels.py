@@ -14,6 +14,7 @@ import json
 import math
 import time
 from dataclasses import dataclass
+from functools import lru_cache
 from typing import Any
 
 
@@ -234,6 +235,7 @@ CANDIDATES = (
 )
 
 
+@lru_cache(maxsize=1)
 def fixture() -> tuple[KernelEvent, ...]:
     """A shared positive construction fixture with no hidden answer field."""
 
