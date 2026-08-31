@@ -9,12 +9,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import subprocess
 import tempfile
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from substrate import evidence as v1
 
@@ -220,6 +221,50 @@ def sealed_document(document: dict[str, Any]) -> dict[str, JSONValue]:
     _assert_normalized_activation_false(normal)
     normal["sha256"] = sha_obj(normal)
     return normal
+
+
+def _is_sealable_normalized_json(value: Any) -> bool:
+    """Recognize a finite JSON tree that contains no activation violation."""
+
+    value_type = type(value)
+    if value is None or value_type in (bool, int, str):
+        return True
+    if value_type is float:
+        return math.isfinite(value)
+    if value_type is dict:
+        for key, child in value.items():
+            if type(key) is not str:
+                return False
+            if key == "activation" and child is not False:
+                return False
+            if not _is_sealable_normalized_json(child):
+                return False
+        return True
+    if value_type is list:
+        return all(_is_sealable_normalized_json(child) for child in value)
+    return False
+
+
+def _sealed_normalized_document(document: dict[str, Any]) -> dict[str, JSONValue]:
+    """Seal an already-normalized tree without a redundant JSON round trip.
+
+    Internal checkpoint construction supplies exact JSON containers, but public
+    event objects remain mutable for compatibility. Fall back to the general
+    path when a caller has injected a tuple, subclass, or other non-canonical
+    value so checkpoint behavior remains unchanged.
+    """
+
+    if not isinstance(document, dict):
+        raise Refused("a sealed document must be a JSON object")
+    if not _is_sealable_normalized_json(document):
+        return sealed_document(document)
+    normal = {key: value for key, value in document.items() if key != "sha256"}
+    normal.setdefault("program", PROGRAM)
+    normal.setdefault("source_commit", commit())
+    normal.setdefault("source_digest", source_digest())
+    normal.setdefault("activation", ACTIVATION)
+    normal["sha256"] = sha_obj(normal)
+    return cast(dict[str, JSONValue], normal)
 
 
 def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:

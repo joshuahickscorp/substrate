@@ -112,6 +112,12 @@ Representative local profiles for the pass were:
   matched 5,000-context-event loop, wall time moved from about 61.4 to 53.3
   milliseconds locally; the general ``CognitiveEvent.to_dict()`` normalization
   boundary remains unchanged.
+- Exact JSON event payloads now use a sorted recursive detacher instead of a
+  JSON dump/parse cycle plus a second activation walk; noncanonical values keep
+  the prior normalization and refusal path. In a matched 250-entity profile
+  with 16 context updates per entity, append construction moved from about 55.9
+  to 47.5 milliseconds (15.1%), with key-order, activation, and tuple parity
+  checks retained.
 - Sensor-event digesting now reuses its fixed canonical JSON encoder instead of
   rebuilding one per receipt. The representative digest moved from roughly 5.0
   to 4.7 microseconds locally, with an explicit byte-compatibility test.
@@ -160,6 +166,13 @@ Representative local profiles for the pass were:
   warmed, an 80-event/48 KB profile moved repeated reads from roughly 1.24 ms
   to 0.235 ms each; state/event mutation checks still force a rebuild, and exact
   restore, persistence, and caller-mutation tests remain green.
+- First-time permanent-entity checkpoint sealing now recognizes exact normalized
+  JSON trees and skips the redundant normalize/parse round trip, while falling
+  back to the general sealer for mutated or non-canonical public values. In a
+  matched 250-entity profile with 16 context updates per entity, the checkpoint
+  batch median moved from about 106.6 to 88.4 milliseconds (17.1%, or roughly
+  426 to 354 microseconds per checkpoint); actual-checkpoint seal parity and
+  caller-mutation isolation remain covered.
 - Independent v5 regeneration now walks layered sensor keys with one iterative
   accumulator and uses a single validated ingest-and-digest observation rather
   than rebuilding the same public body twice. A representative one-shard

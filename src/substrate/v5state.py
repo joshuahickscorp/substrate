@@ -171,6 +171,20 @@ def _copy_normalized(value: Any) -> Any:
     return value
 
 
+def _copy_normalized_sorted(value: Any) -> Any:
+    """Detach exact JSON while retaining ``_normal_json`` key ordering."""
+
+    value_type = type(value)
+    if value_type is dict:
+        return {
+            key: _copy_normalized_sorted(child)
+            for key, child in sorted(value.items())
+        }
+    if value_type is list:
+        return [_copy_normalized_sorted(child) for child in value]
+    return value
+
+
 def _identifier(value: str, label: str = "identity") -> str:
     if not isinstance(value, str) or not value.strip() or len(value) > 256:
         raise Refused(f"{label} must be a nonempty string of at most 256 characters")
@@ -191,6 +205,19 @@ def _assert_normalized_activation(value: Any) -> None:
         io._assert_normalized_activation_false(value)  # noqa: SLF001
     except io.Refused as error:
         raise Refused(str(error)) from error
+
+
+def _copy_event_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize an event payload once, preserving canonical key ordering."""
+
+    raw = dict(payload)
+    if io._is_sealable_normalized_json(raw):  # noqa: SLF001
+        return _copy_normalized_sorted(raw)
+    normalized = _json_copy(raw)
+    if not isinstance(normalized, dict):
+        raise Refused("event payload must be a JSON object")
+    _assert_normalized_activation(normalized)
+    return normalized
 
 
 def _assert_reduced_activation(value: dict[str, Any]) -> None:
@@ -251,8 +278,7 @@ class CognitiveEvent:
             raise Refused("temporal uncertainty must be numeric") from error
         if uncertainty < 0:
             raise Refused("temporal uncertainty cannot be negative")
-        normalized = _json_copy(dict(payload))
-        _assert_normalized_activation(normalized)
+        normalized = _copy_event_payload(payload)
         body = {
             "schema": EVENT_SCHEMA,
             "sequence": sequence,
@@ -1736,7 +1762,7 @@ class PermanentEntity:
                     "state_sha256": self.state_identity(),
                     "activation": False,
                 }
-                self._checkpoint_cache = io.sealed_document(document)
+                self._checkpoint_cache = io._sealed_normalized_document(document)  # noqa: SLF001
                 # The cache is internally canonical JSON. Loading its bytes is
                 # a faster detached-copy boundary than recursively rebuilding
                 # the same Python tree, while preserving the public snapshot

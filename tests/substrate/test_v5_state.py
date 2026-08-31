@@ -87,6 +87,33 @@ def test_v5_canonical_json_keeps_legacy_bytes_and_rejects_nonfinite_values() -> 
         io.canonical_json({"not_a_number": math.nan})
 
 
+def test_normalized_seal_matches_general_seal_and_falls_back_for_tuples() -> None:
+    document = {"payload": {"items": [1, 2, 3]}, "activation": False}
+    expected = io.sealed_document(document)
+    assert io._sealed_normalized_document(document) == expected  # noqa: SLF001
+    assert document == {"payload": {"items": [1, 2, 3]}, "activation": False}
+
+    noncanonical = {"payload": {"items": (1, 2, 3)}, "activation": False}
+    assert io._sealed_normalized_document(noncanonical) == io.sealed_document(noncanonical)  # noqa: SLF001
+
+    with pytest.raises(io.Refused, match="activation"):
+        io._sealed_normalized_document({"activation": True})  # noqa: SLF001
+
+
+def test_event_payload_fast_path_preserves_canonical_key_order() -> None:
+    payload = {"z": {"z": 2, "a": 3}, "a": 1}
+    event = S.CognitiveEvent.create(
+        sequence=1,
+        event_time=1,
+        kind="entity_created",
+        payload=payload,
+        previous_sha256=None,
+    )
+    assert event.payload == io._normal_json(payload)  # noqa: SLF001
+    assert list(event.payload) == ["a", "z"]
+    assert list(event.payload["z"]) == ["a", "z"]
+
+
 def test_event_payload_and_semantic_snapshots_remain_detached() -> None:
     payload = {"layer": "active_context", "value": {"nested": ["before"]}}
     entity = S.PermanentEntity("entity:isolation")
@@ -324,14 +351,14 @@ def test_checkpoint_cache_is_detached_and_invalidated_after_append(
 ) -> None:
     entity = populated_entity()
     seal_calls = 0
-    original_sealed_document = io.sealed_document
+    original_seal = io._sealed_normalized_document  # noqa: SLF001
 
     def counted_seal(document: dict) -> dict:
         nonlocal seal_calls
         seal_calls += 1
-        return original_sealed_document(document)
+        return original_seal(document)
 
-    monkeypatch.setattr(io, "sealed_document", counted_seal)
+    monkeypatch.setattr(io, "_sealed_normalized_document", counted_seal)  # noqa: SLF001
     first = entity.checkpoint()
     second = entity.checkpoint()
     assert first == second
