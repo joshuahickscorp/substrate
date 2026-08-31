@@ -128,14 +128,14 @@ class Kernel:
             "identity": self.identity,
             "model_identity": self.model_identity,
             "last_sequence": self.last_sequence,
-            "objects": self.objects,
-            "goals": self.goals,
-            "events": self.events,
-            "latent_state": self.latent_state,
-            "messages": self.messages,
+            "objects": _detach_tree(self.objects),
+            "goals": _detach_tree(self.goals),
+            "events": _detach_tree(self.events),
+            "latent_state": _detach_tree(self.latent_state),
+            "messages": _detach_tree(self.messages),
             "activation": False,
         }
-        return {"body": _detach_tree(body), "sha256": _digest(body)}
+        return {"body": body, "sha256": _digest(body)}
 
     def restore(self, checkpoint: dict[str, Any]) -> Kernel:
         body = checkpoint.get("body")

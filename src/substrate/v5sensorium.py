@@ -367,8 +367,11 @@ def _hidden_mapping_keys(value: object) -> set[str]:
             normalized = key.lower() if type(key) is str else str(key).lower()
             if normalized in _HIDDEN_ID_KEYS:
                 keys.add(normalized)
-            if isinstance(child, (Mapping, tuple, list)):
+            child_type = type(child)
+            if child_type is dict or child_type is tuple or child_type is list:
                 nested = True
+            elif child is not None and child_type not in (bool, int, float, str, bytes, bytearray):
+                nested = nested or isinstance(child, (Mapping, tuple, list))
         if not nested:
             return keys
         pending: list[object] = list(value.values())
@@ -386,6 +389,8 @@ def _hidden_mapping_keys(value: object) -> set[str]:
             pending.extend(mapping.values())
         elif current_type is tuple or current_type is list:
             pending.extend(cast(Iterable[object], current))
+        elif current is None or current_type in (bool, int, float, str, bytes, bytearray):
+            continue
         elif isinstance(current, Mapping):
             for key in current:
                 normalized = key.lower() if type(key) is str else str(key).lower()

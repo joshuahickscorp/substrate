@@ -181,9 +181,11 @@ Representative local profiles for the pass were:
   isolation parity remain covered.
 - The recurrent and hybrid v5 kernels now cache bounded modality/signal digest
   inputs, and normalized state copies use exact built-in dict/list fast paths
-  with defensive subclass fallbacks. The matched kernel comparison moved from
-  about 2.44 to 2.06 milliseconds per 100-candidate benchmark batch; the
-  latent-value and checkpoint-isolation contracts remain unchanged.
+  with defensive subclass fallbacks. Kernel checkpoint construction now
+  detaches mutable branches before sealing instead of walking the scalar root
+  envelope a second time. The matched kernel comparison moved from about 2.44
+  to 1.63 milliseconds per 100-candidate benchmark batch; the latent-value and
+  checkpoint-isolation contracts remain unchanged.
 - Normalized state detachment now avoids redundant ABC dispatch on the common
   built-in tree. A representative 100,000-copy profile moved from about 159
   to 138 milliseconds without changing the defensive copy boundary.
