@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `facd39e954b34be9549c509b7c797d6297d5da56`. Every number below is derived from the
+Generated from the tree at commit `f45abfd6f74e7a6bad2101b2773f6283e60417c0`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -60,7 +60,7 @@ is tested against its own boundary document.
 
 ## The temporal core
 
-the selection is terminal and independently verified
+Substrate Temporal Core v1 is not named yet. The factorial is still executing with 0 principal shards outstanding, and the artifacts on disk from an earlier run are superseded rather than current
 
 ## The exact next frontier
 

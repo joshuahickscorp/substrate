@@ -16,13 +16,13 @@
   "inherited_graph": {
     "reference": "historical:inherited_hypothesis_graph",
     "resolved": true,
-    "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+    "path": "evidence/proof-ledger/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
     "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa"
   },
   "inherited_temporal_graph": {
     "reference": "historical:temporal_hypothesis_graph",
     "resolved": true,
-    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+    "path": "evidence/proof-ledger/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
     "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f"
   },
   "inheritance_rule": "the inherited graphs are sealed evidence. This program appends Substrate native hypotheses and never edits an inherited node",
@@ -35,7 +35,7 @@
       ],
       "premise": "typed regions with declared readers and writers beat one unrestricted shared state of matched capacity on tasks that need cross perspective information",
       "predecessor": null,
-      "state": "instrument_pending",
+      "state": "unopened",
       "required_bed": "a bed where at least two perspectives hold information neither one has alone",
       "required_headroom": "residual headroom over the untyped shared state control",
       "strongest_baseline": "one opaque state of matched capacity and matched update budget",
@@ -44,22 +44,6 @@
         "H_arbitration_minority"
       ],
       "blocking_null": null,
-      "refused_attempts": [
-        "SX1",
-        "SX1b"
-      ],
-      "still_open": true,
-      "measurement_boundary": {
-        "screen": "no_bed_can_answer_at_this_effect_size",
-        "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
-        "beds_screened": [
-          "harth_stream",
-          "pamap2_stream"
-        ],
-        "best_ceiling_lower_95_cb": 0.003234,
-        "sesoi": 0.05,
-        "closes_descendants": false
-      },
       "carrying_items": [
         {
           "id": "C2",
@@ -255,7 +239,7 @@
       "closure": {
         "reference": "historical:fast_state_binding_nulls",
         "resolved": true,
-        "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+        "path": "evidence/proof-ledger/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
         "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26"
       },
       "closes_descendants": []
@@ -263,7 +247,7 @@
   ],
   "open_count": 8,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
   "activation": false,
-  "sha256": "ae406079a79ed8ac9dce4893802d335bcedc72d44aaf42397bd968a98b3560e4"
+  "sha256": "5dedef5167ec6c72b9eb2a9b6e78928d8c17241498d6591ff7bb792bd2a7fd7c"
 }

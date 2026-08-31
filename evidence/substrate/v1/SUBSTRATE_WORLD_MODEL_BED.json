@@ -47,6 +47,6 @@
   "why_this_bed": "the record was written to run a factorial. Its states, actions and outcomes were not chosen to make a world model look useful",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "24b843d63928e48f25cc84d335caa16988065f45",
-  "sha256": "62a3f521572c59005f10b938906c6af89381316539951915fd59dfe8752cfd64"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "1f412e448b755f7d1b37f2d8eba8aabcf968b537a14b8639306cc565456828b2"
 }

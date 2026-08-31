@@ -3,7 +3,7 @@
   "run_classification": "terminal deterministic synthesis",
   "scientific_work_units": 0,
   "frozen_manifest": {
-    "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+    "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
     "data_root_declared_by": "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json canonical_root",
     "sessions": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
     "splits": "group disjoint by source unit, sealed in the temporal receipts",
@@ -34,9 +34,9 @@
     "retries": 2,
     "claim_ceiling": "engineering property or architectural prerequisite only. No consciousness, sentience, feeling, suffering, desire, personhood or life",
     "activation": false,
-    "source_digest": "601afcd55baefe4915cb576f73c5472ab112c01d1f8ef469f1d3778e4dcd7b2d",
+    "source_digest": "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4",
     "configuration_sha256": "797e2ca437258960aedc32ec7ee432b05f4b62ef32eec6211534d27c0b5ce68b",
-    "source_tree": "d6239d2ddf9bf09da26d188455825cbc282554b7",
+    "source_tree": "cdbe6ec3643606a777a7b87e8025e1fa0cf75cc4",
     "units": [
       "audit",
       "declarations",
@@ -62,11 +62,13 @@
     "scientific_work_unit_count": 0,
     "run_classification": "terminal deterministic synthesis",
     "completion": "all synthesis units terminal; the workload performs zero new scientific trials",
-    "manifest_sha256": "bb8be83671e349195033398fb9feeed955472ea69fd909cfd55b66ad2c4aef64"
+    "manifest_sha256": "7c3734713d72ea88c8a12132d7ac861c425b1ced6f60592c2df39d6997291ea9"
   },
   "audit": {
-    "all_pass": true,
-    "failed": []
+    "all_pass": false,
+    "failed": [
+      "no_stale_outputs"
+    ]
   },
   "certification": {
     "green": true,
@@ -79,11 +81,13 @@
     }
   },
   "rehearsal": {
-    "all_pass": true,
-    "failed": []
+    "all_pass": false,
+    "failed": [
+      "audit_still_passes"
+    ]
   },
-  "admission": "green",
-  "refusal_reason": "",
+  "admission": "refused",
+  "refusal_reason": "no_stale_outputs; audit_still_passes",
   "no_live_edits_after_launch": "the frozen manifest carries the source commit and tree. A later run whose tree differs is a live edit and is detectable",
   "defect_procedure": "pause, append only repair, regression test, transition receipt, safe resume. Completed units are not redone",
   "commands": {
@@ -94,6 +98,6 @@
   },
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "ab86fbc4f8e9840e88f34407e5fc4201ded6711eddaa303cf149d3cc311e18e7"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "d5e74379e1ef3869ccc736ea18bdac0c08a14364c6be24fd81351863785c02b0"
 }

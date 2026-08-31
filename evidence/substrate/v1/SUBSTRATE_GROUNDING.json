@@ -110,6 +110,6 @@
   "limitation": "the referents are scheduling and receipt symbols from one program. Grounding here means connected to recorded outcomes, not perceptually grounded",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-  "sha256": "16be6e14a31eea25b7942d759f861a8a304e9d0c23e7eb84959e5147261c72da"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "9e8ef7571211929979f0a825018cc33831de80b0266ce67382287eff3e651fa7"
 }

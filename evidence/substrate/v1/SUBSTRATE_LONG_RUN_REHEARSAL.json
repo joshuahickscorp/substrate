@@ -3,7 +3,7 @@
   "checks": {
     "deterministic_receipts": {
       "ok": true,
-      "receipt_sha256": "a34b0aa9b166e0c2d2e1a5aed11dca29fd07e457c713d064112cf3ff036c7e84"
+      "receipt_sha256": "1283f1830e0e925b41730d0a4f8dedcab43811a7b647f0111874d7f640b7d5c9"
     },
     "worker_claim_race_and_exclusive_writers": {
       "ok": true,
@@ -160,14 +160,16 @@
       "ok": true
     },
     "audit_still_passes": {
-      "ok": true
+      "ok": false
     }
   },
-  "failed": [],
-  "all_pass": true,
+  "failed": [
+    "audit_still_passes"
+  ],
+  "all_pass": false,
   "note": "a rehearsal that only proves the happy path proves nothing worth knowing",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "396c24ddcc8b6e15bb85f7bbf7bcfb556e0bfdabacf19e4d4537fb6bb9012fb7"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "28dd62b71884ce382a8ae05d94a528a3370124d4ef272a220d6af0f7b76f9cd5"
 }

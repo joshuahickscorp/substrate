@@ -1,6 +1,6 @@
 # Substrate final ledger
 
-Derived from the tree at `20cd7713e50c02f79b0404e87e3224161a920932`. Status is computed, never asserted.
+Derived from the tree at `f45abfd6f74e7a6bad2101b2773f6283e60417c0`. Status is computed, never asserted.
 
 66 requirements. implemented 66.
 
@@ -75,7 +75,7 @@ Derived from the tree at `20cd7713e50c02f79b0404e87e3224161a920932`. Status is c
 
 ## Program graph
 
-26 nodes, 26 terminal, 0 buildable prerequisites, 0 externally blocked.
+26 nodes, 13 terminal, 0 buildable prerequisites, 0 externally blocked.
 
 No future wave exists as prose. Every one is a node with an entry and an exit gate.
 

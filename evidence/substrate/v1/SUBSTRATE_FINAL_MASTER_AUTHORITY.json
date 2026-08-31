@@ -3,15 +3,15 @@
   "supersedes": "the archived predecessor plans without invalidating anything they sealed",
   "plans": {
     "final": {
-      "path": "/Users/scammermike/Downloads/substrate/docs/LONG_RUN_PLAN.md",
-      "sha256": "cbe665b6bcd741ce1cda1bc9d40675838a14e129ad20d44cc925f13aed56eb7f",
+      "path": "/Users/scammermike/Downloads/substrate/docs/archive/experiments/v4/LONG_RUN_PLAN.md",
+      "sha256": "1d5e9c32f6d8dea0b0ad22e328085b61f6031bddc5b84e832917c99fc5dfc026",
       "resolved": true
     }
   },
   "source": {
-    "commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-    "tree": "6ebc43d24d6f5289d0c3d1b45de6b380c09f5680",
-    "branch": "agent/substrate-three-second-seal",
+    "commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+    "tree": "cdbe6ec3643606a777a7b87e8025e1fa0cf75cc4",
+    "branch": "main",
     "remote_branch": "agent/substrate-event-horizon",
     "pull_request": 35
   },
@@ -24,7 +24,7 @@
       "program": "method_reformation",
       "reference": "historical:experimental_validity_kernel",
       "resolved": true,
-      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "path": "evidence/proof-ledger/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
       "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
       "role": "the admission gate every new Substrate experiment must pass"
     },
@@ -32,7 +32,7 @@
       "program": "method_reformation",
       "reference": "historical:historical_experiment_defect_ledger",
       "resolved": true,
-      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "path": "evidence/proof-ledger/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
       "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
       "role": "eighteen reproduced defect classes, each a permanent regression"
     },
@@ -40,7 +40,7 @@
       "program": "method_reformation",
       "reference": "historical:inherited_hypothesis_graph",
       "resolved": true,
-      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "path": "evidence/proof-ledger/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
       "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
       "role": "the inherited hypothesis graph this program extends and never rewrites"
     },
@@ -48,7 +48,7 @@
       "program": "method_reformation",
       "reference": "historical:method_next_frontier",
       "resolved": true,
-      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "path": "evidence/proof-ledger/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
       "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
       "role": "the value of information selection that licensed the temporal core program"
     },
@@ -56,7 +56,7 @@
       "program": "fast_state_forge",
       "reference": "historical:fast_state_binding_nulls",
       "resolved": true,
-      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+      "path": "evidence/proof-ledger/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
       "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
       "role": "immutable inherited nulls, supersedable only by an appended authority"
     },
@@ -64,7 +64,7 @@
       "program": "fast_state_forge",
       "reference": "historical:fast_state_synthesis",
       "resolved": true,
-      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "path": "evidence/proof-ledger/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
       "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
       "role": "the terminal synthesis of the fast state program"
     },
@@ -72,7 +72,7 @@
       "program": "temporal_core",
       "reference": "historical:temporal_start_authority",
       "resolved": true,
-      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "path": "evidence/proof-ledger/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
       "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
       "role": "the start authority of the live temporal core mechanism program"
     },
@@ -80,7 +80,7 @@
       "program": "temporal_core",
       "reference": "historical:temporal_method_extension",
       "resolved": true,
-      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "path": "evidence/proof-ledger/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
       "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
       "role": "five method witnesses added by the temporal program"
     },
@@ -88,7 +88,7 @@
       "program": "temporal_core",
       "reference": "historical:temporal_hypothesis_graph",
       "resolved": true,
-      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "path": "evidence/proof-ledger/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
       "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
       "role": "the temporal factorial hypothesis graph"
     },
@@ -96,7 +96,7 @@
       "program": "temporal_core",
       "reference": "historical:data_custody",
       "resolved": true,
-      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
+      "path": "evidence/proof-ledger/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
       "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
       "role": "corpus custody and the deletion guard"
     }
@@ -140,10 +140,10 @@
     "rule": "no single architectural property is proof of sentience"
   },
   "goal_authority": {
-    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "origin": "docs/archive/experiments/genesis2/MASTER_PLAN.md, supplied by the operator",
     "scope": "the items declared in substrate.program.ITEMS",
     "authority": "operator issued, bounded by this file",
-    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "resources": "local compute already licensed to the temporal core supervisor plus the retained execution run",
     "constraints": "activation stays false, no autonomous removal of protected surfaces",
     "termination": "the declared authority is terminal and no dependency ready work remains",
     "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
@@ -154,7 +154,7 @@
     "engine": "substrate.execution",
     "admission_gate": "substrate.method.gate through substrate.admission",
     "registry": "substrate.program.ITEMS",
-    "configuration_authority": "configs/substrate/config.json through substrate.config",
+    "configuration_authority": "ops/configs/substrate/config.json through substrate.config",
     "cli": "substrate",
     "evidence_fabric": "evidence/substrate/v1 through substrate.evidence"
   },
@@ -167,6 +167,6 @@
   "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-  "sha256": "eed0aba75427cdcdcc1ce6e23138bf5d99bc67cd261dbaf46aacb0ae5d6e0b36"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "9beccb495c351651493fddd75c78ba2ae11ab19605b8afd396898720c283ec3e"
 }

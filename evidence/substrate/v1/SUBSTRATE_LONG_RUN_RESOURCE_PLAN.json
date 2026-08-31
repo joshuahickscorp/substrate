@@ -56,6 +56,6 @@
   "scientific_run_launched": false,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "39bb3c0961ae6e578594654d74a0b1acfbfc634abdd0a4ceec1cbb9614489fa2"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "d70d369ea3a8b497192602245af81edc602c925866490ec4f3761e1e7a81fa9f"
 }

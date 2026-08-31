@@ -11,7 +11,7 @@
   ],
   "results": {
     "exclusive_producers": {
-      "artifacts": 66,
+      "artifacts": 135,
       "duplicated": {},
       "on_disk_without_a_producer": [],
       "ok": true
@@ -19,7 +19,26 @@
     "no_stale_outputs": {
       "checked": 63,
       "stale": [],
-      "artifacts_reporting_failure": [],
+      "artifacts_reporting_failure": [
+        {
+          "artifact": "SUBSTRATE_CLEAN_CLONE.json",
+          "keys": [
+            "all_pass"
+          ]
+        },
+        {
+          "artifact": "SUBSTRATE_LONG_RUN_REHEARSAL.json",
+          "keys": [
+            "all_pass"
+          ]
+        },
+        {
+          "artifact": "SUBSTRATE_STRUCTURAL_AUDIT.json",
+          "keys": [
+            "all_pass"
+          ]
+        }
+      ],
       "note": "an artifact reporting a failure is not stale. Evidence still refuses to count it, which is substrate.program.evidence_state, a different question from whether the tree carries an output it can no longer reproduce",
       "ok": true
     },
@@ -345,9 +364,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-  "sha256": "873d4910bb8b11b1ce621d3ec3463c6a6a5752a96cdda171bee8861bcde02853"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "ca44e77f100854ef6fae1382af38e137dd4be012cc47ff8930727c51c7850a17"
 }

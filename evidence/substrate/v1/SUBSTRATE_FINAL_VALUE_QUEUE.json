@@ -284,12 +284,18 @@
     "program_lesson": "a Substrate hypothesis whose mechanism is a design choice needs a bed the program did not design. On a synthetic bed the oracle ceiling is whatever the generator was told to make it, and the experiment measures the generator. That axis is scored as instrumentation_risk",
     "activation": false
   },
-  "graph_ready_nodes": [],
+  "graph_ready_nodes": [
+    "authority",
+    "world_model_bed",
+    "body_adapter_compact",
+    "real_session_authority",
+    "clean_clone"
+  ],
   "buildable_prerequisites": [],
   "selection_rule": "expected decision information, scientific headroom, relevance to entity construction, reuse value, engineering cost, compute cost, validity risk",
   "do_not_run_everything": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-  "sha256": "58a9b621673ac6769e783e1d8647e5e18e9fbe20064d7619901ddbc0cd679b64"
+  "source_commit": "f45abfd6f74e7a6bad2101b2773f6283e60417c0",
+  "sha256": "ad8099c981f6ebda6ba74e67081696bd036444765114282fa934a7015492388a"
 }

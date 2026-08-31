@@ -52,6 +52,11 @@ __pycache__/
 *.memmap
 reports/telegram_notifier/
 logs/
+# This retained supervisor log is an input to the active real-session authority.
+# Keep disposable logs private, but carry this one source into clean clones.
+!/docs/archive/pre-substrate-event-horizon/logs/
+/docs/archive/pre-substrate-event-horizon/logs/*
+!/docs/archive/pre-substrate-event-horizon/logs/supervisor.detached.log
 /runs/
 *.pt
 *.pth
