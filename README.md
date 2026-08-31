@@ -108,6 +108,12 @@ Representative local profiles for the pass were:
 - Sensor-event digesting now reuses its fixed canonical JSON encoder instead of
   rebuilding one per receipt. The representative digest moved from roughly 5.0
   to 4.7 microseconds locally, with an explicit byte-compatibility test.
+- The frozen `v5experiment` path now shares the same digest encoder, reads the
+  binary SHA-256 prefix directly, reuses precomputed capability projections,
+  and carries each sensor-event digest forward instead of hashing the same
+  event again for the aggregate receipt. Representative full-v5 phase 19
+  execution moved from roughly 11.3 to 8.5 milliseconds across this pass, with
+  exact output parity across the sampled phases.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in

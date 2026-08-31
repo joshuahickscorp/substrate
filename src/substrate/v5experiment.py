@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import statistics
+import struct
 from functools import lru_cache
 from typing import Any
 
@@ -171,6 +172,62 @@ ARM_DISABLED: dict[str, frozenset[str]] = {
     ),
 }
 
+_VIDEO_CAPABILITIES = frozenset({"video_state", "motion", "event_model"})
+_DEPTH_CAPABILITIES = frozenset({"depth", "spatial", "three_d"})
+_CONTINUITY_CAPABILITIES = frozenset(
+    {"persistence", "structured_state", "continual_learning", "retention"}
+)
+_PRIMARY_MECHANISMS = frozenset(
+    {
+        "video_state",
+        "motion",
+        "event_model",
+        "spatial",
+        "depth",
+        "three_d",
+        "cross_modal_binding",
+        "audiovisual_binding",
+        "active_perception",
+        "model_routing",
+        "model_support",
+        "body_schema",
+        "continual_learning",
+        "human_teaching",
+        "model_replacement",
+        "persistence",
+        "long_history",
+        "integrated_state",
+        "conflict_arbitration",
+    }
+)
+_PHASE_MISSING_REQUIREMENTS = {
+    arm: tuple(
+        tuple(sorted(set(requirements) & disabled))
+        for requirements in PHASE_REQUIREMENTS
+    )
+    for arm, disabled in ARM_DISABLED.items()
+}
+_PHASE_ACTIVE_REQUIREMENTS = {
+    arm: tuple(
+        tuple(sorted(set(requirements) - disabled))
+        for requirements in PHASE_REQUIREMENTS
+    )
+    for arm, disabled in ARM_DISABLED.items()
+}
+_ARM_ACTIVE_CAPABILITIES = {
+    arm: tuple(sorted(CAPABILITIES - disabled))
+    for arm, disabled in ARM_DISABLED.items()
+}
+_PHASE_HAS_AUDIO_VIDEO = tuple(
+    "audio" in modalities and "video" in modalities
+    for modalities in PHASE_MODALITIES
+)
+_CANONICAL_JSON_ENCODER = json.JSONEncoder(
+    sort_keys=True,
+    separators=(",", ":"),
+    default=str,
+)
+
 _MODEL_FOR_MODALITY = {
     "text": "language_interpreter",
     "image": "image_object_detector",
@@ -204,7 +261,7 @@ _MODALITY_ENUM = {
 
 
 def _fraction(identity: str) -> float:
-    value = int(hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16], 16)
+    value = struct.unpack(">Q", hashlib.sha256(identity.encode("utf-8")).digest()[:8])[0]
     return value / 0xFFFFFFFFFFFFFFFF
 
 
@@ -213,13 +270,13 @@ def _signed_fraction(identity: str) -> float:
 
 
 def _digest(value: object) -> str:
-    payload = json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        default=str,
-    )
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    payload = _CANONICAL_JSON_ENCODER.encode(value).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+@lru_cache(maxsize=256)
+def _history_signed_fraction(split: str, history_seed: int, label: str) -> float:
+    return _signed_fraction(f"{split}:{history_seed}:{label}")
 
 
 def _public_task(
@@ -232,10 +289,12 @@ def _public_task(
         f"{split}:{history_seed}:{phase_index}:{episode_index}:"
         "substrate-v5-frozen-generator-v2"
     )
-    stable_context = 0.28 * _signed_fraction(f"{split}:{history_seed}:context")
+    stable_context = 0.28 * _history_signed_fraction(
+        split, history_seed, "context"
+    )
     latent = 0.82 * _signed_fraction(task_identity + ":latent") + stable_context
-    sensor_bias = 0.48 * _signed_fraction(
-        f"{split}:{history_seed}:sensor-calibration"
+    sensor_bias = 0.48 * _history_signed_fraction(
+        split, history_seed, "sensor-calibration"
     )
     target = int(
         latent + 0.16 * _signed_fraction(task_identity + ":oracle-noise") >= 0.0
@@ -310,11 +369,7 @@ def _sensor_event(
         "phase_index": phase_index,
         "episode_index": episode_index,
     }
-    payload = json.dumps(
-        public,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
+    payload = _CANONICAL_JSON_ENCODER.encode(public).encode("utf-8")
     reference = f"generated://{_digest((task_identity, modality))}"
     raw = sensors.raw_signal(reference, payload, "application/json")
     preprocessed = sensors.PreprocessedSignal(
@@ -353,10 +408,10 @@ def _environment_trace(
     phase_index: int,
     arm: str,
 ) -> dict[str, Any]:
-    modalities = set(PHASE_MODALITIES[phase_index])
+    modalities = PHASE_MODALITIES[phase_index]
     disabled = ARM_DISABLED[arm]
     seed = history_seed * 100 + phase_index
-    if modalities & {"depth", "three_d", "body"}:
+    if "depth" in modalities or "three_d" in modalities or "body" in modalities:
         environment = environments.Simulator3DEnvironment(seed)
         observation = environment.observe()
         action = "wait"
@@ -366,7 +421,7 @@ def _environment_trace(
                 {"degrees": 20.0},
             )
             action = receipt.action
-        elif "depth" not in disabled and modalities & {"depth", "three_d"}:
+        elif "depth" not in disabled and ("depth" in modalities or "three_d" in modalities):
             observation, receipt = environment.step("request_depth")
             action = receipt.action
         checkpoint = environment.checkpoint()
@@ -480,22 +535,14 @@ def _commit(
     """Execute the public path; this function never receives the oracle target."""
 
     disabled = ARM_DISABLED[arm]
-    missing = sorted(set(PHASE_REQUIREMENTS[phase_index]) & disabled)
+    missing = list(_PHASE_MISSING_REQUIREMENTS[arm][phase_index])
     usable: list[tuple[str, str, float]] = []
     for modality, cue in observation["modality_cues"].items():
-        if modality in {"video", "motion"} and {
-            "video_state",
-            "motion",
-            "event_model",
-        } & disabled:
+        if modality in {"video", "motion"} and _VIDEO_CAPABILITIES & disabled:
             continue
         if modality == "audio" and "audio" in disabled:
             continue
-        if modality in {"depth", "three_d"} and {
-            "depth",
-            "spatial",
-            "three_d",
-        } & disabled:
+        if modality in {"depth", "three_d"} and _DEPTH_CAPABILITIES & disabled:
             continue
         if modality in {"body", "tool"} and "body_schema" in disabled:
             continue
@@ -526,6 +573,7 @@ def _commit(
     calls: list[dict[str, Any]] = []
     votes: list[float] = []
     routing_inputs: set[str] = set()
+    sensor_event_digests: list[str] = []
     for modality, source, cue in usable:
         request = _request(task_identity, modality, cue)
         routed = False
@@ -569,34 +617,14 @@ def _commit(
         )
         sensorium.ingest(event)
         sensor_digest = sensors.canonical_event_digest(event)
+        sensor_event_digests.append(sensor_digest)
         mechanism = source.removeprefix("mechanism:")
-        primary_mechanisms = {
-            "video_state",
-            "motion",
-            "event_model",
-            "spatial",
-            "depth",
-            "three_d",
-            "cross_modal_binding",
-            "audiovisual_binding",
-            "active_perception",
-            "model_routing",
-            "model_support",
-            "body_schema",
-            "continual_learning",
-            "human_teaching",
-            "model_replacement",
-            "persistence",
-            "long_history",
-            "integrated_state",
-            "conflict_arbitration",
-        }
         evidence_weight = (
             10.00
             if source == "mechanism:body_schema"
             else 4.50
             if source.startswith("mechanism:")
-            and mechanism in primary_mechanisms
+            and mechanism in _PRIMARY_MECHANISMS
             else (1.50 if source.startswith("mechanism:") else 1.0)
         )
         votes.append(
@@ -737,12 +765,7 @@ def _commit(
             )
         )
 
-    if {
-        "persistence",
-        "structured_state",
-        "continual_learning",
-        "retention",
-    }.isdisjoint(disabled):
+    if _CONTINUITY_CAPABILITIES.isdisjoint(disabled):
         score += 1.50 * learned_correction
     return {
         "decision": int(score >= 0.0),
@@ -758,10 +781,7 @@ def _commit(
             }
         ),
         "sensor_event_count": len(sensorium.events),
-        "sensor_event_digests": [
-            sensors.canonical_event_digest(event)
-            for event in sensorium.events
-        ],
+        "sensor_event_digests": sensor_event_digests,
         "routing_inputs": sorted(routing_inputs),
         "active_perception_source": policy_source,
         "active_perception_action": policy_action,
@@ -814,7 +834,7 @@ def episode(
         "decision": decision,
         "step": 0,
         "required_capabilities": list(PHASE_REQUIREMENTS[phase_index]),
-        "active_capabilities": sorted(CAPABILITIES - ARM_DISABLED[arm]),
+        "active_capabilities": list(_ARM_ACTIVE_CAPABILITIES[arm]),
         "missing_capabilities": execution["missing"],
     }
     commitment["commitment_digest"] = _digest(
@@ -889,11 +909,7 @@ def phase_result(
         call for row in rows for call in row["execution"]["calls"]
     ]
     latest_frame = phase_index * EPISODES_PER_PHASE + EPISODES_PER_PHASE - 1
-    audiovisual_offset = (
-        0.03
-        if {"audio", "video"} <= set(PHASE_MODALITIES[phase_index])
-        else None
-    )
+    audiovisual_offset = 0.03 if _PHASE_HAS_AUDIO_VIDEO[phase_index] else None
     audiovisual_tolerance = 0.08 if audiovisual_offset is not None else None
     v4_retention = (
         _v4_retention_probe(split, history_seed)
@@ -905,12 +921,8 @@ def phase_result(
         "phase_index": phase_index,
         "modalities": list(PHASE_MODALITIES[phase_index]),
         "requirements": list(PHASE_REQUIREMENTS[phase_index]),
-        "mechanisms_active": sorted(
-            set(PHASE_REQUIREMENTS[phase_index]) - ARM_DISABLED[arm]
-        ),
-        "mechanisms_missing": sorted(
-            set(PHASE_REQUIREMENTS[phase_index]) & ARM_DISABLED[arm]
-        ),
+        "mechanisms_active": list(_PHASE_ACTIVE_REQUIREMENTS[arm][phase_index]),
+        "mechanisms_missing": list(_PHASE_MISSING_REQUIREMENTS[arm][phase_index]),
         "episodes": len(rows),
         "accuracy": accuracy,
         "mean_cost": cost,
