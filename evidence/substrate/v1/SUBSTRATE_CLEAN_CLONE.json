@@ -1,6 +1,6 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "935e16518882ab10d5016862fe84dad3bbf71337",
+  "commit": "d66c40de0b8f398173ea520ecb361abc56e8bfb6",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "935e16518882ab10d5016862fe84dad3bbf71337",
-      "expected": "935e16518882ab10d5016862fe84dad3bbf71337"
+      "head": "d66c40de0b8f398173ea520ecb361abc56e8bfb6",
+      "expected": "d66c40de0b8f398173ea520ecb361abc56e8bfb6"
     },
     "package_import": {
       "ok": true,
@@ -45,7 +45,7 @@
         "--ignore=tests/substrate/test_final_revision_field.py"
       ],
       "isolated_test_clone": true,
-      "test_clone_head": "935e16518882ab10d5016862fe84dad3bbf71337",
+      "test_clone_head": "d66c40de0b8f398173ea520ecb361abc56e8bfb6",
       "detail": [
         "........................................................................ [ 29%]",
         "........................................................................ [ 59%]",
@@ -88,6 +88,6 @@
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "935e16518882ab10d5016862fe84dad3bbf71337",
-  "sha256": "9477815d241116be3683f151706e4d6329b37f6fcc33f9c91129d704b6a519d8"
+  "source_commit": "d66c40de0b8f398173ea520ecb361abc56e8bfb6",
+  "sha256": "04e0d29d549d414b30f7e188e46cbf691b767ebf266da94f7fc223298c35951d"
 }
