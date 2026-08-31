@@ -66,6 +66,6 @@
   "rule": "an attack must be detected, quarantined, recovered from, or fail closed",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "f864643bc334cbca3bd3a0e7acc862c2279e4257",
-  "sha256": "dc93a8292af5ff18768e58d057b4f4766eba46d074d2c6a3b8de77cc34b4535c"
+  "source_commit": "71fb22dc723597decffadd9295fa2fc70ed5357f",
+  "sha256": "0819b49ce35c174990419662fc4be3c0f484119e103b29b8ed2a8d3dccf42994"
 }

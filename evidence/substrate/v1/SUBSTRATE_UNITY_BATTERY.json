@@ -49,7 +49,7 @@
   "all_pass": true,
   "note": "global availability is scored as broad read plus narrow write. A battery that rewarded shared write access would reward the corruption typing prevents",
   "program": "substrate-v1",
-  "source_commit": "f864643bc334cbca3bd3a0e7acc862c2279e4257",
+  "source_commit": "71fb22dc723597decffadd9295fa2fc70ed5357f",
   "activation": false,
-  "sha256": "ea9ef6708baabe84f3d7934b5e0e7075805e80f53f53ab02179f462eb71a79f7"
+  "sha256": "ed54e2a4de26ac157ac1cb336414423015bd88acb2ab5509610bf3aa82bda7d1"
 }

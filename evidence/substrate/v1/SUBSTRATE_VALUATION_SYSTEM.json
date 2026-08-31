@@ -38,6 +38,6 @@
   "auditable": "the weights are a literal in the source and change only by a reviewed commit",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "f864643bc334cbca3bd3a0e7acc862c2279e4257",
-  "sha256": "b99efd0e6a712d587ed57e372fd0c51c3eb38ae5e765ba1bb73e5517f8237349"
+  "source_commit": "71fb22dc723597decffadd9295fa2fc70ed5357f",
+  "sha256": "e0f31e5984d740d6fb798be76eef15eee4c2f070e924a5dc1025f5c122bccb7b"
 }
