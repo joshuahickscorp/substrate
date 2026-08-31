@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 
 import pytest
 
@@ -42,3 +43,16 @@ def test_v5_kernel_refuses_reordered_events_and_corrupt_checkpoint() -> None:
     corrupted["body"]["identity"] = "different"
     with pytest.raises(v5kernels.Refused):
         v5kernels.HybridKernel().restore(corrupted)
+
+
+def test_v5_latent_digest_projection_preserves_prefix_values() -> None:
+    kernel = v5kernels.RecurrentLatentKernel()
+    expected = [0.0] * len(kernel.latent_state)
+    for event in v5kernels.fixture():
+        modality_digest = hashlib.sha256(event.modality.encode()).hexdigest()
+        index = int(modality_digest[:4], 16) % len(expected)
+        signal_digest = hashlib.sha256(f"{event.kind}:{event.subject}".encode()).hexdigest()
+        signal = int(signal_digest[:8], 16) / 0xFFFFFFFF
+        expected[index] = 0.7 * expected[index] + 0.3 * signal
+        kernel.apply(event)
+    assert kernel.latent_state == pytest.approx(expected)

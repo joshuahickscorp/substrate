@@ -68,10 +68,12 @@ class Kernel:
         self.last_sequence = event.sequence
 
     def _latent_update(self, event: KernelEvent) -> None:
-        index = int(hashlib.sha256(event.modality.encode()).hexdigest()[:4], 16)
+        modality_digest = hashlib.sha256(event.modality.encode()).digest()
+        index = int.from_bytes(modality_digest[:2], "big")
         index %= len(self.latent_state)
+        signal_digest = hashlib.sha256(f"{event.kind}:{event.subject}".encode()).digest()
         signal = (
-            int(hashlib.sha256(f"{event.kind}:{event.subject}".encode()).hexdigest()[:8], 16)
+            int.from_bytes(signal_digest[:4], "big")
             / 0xFFFFFFFF
         )
         self.latent_state[index] = 0.7 * self.latent_state[index] + 0.3 * signal
