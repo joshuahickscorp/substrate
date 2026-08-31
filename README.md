@@ -114,6 +114,15 @@ Representative local profiles for the pass were:
   typed fields instead of invoking recursive dataclass conversion. The same
   warmed one-shard harness measures roughly 27 ms per regeneration, with a
   parity test pinning the serialized layer shape.
+- Sensor-event construction now audits only its mapping-bearing fields for
+  hidden-target leakage instead of materializing every typed layer before the
+  public serializer performs its complete audit. The same warmed one-shard
+  harness measures roughly 24 ms per regeneration, with construction-time and
+  post-construction leakage tests retained.
+- Events with no optional typed layers now recheck the mutable observation
+  mapping directly instead of walking their scalar envelope and empty layer
+  lists. The warmed one-shard harness measures roughly 21 ms per regeneration;
+  events carrying optional layers still use the complete public-body audit.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state

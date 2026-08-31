@@ -306,16 +306,11 @@ class SensorEvent:
             raise SensoriumError("preprocessing identity mismatch")
         if self.preprocessed.model_identity != self.model_identity:
             raise SensoriumError("model identity mismatch between event and feature layer")
-        public_content = {
-            "observation": self.observation,
-            "proposals": [dataclasses.asdict(value) for value in self.proposals],
-            "tracked": [dataclasses.asdict(value) for value in self.tracked_entities],
-            "inferred_events": [dataclasses.asdict(value) for value in self.inferred_events],
-            "verified": [dataclasses.asdict(value) for value in self.verified_relations],
-            "structural": [dataclasses.asdict(value) for value in self.structural_beliefs],
-            "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
-        }
-        leaked = _hidden_mapping_keys(public_content)
+        leaked = _hidden_mapping_keys(self.observation)
+        for proposal in self.proposals:
+            leaked.update(_hidden_mapping_keys(proposal.properties))
+        for inferred_event in self.inferred_events:
+            leaked.update(_hidden_mapping_keys(inferred_event.roles))
         if leaked:
             raise SensoriumError(f"hidden target authority in public sensor event: {sorted(leaked)}")
 
@@ -363,7 +358,23 @@ class SensorEvent:
                 "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
             },
         }
-        leaked = _hidden_mapping_keys(body)
+        # When the optional typed layers are empty, the only mutable JSON
+        # mapping in this event is the observation itself; avoid walking the
+        # already-materialized scalar envelope and empty layer lists. Events
+        # carrying any optional layer retain the complete public-body audit.
+        if any(
+            (
+                self.proposals,
+                self.tracked_entities,
+                self.inferred_events,
+                self.verified_relations,
+                self.structural_beliefs,
+                self.knowledge,
+            )
+        ):
+            leaked = _hidden_mapping_keys(body)
+        else:
+            leaked = _hidden_mapping_keys(self.observation)
         if leaked:
             raise SensoriumError(f"hidden target authority leaked during serialization: {sorted(leaked)}")
         return body

@@ -145,6 +145,16 @@ def test_sensorium_rechecks_all_public_layers_for_recursive_outcome_leakage() ->
         Sensorium(CoordinateFrameRegistry()).ingest(event)
 
 
+def test_sensor_event_rejects_hidden_keys_in_typed_layer_mappings() -> None:
+    event = _event(0, 0.0)
+    proposal = dataclasses.replace(
+        event.proposals[0],
+        properties={"nested": {"target": "constructor-leak"}},
+    )
+    with pytest.raises(SensoriumError, match="hidden target"):
+        dataclasses.replace(event, proposals=(proposal,))
+
+
 def test_sensorium_rejects_corrupted_time_sequence_and_coordinate_frames() -> None:
     frames = CoordinateFrameRegistry()
     sensorium = Sensorium(frames)
