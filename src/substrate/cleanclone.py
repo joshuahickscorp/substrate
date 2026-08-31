@@ -32,6 +32,12 @@ CHECKS = (
     "no_activation",
 )
 DECLARED_TEST_TARGETS = (
+    # The clone gate uses the repository's normal tier. Certification and
+    # integration tests require external corpora, services, or tools and have
+    # their own explicit gates; including them here makes a clean checkout
+    # fail for missing machine state rather than for a non-reproducible tree.
+    "-m",
+    "not integration and not expensive and not certification",
     # These tests verify that the historical namespace is untouched. Run them
     # before older campaign tests that intentionally exercise artifact-writing
     # commands in their disposable clone.
