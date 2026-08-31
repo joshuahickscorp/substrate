@@ -97,6 +97,25 @@ class PreprocessedSignal:
             raise SensoriumError("preprocessed features must be finite")
 
 
+def _raw_signal_document(signal: RawSignal) -> dict[str, Any]:
+    return {
+        "reference": signal.reference,
+        "encoding": signal.encoding,
+        "byte_length": signal.byte_length,
+        "content_digest": signal.content_digest,
+    }
+
+
+def _preprocessed_signal_document(signal: PreprocessedSignal) -> dict[str, Any]:
+    return {
+        "source_raw_reference": signal.source_raw_reference,
+        "preprocessing_identity": signal.preprocessing_identity,
+        "model_identity": signal.model_identity,
+        "features": tuple(signal.features),
+        "precision": signal.precision,
+    }
+
+
 @dataclass(frozen=True)
 class PerceptualProposal:
     proposal_id: str
@@ -334,8 +353,8 @@ class SensorEvent:
             "quality_flags": self.quality_flags,
             "missing_data_flags": self.missing_data_flags,
             "layers": {
-                "raw": dataclasses.asdict(self.raw),
-                "preprocessed": dataclasses.asdict(self.preprocessed),
+                "raw": _raw_signal_document(self.raw),
+                "preprocessed": _preprocessed_signal_document(self.preprocessed),
                 "proposals": [dataclasses.asdict(value) for value in self.proposals],
                 "tracked": [dataclasses.asdict(value) for value in self.tracked_entities],
                 "inferred_events": [dataclasses.asdict(value) for value in self.inferred_events],

@@ -110,6 +110,10 @@ Representative local profiles for the pass were:
   than rebuilding the same public body twice. A representative one-shard
   verifier run measures roughly 28 ms per regeneration after these reductions,
   with the existing exact-reproduction and hidden-target tests unchanged.
+- Flat raw and preprocessed sensor layers now materialize directly from their
+  typed fields instead of invoking recursive dataclass conversion. The same
+  warmed one-shard harness measures roughly 27 ms per regeneration, with a
+  parity test pinning the serialized layer shape.
 - Twelve repeated checkpoints over an 80-event context moved from about 209 ms
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state

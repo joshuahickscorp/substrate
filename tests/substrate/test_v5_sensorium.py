@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import dataclasses
 import json
 
 import pytest
@@ -119,6 +120,8 @@ def test_sensor_event_has_eight_modalities_and_noncollapsed_typed_layers() -> No
         "structural",
         "knowledge",
     }
+    assert public["layers"]["raw"] == dataclasses.asdict(event.raw)
+    assert public["layers"]["preprocessed"] == dataclasses.asdict(event.preprocessed)
     assert canonical_event_digest(event) == canonical_event_digest(event)
     for forbidden_key in ("target", "answer", "outcome", "target_id"):
         with pytest.raises(SensoriumError, match="hidden target"):
