@@ -59,8 +59,9 @@ without changing the fail-closed activation, resource, or evidence gates.
 
 ## Performance posture
 
-The latest bounded pass removes duplicate canonical-JSON work, caches the
-process-scoped source-commit lookup, reuses detached event-state copies, and
+The latest bounded pass removes duplicate canonical-JSON work, caches
+process-scoped source-commit and source-inventory lookups across versioned
+v2–v5 paths, reuses detached event-state copies, and
 avoids sorting mapping keys before the canonical encoder sorts them. Frozen
 producer and independent-verifier paths also reuse bounded deterministic
 request/reference identities. Local
@@ -73,6 +74,10 @@ Representative local profiles for the pass were:
 
 - A 12.25 KB canonical-JSON payload took about 645 ms for 2,000 old-path
   encodes and about 245 ms through the direct encoder, with byte-parity tests.
+- Versioned v2–v4 provenance now pays for its immutable source snapshot once per
+  process. Across eight same-process calls, v2 context construction moved from
+  about 148 to 1.5 ms and v3 manifest construction from about 231 to 82 ms;
+  commit and source-digest parity remained exact.
 - A 64-event permanent-state profile moved from about 78 ms to about 51 ms
   after redundant normalization and copying were removed.
 - The next reducer-copy profile moved from about 22 ms to about 8 ms under

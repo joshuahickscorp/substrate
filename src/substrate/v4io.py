@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from functools import lru_cache
 from pathlib import Path
 
 from substrate import evidence as v1
@@ -30,6 +31,7 @@ class Refused(RuntimeError):
     """A v4 state or publication operation failed closed."""
 
 
+@lru_cache(maxsize=1)
 def commit() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
@@ -41,6 +43,7 @@ def source_inventory() -> dict[str, str]:
     }
 
 
+@lru_cache(maxsize=1)
 def source_digest() -> str:
     return sha_obj(source_inventory())
 
