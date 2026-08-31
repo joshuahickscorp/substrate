@@ -107,6 +107,11 @@ Representative local profiles for the pass were:
   JSON loader as the detached-copy boundary. A representative repeated
   checkpoint call moved from roughly 84.6 to 61.5 microseconds locally, while
   caller-mutation isolation and exact restore checks remain covered.
+- Public event appends now reuse the normalized detached projection already
+  needed for persistence instead of normalizing the return value again. In a
+  matched 5,000-context-event loop, wall time moved from about 61.4 to 53.3
+  milliseconds locally; the general ``CognitiveEvent.to_dict()`` normalization
+  boundary remains unchanged.
 - Sensor-event digesting now reuses its fixed canonical JSON encoder instead of
   rebuilding one per receipt. The representative digest moved from roughly 5.0
   to 4.7 microseconds locally, with an explicit byte-compatibility test.

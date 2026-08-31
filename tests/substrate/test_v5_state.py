@@ -90,7 +90,11 @@ def test_v5_canonical_json_keeps_legacy_bytes_and_rejects_nonfinite_values() -> 
 def test_event_payload_and_semantic_snapshots_remain_detached() -> None:
     payload = {"layer": "active_context", "value": {"nested": ["before"]}}
     entity = S.PermanentEntity("entity:isolation")
-    entity.append_event("context_updated", payload)
+    appended = entity.append_event("context_updated", payload)
+
+    assert appended == entity.events[-1].to_dict()
+    appended["payload"]["value"]["nested"].append("return-mutation")
+    assert entity.events[-1].payload["value"]["nested"] == ["before"]
 
     payload["value"]["nested"].append("caller-mutation")
     assert entity.state["active_context"]["nested"] == ["before"]

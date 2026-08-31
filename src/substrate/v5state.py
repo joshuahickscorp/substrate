@@ -1115,7 +1115,10 @@ class PermanentEntity:
             self._state_sha256 = None
             self._checkpoint_cache = None
             self._checkpoint_cache_bytes = None
-            return event.to_dict()
+            # ``create`` already normalized this event payload. Return the
+            # same detached, canonical projection used for persistence instead
+            # of normalizing it a second time through JSON.
+            return event._checkpoint_dict()
 
     def advance_time(self, event_time: int, *, reason: str = "idle") -> dict[str, Any]:
         return self.append_event(
