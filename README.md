@@ -97,6 +97,17 @@ Representative local profiles for the pass were:
   leaves. On a representative hybrid checkpoint body, focused detachment is
   roughly 13.1 microseconds versus 25.0 microseconds for generic copying, and
   checkpoint-isolation coverage remains explicit.
+- Independent v5 regeneration now reuses its configured stable JSON encoder and
+  precomputes phase, shard-modality, and active-requirement projections. A
+  warmed one-shard regeneration moved from roughly 20.7 to 19.4 milliseconds
+  locally, with exact verifier and digest-parity tests retained.
+- Permanent-entity checkpoint cache hits now retain canonical bytes and use the
+  JSON loader as the detached-copy boundary. A representative repeated
+  checkpoint call moved from roughly 84.6 to 61.5 microseconds locally, while
+  caller-mutation isolation and exact restore checks remain covered.
+- Sensor-event digesting now reuses its fixed canonical JSON encoder instead of
+  rebuilding one per receipt. The representative digest moved from roughly 5.0
+  to 4.7 microseconds locally, with an explicit byte-compatibility test.
 - Bounded workspace projection uses one full encoding when its first
   `max_items` candidates fit, then an exact branch-size ledger for tight bounds;
   deterministic candidates are generated on demand rather than materialized in

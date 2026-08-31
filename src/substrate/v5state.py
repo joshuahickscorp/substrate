@@ -8,6 +8,7 @@ every checkpoint is verified both by replay and by cryptographic self-seals.
 
 from __future__ import annotations
 
+import json
 import threading
 from collections.abc import Callable, Iterator, Mapping
 from dataclasses import asdict, dataclass, field
@@ -1012,6 +1013,7 @@ class PermanentEntity:
         self._state = _blank_state(entity_id, schema_version)
         self._state_sha256: str | None = None
         self._checkpoint_cache: dict[str, Any] | None = None
+        self._checkpoint_cache_bytes: bytes | None = None
         self._model_runners: dict[str, Callable[[dict[str, Any]], Any]] = {}
         self.append_event(
             "entity_created",
@@ -1105,6 +1107,7 @@ class PermanentEntity:
             self._state = candidate
             self._state_sha256 = None
             self._checkpoint_cache = None
+            self._checkpoint_cache_bytes = None
             return event.to_dict()
 
     def advance_time(self, event_time: int, *, reason: str = "idle") -> dict[str, Any]:
@@ -1708,6 +1711,7 @@ class PermanentEntity:
                 if not cache_matches:
                     cached = None
                     self._checkpoint_cache = None
+                    self._checkpoint_cache_bytes = None
             if cached is None:
                 state = self.semantic_state()
                 document = {
@@ -1723,8 +1727,19 @@ class PermanentEntity:
                     "activation": False,
                 }
                 self._checkpoint_cache = io.sealed_document(document)
+                # The cache is internally canonical JSON. Loading its bytes is
+                # a faster detached-copy boundary than recursively rebuilding
+                # the same Python tree, while preserving the public snapshot
+                # isolation contract.
+                self._checkpoint_cache_bytes = io.canonical_json(
+                    self._checkpoint_cache
+                )
                 cached = self._checkpoint_cache
-            return _copy_normalized(cached)
+            cache_bytes = self._checkpoint_cache_bytes
+            if cache_bytes is None:
+                cache_bytes = io.canonical_json(cached)
+                self._checkpoint_cache_bytes = cache_bytes
+            return json.loads(cache_bytes)
 
     snapshot = checkpoint
 
@@ -1820,6 +1835,7 @@ class PermanentEntity:
         entity._state = _copy_normalized(replayed)
         entity._state_sha256 = None
         entity._checkpoint_cache = None
+        entity._checkpoint_cache_bytes = None
         entity._model_runners = dict(runners or {})
         for model_id in entity._model_runners:
             if model_id not in entity._state["model_registry"]:

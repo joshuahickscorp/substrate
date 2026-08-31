@@ -16,6 +16,12 @@ from dataclasses import dataclass, replace
 from enum import StrEnum
 from typing import Any
 
+_CANONICAL_JSON_ENCODER = json.JSONEncoder(
+    sort_keys=True,
+    separators=(",", ":"),
+    default=str,
+)
+
 
 class SensoriumError(ValueError):
     """A sensory record violates time, coordinate, or layer authority."""
@@ -1073,7 +1079,7 @@ def canonical_event_digest(event: SensorEvent) -> str:
 
 
 def _canonical_observation_digest(body: Mapping[str, Any]) -> str:
-    encoded = json.dumps(body, sort_keys=True, separators=(",", ":"), default=str).encode()
+    encoded = _CANONICAL_JSON_ENCODER.encode(body).encode()
     return hashlib.sha256(encoded).hexdigest()
 
 

@@ -18,10 +18,12 @@ import json
 import os
 import shutil
 import statistics
+import struct
 import subprocess
 import sys
 import tempfile
 from collections.abc import Callable, Iterable, Mapping, Sequence
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -194,6 +196,11 @@ _PRIMARY_MECHANISMS = frozenset(
 _VIDEO_CAPABILITIES = frozenset({"video_state", "motion", "event_model"})
 _DEPTH_CAPABILITIES = frozenset({"depth", "spatial", "three_d"})
 _COMMIT_SINGLE_CAPABILITIES = frozenset({"cross_modal_binding", "integrated_state"})
+_STABLE_JSON_ENCODER = json.JSONEncoder(
+    sort_keys=True,
+    separators=(",", ":"),
+    default=str,
+)
 _ARM_DISABLED: dict[str, frozenset[str]] = {
     "full_v5": frozenset(),
     "v4_cognitive_core_control": _CAPABILITIES - frozenset({"structured_state", "persistence", "auditability", "recovery"}),
@@ -265,6 +272,39 @@ _PHASE_MISSING_REQUIREMENTS = {
     )
     for arm, disabled in _ARM_DISABLED.items()
 }
+_PHASE_ACTIVE_REQUIREMENTS = {
+    arm: tuple(
+        tuple(sorted(set(requirements) - disabled))
+        for requirements in _PHASE_REQUIREMENTS
+    )
+    for arm, disabled in _ARM_DISABLED.items()
+}
+_ARM_ACTIVE_CAPABILITIES = {
+    arm: tuple(sorted(_CAPABILITIES - disabled))
+    for arm, disabled in _ARM_DISABLED.items()
+}
+_ALL_MODALITIES = tuple(
+    sorted({modality for modalities in _PHASE_MODALITIES for modality in modalities})
+)
+_SHARD_MODALITIES = tuple(
+    tuple(
+        sorted(
+            {
+                modality
+                for phase_index in range(
+                    shard * P.PHASES_PER_SHARD,
+                    (shard + 1) * P.PHASES_PER_SHARD,
+                )
+                for modality in _PHASE_MODALITIES[phase_index]
+            }
+        )
+    )
+    for shard in range(P.SHARDS)
+)
+_PHASE_HAS_AUDIO_VIDEO = tuple(
+    "audio" in modalities and "video" in modalities
+    for modalities in _PHASE_MODALITIES
+)
 _MODEL_FOR_MODALITY = {
     "text": "language_interpreter",
     "image": "image_object_detector",
@@ -341,23 +381,16 @@ def _relative(unit: P.WorkUnit, family: str) -> str:
 
 
 def _stable_digest(value: Any) -> str:
-    payload = json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        default=str,
-    ).encode("utf-8")
+    payload = _STABLE_JSON_ENCODER.encode(value).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
 
 
 def _fraction(identity: str) -> float:
-    value = int(
-        hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16],
-        16,
-    )
+    value = struct.unpack(">Q", hashlib.sha256(identity.encode("utf-8")).digest()[:8])[0]
     return value / 0xFFFFFFFFFFFFFFFF
 
 
+@lru_cache(maxsize=1)
 def _independent_generator_digest() -> str:
     return _stable_digest(
         {
@@ -387,7 +420,7 @@ def _independent_unit_document(unit: P.WorkUnit) -> dict[str, Any]:
         "split": unit.split,
         "phase_indices": list(phase_indices),
         "phases": [C.PHASES[index] for index in phase_indices],
-        "modalities": sorted({modality for index in phase_indices for modality in _PHASE_MODALITIES[index]}),
+        "modalities": list(_SHARD_MODALITIES[unit.shard]),
         "models": "registered model-equivalent modules selected by the v5 fabric",
         "body": "desktop_body or seeded_3d_body",
         "inputs": [_independent_generator_digest()],
@@ -561,10 +594,10 @@ def _independent_environment_trace(
     phase_index: int,
     arm: str,
 ) -> dict[str, Any]:
-    modalities = set(_PHASE_MODALITIES[phase_index])
+    modalities = _PHASE_MODALITIES[phase_index]
     disabled = _ARM_DISABLED[arm]
     seed = history_seed * 100 + phase_index
-    if modalities & {"depth", "three_d", "body"}:
+    if "depth" in modalities or "three_d" in modalities or "body" in modalities:
         environment = VE.Simulator3DEnvironment(seed)
         observation = environment.observe()
         action = "wait"
@@ -574,10 +607,7 @@ def _independent_environment_trace(
                 {"degrees": 20.0},
             )
             action = action_receipt.action
-        elif "depth" not in disabled and modalities & {
-            "depth",
-            "three_d",
-        }:
+        elif "depth" not in disabled and ("depth" in modalities or "three_d" in modalities):
             observation, action_receipt = environment.step("request_depth")
             action = action_receipt.action
         checkpoint = environment.checkpoint()
@@ -955,7 +985,7 @@ def _independent_episode(
         "decision": decision,
         "step": 0,
         "required_capabilities": list(_PHASE_REQUIREMENTS[phase_index]),
-        "active_capabilities": sorted(_CAPABILITIES - _ARM_DISABLED[arm]),
+        "active_capabilities": list(_ARM_ACTIVE_CAPABILITIES[arm]),
         "missing_capabilities": execution["missing"],
     }
     commitment["commitment_digest"] = _stable_digest(
@@ -1024,7 +1054,7 @@ def _independent_phase_result(
     )
     model_calls = [call for row in rows for call in row["execution"]["calls"]]
     latest_frame = phase_index * _EPISODES_PER_PHASE + _EPISODES_PER_PHASE - 1
-    audiovisual_offset = 0.03 if {"audio", "video"} <= set(_PHASE_MODALITIES[phase_index]) else None
+    audiovisual_offset = 0.03 if _PHASE_HAS_AUDIO_VIDEO[phase_index] else None
     audiovisual_tolerance = 0.08 if audiovisual_offset is not None else None
     v4_retention = _independent_v4_retention(split, history_seed) if arm == "full_v5" and phase_index == len(C.PHASES) - 1 else None
     return {
@@ -1032,8 +1062,8 @@ def _independent_phase_result(
         "phase_index": phase_index,
         "modalities": list(_PHASE_MODALITIES[phase_index]),
         "requirements": list(_PHASE_REQUIREMENTS[phase_index]),
-        "mechanisms_active": sorted(set(_PHASE_REQUIREMENTS[phase_index]) - _ARM_DISABLED[arm]),
-        "mechanisms_missing": sorted(set(_PHASE_REQUIREMENTS[phase_index]) & _ARM_DISABLED[arm]),
+        "mechanisms_active": list(_PHASE_ACTIVE_REQUIREMENTS[arm][phase_index]),
+        "mechanisms_missing": list(_PHASE_MISSING_REQUIREMENTS[arm][phase_index]),
         "episodes": len(rows),
         "accuracy": accuracy,
         "mean_cost": cost,
@@ -1182,7 +1212,7 @@ def _independent_new_entity(
         "retain the scene and return after interruption",
         provenance=("frozen-v5-curriculum",),
     )
-    modalities = sorted({modality for phase_modalities in _PHASE_MODALITIES for modality in phase_modalities})
+    modalities = _ALL_MODALITIES
     for modality in modalities:
         entity.attach_sensor(
             f"sensor:{modality}",
@@ -1332,7 +1362,7 @@ def _independent_project_phase(
         entity.replace_body(
             {
                 "identity": "simulator-3d-body-v5",
-                "sensors": sorted({modality for phase_modalities in _PHASE_MODALITIES for modality in phase_modalities}),
+                "sensors": list(_ALL_MODALITIES),
                 "actuators": [
                     "inspect",
                     "request_depth",

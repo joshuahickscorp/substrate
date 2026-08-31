@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import dataclasses
+import hashlib
 import json
 
 import pytest
@@ -130,6 +131,20 @@ def test_sensor_event_has_eight_modalities_and_noncollapsed_typed_layers() -> No
                 1.0,
                 observation={"nested": [{"authority": {forbidden_key: "leaked"}}]},
             )
+
+
+def test_sensor_event_digest_preserves_canonical_json_bytes() -> None:
+    event = _event(0, 0.0)
+    public = event.public_observation()
+    expected = hashlib.sha256(
+        json.dumps(
+            public,
+            sort_keys=True,
+            separators=(",", ":"),
+            default=str,
+        ).encode()
+    ).hexdigest()
+    assert canonical_event_digest(event) == expected
 
 
 def test_sensorium_rechecks_all_public_layers_for_recursive_outcome_leakage() -> None:
