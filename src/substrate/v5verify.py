@@ -1764,6 +1764,16 @@ def _keys(value: Any) -> set[str]:
 
 
 def _projection_matches(actual: Any, expected: Any) -> bool:
+    # Healthy verifier runs compare parser-normalized built-in JSON trees. Let
+    # their native equality path settle the common exact case in one C-level
+    # traversal; retain the recursive projection below for mismatches so a
+    # tampered artifact still gets the same shape-aware diagnostic behavior.
+    if (
+        type(actual) is type(expected)
+        and isinstance(actual, (dict, list))
+        and actual == expected
+    ):
+        return True
     if isinstance(expected, Mapping):
         return isinstance(actual, Mapping) and all(
             key in actual and _projection_matches(actual[key], expected_value) for key, expected_value in expected.items()
@@ -1934,6 +1944,7 @@ def _checkpoint_invariant_errors(
     receipt: Mapping[str, Any],
     checkpoint: Mapping[str, Any],
     predecessor: Mapping[str, Any] | None,
+    validated_entity: Mapping[str, Any] | None = None,
 ) -> list[str]:
     errors: list[str] = []
     state = checkpoint.get("state")
@@ -1981,14 +1992,15 @@ def _checkpoint_invariant_errors(
     )
     if supplied_body_digest != io.sha_obj(checkpoint_body):
         errors.append("checkpoint_body_digest")
-    try:
-        if isinstance(entity_checkpoint, dict):
-            validated_entity = io._validate_normalized_seal(entity_checkpoint)
-        else:
-            validated_entity = io.validate_normalized_seal(dict(entity_checkpoint))
-    except io.Refused:
-        errors.append("entity_checkpoint_seal")
-        return sorted(set(errors))
+    if validated_entity is None:
+        try:
+            if isinstance(entity_checkpoint, dict):
+                validated_entity = io._validate_normalized_seal(entity_checkpoint)
+            else:
+                validated_entity = io.validate_normalized_seal(dict(entity_checkpoint))
+        except io.Refused:
+            errors.append("entity_checkpoint_seal")
+            return sorted(set(errors))
     entity_state = validated_entity.get("state")
     if not isinstance(entity_state, Mapping):
         errors.append("entity_checkpoint_state")
@@ -2046,6 +2058,8 @@ def _pair_errors(
     expected_receipt: Mapping[str, Any],
     expected_checkpoint: Mapping[str, Any],
     predecessor: Mapping[str, Any] | None = None,
+    *,
+    validated_entity: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """Independently audit one unit/checkpoint pair.
 
@@ -2119,6 +2133,7 @@ def _pair_errors(
             receipt,
             checkpoint,
             predecessor,
+            validated_entity,
         )
     )
     return sorted(set(errors))
@@ -2190,6 +2205,7 @@ def raw(
     seal_errors: dict[str, str] = {}
     principal_source = _principal_source_identity()
     loaded: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    validated_entities: dict[str, Mapping[str, Any]] = {}
 
     # Explicit unit selections remain sequential for small tests and reviewer
     # probes. The complete default audit already pays for isolated processes to
@@ -2251,6 +2267,11 @@ def raw(
                 seal_errors[unit.identity] = str(error)
                 continue
             loaded[unit.identity] = (receipt, checkpoint)
+            # The worker has already validated the nested entity seal. Carry
+            # that exact parser-normalized mapping into the parent so the
+            # invariant pass does not hash and walk the same tree a second
+            # time; mutation paths without this evidence still revalidate.
+            validated_entities[unit.identity] = sealed_entity
     except BaseException:
         if executor is not None:
             executor.shutdown()
@@ -2293,6 +2314,7 @@ def raw(
                     expected_receipt,
                     expected_checkpoint,
                     predecessor,
+                    validated_entity=validated_entities.get(unit.identity),
                 )
                 pair_results[unit.identity] = (receipt, checkpoint, errors)
                 if not errors:
