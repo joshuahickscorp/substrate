@@ -11,6 +11,7 @@ to reviewers and tests without silently creating terminal authorities.
 
 from __future__ import annotations
 
+import concurrent.futures
 import copy
 import gzip
 import hashlib
@@ -1918,6 +1919,21 @@ def _pair_errors(
     return sorted(set(errors))
 
 
+def _independent_expected(
+    arguments: tuple[
+        P.WorkUnit,
+        Mapping[str, Any] | None,
+        tuple[str, str] | None,
+    ],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    unit, predecessor, source_identity = arguments
+    return _independent_execute_unit(
+        unit,
+        predecessor,
+        source_identity=source_identity,
+    )
+
+
 def raw(
     units: Iterable[P.WorkUnit] | None = None,
 ) -> dict[str, Any]:
@@ -1932,7 +1948,6 @@ def raw(
     if len(identities) != len(set(identities)):
         raise Refused("the independent verification unit set contains duplicates")
     selected.sort(key=lambda unit: (unit.split, unit.history_seed, unit.arm, unit.shard))
-    actual_by_chain: dict[tuple[str, int, str], dict[str, Any] | None] = {}
     receipts: dict[str, dict[str, Any]] = {}
     checkpoints: dict[str, dict[str, Any]] = {}
     paths: dict[str, dict[str, str]] = {}
@@ -1940,10 +1955,9 @@ def raw(
     invalid: dict[str, list[str]] = {}
     seal_errors: dict[str, str] = {}
     principal_source = _principal_source_identity()
+    loaded: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
 
     for unit in selected:
-        chain = (unit.split, unit.history_seed, unit.arm)
-        predecessor = actual_by_chain.get(chain)
         receipt_path = io.RUNS / _relative(unit, "units")
         checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
         paths[unit.identity] = {
@@ -1976,25 +1990,73 @@ def raw(
         except (Refused, io.Refused, OSError) as error:
             seal_errors[unit.identity] = str(error)
             continue
-        expected_receipt, expected_checkpoint = _independent_execute_unit(
-            unit,
-            predecessor,
-            source_identity=principal_source,
+        loaded[unit.identity] = (receipt, checkpoint)
+
+    # Shards in one history are sequential because each expected receipt must
+    # consume the prior *validated* checkpoint. Different histories and arms
+    # are independent, so verify each shard wave in bounded isolated processes.
+    # Explicit unit selections stay sequential for small tests and reviewer
+    # probes; the complete terminal audit is large enough to amortize the pool.
+    parallel = units is None and len(selected) >= P.SHARDS * 8 and bool(loaded)
+    executor: concurrent.futures.ProcessPoolExecutor | None = None
+    if parallel:
+        executor = concurrent.futures.ProcessPoolExecutor(
+            max_workers=min(8, os.cpu_count() or 1),
         )
-        errors = _pair_errors(
-            receipt,
-            checkpoint,
-            unit,
-            expected_receipt,
-            expected_checkpoint,
-            predecessor,
-        )
+    predecessors: dict[tuple[str, int, str], dict[str, Any]] = {}
+    pair_results: dict[str, tuple[dict[str, Any], dict[str, Any], list[str]]] = {}
+    try:
+        for shard in range(P.SHARDS):
+            jobs = [
+                (
+                    unit,
+                    predecessors.get((unit.split, unit.history_seed, unit.arm)),
+                    principal_source,
+                )
+                for unit in selected
+                if unit.shard == shard and unit.identity in loaded
+            ]
+            if not jobs:
+                continue
+            expected_results = (
+                executor.map(_independent_expected, jobs)
+                if executor is not None
+                else map(_independent_expected, jobs)
+            )
+            for job, (expected_receipt, expected_checkpoint) in zip(
+                jobs,
+                expected_results,
+                strict=True,
+            ):
+                unit, predecessor, _ = job
+                receipt, checkpoint = loaded[unit.identity]
+                errors = _pair_errors(
+                    receipt,
+                    checkpoint,
+                    unit,
+                    expected_receipt,
+                    expected_checkpoint,
+                    predecessor,
+                )
+                pair_results[unit.identity] = (receipt, checkpoint, errors)
+                if not errors:
+                    predecessors[(unit.split, unit.history_seed, unit.arm)] = checkpoint
+    finally:
+        if executor is not None:
+            executor.shutdown()
+
+    # Preserve the historical deterministic insertion order in the report even
+    # though computation was scheduled by shard wave.
+    for unit in selected:
+        result = pair_results.get(unit.identity)
+        if result is None:
+            continue
+        receipt, checkpoint, errors = result
         if errors:
             invalid[unit.identity] = errors
             continue
         receipts[unit.identity] = receipt
         checkpoints[unit.identity] = checkpoint
-        actual_by_chain[chain] = checkpoint
 
     all_pass = len(receipts) == len(selected) and len(checkpoints) == len(selected) and not missing and not invalid and not seal_errors
     return {
