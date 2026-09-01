@@ -162,6 +162,11 @@ Representative local profiles for the pass were:
   0.285946 seconds against the prior copy path (about 0.7%) with identical
   aggregate digest `e188e71e26a1f5308c16bc63d01878ee47c4d3cca50d0e57c2460cab643eed57`;
   the public ingest path remains fully validating.
+- Flat scalar model requests now use a shape-proven authority-scan fast path;
+  nested, non-string-keyed, and malformed payloads retain the recursive
+  defensive walker. Across ten paired fresh-process phase-19 evaluations, the
+  median moved from 0.282095 to 0.277948 seconds (about 1.5%) with the exact
+  aggregate digest `9f5f3d399ddaa427d4e6810078faa8a518cf0baaa9fcde3fc120a455c16bbea9`.
 - The default model fabric now caches its immutable contract and relationship
   definitions while still creating fresh per-registry modules, preserving
   isolated call counts. Registry construction moved from roughly 52 to 3

@@ -112,11 +112,27 @@ _FORBIDDEN_REQUEST_KEYS = frozenset(
         "truth_id",
     }
 )
+_REQUEST_SCALAR_TYPES = (bool, int, float, str, bytes, bytearray)
 
 
 def _forbidden_request_keys(value: object) -> set[str]:
     """Return only outcome-authority keys found in a JSON-shaped payload."""
 
+    # ModelRequest construction is on the episode hot path.  The normal
+    # requests are exact flat dicts containing only scalar public cues; those
+    # cannot contain a nested authority key, so avoid the recursive walker.
+    # Any non-scalar, non-string-key, or forbidden-key shape still takes the
+    # complete defensive path below.
+    if type(value) is dict:
+        for key, child in cast(dict[object, object], value).items():
+            if (
+                type(key) is not str
+                or key.lower() in _FORBIDDEN_REQUEST_KEYS
+                or (child is not None and type(child) not in _REQUEST_SCALAR_TYPES)
+            ):
+                break
+        else:
+            return set()
     leaked: set[str] = set()
     _collect_forbidden_request_keys(value, leaked)
     return leaked
