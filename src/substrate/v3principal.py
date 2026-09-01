@@ -349,18 +349,36 @@ def _load_manifest() -> dict:
     return document
 
 
+def _commit_line(value: str) -> bool:
+    return len(value) in {40, 64} and all(character in "0123456789abcdef" for character in value.lower())
+
+
+def _parse_source_refs(stdout: str, returncode: int) -> tuple[str, str | None]:
+    lines = [line.strip() for line in stdout.splitlines()]
+    head = lines[0] if lines and _commit_line(lines[0]) else ""
+    ready_commit = (
+        lines[1]
+        if returncode == 0 and len(lines) == 2 and _commit_line(lines[1])
+        else None
+    )
+    return head, ready_commit
+
+
 def _source_ready() -> dict:
-    ready_commit = subprocess.run(
-        ["git", "rev-parse", f"{READY_TAG}^{{}}"],
+    source_refs = subprocess.run(
+        ["git", "rev-parse", "HEAD", f"{READY_TAG}^{{}}"],
         cwd=io.ROOT,
         capture_output=True,
         text=True,
     )
-    head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=io.ROOT, text=True).strip()
+    head, ready_commit = _parse_source_refs(source_refs.stdout, source_refs.returncode)
+    if not head:
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=io.ROOT, text=True).strip()
+    ready_tag_exists = ready_commit is not None
     if not MANIFEST.is_file():
         return {
-            "ready_tag_exists": ready_commit.returncode == 0,
-            "ready_commit": ready_commit.stdout.strip() if ready_commit.returncode == 0 else None,
+            "ready_tag_exists": ready_tag_exists,
+            "ready_commit": ready_commit,
             "head": head,
             "head_matches_ready": False,
             "source_digest_matches": False,
@@ -380,10 +398,10 @@ def _source_ready() -> dict:
         and transition.get("scientific_configuration_changed") is False
         and transition.get("thresholds_splits_seeds_changed") is False
     )
-    head_matches_ready = ready_commit.returncode == 0 and ready_commit.stdout.strip() == head
+    head_matches_ready = ready_tag_exists and ready_commit == head
     return {
-        "ready_tag_exists": ready_commit.returncode == 0,
-        "ready_commit": ready_commit.stdout.strip() if ready_commit.returncode == 0 else None,
+        "ready_tag_exists": ready_tag_exists,
+        "ready_commit": ready_commit,
         "head": head,
         "head_matches_ready": head_matches_ready or transition_matches,
         "head_is_exact_ready_commit": head_matches_ready,

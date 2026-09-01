@@ -18,6 +18,43 @@ def test_principal_dag_is_unique_and_nous_scale():
     assert manifest["unique_identities"]
 
 
+def test_source_ref_parser_requires_two_real_commit_lines():
+    head = "a" * 40
+    ready = "b" * 40
+    assert P._parse_source_refs(f"{head}\n{ready}\n", 0) == (head, ready)
+    assert P._parse_source_refs(f"{head}\n{P.READY_TAG}^{{}}\n", 128) == (head, None)
+    assert P._parse_source_refs(f"{head}\n{ready}\nextra\n", 0) == (head, None)
+    assert P._parse_source_refs("not-a-commit\n", 0) == ("", None)
+
+
+def test_source_ready_coalesces_head_and_ready_tag_lookup(monkeypatch, tmp_path):
+    head = "a" * 40
+    ready = "b" * 40
+    calls = []
+
+    class Result:
+        returncode = 0
+        stdout = f"{head}\n{ready}\n"
+
+    def run(command, **_kwargs):
+        calls.append(command)
+        return Result()
+
+    def unexpected_fallback(*_args, **_kwargs):
+        raise AssertionError("valid combined source lookup should not need a fallback")
+
+    monkeypatch.setattr(P.subprocess, "run", run)
+    monkeypatch.setattr(P.subprocess, "check_output", unexpected_fallback)
+    monkeypatch.setattr(P, "MANIFEST", tmp_path / "missing-manifest.json")
+
+    source = P._source_ready()
+
+    assert calls == [["git", "rev-parse", "HEAD", f"{P.READY_TAG}^{{}}"]]
+    assert source["ready_tag_exists"] is True
+    assert source["ready_commit"] == ready
+    assert source["head"] == head
+
+
 def test_one_unit_is_deterministic_and_valid():
     unit = P.work_units()[1]
     first = P.execute_unit(unit)
