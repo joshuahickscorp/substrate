@@ -441,7 +441,12 @@ def load_json(path: Path) -> dict[str, JSONValue]:
         )
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise Refused(f"invalid v5 JSON at {source}: {error}") from error
-    return validate_normalized_seal(value)
+    # json.loads already materializes only the normalized JSON primitives and
+    # parse_constant rejects non-finite values; avoid walking the complete tree
+    # once just to rediscover facts guaranteed by this parser boundary.
+    if not isinstance(value, dict):
+        raise Refused("sealed JSON is not an object")
+    return _validate_normalized_seal(value)
 
 
 def seal(name: str, document: dict[str, Any], *, artifact: bool = False) -> Path:

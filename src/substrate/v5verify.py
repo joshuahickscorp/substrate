@@ -1976,7 +1976,10 @@ def _checkpoint_invariant_errors(
     if supplied_body_digest != io.sha_obj(checkpoint_body):
         errors.append("checkpoint_body_digest")
     try:
-        validated_entity = io.validate_normalized_seal(dict(entity_checkpoint))
+        if isinstance(entity_checkpoint, dict):
+            validated_entity = io._validate_normalized_seal(entity_checkpoint)
+        else:
+            validated_entity = io.validate_normalized_seal(dict(entity_checkpoint))
     except io.Refused:
         errors.append("entity_checkpoint_seal")
         return sorted(set(errors))
@@ -2169,7 +2172,10 @@ def raw(
             entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
             if not isinstance(entity_checkpoint, Mapping):
                 raise Refused("checkpoint entity seal is absent")
-            sealed_entity = io.validate_normalized_seal(dict(entity_checkpoint))
+            if isinstance(entity_checkpoint, dict):
+                sealed_entity = io._validate_normalized_seal(entity_checkpoint)
+            else:
+                sealed_entity = io.validate_normalized_seal(dict(entity_checkpoint))
             identities = {
                 _source_identity(sealed_receipt),
                 _source_identity(sealed_checkpoint),

@@ -560,7 +560,7 @@ def validate(
     entity_valid = False
     if isinstance(entity_checkpoint, dict):
         try:
-            validated_entity = io.validate_seal(entity_checkpoint)
+            validated_entity = io.validate_normalized_seal(entity_checkpoint)
         except io.Refused:
             validated_entity = {}
         entity_state = validated_entity.get("state")
@@ -649,7 +649,7 @@ def _load_structurally_valid(
     if not isinstance(entity_checkpoint, dict):
         return None
     try:
-        validated_entity = io.validate_seal(entity_checkpoint)
+        validated_entity = io.validate_normalized_seal(entity_checkpoint)
     except io.Refused:
         return None
     entity_state = validated_entity.get("state")
