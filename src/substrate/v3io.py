@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
 from functools import lru_cache
 from pathlib import Path
@@ -28,6 +29,22 @@ sha_obj = v1.sha_obj
 
 class Refused(RuntimeError):
     """A v3 publication or state operation that fails closed."""
+
+
+def regular_file_names(directory: Path) -> set[str]:
+    """Snapshot regular files once so receipt scans avoid one stat per expected path."""
+    names = set()
+    try:
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                try:
+                    if entry.is_file():
+                        names.add(entry.name)
+                except OSError:
+                    continue
+    except OSError:
+        pass
+    return names
 
 
 @lru_cache(maxsize=1)

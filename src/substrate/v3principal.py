@@ -453,10 +453,12 @@ def status() -> dict:
     expected = {unit.identity: unit for unit in work_units()}
     valid = []
     invalid = []
+    receipt_files = io.regular_file_names(UNITS)
     for identity, unit in expected.items():
-        path = UNITS / f"{identity}.json"
-        if not path.is_file():
+        filename = f"{identity}.json"
+        if filename not in receipt_files:
             continue
+        path = UNITS / filename
         try:
             document = json.loads(path.read_text())
             if validate_receipt(document, unit):
@@ -496,7 +498,8 @@ def run() -> dict:
     if io.STOP.is_file():
         raise io.Refused("v3 operator stop switch is present")
     units = {unit.identity: unit for unit in work_units()}
-    pending = [unit for unit in units.values() if not (UNITS / f"{unit.identity}.json").is_file()]
+    receipt_files = io.regular_file_names(UNITS)
+    pending = [unit for unit in units.values() if f"{unit.identity}.json" not in receipt_files]
     workers = int(io.load("SUBSTRATE_V3_WORKER_AUTHORITY.json")["selected_workers"])
     start = time.perf_counter()
     retries = {}
