@@ -52,9 +52,11 @@ def paired(values: list[float], endpoint: str) -> dict:
         raise Refused(f"paired endpoint {endpoint!r} has no histories")
     seed = int(hashlib.sha256(endpoint.encode()).hexdigest()[:16], 16)
     rng = random.Random(seed)
-    bootstraps = [statistics.fmean(values[rng.randrange(len(values))] for _ in values) for _ in range(2000)]
+    sample_size = len(values)
+    randrange = rng.randrange
+    bootstraps = [math.fsum(values[randrange(sample_size)] for _ in range(sample_size)) / sample_size for _ in range(2000)]
     mean = statistics.fmean(values)
-    deviation = statistics.stdev(values) if len(values) > 1 else 0.0
+    deviation = statistics.stdev(values) if sample_size > 1 else 0.0
     return {
         "endpoint": endpoint,
         "n": len(values),
