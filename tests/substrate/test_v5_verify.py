@@ -62,6 +62,22 @@ def _redirect_v5_roots(
         monkeypatch.setattr(io, name, root / name.lower())
 
 
+def test_v5_verifier_source_rebinding_preserves_mutation_isolation() -> None:
+    sealed = {
+        "payload": {"items": [{"value": 1}]},
+        "sha256": "ignored",
+        "source_commit": "c" * 40,
+        "source_digest": "d" * 64,
+    }
+
+    stripped = V._strip_seal(sealed)
+    assert set(stripped) == {"payload"}
+
+    rebound = V._source_bound_seal(sealed, ("e" * 40, "f" * 64))
+    rebound["payload"]["items"][0]["value"] = 3
+    assert sealed["payload"]["items"][0]["value"] == 1
+
+
 def test_v5_raw_verifier_loads_seals_and_regenerates_complete_chain(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,

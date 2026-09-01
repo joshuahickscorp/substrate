@@ -231,6 +231,12 @@ Representative local profiles for the pass were:
   than rebuilding the same public body twice. A representative one-shard
   verifier run measures roughly 28 ms per regeneration after these reductions,
   with the existing exact-reproduction and hidden-target tests unchanged.
+- Independent v5 verification now projects already-detached sealed receipt and
+  checkpoint trees when removing envelope fields; source rebinding keeps a
+  recursive detached-copy path with a defensive fallback for non-canonical
+  callers. In a matched 39.9 KB checkpoint projection profile, 1,000 seal
+  strips moved from roughly 0.425 to 0.000388 seconds (99.91%), with targeted
+  raw-regeneration and checkpoint-chain parity still exact.
 - Flat raw and preprocessed sensor layers now materialize directly from their
   typed fields instead of invoking recursive dataclass conversion. The same
   warmed one-shard harness measures roughly 27 ms per regeneration, with a

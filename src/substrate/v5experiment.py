@@ -269,6 +269,25 @@ def _digest(value: object) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+@lru_cache(maxsize=16384)
+def _scoped_digest(identity: str, scope: str) -> str:
+    """Cache repeated two-part identities without caching mutable payloads."""
+
+    return _digest((identity, scope))
+
+
+@lru_cache(maxsize=4096)
+def _phase_artifact_digest(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    artifact: str,
+) -> str:
+    """Cache immutable phase-scoped artifact identities shared across arms."""
+
+    return _digest((split, history_seed, phase_index, artifact))
+
+
 @lru_cache(maxsize=4096)
 def _request_task_id(task_identity: str, modality: str, role: str) -> str:
     return _digest((task_identity, modality, role))
@@ -794,7 +813,7 @@ def _commit(
         output = registry.invoke(
             "evidence_verifier",
             models.ModelRequest(
-                _digest((task_identity, "verification")),
+                _scoped_digest(task_identity, "verification"),
                 "binary_verify",
                 "image",
                 {"fine_signal": float(observation["verification_cue"])},
@@ -870,7 +889,7 @@ def _commit(
         verifier = registry.invoke(
             "evidence_verifier",
             models.ModelRequest(
-                _digest((task_identity, "teacher-verification")),
+                _scoped_digest(task_identity, "teacher-verification"),
                 "verify_candidate",
                 "image",
                 {
@@ -990,7 +1009,7 @@ def episode(
         split, history_seed, phase_index, episode_index
     )
     return {
-        "identity": _digest((task_identity, arm)),
+        "identity": _scoped_digest(task_identity, arm),
         "observation": observation,
         "observation_digest": observation_digest,
         "commitment": commitment,
@@ -1090,11 +1109,11 @@ def phase_result(
             "object_source_name": (
                 f"generated-{split}-{history_seed}-phase{phase_index:02d}.bin"
             ),
-            "clip_identity": _digest(
-                (split, history_seed, phase_index, "clip")
+            "clip_identity": _phase_artifact_digest(
+                split, history_seed, phase_index, "clip"
             ),
-            "scene_identity": _digest(
-                (split, history_seed, phase_index, "scene")
+            "scene_identity": _phase_artifact_digest(
+                split, history_seed, phase_index, "scene"
             ),
             "latest_available_frame": latest_frame,
             "commitment_frame": latest_frame,

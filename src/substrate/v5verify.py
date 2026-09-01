@@ -333,9 +333,34 @@ _MODALITY_ENUM = {
 
 
 def _strip_seal(document: Mapping[str, Any]) -> dict[str, Any]:
-    """Return the scientific body after :func:`v5io.load_json` validated it."""
+    """Return a detached scientific body with the seal envelope removed."""
 
-    return {key: copy.deepcopy(value) for key, value in document.items() if key not in _SEAL_FIELDS}
+    return {
+        key: _copy_normalized(value)
+        for key, value in document.items()
+        if key not in _SEAL_FIELDS
+    }
+
+
+def _copy_normalized(value: Any) -> Any:
+    """Detach exact JSON trees without re-dispatching through ``deepcopy``."""
+
+    value_type = type(value)
+    if value_type is dict:
+        return {key: _copy_normalized(child) for key, child in value.items()}
+    if value_type is list:
+        return [_copy_normalized(child) for child in value]
+    # Loaded v5 documents take the exact built-in path above. Preserve the
+    # previous defensive behavior for custom containers and non-JSON callers.
+    return copy.deepcopy(value)
+
+
+def _strip_loaded_seal(document: Mapping[str, Any]) -> dict[str, Any]:
+    """Project a seal validated by ``load_json`` without copying its owned tree."""
+
+    # ``load_json`` validates through ``_normal_json``, so this tree is already
+    # detached from the file parser and no caller-owned object is retained.
+    return {key: value for key, value in document.items() if key not in _SEAL_FIELDS}
 
 
 def _source_identity(document: Mapping[str, Any]) -> tuple[str, str]:
@@ -364,7 +389,7 @@ def _source_bound_seal(
     document: Mapping[str, Any],
     source_identity: tuple[str, str],
 ) -> dict[str, Any]:
-    body = copy.deepcopy(dict(document))
+    body = _copy_normalized(dict(document))
     body.pop("sha256", None)
     body["source_commit"], body["source_digest"] = source_identity
     body["sha256"] = io.sha_obj(body)
@@ -1946,8 +1971,8 @@ def raw(
                 principal_source = identities.pop()
             elif identities != {principal_source}:
                 raise Refused("raw source identity disagrees with principal authority")
-            receipt = _strip_seal(sealed_receipt)
-            checkpoint = _strip_seal(sealed_checkpoint)
+            receipt = _strip_loaded_seal(sealed_receipt)
+            checkpoint = _strip_loaded_seal(sealed_checkpoint)
         except (Refused, io.Refused, OSError) as error:
             seal_errors[unit.identity] = str(error)
             continue
