@@ -12,6 +12,7 @@ import hashlib
 import statistics
 import struct
 from functools import lru_cache
+from types import MappingProxyType
 from typing import Any
 
 from substrate import v5config as C
@@ -614,7 +615,8 @@ def _v4_retention_probe(split: str, history_seed: int) -> dict[str, Any]:
     return dict(_v4_retention_probe_cached(split, history_seed))
 
 
-def _request(
+@lru_cache(maxsize=4096)
+def _request_cached(
     task_identity: str,
     modality: str,
     cue: float,
@@ -624,11 +626,22 @@ def _request(
         task_id=_request_task_id(task_identity, modality, role.value),
         operation="modality_classify",
         modality=_MODEL_MODALITY.get(modality, modality),
-        payload={"observable_cue": float(cue)},
+        payload=MappingProxyType({"observable_cue": float(cue)}),
         role=role,
         maximum_cost=10.0,
         maximum_latency_ms=100.0,
     )
+
+
+def _request(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    role: models.ModelRole = models.ModelRole.SPECIALIST,
+) -> models.ModelRequest:
+    """Return an immutable cached request for the repeated public cue shape."""
+
+    return _request_cached(task_identity, modality, float(cue), role)
 
 
 def _call_row(

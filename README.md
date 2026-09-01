@@ -167,6 +167,10 @@ Representative local profiles for the pass were:
   defensive walker. Across ten paired fresh-process phase-19 evaluations, the
   median moved from 0.282095 to 0.277948 seconds (about 1.5%) with the exact
   aggregate digest `9f5f3d399ddaa427d4e6810078faa8a518cf0baaa9fcde3fc120a455c16bbea9`.
+- Repeated modality requests now reuse bounded immutable request objects across
+  arm evaluations, while the public model request type remains unchanged. A
+  fresh ten-pair phase-19 comparison moved the median from 0.274914 to
+  0.261994 seconds (about 4.7%) with the same exact aggregate digest.
 - The default model fabric now caches its immutable contract and relationship
   definitions while still creating fresh per-registry modules, preserving
   isolated call counts. Registry construction moved from roughly 52 to 3
