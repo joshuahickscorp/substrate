@@ -391,8 +391,12 @@ def _principal_source_identity() -> tuple[str, str] | None:
 def _source_bound_seal(
     document: Mapping[str, Any],
     source_identity: tuple[str, str],
+    *,
+    detach: bool = True,
 ) -> dict[str, Any]:
-    body = _copy_normalized(dict(document))
+    # Public callers retain the isolation default. Internal verifier inputs are
+    # already detached, validated JSON trees and are never mutated by restore.
+    body = _copy_normalized(dict(document)) if detach else dict(document)
     body.pop("sha256", None)
     body["source_commit"], body["source_digest"] = source_identity
     body["sha256"] = io.sha_obj(body)
@@ -1488,10 +1492,21 @@ def _independent_restore_entity(
     entity_checkpoint = predecessor.get("entity_checkpoint")
     if not isinstance(entity_checkpoint, Mapping):
         raise Refused("predecessor omits the permanent-entity checkpoint")
-    restorable_checkpoint = _source_bound_seal(
-        entity_checkpoint,
-        (io.commit(), io.source_digest()),
-    )
+    runtime_identity = (io.commit(), io.source_digest())
+    if (
+        entity_checkpoint.get("source_commit"),
+        entity_checkpoint.get("source_digest"),
+    ) == runtime_identity:
+        # PermanentEntity.restore does not mutate its input, so avoid a second
+        # full-tree copy and re-seal when the predecessor is already bound to
+        # this runtime source.
+        restorable_checkpoint = dict(entity_checkpoint)
+    else:
+        restorable_checkpoint = _source_bound_seal(
+            entity_checkpoint,
+            runtime_identity,
+            detach=False,
+        )
     try:
         return VST.PermanentEntity.restore(restorable_checkpoint)
     except VST.Refused as error:
@@ -1674,6 +1689,7 @@ def _independent_execute_unit(
         entity_checkpoint = _source_bound_seal(
             entity_checkpoint,
             source_identity,
+            detach=False,
         )
     entity_state = entity_checkpoint["state"]
     state["depth_state_digest"] = io.sha_obj({key: value for key, value in entity_state["sensory_buffers"].items() if "depth" in key or "three_d" in key})
@@ -1960,7 +1976,7 @@ def _checkpoint_invariant_errors(
     if supplied_body_digest != io.sha_obj(checkpoint_body):
         errors.append("checkpoint_body_digest")
     try:
-        validated_entity = io.validate_seal(dict(entity_checkpoint))
+        validated_entity = io.validate_normalized_seal(dict(entity_checkpoint))
     except io.Refused:
         errors.append("entity_checkpoint_seal")
         return sorted(set(errors))
@@ -2153,7 +2169,7 @@ def raw(
             entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
             if not isinstance(entity_checkpoint, Mapping):
                 raise Refused("checkpoint entity seal is absent")
-            sealed_entity = io.validate_seal(dict(entity_checkpoint))
+            sealed_entity = io.validate_normalized_seal(dict(entity_checkpoint))
             identities = {
                 _source_identity(sealed_receipt),
                 _source_identity(sealed_checkpoint),
@@ -2199,7 +2215,7 @@ def raw(
             if not jobs:
                 continue
             expected_results = (
-                executor.map(_independent_expected, jobs)
+                executor.map(_independent_expected, jobs, chunksize=32)
                 if executor is not None
                 else map(_independent_expected, jobs)
             )

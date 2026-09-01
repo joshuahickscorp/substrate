@@ -1797,7 +1797,7 @@ class PermanentEntity:
         storage_root: Path | None = None,
     ) -> PermanentEntity:
         try:
-            document = cast(dict[str, Any], io.validate_seal(dict(checkpoint)))
+            document = cast(dict[str, Any], io.validate_normalized_seal(dict(checkpoint)))
         except io.Refused as error:
             raise Refused(f"checkpoint seal is invalid: {error}") from error
         if document.get("schema") != CHECKPOINT_SCHEMA:

@@ -335,14 +335,26 @@ def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
     normal = _normal_json(document)
     if not isinstance(normal, dict):
         raise Refused("sealed JSON is not an object")
-    supplied = normal.get("sha256")
-    body = {key: value for key, value in normal.items() if key != "sha256"}
+    return _validate_normalized_seal(normal)
+
+
+def _validate_normalized_seal(
+    document: dict[str, Any],
+    *,
+    check_activation: bool = True,
+) -> dict[str, JSONValue]:
+    """Validate an already-normalized JSON object without a second round trip."""
+
+    if not isinstance(document, dict):
+        raise Refused("sealed JSON is not an object")
+    supplied = document.get("sha256")
+    body = {key: value for key, value in document.items() if key != "sha256"}
     if not isinstance(supplied, str) or supplied != sha_obj(body):
         raise Refused("invalid v5 JSON self-seal")
-    if normal.get("program") != PROGRAM:
+    if document.get("program") != PROGRAM:
         raise Refused("sealed JSON is not owned by Substrate v5")
-    source_commit = normal.get("source_commit")
-    source_digest_value = normal.get("source_digest")
+    source_commit = document.get("source_commit")
+    source_digest_value = document.get("source_digest")
     if (
         not isinstance(source_commit, str)
         or len(source_commit) != 40
@@ -350,8 +362,17 @@ def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
         or len(source_digest_value) != 64
     ):
         raise Refused("sealed JSON is missing exact source identity")
-    _assert_normalized_activation_false(normal)
-    return normal
+    if check_activation:
+        _assert_normalized_activation_false(document)
+    return cast(dict[str, JSONValue], document)
+
+
+def validate_normalized_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
+    """Validate a normalized JSON object, falling back for public inputs."""
+
+    if not isinstance(document, dict) or not _is_sealable_normalized_json(document):
+        return validate_seal(document)
+    return _validate_normalized_seal(document, check_activation=False)
 
 
 def _content_path(root: Path, digest: str, *, namespace: str) -> Path:
@@ -420,7 +441,7 @@ def load_json(path: Path) -> dict[str, JSONValue]:
         )
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
         raise Refused(f"invalid v5 JSON at {source}: {error}") from error
-    return validate_seal(value)
+    return validate_normalized_seal(value)
 
 
 def seal(name: str, document: dict[str, Any], *, artifact: bool = False) -> Path:

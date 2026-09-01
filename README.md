@@ -191,6 +191,12 @@ Representative local profiles for the pass were:
   append-order checks. In three paired fresh-process 72-unit same-history
   verifier profiles, the median moved from 1.595115 to 1.174555 seconds
   (about 26.4%) with exact raw-chain parity.
+- Default full-corpus v5 verification now batches process-pool work and reuses
+  parser-normalized sealed trees across internal verifier boundaries. Local
+  full-corpus runs measured 36.6–41.1 seconds for 5,760/5,760 units with exact
+  regenerated receipts and valid checkpoint chains, versus a 53.2-second
+  pre-fast-path profile; this is a local wall-clock observation, not a hardware
+  throughput claim.
 - The Nous Closure pilot now disables the terminal v4-retention probe when its
   candidate-history reducer discards that field; the `phase_result` default
   remains enabled for callers that consume it. The representative pilot moved
