@@ -199,6 +199,9 @@ _PRIMARY_MECHANISMS = frozenset(
 _VIDEO_CAPABILITIES = frozenset({"video_state", "motion", "event_model"})
 _DEPTH_CAPABILITIES = frozenset({"depth", "spatial", "three_d"})
 _COMMIT_SINGLE_CAPABILITIES = frozenset({"cross_modal_binding", "integrated_state"})
+_COMMIT_SENSOR_CUE = 0
+_COMMIT_MECHANISM_CUE = 1
+_COMMIT_CONTROL_CUE = 2
 _ARM_DISABLED: dict[str, frozenset[str]] = {
     "full_v5": frozenset(),
     "v4_cognitive_core_control": _CAPABILITIES - frozenset({"structured_state", "persistence", "auditability", "recovery"}),
@@ -888,19 +891,18 @@ def _independent_v4_retention(
     return dict(_independent_v4_retention_cached(split, history_seed))
 
 
-def _independent_commit(
-    registry: VM.ModelRegistry,
-    task_identity: str,
-    observation: Mapping[str, Any],
+@lru_cache(maxsize=256)
+def _independent_commit_plan(
     arm: str,
     phase_index: int,
-    episode_index: int,
-    learned_correction: float,
-) -> dict[str, Any]:
+) -> tuple[tuple[str, ...], tuple[tuple[str, str, int, str], ...]]:
+    """Compile immutable capability/source selection for an arm and phase."""
+
     disabled = _ARM_DISABLED[arm]
-    missing = list(_PHASE_MISSING_REQUIREMENTS[arm][phase_index])
-    usable: list[tuple[str, str, float]] = []
-    for modality, cue in observation["modality_cues"].items():
+    missing = tuple(_PHASE_MISSING_REQUIREMENTS[arm][phase_index])
+    fallback = _PHASE_MODALITIES[phase_index][0]
+    sources: list[tuple[str, str, int, str]] = []
+    for modality in _PHASE_MODALITIES[phase_index]:
         if (
             modality in {"video", "motion"}
             and _VIDEO_CAPABILITIES & disabled
@@ -915,25 +917,12 @@ def _independent_commit(
             continue
         if modality in {"body", "tool"} and "body_schema" in disabled:
             continue
-        usable.append((modality, f"sensor:{modality}", float(cue)))
-    fallback = str(next(iter(observation["modality_cues"])))
-    for mechanism, cue in observation["mechanism_cues"].items():
+        sources.append((modality, f"sensor:{modality}", _COMMIT_SENSOR_CUE, modality))
+    for mechanism in _PHASE_REQUIREMENTS[phase_index]:
         if mechanism not in missing:
-            usable.append(
-                (
-                    fallback,
-                    f"mechanism:{mechanism}",
-                    float(cue),
-                )
-            )
-    if not usable:
-        usable.append(
-            (
-                fallback,
-                "control:outcome_independent",
-                float(observation["control_cue"]),
-            )
-        )
+            sources.append((fallback, f"mechanism:{mechanism}", _COMMIT_MECHANISM_CUE, mechanism))
+    if not sources:
+        sources.append((fallback, "control:outcome_independent", _COMMIT_CONTROL_CUE, "control_cue"))
     if (
         _COMMIT_SINGLE_CAPABILITIES & disabled
         or ("model_routing" in disabled and arm != "largest_model_always")
@@ -944,7 +933,31 @@ def _independent_commit(
             or (phase_index == 12 and "continual_learning" in disabled)
         )
     ):
-        usable = usable[:1]
+        sources = sources[:1]
+    return missing, tuple(sources)
+
+
+def _independent_commit(
+    registry: VM.ModelRegistry,
+    task_identity: str,
+    observation: Mapping[str, Any],
+    arm: str,
+    phase_index: int,
+    episode_index: int,
+    learned_correction: float,
+) -> dict[str, Any]:
+    disabled = _ARM_DISABLED[arm]
+    missing_plan, source_plan = _independent_commit_plan(arm, phase_index)
+    missing = list(missing_plan)
+    usable: list[tuple[str, str, float]] = []
+    for modality, source, cue_kind, cue_name in source_plan:
+        if cue_kind == _COMMIT_SENSOR_CUE:
+            cue = observation["modality_cues"][cue_name]
+        elif cue_kind == _COMMIT_MECHANISM_CUE:
+            cue = observation["mechanism_cues"][cue_name]
+        else:
+            cue = observation[cue_name]
+        usable.append((modality, source, float(cue)))
 
     sensorium = VS.Sensorium()
     calls: list[dict[str, Any]] = []
@@ -2067,10 +2080,20 @@ def _pair_errors(
     reviewable instead of reducing every defect to one opaque digest mismatch.
     """
 
+    receipt_exact = _projection_matches(receipt, expected_receipt)
+    checkpoint_exact = _projection_matches(checkpoint, expected_checkpoint)
+    if receipt_exact and checkpoint_exact:
+        # The expected trees are independently regenerated from the sealed
+        # predecessor and the current runtime. Exact equality already covers
+        # every field below; reserve the shape-aware diagnostic walks for a
+        # mismatch so healthy corpus verification does not audit the same tree
+        # twice.
+        return []
+
     errors: list[str] = []
-    if not _projection_matches(receipt, expected_receipt):
+    if not receipt_exact:
         errors.append("receipt_deterministic_regeneration")
-    if not _projection_matches(checkpoint, expected_checkpoint):
+    if not checkpoint_exact:
         errors.append("checkpoint_deterministic_regeneration")
     unit_document = _independent_unit_document(unit)
     if receipt.get("unit") != unit_document or checkpoint.get("unit") != unit_document:
@@ -2244,7 +2267,10 @@ def raw(
     executor: concurrent.futures.ProcessPoolExecutor | None = None
     if parallel:
         executor = concurrent.futures.ProcessPoolExecutor(
-            max_workers=min(8, os.cpu_count() or 1),
+            # Twelve is the measured knee on the current host; cap rather than
+            # scaling with every logical core so verification remains bounded
+            # on high-core machines and keeps memory pressure predictable.
+            max_workers=min(12, os.cpu_count() or 1),
         )
 
     try:
