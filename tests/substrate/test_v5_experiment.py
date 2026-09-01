@@ -54,6 +54,24 @@ def test_v5_generator_is_deterministic_and_mechanism_ablations_are_active() -> N
     assert E.oracle_headroom(9)["has_headroom"]
 
 
+def test_v5_cached_public_tasks_remain_isolated_between_callers() -> None:
+    first_identity, first_observation, first_target = E._public_task(
+        "construction", 103, 0, 0
+    )
+    first_observation["modality_cues"]["text"] = 999.0
+    first_observation["mechanism_cues"]["model_fabric"] = 999.0
+    first_observation["modalities"].append("mutated")
+
+    second_identity, second_observation, second_target = E._public_task(
+        "construction", 103, 0, 0
+    )
+    assert second_identity == first_identity
+    assert second_target == first_target
+    assert "mutated" not in second_observation["modalities"]
+    assert second_observation["modality_cues"]["text"] != 999.0
+    assert second_observation["mechanism_cues"]["model_fabric"] != 999.0
+
+
 def test_v5_terminal_retention_is_default_but_explicitly_optional() -> None:
     retained = E.phase_result(
         split="construction",

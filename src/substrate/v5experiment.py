@@ -283,7 +283,8 @@ def _history_signed_fraction(split: str, history_seed: int, label: str) -> float
     return _signed_fraction(f"{split}:{history_seed}:{label}")
 
 
-def _public_task(
+@lru_cache(maxsize=8192)
+def _public_task_cached(
     split: str,
     history_seed: int,
     phase_index: int,
@@ -358,6 +359,27 @@ def _public_task(
         ),
     }
     return task_identity, observation, target
+
+
+def _public_task(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    episode_index: int,
+) -> tuple[str, dict[str, Any], int]:
+    """Return a fresh public-task envelope over a cached deterministic core."""
+
+    task_identity, observation, target = _public_task_cached(
+        split, history_seed, phase_index, episode_index
+    )
+    # The cache owns its template.  Keep arm histories and external callers
+    # isolated even though the generator body is evaluated only once per task.
+    return task_identity, {
+        **observation,
+        "modality_cues": dict(observation["modality_cues"]),
+        "mechanism_cues": dict(observation["mechanism_cues"]),
+        "modalities": list(observation["modalities"]),
+    }, target
 
 
 def _sensor_event(
