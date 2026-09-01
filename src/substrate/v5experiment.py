@@ -11,7 +11,7 @@ from __future__ import annotations
 import hashlib
 import statistics
 import struct
-from dataclasses import replace
+from copy import copy
 from functools import lru_cache
 from typing import Any
 
@@ -471,8 +471,12 @@ def _sensor_event_with_digest(
         model_identity,
     )
     # SensorEvent is frozen, but its public observation mapping is intentionally
-    # mutable for callers.  Never expose the cache-owned mapping to a caller.
-    return replace(template, observation=dict(template.observation)), digest
+    # mutable for callers.  The cached template has already passed __post_init__
+    # and all of its other fields are immutable; copy only the event shell and
+    # replace the one intentionally mutable mapping without re-running validation.
+    event = copy(template)
+    object.__setattr__(event, "observation", dict(template.observation))
+    return event, digest
 
 
 def _sensor_event(
