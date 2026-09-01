@@ -53,8 +53,12 @@ def paired(values: list[float], endpoint: str) -> dict:
     seed = int(hashlib.sha256(endpoint.encode()).hexdigest()[:16], 16)
     rng = random.Random(seed)
     sample_size = len(values)
-    randrange = rng.randrange
-    bootstraps = [math.fsum(values[randrange(sample_size)] for _ in range(sample_size)) / sample_size for _ in range(2000)]
+    # Random.randrange validates its one-step range arguments on every draw.
+    # Its seeded implementation delegates to this primitive, so binding the
+    # primitive once preserves the exact bootstrap sequence while removing that
+    # repeated validation from the verifier's hottest loop.
+    randbelow = rng._randbelow
+    bootstraps = [math.fsum(values[randbelow(sample_size)] for _ in range(sample_size)) / sample_size for _ in range(2000)]
     mean = statistics.fmean(values)
     deviation = statistics.stdev(values) if sample_size > 1 else 0.0
     return {
