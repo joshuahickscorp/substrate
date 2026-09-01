@@ -4,6 +4,7 @@ import json
 
 from substrate import v5config as C
 from substrate import v5experiment as E
+from substrate import v5sensorium as sensors
 
 
 def test_v5_frozen_generator_covers_curriculum_and_arms() -> None:
@@ -70,6 +71,41 @@ def test_v5_cached_public_tasks_remain_isolated_between_callers() -> None:
     assert "mutated" not in second_observation["modalities"]
     assert second_observation["modality_cues"]["text"] != 999.0
     assert second_observation["mechanism_cues"]["model_fabric"] != 999.0
+
+
+def test_v5_cached_sensor_events_remain_isolated_and_digest_exact() -> None:
+    uncached = E._sensor_event_uncached(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    first, first_digest = E._sensor_event_with_digest(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    assert first == uncached
+    assert first_digest == sensors.canonical_event_digest(uncached)
+
+    first.observation["observable_cue"] = 999.0
+    second, second_digest = E._sensor_event_with_digest(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    assert second is not first
+    assert second == uncached
+    assert second.observation["observable_cue"] == 0.25
+    assert second_digest == sensors.canonical_event_digest(second)
 
 
 def test_v5_terminal_retention_is_default_but_explicitly_optional() -> None:

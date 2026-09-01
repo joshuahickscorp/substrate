@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import statistics
 import struct
+from dataclasses import replace
 from functools import lru_cache
 from typing import Any
 
@@ -382,7 +383,7 @@ def _public_task(
     }, target
 
 
-def _sensor_event(
+def _sensor_event_uncached(
     task_identity: str,
     modality: str,
     cue: float,
@@ -427,6 +428,70 @@ def _sensor_event(
         raw=raw,
         preprocessed=preprocessed,
     )
+
+
+@lru_cache(maxsize=65536)
+def _sensor_event_template(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> tuple[sensors.SensorEvent, str]:
+    """Cache immutable event structure and its deterministic receipt digest."""
+
+    event = _sensor_event_uncached(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    return event, sensors.canonical_event_digest(event)
+
+
+def _sensor_event_with_digest(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> tuple[sensors.SensorEvent, str]:
+    """Return a fresh mutable-observation event over a private cached template."""
+
+    template, digest = _sensor_event_template(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    # SensorEvent is frozen, but its public observation mapping is intentionally
+    # mutable for callers.  Never expose the cache-owned mapping to a caller.
+    return replace(template, observation=dict(template.observation)), digest
+
+
+def _sensor_event(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> sensors.SensorEvent:
+    event, _ = _sensor_event_with_digest(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    return event
 
 
 def _environment_trace(
@@ -640,7 +705,7 @@ def _commit(
             routing, output = registry.execute_routed(request)
             routing_inputs.update(routing.inputs_used)
             routed = True
-        event = _sensor_event(
+        event, sensor_digest = _sensor_event_with_digest(
             task_identity,
             modality,
             cue,
@@ -648,7 +713,7 @@ def _commit(
             episode_index,
             output.model_identity,
         )
-        sensor_digest = sensorium.ingest_and_digest(event)
+        sensorium.ingest(event)
         sensor_event_digests.append(sensor_digest)
         mechanism = source.removeprefix("mechanism:")
         evidence_weight = (
