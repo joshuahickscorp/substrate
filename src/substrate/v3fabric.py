@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import random
@@ -64,7 +65,7 @@ class CognitiveTask:
         }
 
 
-def generate_task(seed: int, family: str, index: int, split: str, *, phase: str = "probe") -> CognitiveTask:
+def _generate_task(seed: int, family: str, index: int, split: str, *, phase: str = "probe") -> CognitiveTask:
     if family not in C.WORKLOADS:
         raise Refused(f"unknown v3 family {family!r}")
     rng = random.Random(_seed(seed, family, index, split, phase))
@@ -210,6 +211,31 @@ def generate_task(seed: int, family: str, index: int, split: str, *, phase: str 
         target = "transfer" if relational else "reject"
         operation = "adversarial relational check"
     return CognitiveTask(identity, split, seed, family, index, phase, public, target, operation, 1.0)
+
+
+@lru_cache(maxsize=8192)
+def _task_template(seed: int, family: str, index: int, split: str, phase: str) -> CognitiveTask:
+    # The cached object is private to this module. generate_task deep-copies
+    # every mutable task payload before returning, so histories never share a
+    # public packet or target while repeated arm construction avoids rebuilding
+    # the same deterministic task six times.
+    return _generate_task(seed, family, index, split, phase=phase)
+
+
+def generate_task(seed: int, family: str, index: int, split: str, *, phase: str = "probe") -> CognitiveTask:
+    template = _task_template(seed, family, index, split, phase)
+    return CognitiveTask(
+        template.identity,
+        template.split,
+        template.history_seed,
+        template.family,
+        template.index,
+        template.phase,
+        copy.deepcopy(template.public),
+        copy.deepcopy(template.private_target),
+        template.oracle_operation,
+        template.cost,
+    )
 
 
 def oracle(task: CognitiveTask) -> object:

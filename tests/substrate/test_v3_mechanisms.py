@@ -78,6 +78,17 @@ def test_task_observation_excludes_explicit_answer_fields():
     assert "surface_dictionary" not in observation["public"]
 
 
+def test_cached_task_generation_returns_isolated_mutable_payloads():
+    first = F.generate_task(1, "cross_representation_systems", 1, "construction")
+    second = F.generate_task(1, "cross_representation_systems", 1, "construction")
+    assert first is not second
+    first.public["relations"].append(["leak", "shared-state"])
+    first.public["mutated"] = True
+    assert "mutated" not in second.public
+    assert ["leak", "shared-state"] not in second.public["relations"]
+    assert first.private_target == second.private_target
+
+
 def test_positive_and_negative_allocation_headroom():
     positive = F.allocation_headroom(1, "positive_a", 4096)
     negative = F.allocation_headroom(1, "no_headroom", 4096)
