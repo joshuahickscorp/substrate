@@ -383,6 +383,20 @@ def _public_task(
     }, target
 
 
+@lru_cache(maxsize=8192)
+def _public_task_observation_digest(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    episode_index: int,
+) -> str:
+    """Digest the private deterministic task template once per task."""
+
+    return _digest(_public_task_cached(
+        split, history_seed, phase_index, episode_index
+    )[1])
+
+
 def _sensor_event_uncached(
     task_identity: str,
     modality: str,
@@ -945,10 +959,13 @@ def episode(
             "model_calls": execution["calls"],
         }
     )
+    observation_digest = _public_task_observation_digest(
+        split, history_seed, phase_index, episode_index
+    )
     return {
         "identity": _digest((task_identity, arm)),
         "observation": observation,
-        "observation_digest": _digest(observation),
+        "observation_digest": observation_digest,
         "commitment": commitment,
         "outcome": {
             "target": target,
