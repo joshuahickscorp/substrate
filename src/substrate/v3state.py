@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
-
 from substrate.epistemology import Defeater, EpistemicBelief, EpistemicLedger
 from substrate.metacog import ReasoningPortfolio
 from substrate.ontology import ActiveOntology, Concept
@@ -319,7 +317,15 @@ class IntegratedEntity:
             },
             "self_model": {
                 "estimates": dict(self.self_model.estimates),
-                "history": [asdict(row) for row in self.self_model.history],
+                "history": [
+                    {
+                        "kind": row.kind,
+                        "predicted": row.predicted,
+                        "actual": row.actual,
+                        "context": row.context,
+                    }
+                    for row in self.self_model.history
+                ],
             },
             "self_receipts": list(self.self_receipts),
             "ontology_receipts": list(self.ontology_receipts),
@@ -372,7 +378,7 @@ class IntegratedEntity:
         entity.history_specialization = dict(state["history_specialization"])
         entity.cycles = list(state["cycles"])
         entity.step = int(state["step"])
-        if entity.identity_hash() != checkpoint["identity_hash"]:
+        if entity.semantic_state() != state:
             raise Refused("restored semantic state does not match checkpoint identity")
         return entity
 
