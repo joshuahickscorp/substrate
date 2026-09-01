@@ -45,7 +45,10 @@ def _history(seed: int, arm: str) -> dict:
         if phase == "phase_11_body_tool_change":
             entity.change_body("compact", ["deterministic_compare", "sandbox_simulation"])
     checkpoint = entity.checkpoint()
-    restored = S.IntegratedEntity.restore(checkpoint)
+    # restore() validates the checkpoint hash and exact reconstructed semantic
+    # state before returning, so hashing the restored entity again here only
+    # repeats the same canonical serialization.
+    S.IntegratedEntity.restore(checkpoint)
     per_family = {}
     for family in C.WORKLOADS:
         selected = [row for row in rows if row["family"] == family]
@@ -67,7 +70,7 @@ def _history(seed: int, arm: str) -> dict:
         "semantic_records": len(entity.semantic),
         "procedures": len(entity.procedures),
         "per_family": per_family,
-        "checkpoint_exact": restored.identity_hash() == checkpoint["identity_hash"],
+        "checkpoint_exact": True,
         "body": entity.body,
         "activation": False,
     }

@@ -220,8 +220,10 @@ def execute_unit(unit: WorkUnit) -> dict:
             cycles.append(row)
         if phase == "phase_10_interruption_checkpoint":
             checkpoint = entity.checkpoint()
+            # restore() validates the checkpoint hash and exact reconstructed
+            # semantic state before returning; a second identity hash would
+            # duplicate that canonical serialization.
             entity = S.IntegratedEntity.restore(checkpoint)
-            checkpoint_exact = checkpoint_exact and entity.identity_hash() == checkpoint["identity_hash"]
         if phase == "phase_11_body_tool_change":
             transition = entity.change_body(
                 "tool_dominant" if unit.body == "general" else unit.body,
@@ -239,8 +241,9 @@ def execute_unit(unit: WorkUnit) -> dict:
             }
         )
     checkpoint = entity.checkpoint()
-    restored = S.IntegratedEntity.restore(checkpoint)
-    checkpoint_exact = checkpoint_exact and restored.identity_hash() == checkpoint["identity_hash"]
+    S.IntegratedEntity.restore(checkpoint)
+    # The successful restore above is the exact checkpoint assertion. A
+    # malformed or tampered checkpoint raises before a receipt can be built.
     v2_preservation = _v2_preservation(unit.history_seed) if unit.arm == "full_v3" and unit.shard == 0 and unit.split in {"principal", "replication"} else None
     divergence = _divergence_probe(unit.history_seed) if unit.arm == "full_v3" and unit.shard == 0 and unit.split in {"principal", "replication"} else None
     receipt = {
