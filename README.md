@@ -156,6 +156,12 @@ Representative local profiles for the pass were:
   time moved from about 5.99 to 5.74 seconds with the exact table digest
   unchanged; events containing optional typed layers retain the full ingest
   path.
+- Cached frozen-v5 event copies now clone the validated frozen shell directly
+  while detaching only the public observation mapping. Across five fresh
+  8-history, 14-arm phase-19 evaluations, the median moved from 0.287947 to
+  0.285946 seconds against the prior copy path (about 0.7%) with identical
+  aggregate digest `e188e71e26a1f5308c16bc63d01878ee47c4d3cca50d0e57c2460cab643eed57`;
+  the public ingest path remains fully validating.
 - The default model fabric now caches its immutable contract and relationship
   definitions while still creating fresh per-registry modules, preserving
   isolated call counts. Registry construction moved from roughly 52 to 3

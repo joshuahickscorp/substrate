@@ -11,7 +11,6 @@ from __future__ import annotations
 import hashlib
 import statistics
 import struct
-from copy import copy
 from functools import lru_cache
 from typing import Any
 
@@ -488,9 +487,7 @@ def _sensor_event_with_digest(
     # mutable for callers.  The cached template has already passed __post_init__
     # and all of its other fields are immutable; copy only the event shell and
     # replace the one intentionally mutable mapping without re-running validation.
-    event = copy(template)
-    object.__setattr__(event, "observation", dict(template.observation))
-    return event, digest
+    return template._copy_with_observation(), digest
 
 
 def _sensor_event(

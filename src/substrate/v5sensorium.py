@@ -511,6 +511,17 @@ class SensorEvent:
             raise SensoriumError(f"hidden target authority leaked during serialization: {sorted(leaked)}")
         return body
 
+    def _copy_with_observation(self) -> SensorEvent:
+        """Clone a validated event while detaching its caller-mutable mapping."""
+
+        # Cached generator templates have already passed __post_init__.  Copy
+        # the frozen shell without invoking validation again, then detach the
+        # one field whose public compatibility contract permits mutation.
+        clone = object.__new__(type(self))
+        object.__setattr__(clone, "__dict__", self.__dict__.copy())
+        object.__setattr__(clone, "observation", dict(self.observation))
+        return clone
+
 
 class Sensorium:
     """Append-only in-memory sensory authority with time and sequence checks."""
