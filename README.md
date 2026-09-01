@@ -197,6 +197,15 @@ Representative local profiles for the pass were:
   regenerated receipts and valid checkpoint chains, versus a 53.2-second
   pre-fast-path profile; this is a local wall-clock observation, not a hardware
   throughput claim.
+- Default full-corpus v5 verification now also parses and seal-checks the raw
+  receipt/checkpoint artifacts inside the bounded worker pool, rather than
+  making the parent perform the 11,520-file pass sequentially. A guarded
+  macOS-spawn audit completed in 25.71 seconds for 5,760/5,760 exact units;
+  an earlier sequential-load run on this host took 38.12 seconds, so the
+  comparison is directional and host-specific.
+- Verifier-only checkpoint construction now consumes the entity's owned sealed
+  tree directly; public ``checkpoint()`` calls still return detached snapshots
+  and retain mutation-isolation guarantees.
 - Independent v5 unit regeneration now creates one fresh model registry per
   five-phase unit instead of one per phase, reducing that construction boundary
   5× while keeping module call counts isolated between units. A post-change

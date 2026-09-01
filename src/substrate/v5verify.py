@@ -1687,7 +1687,10 @@ def _independent_execute_unit(
         state["body_identity"] = "seeded-3d-body"
         state["body_changes"] = int(state["body_changes"]) + 1
     state["development_state"] = dict(phases[-1]["development_update"])
-    entity_checkpoint = entity.checkpoint()
+    # The verifier only reads this freshly sealed, internally owned tree. Avoid
+    # serializing it to canonical bytes and parsing it back before the outer
+    # checkpoint seals it; public checkpoint callers retain detached snapshots.
+    entity_checkpoint = entity._checkpoint_internal()  # noqa: SLF001
     if source_identity is not None:
         entity_checkpoint = _source_bound_seal(
             entity_checkpoint,
@@ -2136,6 +2139,35 @@ def _independent_expected(
     )
 
 
+def _load_independent_artifact(
+    unit: P.WorkUnit,
+) -> tuple[
+    dict[str, Any] | None,
+    dict[str, Any] | None,
+    bool,
+    str | None,
+]:
+    """Load and seal-check one raw unit in an isolated worker."""
+
+    receipt_path = io.RUNS / _relative(unit, "units")
+    checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
+    if not receipt_path.is_file() or not checkpoint_path.is_file():
+        return None, None, True, None
+    try:
+        sealed_receipt = io.load_json(receipt_path)
+        sealed_checkpoint = io.load_json(checkpoint_path)
+        entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
+        if not isinstance(entity_checkpoint, Mapping):
+            raise Refused("checkpoint entity seal is absent")
+        if isinstance(entity_checkpoint, dict):
+            io._validate_normalized_seal(entity_checkpoint)  # noqa: SLF001
+        else:
+            io.validate_normalized_seal(dict(entity_checkpoint))
+    except (Refused, io.Refused, OSError) as error:
+        return None, None, False, str(error)
+    return sealed_receipt, sealed_checkpoint, False, None
+
+
 def raw(
     units: Iterable[P.WorkUnit] | None = None,
 ) -> dict[str, Any]:
@@ -2159,55 +2191,74 @@ def raw(
     principal_source = _principal_source_identity()
     loaded: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
 
-    for unit in selected:
-        receipt_path = io.RUNS / _relative(unit, "units")
-        checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
-        paths[unit.identity] = {
-            "receipt": receipt_path.relative_to(io.ROOT).as_posix(),
-            "checkpoint": checkpoint_path.relative_to(io.ROOT).as_posix(),
-        }
-        if not receipt_path.is_file() or not checkpoint_path.is_file():
-            missing.append(unit.identity)
-            continue
-        try:
-            sealed_receipt = io.load_json(receipt_path)
-            sealed_checkpoint = io.load_json(checkpoint_path)
-            entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
-            if not isinstance(entity_checkpoint, Mapping):
-                raise Refused("checkpoint entity seal is absent")
-            if isinstance(entity_checkpoint, dict):
-                sealed_entity = io._validate_normalized_seal(entity_checkpoint)
-            else:
-                sealed_entity = io.validate_normalized_seal(dict(entity_checkpoint))
-            identities = {
-                _source_identity(sealed_receipt),
-                _source_identity(sealed_checkpoint),
-                _source_identity(sealed_entity),
-            }
-            if principal_source is None:
-                if len(identities) != 1:
-                    raise Refused("raw source identities disagree")
-                principal_source = identities.pop()
-            elif identities != {principal_source}:
-                raise Refused("raw source identity disagrees with principal authority")
-            receipt = _strip_loaded_seal(sealed_receipt)
-            checkpoint = _strip_loaded_seal(sealed_checkpoint)
-        except (Refused, io.Refused, OSError) as error:
-            seal_errors[unit.identity] = str(error)
-            continue
-        loaded[unit.identity] = (receipt, checkpoint)
-
-    # Shards in one history are sequential because each expected receipt must
-    # consume the prior *validated* checkpoint. Different histories and arms
-    # are independent, so verify each shard wave in bounded isolated processes.
-    # Explicit unit selections stay sequential for small tests and reviewer
-    # probes; the complete terminal audit is large enough to amortize the pool.
-    parallel = units is None and len(selected) >= P.SHARDS * 8 and bool(loaded)
+    # Explicit unit selections remain sequential for small tests and reviewer
+    # probes. The complete default audit already pays for isolated processes to
+    # regenerate units, so use those same workers to parse/hash the large raw
+    # artifact set instead of making the parent perform the full sequential
+    # raw-artifact pass (11,520 JSON files for the current 5,760-unit corpus).
+    parallel = units is None and len(selected) >= P.SHARDS * 8
     executor: concurrent.futures.ProcessPoolExecutor | None = None
     if parallel:
         executor = concurrent.futures.ProcessPoolExecutor(
             max_workers=min(8, os.cpu_count() or 1),
         )
+
+    try:
+        artifact_results = (
+            executor.map(_load_independent_artifact, selected, chunksize=32)
+            if executor is not None
+            else map(_load_independent_artifact, selected)
+        )
+        for unit, artifact in zip(selected, artifact_results, strict=True):
+            receipt_path = io.RUNS / _relative(unit, "units")
+            checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
+            paths[unit.identity] = {
+                "receipt": receipt_path.relative_to(io.ROOT).as_posix(),
+                "checkpoint": checkpoint_path.relative_to(io.ROOT).as_posix(),
+            }
+            sealed_receipt, sealed_checkpoint, is_missing, load_error = artifact
+            if is_missing:
+                missing.append(unit.identity)
+                continue
+            if load_error is not None:
+                seal_errors[unit.identity] = load_error
+                continue
+            if sealed_receipt is None or sealed_checkpoint is None:
+                seal_errors[unit.identity] = "artifact loader returned an incomplete unit"
+                continue
+            try:
+                entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
+                if not isinstance(entity_checkpoint, Mapping):
+                    raise Refused("checkpoint entity seal is absent")
+                # The worker has already performed the normalized-seal check;
+                # retain that validated mapping without walking the large
+                # entity tree again in the parent.
+                sealed_entity = entity_checkpoint
+                identities = {
+                    _source_identity(sealed_receipt),
+                    _source_identity(sealed_checkpoint),
+                    _source_identity(sealed_entity),
+                }
+                if principal_source is None:
+                    if len(identities) != 1:
+                        raise Refused("raw source identities disagree")
+                    principal_source = identities.pop()
+                elif identities != {principal_source}:
+                    raise Refused("raw source identity disagrees with principal authority")
+                receipt = _strip_loaded_seal(sealed_receipt)
+                checkpoint = _strip_loaded_seal(sealed_checkpoint)
+            except (Refused, io.Refused, OSError) as error:
+                seal_errors[unit.identity] = str(error)
+                continue
+            loaded[unit.identity] = (receipt, checkpoint)
+    except BaseException:
+        if executor is not None:
+            executor.shutdown()
+        raise
+
+    # Shards in one history are sequential because each expected receipt must
+    # consume the prior *validated* checkpoint. Different histories and arms
+    # are independent, so verify each shard wave in bounded isolated processes.
     predecessors: dict[tuple[str, int, str], dict[str, Any]] = {}
     pair_results: dict[str, tuple[dict[str, Any], dict[str, Any], list[str]]] = {}
     try:

@@ -1727,54 +1727,61 @@ class PermanentEntity:
 
     project = workspace_projection
 
-    def checkpoint(self) -> dict[str, Any]:
-        with self._lock:
-            cached = self._checkpoint_cache
-            if cached is not None:
-                cached_events = cached["events"]
-                cache_matches = (
-                    cached["state"] == self._state
-                    and cached["event_chain_head"]
-                    == (self._events[-1].event_sha256 if self._events else None)
-                    and len(cached_events) == len(self._events)
-                    and all(
-                        cached_event["payload"] == event.payload
-                        for cached_event, event in zip(
-                            cached_events, self._events, strict=True
-                        )
+    def _checkpoint_document_locked(self) -> dict[str, Any]:
+        """Return the owned sealed checkpoint while ``self._lock`` is held."""
+
+        cached = self._checkpoint_cache
+        if cached is not None:
+            cached_events = cached["events"]
+            cache_matches = (
+                cached["state"] == self._state
+                and cached["event_chain_head"]
+                == (self._events[-1].event_sha256 if self._events else None)
+                and len(cached_events) == len(self._events)
+                and all(
+                    cached_event["payload"] == event.payload
+                    for cached_event, event in zip(
+                        cached_events, self._events, strict=True
                     )
                 )
-                if not cache_matches:
-                    cached = None
-                    self._checkpoint_cache = None
-                    self._checkpoint_cache_bytes = None
-            if cached is None:
-                state = self.semantic_state()
-                document = {
-                    "schema": CHECKPOINT_SCHEMA,
-                    "schema_version": int(state["schema_version"]),
-                    "owned_identity": self.entity_id,
-                    "events": [event._checkpoint_dict() for event in self._events],
-                    "event_chain_head": (
-                        self._events[-1].event_sha256 if self._events else None
-                    ),
-                    "state": state,
-                    "state_sha256": self.state_identity(),
-                    "activation": False,
-                }
-                self._checkpoint_cache = io._sealed_normalized_document(document)  # noqa: SLF001
-                # The cache is internally canonical JSON. Loading its bytes is
-                # a faster detached-copy boundary than recursively rebuilding
-                # the same Python tree, while preserving the public snapshot
-                # isolation contract.
-                self._checkpoint_cache_bytes = io.canonical_json(
-                    self._checkpoint_cache
-                )
-                cached = self._checkpoint_cache
+            )
+            if not cache_matches:
+                cached = None
+                self._checkpoint_cache = None
+                self._checkpoint_cache_bytes = None
+        if cached is None:
+            state = self.semantic_state()
+            document = {
+                "schema": CHECKPOINT_SCHEMA,
+                "schema_version": int(state["schema_version"]),
+                "owned_identity": self.entity_id,
+                "events": [event._checkpoint_dict() for event in self._events],
+                "event_chain_head": (
+                    self._events[-1].event_sha256 if self._events else None
+                ),
+                "state": state,
+                "state_sha256": self.state_identity(),
+                "activation": False,
+            }
+            self._checkpoint_cache = io._sealed_normalized_document(document)  # noqa: SLF001
+            cached = self._checkpoint_cache
+        return cached
+
+    def _checkpoint_internal(self) -> dict[str, Any]:
+        """Return an owned sealed tree for internal code that will not mutate it."""
+
+        with self._lock:
+            return self._checkpoint_document_locked()
+
+    def checkpoint(self) -> dict[str, Any]:
+        with self._lock:
+            cached = self._checkpoint_document_locked()
             cache_bytes = self._checkpoint_cache_bytes
             if cache_bytes is None:
                 cache_bytes = io.canonical_json(cached)
                 self._checkpoint_cache_bytes = cache_bytes
+            # Public snapshots remain detached even though internal verifier
+            # callers can consume the owned sealed tree without this round trip.
             return json.loads(cache_bytes)
 
     snapshot = checkpoint
