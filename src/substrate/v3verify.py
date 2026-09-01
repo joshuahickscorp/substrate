@@ -87,9 +87,17 @@ def holm(p_values: dict[str, float], alpha: float = 0.05) -> dict:
     return {"family": ordered, "alpha": alpha, "method": "Holm", "rows": rows}
 
 
-def raw() -> dict:
+def raw(*, compact: bool = False) -> dict:
+    """Load and validate receipts, optionally retaining only verifier fields.
+
+    Compact reports still parse and validate each complete receipt, including its
+    checkpoint and receipt identity.  They project the validated documents only
+    after those checks so the independent verifier does not retain duplicate
+    checkpoints and unused phase metadata for every work unit.
+    """
     units = {unit.identity: unit for unit in P.work_units()}
     receipts = {}
+    mutation_checkpoint = None
     invalid = []
     missing = []
     checkpoint_mismatch = []
@@ -114,8 +122,18 @@ def raw() -> dict:
         if checkpoint.get("identity_hash") != receipt["checkpoint"]["identity_hash"]:
             checkpoint_mismatch.append(identity)
             continue
-        receipts[identity] = receipt
-    return {
+        if compact:
+            if mutation_checkpoint is None:
+                mutation_checkpoint = receipt["checkpoint"]
+            receipts[identity] = {
+                "activation": receipt["activation"],
+                "cycles": receipt["cycles"],
+                "summary": receipt["summary"],
+                "unit": receipt["unit"],
+            }
+        else:
+            receipts[identity] = receipt
+    report = {
         "receipts": receipts,
         "expected": len(units),
         "valid": len(receipts),
@@ -125,6 +143,9 @@ def raw() -> dict:
         "all_pass": len(receipts) == len(units) and not missing and not invalid and not checkpoint_mismatch,
         "activation": False,
     }
+    if compact:
+        report["mutation_checkpoint"] = mutation_checkpoint
+    return report
 
 
 def _history_table(receipts: dict[str, dict], split: str) -> dict[tuple[int, str], dict]:
@@ -433,7 +454,9 @@ def mutations(raw_report: dict, metrics: dict) -> dict:
             "transition": lambda state: state,
         },
     )
-    checkpoint = next(iter(raw_report["receipts"].values()))["checkpoint"]
+    checkpoint = raw_report.get("mutation_checkpoint")
+    if checkpoint is None:
+        checkpoint = next(iter(raw_report["receipts"].values()))["checkpoint"]
     omit_ontology = json.loads(json.dumps(checkpoint))
     omit_ontology["semantic_state"].pop("ontology")
     omit_epistemology = json.loads(json.dumps(checkpoint))
@@ -587,12 +610,12 @@ def clean_clone(ref: str = "main") -> dict:
 
 
 def verify() -> dict:
-    raw_report = raw()
+    raw_report = raw(compact=True)
     metrics = recompute(raw_report)
     mutation_report = mutations(raw_report, metrics)
     document = {
         "schema": "substrate-v3-independent-verification/v1",
-        "raw": {key: value for key, value in raw_report.items() if key != "receipts"},
+        "raw": {key: value for key, value in raw_report.items() if key not in {"receipts", "mutation_checkpoint"}},
         "metrics": metrics,
         "mutation_zero_survivors": mutation_report["zero_survivors"],
         "all_pass": raw_report["all_pass"]
