@@ -97,14 +97,31 @@ def _hawking_snapshot() -> dict:
 
 def _tree_integrity(tag: str, roots: tuple[str, ...]) -> dict:
     lines = _git("ls-tree", "-r", tag, *roots).splitlines()
-    objects = {}
-    drift = []
+    parsed = []
+    current_paths = []
     for line in lines:
         metadata, path = line.split("\t", 1)
         mode, kind, blob = metadata.split()
         current = canonical_current_path(io.ROOT, path)
         current_relative = current.relative_to(io.ROOT).as_posix()
-        current_blob = _git("hash-object", "--", current_relative) if current.is_file() else None
+        parsed.append((path, mode, kind, blob, current, current_relative))
+        if current.is_file():
+            current_paths.append(current_relative)
+
+    current_blobs = {}
+    if current_paths:
+        output = subprocess.check_output(
+            ["git", "hash-object", "--stdin-paths"],
+            cwd=io.ROOT,
+            input="\n".join(current_paths) + "\n",
+            text=True,
+        )
+        current_blobs = dict(zip(current_paths, output.splitlines(), strict=True))
+
+    objects = {}
+    drift = []
+    for path, mode, kind, blob, current, current_relative in parsed:
+        current_blob = current_blobs.get(current_relative)
         row = {
             "mode": mode,
             "kind": kind,

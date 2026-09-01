@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import json
 
+from substrate import v3campaign
 from substrate import v3config as C
 from substrate import v3principal as P
 from substrate import v3state as S
@@ -10,6 +12,45 @@ from substrate import v3state as S
 def test_splits_are_disjoint():
     values = [seed for split in C.SPLITS.values() for seed in split]
     assert len(values) == len(set(values))
+
+
+def test_tree_integrity_batches_current_git_hashes(monkeypatch, tmp_path):
+    existing = tmp_path / "existing.json"
+    existing.write_text('{"ok":true}\n')
+    expected_blob = hashlib.sha1(
+        b"blob " + str(existing.stat().st_size).encode() + b"\0" + existing.read_bytes()
+    ).hexdigest()
+    tree_lines = "\n".join(
+        (
+            f"100644 blob {expected_blob}\texisting.json",
+            "100644 blob " + "0" * 40 + "\tmissing.json",
+        )
+    )
+    calls = []
+    original_check_output = v3campaign.subprocess.check_output
+
+    def fake_git(*arguments):
+        if arguments[:2] == ("ls-tree", "-r"):
+            return tree_lines
+        if arguments[:1] == ("rev-parse",):
+            return "tag-commit"
+        raise AssertionError(f"unexpected git command: {arguments}")
+
+    def record_check_output(command, **kwargs):
+        calls.append(command)
+        return original_check_output(command, **kwargs)
+
+    monkeypatch.setattr(v3campaign.io, "ROOT", tmp_path)
+    monkeypatch.setattr(v3campaign, "_git", fake_git)
+    monkeypatch.setattr(v3campaign.subprocess, "check_output", record_check_output)
+
+    report = v3campaign._tree_integrity("tag", ("evidence",))
+
+    assert report["object_count"] == 2
+    assert report["objects"]["existing.json"]["byte_identical"] is True
+    assert report["objects"]["missing.json"]["current_blob"] is None
+    assert report["drift"] == ["missing.json"]
+    assert calls == [["git", "hash-object", "--stdin-paths"]]
 
 
 def test_principal_dag_is_unique_and_nous_scale():
