@@ -6,6 +6,7 @@ import hashlib
 import json
 import random
 from dataclasses import dataclass
+from functools import lru_cache
 
 from substrate import v3config as C
 
@@ -14,7 +15,12 @@ class Refused(RuntimeError):
     """A task or policy attempted to use unavailable outcome information."""
 
 
+@lru_cache(maxsize=8192)
 def _seed(*parts: object) -> int:
+    # Task generation repeats the same immutable seed tuple across controlled
+    # arms. Cache only the derived integer, not mutable task objects, so arm
+    # histories cannot share or mutate a task while deterministic generation
+    # still avoids duplicate canonical hashing.
     digest = hashlib.sha256(json.dumps(parts, sort_keys=True, default=str).encode()).hexdigest()
     return int(digest[:16], 16)
 
