@@ -17,6 +17,17 @@ from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
+try:
+    from json.encoder import c_make_encoder, encode_basestring_ascii
+except ImportError:  # pragma: no cover - the fallback is for non-CPython runtimes.
+    _LEGACY_JSON_ENCODER = None
+else:
+    _LEGACY_JSON_ENCODER = (
+        c_make_encoder(None, str, encode_basestring_ascii, None, ":", ",", True, False, True)
+        if c_make_encoder is not None
+        else None
+    )
+
 # An editable checkout resolves naturally from the source path. A regular wheel cannot contain the
 # multi-gigabyte immutable proof and receipt history, so an installed command binds to an explicit
 # checkout through this Substrate-native variable.
@@ -188,7 +199,16 @@ def data_root() -> Path:
 
 
 def sha_obj(v) -> str:
-    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
+    if _LEGACY_JSON_ENCODER is not None:
+        try:
+            encoded = "".join(_LEGACY_JSON_ENCODER(v, 0))
+        except RecursionError:
+            # The no-marker C path does not refuse cycles early. Let the
+            # reference encoder preserve the historical ValueError path.
+            encoded = json.dumps(v, sort_keys=True, separators=(",", ":"), default=str)
+    else:
+        encoded = json.dumps(v, sort_keys=True, separators=(",", ":"), default=str)
+    return hashlib.sha256(encoded.encode()).hexdigest()
 
 
 @lru_cache(maxsize=1)

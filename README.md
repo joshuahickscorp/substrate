@@ -284,6 +284,11 @@ Representative local profiles for the pass were:
   to about 57 ms after the process-scoped source-identity lookup was cached.
 - In the same local 12-checkpoint/80-event harness, caching the unchanged state
   digest moved the current batch median from about 15.6 ms to about 14.1 ms.
+- Legacy v1–v4 evidence hashing now uses CPython's C JSON encoder while
+  preserving the historical byte format and cycle-refusal fallback. Across
+  five paired fresh-process 14-arm v4 evaluations, median wall time moved from
+  1.562379 to 1.374530 seconds (about 12.0%); byte-parity and refusal tests
+  remain explicit.
 
 These are bounded local profiles, not claims about campaign-scale throughput;
 the source, seal, and state-isolation boundaries remain explicit.
