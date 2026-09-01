@@ -95,7 +95,7 @@ def raw(*, compact: bool = False) -> dict:
     after those checks so the independent verifier does not retain duplicate
     checkpoints and unused phase metadata for every work unit.
     """
-    units = {unit.identity: unit for unit in P.work_units()}
+    units = P.work_units()
     receipts = {}
     mutation_checkpoint = None
     invalid = []
@@ -103,7 +103,8 @@ def raw(*, compact: bool = False) -> dict:
     checkpoint_mismatch = []
     receipt_files = io.regular_file_names(P.UNITS)
     checkpoint_files = io.regular_file_names(P.CHECKPOINTS)
-    for identity, unit in units.items():
+    for unit in units:
+        identity = unit.identity
         filename = f"{identity}.json"
         if filename not in receipt_files or filename not in checkpoint_files:
             missing.append(identity)
@@ -113,18 +114,36 @@ def raw(*, compact: bool = False) -> dict:
         try:
             receipt = json.loads(path.read_text())
             checkpoint = json.loads(checkpoint_path.read_text())
-        except json.JSONDecodeError:
+        except (OSError, UnicodeError, json.JSONDecodeError):
             invalid.append(identity)
             continue
-        if not P.validate_receipt(receipt, unit):
+        if not isinstance(receipt, dict) or not isinstance(checkpoint, dict):
             invalid.append(identity)
             continue
-        if checkpoint.get("identity_hash") != receipt["checkpoint"]["identity_hash"]:
+        try:
+            valid = P.validate_receipt(receipt, unit)
+        except (AttributeError, TypeError, ValueError):
+            valid = False
+        if not valid:
+            invalid.append(identity)
+            continue
+        receipt_checkpoint = receipt.get("checkpoint")
+        checkpoint_identity = checkpoint.get("identity_hash")
+        receipt_checkpoint_identity = receipt_checkpoint.get("identity_hash") if isinstance(receipt_checkpoint, dict) else None
+        if (
+            not isinstance(receipt_checkpoint_identity, str)
+            or not receipt_checkpoint_identity
+            or not isinstance(checkpoint_identity, str)
+            or not checkpoint_identity
+        ):
+            invalid.append(identity)
+            continue
+        if checkpoint_identity != receipt_checkpoint_identity:
             checkpoint_mismatch.append(identity)
             continue
         if compact:
             if mutation_checkpoint is None:
-                mutation_checkpoint = receipt["checkpoint"]
+                mutation_checkpoint = receipt_checkpoint
             receipts[identity] = {
                 "activation": receipt["activation"],
                 "cycles": receipt["cycles"],

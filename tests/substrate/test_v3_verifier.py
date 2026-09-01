@@ -72,6 +72,37 @@ def test_compact_raw_report_projects_only_after_receipt_validation(tmp_path, mon
     assert "phases" not in report["receipts"][unit.identity]
 
 
+def test_raw_verifier_classifies_malformed_checkpoint_as_invalid(tmp_path, monkeypatch):
+    unit = P.work_units()[0]
+    units = tmp_path / "units"
+    checkpoints = tmp_path / "checkpoints"
+    units.mkdir()
+    checkpoints.mkdir()
+    receipt = {
+        "schema": "substrate-v3-principal-unit/v1",
+        "unit": asdict(unit),
+        "cycles": [],
+        "phases": [],
+        "summary": {"episodes": 128, "checkpoint_exact": True, "body_continuity": True},
+        "activation": False,
+    }
+    receipt["receipt_identity"] = io.sha_obj(receipt)
+    receipt["program"] = "substrate-v3"
+    filename = f"{unit.identity}.json"
+    (units / filename).write_text(json.dumps(receipt))
+    (checkpoints / filename).write_text(json.dumps({}))
+    monkeypatch.setattr(P, "UNITS", units)
+    monkeypatch.setattr(P, "CHECKPOINTS", checkpoints)
+    monkeypatch.setattr(P, "work_units", lambda: (unit,))
+
+    report = V.raw(compact=True)
+
+    assert report["all_pass"] is False
+    assert report["valid"] == 0
+    assert report["invalid"] == [unit.identity]
+    assert report["checkpoint_mismatch"] == []
+
+
 def test_paired_bootstrap_preserves_seeded_statistics():
     values = [0.1, 0.2, 0.3, 0.4]
     endpoint = "bootstrap-regression"
