@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -266,6 +267,8 @@ def test_v5_clean_clone_supports_explicit_injected_commands() -> None:
     assert result["ready_commit"] == "frozen-ready-commit"
     assert result["exact_reproduction"]
     assert result["normalized_double_regeneration_exact"]
+    assert result["commands_injected"]
+    assert not result["cache_reused"]
     assert set(result["stages"]) == {
         "clone",
         "install",
@@ -273,6 +276,54 @@ def test_v5_clean_clone_supports_explicit_injected_commands() -> None:
         "ruff",
         "ruff_format",
     }
+
+
+def test_v5_clean_clone_reuses_only_exact_default_cache(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    expected_digest = "e" * 64
+    cached = {
+        "schema": "substrate-v5-clean-clone/v1",
+        "commands_injected": False,
+        "ready_ref": "frozen-ready",
+        "ready_commit": "ready-commit",
+        "ready_ref_returncode": 0,
+        "expected_digest": expected_digest,
+        "actual_digests": [expected_digest, expected_digest],
+        "exact_reproduction": True,
+        "normalized_double_regeneration_exact": True,
+        "all_pass": True,
+        "source_worktree_clean": True,
+        "source_commit": "c" * 40,
+        "source_digest": "d" * 64,
+        "program": "substrate-v5",
+        "sha256": "sealed",
+    }
+    monkeypatch.setattr(V.io, "load", lambda _name: cached)
+    monkeypatch.setattr(V.io, "commit", lambda: "c" * 40)
+    monkeypatch.setattr(V.io, "source_digest", lambda: "d" * 64)
+    calls: list[list[str]] = []
+
+    def run_command(command, *, cwd, env=None):
+        del cwd, env
+        calls.append(list(command))
+        if command[1] == "status":
+            return subprocess.CompletedProcess(command, 0, "", "")
+        return subprocess.CompletedProcess(command, 0, "ready-commit\n", "")
+
+    monkeypatch.setattr(V, "_run_command", run_command)
+
+    result = V._reusable_clean_clone(expected_digest, "frozen-ready")
+
+    assert result is not None
+    assert result["cache_reused"]
+    assert "source_commit" not in result
+    assert "sha256" not in result
+    assert ["git", "status", "--porcelain", "--untracked-files=all"] in calls
+    assert ["git", "rev-parse", "frozen-ready^{}"] in calls
+
+    cached["source_digest"] = "f" * 64
+    assert V._reusable_clean_clone(expected_digest, "frozen-ready") is None
 
 
 def test_v5_classification_is_ordered_and_never_assigns_unqualified_nous() -> None:

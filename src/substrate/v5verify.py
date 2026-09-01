@@ -69,6 +69,7 @@ MUTATION_CLASSES = (
 
 _SEAL_FIELDS = frozenset({"program", "sha256", "source_commit", "source_digest"})
 _PRINCIPAL_AUTHORITY = "SUBSTRATE_V5_PRINCIPAL_AUTHORITY.json"
+_CLEAN_CLONE_REPORT = "SUBSTRATE_V5_CLEAN_CLONE.json"
 _HIDDEN_TARGET_KEYS = frozenset(
     {
         "answer",
@@ -2719,6 +2720,63 @@ def _run_command(
         )
 
 
+def _source_worktree_clean() -> bool:
+    result = _run_command(
+        ["git", "status", "--porcelain", "--untracked-files=all"],
+        cwd=io.ROOT,
+    )
+    return result.returncode == 0 and not result.stdout.strip()
+
+
+def _current_clean_clone_source() -> tuple[str, str] | None:
+    try:
+        return io.commit(), io.source_digest()
+    except (OSError, subprocess.SubprocessError, io.Refused):
+        return None
+
+
+def _reusable_clean_clone(
+    expected_digest: str,
+    ready_ref: str,
+) -> dict[str, Any] | None:
+    """Reuse a sealed clean-clone result only under an exact identity match."""
+
+    try:
+        cached = io.load(_CLEAN_CLONE_REPORT)
+    except (OSError, ValueError, io.Refused):
+        return None
+    if (
+        cached.get("schema") != "substrate-v5-clean-clone/v1"
+        or cached.get("commands_injected") is not False
+        or cached.get("source_worktree_clean") is not True
+        or cached.get("all_pass") is not True
+        or cached.get("exact_reproduction") is not True
+        or cached.get("normalized_double_regeneration_exact") is not True
+        or cached.get("ready_ref_returncode") != 0
+        or cached.get("ready_ref") != ready_ref
+        or cached.get("expected_digest") != expected_digest
+        or cached.get("actual_digests") != [expected_digest, expected_digest]
+    ):
+        return None
+    current_source = _current_clean_clone_source()
+    if current_source is None or (
+        cached.get("source_commit"),
+        cached.get("source_digest"),
+    ) != current_source:
+        return None
+    if not _source_worktree_clean():
+        return None
+    ready = _run_command(
+        ["git", "rev-parse", f"{ready_ref}^{{}}"],
+        cwd=io.ROOT,
+    )
+    if ready.returncode != 0 or ready.stdout.strip() != cached.get("ready_commit"):
+        return None
+    reused = _strip_loaded_seal(cached)
+    reused["cache_reused"] = True
+    return reused
+
+
 def _sample_regeneration(raw_report: Mapping[str, Any]) -> tuple[P.WorkUnit, str]:
     candidates = [unit for unit in P.work_units("principal") if unit.arm == "full_v5" and unit.shard == 0 and unit.identity in raw_report["receipts"]]
     if not candidates:
@@ -2756,6 +2814,10 @@ def clean_clone(
     if raw_report.get("all_pass") is not True:
         raise Refused("clean-clone verification requires valid raw evidence")
     unit, expected_digest = _sample_regeneration(raw_report)
+    if commands is None:
+        cached = _reusable_clean_clone(expected_digest, ready_ref)
+        if cached is not None:
+            return cached
     script = (
         "from substrate import v5io as I,v5principal as P,v5verify as V;"
         f"u=P.WorkUnit({unit.split!r},{unit.history_seed!r},{unit.arm!r},{unit.shard!r});"
@@ -2831,6 +2893,7 @@ def clean_clone(
     exact = expected_digest == actual[0] == actual[1]
     return {
         "schema": "substrate-v5-clean-clone/v1",
+        "commands_injected": commands is not None,
         "ready_ref": ready_ref,
         "ready_commit": ready.stdout.strip() if ready.returncode == 0 else None,
         "ready_ref_returncode": ready.returncode,
@@ -2841,6 +2904,8 @@ def clean_clone(
         "exact_reproduction": exact,
         "normalized_double_regeneration_exact": bool(actual[0]) and actual[0] == actual[1],
         "all_pass": ready.returncode == 0 and all(code == 0 for code in all_codes) and exact,
+        "source_worktree_clean": _source_worktree_clean(),
+        "cache_reused": False,
         "activation": False,
     }
 
