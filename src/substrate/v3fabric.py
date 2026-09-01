@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 import random
@@ -14,6 +13,26 @@ from substrate import v3config as C
 
 class Refused(RuntimeError):
     """A task or policy attempted to use unavailable outcome information."""
+
+
+def _clone_payload(value: object) -> object:
+    """Clone the JSON-shaped payloads emitted by the deterministic task bank.
+
+    Generated task payloads deliberately use only dict/list/tuple containers and
+    scalar leaves. Keeping this clone structural avoids the memo-table and type
+    dispatch overhead of ``copy.deepcopy`` while retaining isolation between
+    arm histories. Unsupported mutable shapes fail closed instead of being
+    silently shared between tasks.
+    """
+    if type(value) is dict:
+        return {_clone_payload(key): _clone_payload(item) for key, item in value.items()}
+    if type(value) is list:
+        return [_clone_payload(item) for item in value]
+    if type(value) is tuple:
+        return tuple(_clone_payload(item) for item in value)
+    if type(value) in (str, int, float, bool, type(None)):
+        return value
+    raise Refused(f"unsupported mutable task payload type {type(value).__name__}")
 
 
 @lru_cache(maxsize=8192)
@@ -49,8 +68,11 @@ class CognitiveTask:
             "available_actions": C.WORKLOADS[self.family]["actions"],
             "cost": self.cost,
         }
-        serialized = json.dumps(body, sort_keys=True, default=str)
-        target_digest = hashlib.sha256(json.dumps(self.private_target, sort_keys=True, default=str).encode()).hexdigest()
+        # Key order is irrelevant to this substring leakage guard. Avoiding
+        # sorting here keeps the per-arm observation path cheap; canonical
+        # identity hashes remain sorted in _seed and the evidence layer.
+        serialized = json.dumps(body, default=str)
+        target_digest = hashlib.sha256(json.dumps(self.private_target, default=str).encode()).hexdigest()
         forbidden_keys = {"target", "private_target", "answer", "oracle_operation"}
         if forbidden_keys & set(body) or forbidden_keys & set(body["public"]) or target_digest in serialized:
             raise Refused("answer or answer digest leaked into public observation")
@@ -231,8 +253,8 @@ def generate_task(seed: int, family: str, index: int, split: str, *, phase: str 
         template.family,
         template.index,
         template.phase,
-        copy.deepcopy(template.public),
-        copy.deepcopy(template.private_target),
+        _clone_payload(template.public),
+        _clone_payload(template.private_target),
         template.oracle_operation,
         template.cost,
     )

@@ -82,9 +82,11 @@ def test_cached_task_generation_returns_isolated_mutable_payloads():
     first = F.generate_task(1, "cross_representation_systems", 1, "construction")
     second = F.generate_task(1, "cross_representation_systems", 1, "construction")
     assert first is not second
+    first.public["relations"][0][0] = "mutated"
     first.public["relations"].append(["leak", "shared-state"])
     first.public["mutated"] = True
     assert "mutated" not in second.public
+    assert second.public["relations"][0][0] != "mutated"
     assert ["leak", "shared-state"] not in second.public["relations"]
     assert first.private_target == second.private_target
 
