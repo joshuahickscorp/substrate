@@ -289,6 +289,10 @@ Representative local profiles for the pass were:
   five paired fresh-process 14-arm v4 evaluations, median wall time moved from
   1.562379 to 1.374530 seconds (about 12.0%); byte-parity and refusal tests
   remain explicit.
+- Deterministic v4 task templates now use a bounded 4,096-entry process cache
+  and are detached before returning to callers. Across five fresh-process
+  14-arm evaluations, median wall time moved from 1.315786 to 1.261848 seconds
+  (about 4.1%); task identity and mutable-output isolation remain explicit.
 
 These are bounded local profiles, not claims about campaign-scale throughput;
 the source, seal, and state-isolation boundaries remain explicit.

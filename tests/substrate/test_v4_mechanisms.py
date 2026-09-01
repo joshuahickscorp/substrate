@@ -27,6 +27,27 @@ def test_v4_observation_has_no_answer_or_latent_authority() -> None:
     assert "oracle_mapping" not in observation
 
 
+def test_v4_cached_tasks_return_detached_mutable_values() -> None:
+    first = F.generate_task(
+        C.SPLITS["construction"][0],
+        "causal_systems",
+        0,
+        "construction",
+        include_training=True,
+    )
+    second = F.generate_task(
+        C.SPLITS["construction"][0],
+        "causal_systems",
+        0,
+        "construction",
+        include_training=True,
+    )
+    first.public["query"]["active"].append("mutated")
+    first.private_target.append("mutated")
+    assert "mutated" not in second.public["query"]["active"]
+    assert "mutated" not in second.private_target
+
+
 def test_v4_one_model_executes_intervention_counterfactual_and_alignment() -> None:
     seed = C.SPLITS["construction"][1]
     entity = StructuralSubstrate()

@@ -5,7 +5,8 @@ from __future__ import annotations
 import hashlib
 import json
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+from functools import lru_cache
 
 from substrate import v4config as C
 from substrate.world import _canonical_roles, _closure_edges, _path, _structural_sha
@@ -283,21 +284,30 @@ def _query_and_target(
     return query, target, operation
 
 
-def generate_task(
+def _copy_task_value(value: object) -> object:
+    """Detach the mutable JSON-shaped parts of a cached task template."""
+    if isinstance(value, dict):
+        return {key: _copy_task_value(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_copy_task_value(child) for child in value]
+    if isinstance(value, tuple):
+        return tuple(_copy_task_value(child) for child in value)
+    if isinstance(value, set):
+        return {_copy_task_value(child) for child in value}
+    return value
+
+
+@lru_cache(maxsize=4096)
+def _generate_task_cached(
     seed: int,
     family: str,
     index: int,
     split: str,
-    *,
-    phase: str = "probe",
-    representation: str | None = None,
-    include_training: bool | None = None,
-    history_variant: str | None = None,
+    phase: str,
+    representation: str | None,
+    include_training: bool | None,
+    history_variant: str | None,
 ) -> StructuralTask:
-    if split not in C.SPLITS or seed not in C.SPLITS[split]:
-        raise Refused(f"seed {seed} is not authorized for v4 split {split!r}")
-    if family not in C.WORKLOADS:
-        raise Refused(f"unknown structural workload {family!r}")
     rng = random.Random(_seed(seed, family, index, split, phase, history_variant))
     orientation = _orientation(seed, split, history_variant)
     edges = set(ORIENTATIONS[orientation])
@@ -348,6 +358,38 @@ def generate_task(
         cost=1.0,
         latent_family=orientation,
         activation=False,
+    )
+
+
+def generate_task(
+    seed: int,
+    family: str,
+    index: int,
+    split: str,
+    *,
+    phase: str = "probe",
+    representation: str | None = None,
+    include_training: bool | None = None,
+    history_variant: str | None = None,
+) -> StructuralTask:
+    if split not in C.SPLITS or seed not in C.SPLITS[split]:
+        raise Refused(f"seed {seed} is not authorized for v4 split {split!r}")
+    if family not in C.WORKLOADS:
+        raise Refused(f"unknown structural workload {family!r}")
+    cached = _generate_task_cached(
+        seed,
+        family,
+        index,
+        split,
+        phase,
+        representation,
+        include_training,
+        history_variant,
+    )
+    return replace(
+        cached,
+        public=_copy_task_value(cached.public),
+        private_target=_copy_task_value(cached.private_target),
     )
 
 
