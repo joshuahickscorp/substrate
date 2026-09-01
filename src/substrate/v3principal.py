@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import resource
 import statistics
@@ -10,6 +11,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from functools import lru_cache
+from pathlib import Path
 
 from substrate import v2config, v2fabric, v2state
 from substrate import v3config as C
@@ -22,6 +24,7 @@ PRINCIPAL = io.RUNS / "principal"
 UNITS = PRINCIPAL / "units"
 CHECKPOINTS = PRINCIPAL / "checkpoints"
 MANIFEST = io.CONFIGS / "principal_manifest.json"
+_RECEIPT_VALIDATION_CACHE: dict[tuple[str, str], tuple[bytes, bool]] = {}
 
 
 @dataclass(frozen=True)
@@ -287,6 +290,25 @@ def validate_receipt(receipt: dict, unit: WorkUnit) -> bool:
     )
 
 
+def _validate_receipt_file(path: Path, unit: WorkUnit) -> bool:
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return False
+    path_key = (str(path), unit.identity)
+    digest = hashlib.sha256(raw).digest()
+    cached = _RECEIPT_VALIDATION_CACHE.get(path_key)
+    if cached is not None and cached[0] == digest:
+        return cached[1]
+    try:
+        document = json.loads(raw)
+        valid = validate_receipt(document, unit)
+    except (AttributeError, TypeError, ValueError):
+        valid = False
+    _RECEIPT_VALIDATION_CACHE[path_key] = (digest, valid)
+    return valid
+
+
 def manifest() -> dict:
     units = work_units()
     identities = [unit.identity for unit in units]
@@ -484,13 +506,9 @@ def status() -> dict:
         if filename not in receipt_files:
             continue
         path = UNITS / filename
-        try:
-            document = json.loads(path.read_text())
-            if validate_receipt(document, unit):
-                valid.append(identity)
-            else:
-                invalid.append(identity)
-        except (OSError, json.JSONDecodeError):
+        if _validate_receipt_file(path, unit):
+            valid.append(identity)
+        else:
             invalid.append(identity)
     complete = len(valid)
     return {

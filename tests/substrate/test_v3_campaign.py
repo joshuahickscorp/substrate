@@ -55,6 +55,38 @@ def test_principal_manifest_parser_rechecks_changed_bytes():
         P._parse_manifest.cache_clear()
 
 
+def test_principal_receipt_validation_cache_is_content_bound(monkeypatch, tmp_path):
+    unit = P.work_units()[0]
+    receipt = {
+        "schema": "substrate-v3-principal-unit/v1",
+        "unit": {"identity": unit.identity},
+        "summary": {"episodes": 128, "checkpoint_exact": True, "body_continuity": True},
+        "activation": False,
+    }
+    receipt["receipt_identity"] = P.io.sha_obj(
+        {key: value for key, value in receipt.items() if key != "receipt_identity"}
+    )
+    path = tmp_path / "receipt.json"
+    path.write_text(json.dumps(receipt))
+    calls = []
+    original = P.validate_receipt
+
+    def counted(document, candidate):
+        calls.append(candidate.identity)
+        return original(document, candidate)
+
+    monkeypatch.setattr(P, "validate_receipt", counted)
+
+    assert P._validate_receipt_file(path, unit) is True
+    assert P._validate_receipt_file(path, unit) is True
+    assert calls == [unit.identity]
+
+    receipt["activation"] = True
+    path.write_text(json.dumps(receipt))
+    assert P._validate_receipt_file(path, unit) is False
+    assert calls == [unit.identity, unit.identity]
+
+
 def test_source_ref_parser_requires_two_real_commit_lines():
     head = "a" * 40
     ready = "b" * 40
