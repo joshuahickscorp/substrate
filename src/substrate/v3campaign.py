@@ -9,6 +9,7 @@ import platform
 import re
 import shutil
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 from substrate import historical, v2io
 from substrate import v3config as C
@@ -189,23 +190,31 @@ def preflight() -> dict:
     main = _git("rev-parse", "main")
     origin_main = _git("rev-parse", "origin/main")
     dirty = subprocess.check_output(["git", "status", "--porcelain=v1"], cwd=io.ROOT, text=True).rstrip("\n")
-    prs = _json_command(
-        [
-            "gh", "pr", "list", "--repo", "joshuahickscorp/substrate", "--state", "open",
-            "--json", "number,title,headRefName,baseRefName,isDraft,url",
-        ],
-        [],
-    )
-    ci = _json_command(
-        [
-            "gh", "run", "list", "--repo", "joshuahickscorp/substrate", "--branch", "main",
-            "--limit", "3", "--json", "databaseId,headSha,status,conclusion,url,workflowName,event",
-        ],
-        [],
-    )
-    integrity = immutability()
-    resources = _resource_snapshot()
-    hawking = _hawking_snapshot()
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        prs_future = pool.submit(
+            _json_command,
+            [
+                "gh", "pr", "list", "--repo", "joshuahickscorp/substrate", "--state", "open",
+                "--json", "number,title,headRefName,baseRefName,isDraft,url",
+            ],
+            [],
+        )
+        ci_future = pool.submit(
+            _json_command,
+            [
+                "gh", "run", "list", "--repo", "joshuahickscorp/substrate", "--branch", "main",
+                "--limit", "3", "--json", "databaseId,headSha,status,conclusion,url,workflowName,event",
+            ],
+            [],
+        )
+        integrity_future = pool.submit(immutability)
+        resources_future = pool.submit(_resource_snapshot)
+        hawking_future = pool.submit(_hawking_snapshot)
+        prs = prs_future.result()
+        ci = ci_future.result()
+        integrity = integrity_future.result()
+        resources = resources_future.result()
+        hawking = hawking_future.result()
     v3_principal = io.RUNS / "principal"
     principal_files = sorted(path.relative_to(io.ROOT).as_posix() for path in v3_principal.rglob("*") if path.is_file()) if v3_principal.exists() else []
     processes = subprocess.run(
