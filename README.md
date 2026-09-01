@@ -171,6 +171,11 @@ Representative local profiles for the pass were:
   arm evaluations, while the public model request type remains unchanged. A
   fresh ten-pair phase-19 comparison moved the median from 0.274914 to
   0.261994 seconds (about 4.7%) with the same exact aggregate digest.
+- Repeated v4 structural surface graphs now reuse bounded immutable canonical
+  role mappings while returning a fresh mapping to every caller. Across ten
+  paired fresh-process 112-row phase-19 evaluations, the median moved from
+  1.390540 to 1.280982 seconds (about 7.9%) with the exact aggregate digest
+  `0639e304b217a0d32f561edc4327d7366beb0c9f0b4ef92af965e1d426ad617c`.
 - The default model fabric now caches its immutable contract and relationship
   definitions while still creating fresh per-registry modules, preserving
   isolated call counts. Registry construction moved from roughly 52 to 3

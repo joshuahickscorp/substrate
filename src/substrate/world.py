@@ -24,6 +24,7 @@ import random
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from functools import lru_cache
 
 from substrate import evidence as io
 
@@ -318,8 +319,11 @@ def _transitive_reduction(closure_edges: set[tuple[str, str]]) -> set[tuple[str,
     return reduced
 
 
-def _canonical_roles(nodes: set[str], constraints: set[tuple[str, str]]) -> dict[str, str]:
-    """Canonicalize an asymmetric surface graph without using names or ordering."""
+@lru_cache(maxsize=512)
+def _canonical_roles_cached(
+    nodes: frozenset[str],
+    constraints: frozenset[tuple[str, str]],
+) -> tuple[tuple[str, str], ...]:
     neighbors = {node: set() for node in nodes}
     for left, right in constraints:
         neighbors[left].add(right)
@@ -329,7 +333,15 @@ def _canonical_roles(nodes: set[str], constraints: set[tuple[str, str]]) -> dict
         colors = {node: _structural_sha((colors[node], tuple(sorted(colors[neighbor] for neighbor in neighbors[node])))) for node in nodes}
     if len(set(colors.values())) != len(nodes):
         raise StructuralRefused("structural constraints underdetermine a representation mapping")
-    return {node: f"role_{index}" for index, node in enumerate(sorted(nodes, key=lambda node: colors[node]))}
+    return tuple(
+        (node, f"role_{index}")
+        for index, node in enumerate(sorted(nodes, key=lambda node: colors[node]))
+    )
+
+
+def _canonical_roles(nodes: set[str], constraints: set[tuple[str, str]]) -> dict[str, str]:
+    """Canonicalize an asymmetric surface graph without using names or ordering."""
+    return dict(_canonical_roles_cached(frozenset(nodes), frozenset(constraints)))
 
 
 def _path(edges: set[tuple[str, str]], start: str, consequence: str) -> list[str]:
