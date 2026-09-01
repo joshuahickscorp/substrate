@@ -81,18 +81,37 @@ def holm(p_values: dict[str, float], alpha: float = 0.05) -> dict:
     return {"family": ordered, "alpha": alpha, "method": "Holm", "rows": rows}
 
 
+def _regular_file_names(directory: Path) -> set[str]:
+    """Snapshot regular files once so raw verification does not stat every expected path separately."""
+    names = set()
+    try:
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                try:
+                    if entry.is_file():
+                        names.add(entry.name)
+                except OSError:
+                    continue
+    except OSError:
+        pass
+    return names
+
+
 def raw() -> dict:
     units = {unit.identity: unit for unit in P.work_units()}
     receipts = {}
     invalid = []
     missing = []
     checkpoint_mismatch = []
+    receipt_files = _regular_file_names(P.UNITS)
+    checkpoint_files = _regular_file_names(P.CHECKPOINTS)
     for identity, unit in units.items():
-        path = P.UNITS / f"{identity}.json"
-        checkpoint_path = P.CHECKPOINTS / f"{identity}.json"
-        if not path.is_file() or not checkpoint_path.is_file():
+        filename = f"{identity}.json"
+        if filename not in receipt_files or filename not in checkpoint_files:
             missing.append(identity)
             continue
+        path = P.UNITS / filename
+        checkpoint_path = P.CHECKPOINTS / filename
         try:
             receipt = json.loads(path.read_text())
             checkpoint = json.loads(checkpoint_path.read_text())
