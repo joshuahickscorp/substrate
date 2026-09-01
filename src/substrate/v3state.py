@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+
 from substrate.epistemology import Defeater, EpistemicBelief, EpistemicLedger
 from substrate.metacog import ReasoningPortfolio
 from substrate.ontology import ActiveOntology, Concept
@@ -13,6 +15,36 @@ from substrate.world import StructuralUnderstanding
 
 class Refused(RuntimeError):
     """An integrated operation violated history, state, or activation constraints."""
+
+
+try:
+    from json.encoder import c_make_encoder, encode_basestring_ascii
+except ImportError:  # pragma: no cover - alternate Python runtimes may omit the C accelerator.
+    _V3_STATE_ENCODER = None
+else:
+    _V3_STATE_ENCODER = (
+        c_make_encoder(None, str, encode_basestring_ascii, None, ":", ",", True, False, True)
+        if c_make_encoder is not None
+        else None
+    )
+
+
+def _semantic_state_hash(state: object) -> str:
+    """Hash semantic state with the stdlib C encoder without changing bytes.
+
+    The v3 state is JSON-shaped and acyclic by construction. Reusing the C
+    encoder avoids rebuilding its configuration for every checkpoint while
+    retaining the evidence layer's exact compact, sorted, ``default=str``
+    representation. A recursive or otherwise unsupported edge falls back to
+    the original path so its refusal semantics remain authoritative.
+    """
+    if _V3_STATE_ENCODER is None:
+        return sha_obj(state)
+    try:
+        payload = "".join(_V3_STATE_ENCODER(state, 0)).encode()
+    except RecursionError:
+        return sha_obj(state)
+    return hashlib.sha256(payload).hexdigest()
 
 
 ARM_FEATURES = {
@@ -340,7 +372,7 @@ class IntegratedEntity:
         }
 
     def identity_hash(self) -> str:
-        return sha_obj(self.semantic_state())
+        return _semantic_state_hash(self.semantic_state())
 
     def checkpoint(self) -> dict:
         state = self.semantic_state()
@@ -348,14 +380,14 @@ class IntegratedEntity:
             "schema": "substrate-v3-checkpoint/v1",
             "owned_identity": self.entity_id,
             "semantic_state": state,
-            "identity_hash": sha_obj(state),
+            "identity_hash": _semantic_state_hash(state),
             "activation": False,
         }
 
     @classmethod
     def restore(cls, checkpoint: dict) -> IntegratedEntity:
         state = checkpoint["semantic_state"]
-        if sha_obj(state) != checkpoint["identity_hash"] or checkpoint.get("activation") is not False:
+        if _semantic_state_hash(state) != checkpoint["identity_hash"] or checkpoint.get("activation") is not False:
             raise Refused("checkpoint identity or activation is invalid")
         entity = cls(state["arm"], entity_id=state["entity_id"], body=state["body"])
         entity.tools = list(state["tools"])

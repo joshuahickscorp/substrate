@@ -109,12 +109,25 @@ def test_integrated_checkpoint_exact_and_corruption_refused():
         for index in range(8):
             entity.experience(F.generate_task(101, family, index, "cheap_admission"))
     checkpoint = entity.checkpoint()
+    assert S._semantic_state_hash(checkpoint["semantic_state"]) == S.sha_obj(checkpoint["semantic_state"])
     restored = S.IntegratedEntity.restore(checkpoint)
     assert restored.identity_hash() == checkpoint["identity_hash"]
     corrupted = copy.deepcopy(checkpoint)
     corrupted["semantic_state"]["step"] += 1
     with pytest.raises(S.Refused):
         S.IntegratedEntity.restore(corrupted)
+
+
+def test_semantic_state_hash_preserves_circular_refusal():
+    cyclic = {}
+    cyclic["self"] = cyclic
+    with pytest.raises(ValueError, match="Circular reference"):
+        S._semantic_state_hash(cyclic)
+
+
+def test_semantic_state_hash_matches_canonical_bytes_for_unicode_and_scalars():
+    value = {"unicode": "naïve café", "tuple": (1, False, None), "float": 0.125}
+    assert S._semantic_state_hash(value) == S.sha_obj(value)
 
 
 def test_activation_is_false():
