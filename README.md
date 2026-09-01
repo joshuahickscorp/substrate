@@ -185,6 +185,12 @@ Representative local profiles for the pass were:
   behind the same bounded pure-function boundary; repeated verifier phase-19
   work moved from roughly 176 to 8 milliseconds locally with identical
   independently reconstructed receipt bytes.
+- Independent v5 regeneration now reuses immutable public-task, sensor-event,
+  environment-trace, request, and identity templates across arm evaluations
+  while returning fresh mutable shells and retaining live target-boundary and
+  append-order checks. In three paired fresh-process 72-unit same-history
+  verifier profiles, the median moved from 1.595115 to 1.174555 seconds
+  (about 26.4%) with exact raw-chain parity.
 - The Nous Closure pilot now disables the terminal v4-retention probe when its
   candidate-history reducer discards that field; the `phase_result` default
   remains enabled for callers that consume it. The representative pilot moved

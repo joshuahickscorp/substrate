@@ -9,6 +9,7 @@ import pytest
 from substrate import v5config as C
 from substrate import v5io as io
 from substrate import v5principal as P
+from substrate import v5sensorium as VS
 from substrate import v5verify as V
 
 
@@ -77,6 +78,62 @@ def test_v5_verifier_source_rebinding_preserves_mutation_isolation() -> None:
     rebound = V._source_bound_seal(sealed, ("e" * 40, "f" * 64))
     rebound["payload"]["items"][0]["value"] = 3
     assert sealed["payload"]["items"][0]["value"] == 1
+
+
+def test_v5_independent_cached_public_tasks_remain_isolated_between_callers() -> None:
+    first_identity, first_observation, first_target = V._independent_public_task(
+        "principal", 5_000, 0, 0
+    )
+    first_observation["modality_cues"]["text"] = 999.0
+    first_observation["mechanism_cues"]["model_fabric"] = 999.0
+    first_observation["modalities"].append("mutated")
+
+    second_identity, second_observation, second_target = V._independent_public_task(
+        "principal", 5_000, 0, 0
+    )
+    assert second_identity == first_identity
+    assert second_target == first_target
+    assert "mutated" not in second_observation["modalities"]
+    assert second_observation["modality_cues"]["text"] != 999.0
+    assert second_observation["mechanism_cues"]["model_fabric"] != 999.0
+
+
+def test_v5_independent_cached_sensor_events_retain_boundary_and_digest() -> None:
+    uncached = V._independent_sensor_event_uncached(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    first, first_digest = V._independent_sensor_event_with_digest(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    assert first == uncached
+    assert first_digest == VS.canonical_event_digest(uncached)
+
+    first.observation["target"] = True
+    with pytest.raises(VS.SensoriumError, match="hidden target authority"):
+        VS.Sensorium()._ingest_cached(first)
+
+    second, second_digest = V._independent_sensor_event_with_digest(
+        "task:sensor-cache",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    assert second is not first
+    assert second == uncached
+    assert second.observation["observable_cue"] == 0.25
+    assert second_digest == VS.canonical_event_digest(second)
 
 
 def test_v5_raw_verifier_loads_seals_and_regenerates_complete_chain(

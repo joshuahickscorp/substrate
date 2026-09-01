@@ -26,6 +26,7 @@ import tempfile
 from collections.abc import Callable, Iterable, Mapping, Sequence
 from functools import lru_cache
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 from substrate import v4config, v4io, v4principal
@@ -416,6 +417,25 @@ def _independent_sensor_reference(task_identity: str, modality: str) -> str:
     return f"generated://{_stable_digest((task_identity, modality))}"
 
 
+@lru_cache(maxsize=16384)
+def _independent_scoped_digest(identity: str, scope: str) -> str:
+    """Cache repeated two-part identities without caching mutable payloads."""
+
+    return _stable_digest((identity, scope))
+
+
+@lru_cache(maxsize=4096)
+def _independent_phase_artifact_digest(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    artifact: str,
+) -> str:
+    """Cache immutable phase-scoped artifact identities shared across arms."""
+
+    return _stable_digest((split, history_seed, phase_index, artifact))
+
+
 def _fraction(identity: str) -> float:
     value = struct.unpack(">Q", hashlib.sha256(identity.encode("utf-8")).digest()[:8])[0]
     return value / 0xFFFFFFFFFFFFFFFF
@@ -483,7 +503,8 @@ def _history_signed_fraction(split: str, history_seed: int, label: str) -> float
     return _signed_fraction(f"{split}:{history_seed}:{label}")
 
 
-def _independent_public_task(
+@lru_cache(maxsize=8192)
+def _independent_public_task_cached(
     split: str,
     history_seed: int,
     phase_index: int,
@@ -537,7 +558,51 @@ def _independent_public_task(
     return task_identity, observation, target
 
 
-def _independent_request(
+def _independent_public_task(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    episode_index: int,
+) -> tuple[str, dict[str, Any], int]:
+    """Return a fresh public-task envelope over a cached deterministic core."""
+
+    task_identity, observation, target = _independent_public_task_cached(
+        split,
+        history_seed,
+        phase_index,
+        episode_index,
+    )
+    # The cache owns its template. Keep arm histories and external callers
+    # isolated even though the generator body is evaluated only once per task.
+    return task_identity, {
+        **observation,
+        "modality_cues": dict(observation["modality_cues"]),
+        "mechanism_cues": dict(observation["mechanism_cues"]),
+        "modalities": list(observation["modalities"]),
+    }, target
+
+
+@lru_cache(maxsize=8192)
+def _independent_public_task_observation_digest(
+    split: str,
+    history_seed: int,
+    phase_index: int,
+    episode_index: int,
+) -> str:
+    """Digest the private deterministic task template once per task."""
+
+    return _stable_digest(
+        _independent_public_task_cached(
+            split,
+            history_seed,
+            phase_index,
+            episode_index,
+        )[1]
+    )
+
+
+@lru_cache(maxsize=4096)
+def _independent_request_cached(
     task_identity: str,
     modality: str,
     cue: float,
@@ -547,10 +612,26 @@ def _independent_request(
         task_id=_independent_request_task_id(task_identity, modality, role.value),
         operation="modality_classify",
         modality=_MODEL_MODALITY.get(modality, modality),
-        payload={"observable_cue": float(cue)},
+        payload=MappingProxyType({"observable_cue": float(cue)}),
         role=role,
         maximum_cost=10.0,
         maximum_latency_ms=100.0,
+    )
+
+
+def _independent_request(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    role: VM.ModelRole = VM.ModelRole.SPECIALIST,
+) -> VM.ModelRequest:
+    """Return an immutable cached request for the repeated public cue shape."""
+
+    return _independent_request_cached(
+        task_identity,
+        modality,
+        float(cue),
+        role,
     )
 
 
@@ -576,7 +657,7 @@ def _independent_call_row(
     }
 
 
-def _independent_sensor_event(
+def _independent_sensor_event_uncached(
     task_identity: str,
     modality: str,
     cue: float,
@@ -625,25 +706,91 @@ def _independent_sensor_event(
     )
 
 
-def _independent_environment_trace(
+@lru_cache(maxsize=65536)
+def _independent_sensor_event_template(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> tuple[VS.SensorEvent, str]:
+    """Cache immutable event structure and its deterministic receipt digest."""
+
+    event = _independent_sensor_event_uncached(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    return event, VS.canonical_event_digest(event)
+
+
+def _independent_sensor_event_with_digest(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> tuple[VS.SensorEvent, str]:
+    """Return a fresh mutable-observation event over a private template."""
+
+    template, digest = _independent_sensor_event_template(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    # SensorEvent is frozen, but its public observation mapping is intentionally
+    # mutable. The cached template has already passed __post_init__; copy only
+    # the event shell and mutable observation without revalidating immutable data.
+    return template._copy_with_observation(), digest
+
+
+def _independent_sensor_event(
+    task_identity: str,
+    modality: str,
+    cue: float,
+    phase_index: int,
+    episode_index: int,
+    model_identity: str,
+) -> VS.SensorEvent:
+    event, _ = _independent_sensor_event_with_digest(
+        task_identity,
+        modality,
+        cue,
+        phase_index,
+        episode_index,
+        model_identity,
+    )
+    return event
+
+
+@lru_cache(maxsize=4096)
+def _independent_environment_trace_cached(
     history_seed: int,
     phase_index: int,
-    arm: str,
+    active_perception_enabled: bool,
+    depth_enabled: bool,
 ) -> dict[str, Any]:
     modalities = _PHASE_MODALITIES[phase_index]
-    disabled = _ARM_DISABLED[arm]
     seed = history_seed * 100 + phase_index
     if "depth" in modalities or "three_d" in modalities or "body" in modalities:
         environment = VE.Simulator3DEnvironment(seed)
         observation = environment.observe()
         action = "wait"
-        if "active_perception" not in disabled and phase_index == 9:
+        if active_perception_enabled and phase_index == 9:
             observation, action_receipt = environment.step(
                 "rotate_view",
                 {"degrees": 20.0},
             )
             action = action_receipt.action
-        elif "depth" not in disabled and ("depth" in modalities or "three_d" in modalities):
+        elif depth_enabled and ("depth" in modalities or "three_d" in modalities):
             observation, action_receipt = environment.step("request_depth")
             action = action_receipt.action
         checkpoint = environment.checkpoint()
@@ -668,6 +815,22 @@ def _independent_environment_trace(
         "action": action_receipt.action,
         "activation": False,
     }
+
+
+def _independent_environment_trace(
+    history_seed: int,
+    phase_index: int,
+    arm: str,
+) -> dict[str, Any]:
+    disabled = _ARM_DISABLED[arm]
+    return dict(
+        _independent_environment_trace_cached(
+            history_seed,
+            phase_index,
+            "active_perception" not in disabled,
+            "depth" not in disabled,
+        )
+    )
 
 
 @lru_cache(maxsize=256)
@@ -820,7 +983,7 @@ def _independent_commit(
             routing, output = registry.execute_routed(request)
             routing_inputs.update(routing.inputs_used)
             routed = True
-        event = _independent_sensor_event(
+        event, sensor_digest = _independent_sensor_event_with_digest(
             task_identity,
             modality,
             cue,
@@ -828,7 +991,7 @@ def _independent_commit(
             episode_index,
             output.model_identity,
         )
-        sensor_digest = sensorium.ingest_and_digest(event)
+        sensorium._ingest_cached(event)
         sensor_event_digests.append(sensor_digest)
         mechanism = source.removeprefix("mechanism:")
         evidence_weight = (
@@ -853,7 +1016,7 @@ def _independent_commit(
         output = registry.invoke(
             "evidence_verifier",
             VM.ModelRequest(
-                _stable_digest((task_identity, "verification")),
+                _independent_scoped_digest(task_identity, "verification"),
                 "binary_verify",
                 "image",
                 {"fine_signal": float(observation["verification_cue"])},
@@ -929,7 +1092,7 @@ def _independent_commit(
         verifier = registry.invoke(
             "evidence_verifier",
             VM.ModelRequest(
-                _stable_digest((task_identity, "teacher-verification")),
+                _independent_scoped_digest(task_identity, "teacher-verification"),
                 "verify_candidate",
                 "image",
                 {
@@ -1040,9 +1203,14 @@ def _independent_episode(
         }
     )
     return {
-        "identity": _stable_digest((task_identity, arm)),
+        "identity": _independent_scoped_digest(task_identity, arm),
         "observation": observation,
-        "observation_digest": _stable_digest(observation),
+        "observation_digest": _independent_public_task_observation_digest(
+            split,
+            history_seed,
+            phase_index,
+            episode_index,
+        ),
         "commitment": commitment,
         "outcome": {
             "target": target,
@@ -1127,8 +1295,18 @@ def _independent_phase_result(
                 "provenance",
             ],
             "object_source_name": (f"generated-{split}-{history_seed}-phase{phase_index:02d}.bin"),
-            "clip_identity": _stable_digest((split, history_seed, phase_index, "clip")),
-            "scene_identity": _stable_digest((split, history_seed, phase_index, "scene")),
+            "clip_identity": _independent_phase_artifact_digest(
+                split,
+                history_seed,
+                phase_index,
+                "clip",
+            ),
+            "scene_identity": _independent_phase_artifact_digest(
+                split,
+                history_seed,
+                phase_index,
+                "scene",
+            ),
             "latest_available_frame": latest_frame,
             "commitment_frame": latest_frame,
             "audiovisual_offset": audiovisual_offset,
@@ -1172,6 +1350,7 @@ def _independent_phase_result(
     }
 
 
+@lru_cache(maxsize=4096)
 def _independent_history_identity(
     split: str,
     history_seed: int,
