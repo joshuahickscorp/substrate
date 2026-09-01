@@ -179,9 +179,6 @@ def _query_and_target(
     rng: random.Random,
 ) -> tuple[dict, object, str]:
     nodes = sorted(mapping)
-    roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
-    source, consequence = _source_and_consequence(edges)
-    scope = _topology_scope(mapping, constraints)
     if family == "causal_systems":
         intervention_node = rng.choice(nodes)
         query = {
@@ -193,23 +190,28 @@ def _query_and_target(
         target = sorted(mapping[node] for node in _closure_edges({intervention_node}, edges))
         operation = "do intervention with descendants and nondescendants"
     elif family == "dynamic_transition_systems":
+        roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
         active_node = rng.choice(roots or nodes)
         query = {"kind": "prediction", "active": [mapping[active_node]], "horizon": 3}
         target = sorted(mapping[node] for node in _closure_edges({active_node}, edges))
         operation = "typed transition rollout"
     elif family == "cross_representation_isomorphisms":
+        roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
         active_node = rng.choice(roots or nodes)
         query = {"kind": "alignment", "active": [mapping[active_node]], "transfer_operation": "predict causal closure"}
         target = sorted(mapping[node] for node in _closure_edges({active_node}, edges))
         operation = "constraint inferred representation alignment"
     elif family == "mechanism_diagnosis":
+        source, consequence = _source_and_consequence(edges)
         if rng.random() < 0.5:
             query = {"kind": "diagnosis", "active": [], "observed": mapping[consequence]}
+            roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
             target = sorted(mapping[node] for node in roots if consequence in _closure_edges({node}, edges))
             operation = "root cause diagnosis"
         else:
             path = _path(edges, source, consequence)
             surface_path = [mapping[node] for node in path]
+            scope = _topology_scope(mapping, constraints)
             query = {"kind": "explanation", "start": mapping[source], "consequence": mapping[consequence]}
             target = {
                 "premises": [mapping[source]],
@@ -222,6 +224,7 @@ def _query_and_target(
             }
             operation = "executed structural explanation"
     elif family == "counterfactual_planning":
+        roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
         background_root = rng.choice(roots or nodes)
         factual = _closure_edges({background_root}, edges)
         changed = rng.choice(sorted(factual - {background_root}) or [background_root])
@@ -257,12 +260,15 @@ def _query_and_target(
         target = "intervene_discriminating"
         operation = "cost adjusted structural discrimination"
     elif family == "ontology_structure_conflict":
+        roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
         active_node = rng.choice(roots or nodes)
         query = {"kind": "prediction", "active": [mapping[active_node]], "exception_declared": True}
         target = sorted(mapping[node] for node in _closure_edges({active_node}, edges))
         operation = "evidence triggered structural revision"
     else:
+        source, consequence = _source_and_consequence(edges)
         if rng.random() < 0.5:
+            roots = sorted(node for node in nodes if not any(target == node for _, target in edges))
             active_node = rng.choice(roots or nodes)
             query = {"kind": "alignment", "active": [mapping[active_node]], "interrupted": True}
             target = sorted(mapping[node] for node in _closure_edges({active_node}, edges))
@@ -270,6 +276,7 @@ def _query_and_target(
         else:
             path = _path(edges, source, consequence)
             surface_path = [mapping[node] for node in path]
+            scope = _topology_scope(mapping, constraints)
             query = {"kind": "explanation", "start": mapping[source], "consequence": mapping[consequence], "interrupted": True}
             target = {
                 "premises": [mapping[source]],

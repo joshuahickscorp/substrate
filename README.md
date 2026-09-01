@@ -293,6 +293,11 @@ Representative local profiles for the pass were:
   and are detached before returning to callers. Across five fresh-process
   14-arm evaluations, median wall time moved from 1.315786 to 1.261848 seconds
   (about 4.1%); task identity and mutable-output isolation remain explicit.
+- v4 task-target generation now computes topology roots, causal endpoints, and
+  canonical scope only for workload branches that consume them. In a matched
+  five-round mixed-family profile of 1,000 uncached tasks per round, median wall
+  time moved from 0.063891 to 0.046388 seconds (about 27.4%); a 2,400-case
+  cross-split, cross-family output-parity matrix remains exact.
 
 These are bounded local profiles, not claims about campaign-scale throughput;
 the source, seal, and state-isolation boundaries remain explicit.
