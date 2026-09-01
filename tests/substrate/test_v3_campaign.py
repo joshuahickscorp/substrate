@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 from substrate import v3config as C
 from substrate import v3principal as P
 from substrate import v3state as S
@@ -23,6 +25,34 @@ def test_work_unit_plan_is_cached_as_frozen_units():
     second = P.work_units()
     assert first is second
     assert all(unit.__dataclass_params__.frozen for unit in first)
+
+
+def test_principal_manifest_parser_reuses_unchanged_bytes():
+    P._parse_manifest.cache_clear()
+
+    first = P._load_manifest()
+    second = P._load_manifest()
+
+    assert first is second
+    assert P._parse_manifest.cache_info().hits == 1
+    P._parse_manifest.cache_clear()
+
+
+def test_principal_manifest_parser_rechecks_changed_bytes():
+    P._parse_manifest.cache_clear()
+    raw = P.MANIFEST.read_bytes()
+    P._parse_manifest(raw)
+    tampered = json.loads(raw)
+    tampered["activation"] = True
+
+    try:
+        P._parse_manifest(json.dumps(tampered).encode())
+    except P.io.Refused:
+        pass
+    else:
+        raise AssertionError("changed manifest bytes bypassed the seal check")
+    finally:
+        P._parse_manifest.cache_clear()
 
 
 def test_source_ref_parser_requires_two_real_commit_lines():

@@ -343,12 +343,17 @@ def freeze() -> dict:
     return {"manifest": document, "authority": authority, "resources": resource_plan}
 
 
-def _load_manifest() -> dict:
-    document = json.loads(MANIFEST.read_text())
+@lru_cache(maxsize=1)
+def _parse_manifest(raw: bytes) -> dict:
+    document = json.loads(raw)
     expected = io.sha_obj({key: value for key, value in document.items() if key != "sha256"})
     if document.get("sha256") != expected or document.get("activation") is not False:
         raise io.Refused("principal manifest seal invalid")
     return document
+
+
+def _load_manifest() -> dict:
+    return _parse_manifest(MANIFEST.read_bytes())
 
 
 def _commit_line(value: str) -> bool:
