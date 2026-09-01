@@ -9,6 +9,7 @@ import subprocess
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 
 from substrate import v2config, v2fabric, v2state
 from substrate import v3config as C
@@ -76,6 +77,7 @@ def _unit(seed: int, arm: str, split: str, shard: int, body: str = "general") ->
     )
 
 
+@lru_cache(maxsize=1)
 def work_units() -> tuple[WorkUnit, ...]:
     units = []
     for seed in C.SPLITS["principal"]:

@@ -18,6 +18,13 @@ def test_principal_dag_is_unique_and_nous_scale():
     assert manifest["unique_identities"]
 
 
+def test_work_unit_plan_is_cached_as_frozen_units():
+    first = P.work_units()
+    second = P.work_units()
+    assert first is second
+    assert all(unit.__dataclass_params__.frozen for unit in first)
+
+
 def test_source_ref_parser_requires_two_real_commit_lines():
     head = "a" * 40
     ready = "b" * 40
