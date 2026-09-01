@@ -150,6 +150,12 @@ Representative local profiles for the pass were:
   event again for the aggregate receipt. Representative full-v5 phase 19
   execution moved from roughly 11.3 to 8.5 milliseconds across this pass, with
   exact output parity across the sampled phases.
+- Cached frozen-v5 sensor events now recheck the mutable observation target
+  boundary while skipping repeated serialization of their already-validated
+  empty typed layers. In a fresh 8-history, 14-arm matched evaluation, wall
+  time moved from about 5.99 to 5.74 seconds with the exact table digest
+  unchanged; events containing optional typed layers retain the full ingest
+  path.
 - The default model fabric now caches its immutable contract and relationship
   definitions while still creating fresh per-registry modules, preserving
   isolated call counts. Registry construction moved from roughly 52 to 3

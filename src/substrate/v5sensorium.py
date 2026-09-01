@@ -529,6 +529,32 @@ class Sensorium:
         event.public_observation()
         self._append_validated(event)
 
+    def _ingest_cached(self, event: SensorEvent) -> None:
+        """Ingest an event copied from a validated empty-layer template.
+
+        The v5 frozen generator copies only the mutable observation mapping
+        from a cached ``SensorEvent``.  Rebuilding the complete public
+        serialization for every such event repeats validation of immutable
+        layers and their empty projections.  Recheck the mutable target
+        boundary, then retain the same append-time ordering checks; events
+        carrying optional typed layers stay on the full public path.
+        """
+
+        if (
+            event.proposals
+            or event.tracked_entities
+            or event.inferred_events
+            or event.verified_relations
+            or event.structural_beliefs
+            or event.knowledge
+        ):
+            self.ingest(event)
+            return
+        leaked = _hidden_mapping_keys(event.observation)
+        if leaked:
+            raise SensoriumError(f"hidden target authority leaked during cached ingest: {sorted(leaked)}")
+        self._append_validated(event)
+
     def ingest_and_digest(self, event: SensorEvent) -> str:
         """Validate, append, and digest one event without rebuilding its body."""
 

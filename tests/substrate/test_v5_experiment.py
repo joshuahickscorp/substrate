@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
 from substrate import v5config as C
 from substrate import v5experiment as E
 from substrate import v5sensorium as sensors
@@ -106,6 +108,20 @@ def test_v5_cached_sensor_events_remain_isolated_and_digest_exact() -> None:
     assert second == uncached
     assert second.observation["observable_cue"] == 0.25
     assert second_digest == sensors.canonical_event_digest(second)
+
+
+def test_v5_cached_ingest_rechecks_mutable_target_boundary() -> None:
+    event, _ = E._sensor_event_with_digest(
+        "task:cached-ingest",
+        "text",
+        0.25,
+        2,
+        4,
+        "model:text-specialist:v5",
+    )
+    event.observation["target"] = True
+    with pytest.raises(sensors.SensoriumError, match="hidden target authority"):
+        sensors.Sensorium()._ingest_cached(event)
 
 
 def test_v5_terminal_retention_is_default_but_explicitly_optional() -> None:
