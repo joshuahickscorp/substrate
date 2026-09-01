@@ -9,13 +9,14 @@ implement the same ``invoke`` contract.
 from __future__ import annotations
 
 import hashlib
-import json
 import math
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 from functools import lru_cache
 from typing import Any, Protocol, cast
+
+from substrate import v5io as io
 
 
 class ModelContractError(ValueError):
@@ -376,8 +377,7 @@ class ModelRegistry:
 
 
 def _stable_digest(value: object) -> str:
-    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode()
-    return hashlib.sha256(encoded).hexdigest()
+    return hashlib.sha256(io.stable_json(value)).hexdigest()
 
 
 def _default_evaluator(request: ModelRequest, contract: ModelContract) -> tuple[Any, float, tuple[str, ...]]:

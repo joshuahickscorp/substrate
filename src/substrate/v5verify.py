@@ -196,11 +196,6 @@ _PRIMARY_MECHANISMS = frozenset(
 _VIDEO_CAPABILITIES = frozenset({"video_state", "motion", "event_model"})
 _DEPTH_CAPABILITIES = frozenset({"depth", "spatial", "three_d"})
 _COMMIT_SINGLE_CAPABILITIES = frozenset({"cross_modal_binding", "integrated_state"})
-_STABLE_JSON_ENCODER = json.JSONEncoder(
-    sort_keys=True,
-    separators=(",", ":"),
-    default=str,
-)
 _ARM_DISABLED: dict[str, frozenset[str]] = {
     "full_v5": frozenset(),
     "v4_cognitive_core_control": _CAPABILITIES - frozenset({"structured_state", "persistence", "auditability", "recovery"}),
@@ -381,8 +376,7 @@ def _relative(unit: P.WorkUnit, family: str) -> str:
 
 
 def _stable_digest(value: Any) -> str:
-    payload = _STABLE_JSON_ENCODER.encode(value).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
+    return hashlib.sha256(io.stable_json(value)).hexdigest()
 
 
 @lru_cache(maxsize=4096)
@@ -568,7 +562,7 @@ def _independent_sensor_event(
         "phase_index": phase_index,
         "episode_index": episode_index,
     }
-    payload = _STABLE_JSON_ENCODER.encode(public).encode("utf-8")
+    payload = io.stable_json(public)
     reference = _independent_sensor_reference(task_identity, modality)
     raw_signal = VS.raw_signal(
         reference,

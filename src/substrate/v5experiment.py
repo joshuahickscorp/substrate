@@ -9,7 +9,6 @@ available public evidence; no arm is assigned a success probability.
 from __future__ import annotations
 
 import hashlib
-import json
 import statistics
 import struct
 from functools import lru_cache
@@ -17,6 +16,7 @@ from typing import Any
 
 from substrate import v5config as C
 from substrate import v5environment as environments
+from substrate import v5io as io
 from substrate import v5models as models
 from substrate import v5sensorium as sensors
 
@@ -222,12 +222,6 @@ _PHASE_HAS_AUDIO_VIDEO = tuple(
     "audio" in modalities and "video" in modalities
     for modalities in PHASE_MODALITIES
 )
-_CANONICAL_JSON_ENCODER = json.JSONEncoder(
-    sort_keys=True,
-    separators=(",", ":"),
-    default=str,
-)
-
 _MODEL_FOR_MODALITY = {
     "text": "language_interpreter",
     "image": "image_object_detector",
@@ -270,7 +264,7 @@ def _signed_fraction(identity: str) -> float:
 
 
 def _digest(value: object) -> str:
-    payload = _CANONICAL_JSON_ENCODER.encode(value).encode("utf-8")
+    payload = io.stable_json(value)
     return hashlib.sha256(payload).hexdigest()
 
 
@@ -379,7 +373,7 @@ def _sensor_event(
         "phase_index": phase_index,
         "episode_index": episode_index,
     }
-    payload = _CANONICAL_JSON_ENCODER.encode(public).encode("utf-8")
+    payload = io.stable_json(public)
     reference = _sensor_reference(task_identity, modality)
     raw = sensors.raw_signal(reference, payload, "application/json")
     preprocessed = sensors.PreprocessedSignal(

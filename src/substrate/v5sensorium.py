@@ -9,18 +9,13 @@ from __future__ import annotations
 
 import copy
 import hashlib
-import json
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
 from enum import StrEnum
 from typing import Any, cast
 
-_CANONICAL_JSON_ENCODER = json.JSONEncoder(
-    sort_keys=True,
-    separators=(",", ":"),
-    default=str,
-)
+from substrate import v5io as io
 
 
 class SensoriumError(ValueError):
@@ -1210,8 +1205,7 @@ def canonical_event_digest(event: SensorEvent) -> str:
 
 
 def _canonical_observation_digest(body: Mapping[str, Any]) -> str:
-    encoded = _CANONICAL_JSON_ENCODER.encode(body).encode()
-    return hashlib.sha256(encoded).hexdigest()
+    return hashlib.sha256(io.stable_json(body)).hexdigest()
 
 
 __all__ = [

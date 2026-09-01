@@ -20,12 +20,18 @@ from typing import Any, cast
 from substrate import evidence as v1
 
 try:
-    from json.encoder import c_make_encoder, encode_basestring
+    from json.encoder import c_make_encoder, encode_basestring, encode_basestring_ascii
 except ImportError:  # pragma: no cover - the fallback is for non-CPython runtimes.
     _CANONICAL_JSON_ENCODER = None
+    _STABLE_JSON_ENCODER = None
 else:
     _CANONICAL_JSON_ENCODER = (
         c_make_encoder(None, None, encode_basestring, None, ":", ",", True, False, False)
+        if c_make_encoder is not None
+        else None
+    )
+    _STABLE_JSON_ENCODER = (
+        c_make_encoder(None, str, encode_basestring_ascii, None, ":", ",", True, False, True)
         if c_make_encoder is not None
         else None
     )
@@ -117,6 +123,39 @@ def sha_bytes(payload: bytes) -> str:
 
 def sha_obj(value: Any) -> str:
     return sha_bytes(canonical_json(value))
+
+
+def stable_json(value: Any) -> bytes:
+    """Encode the legacy stable digest form used by computational fixtures.
+
+    This is intentionally distinct from :func:`canonical_json`: the legacy
+    fixture digests use ``default=str``, escaped non-ASCII text, and permit
+    JSON's non-finite float spellings.  The C encoder emits the same bytes;
+    the reference encoder remains the cycle-refusal fallback.
+    """
+
+    if _STABLE_JSON_ENCODER is not None:
+        try:
+            encoded = "".join(_STABLE_JSON_ENCODER(value, 0))
+        except RecursionError:
+            encoded = json.dumps(
+                value,
+                allow_nan=True,
+                ensure_ascii=True,
+                separators=(",", ":"),
+                sort_keys=True,
+                default=str,
+            )
+    else:
+        encoded = json.dumps(
+            value,
+            allow_nan=True,
+            ensure_ascii=True,
+            separators=(",", ":"),
+            sort_keys=True,
+            default=str,
+        )
+    return encoded.encode("utf-8")
 
 
 @lru_cache(maxsize=1)

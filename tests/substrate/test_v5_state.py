@@ -94,6 +94,24 @@ def test_v5_canonical_json_fast_encoder_preserves_cycle_refusal() -> None:
         io.canonical_json(cyclic)
 
 
+def test_v5_stable_json_preserves_legacy_digest_bytes_and_cycle_refusal() -> None:
+    value = {"unicode": "naïve café", "tuple": (1, 2.0), "nan": math.nan}
+    expected = json.dumps(
+        value,
+        allow_nan=True,
+        ensure_ascii=True,
+        separators=(",", ":"),
+        sort_keys=True,
+        default=str,
+    ).encode("utf-8")
+    assert io.stable_json(value) == expected
+
+    cyclic = {}
+    cyclic["self"] = cyclic
+    with pytest.raises(ValueError, match="Circular reference detected"):
+        io.stable_json(cyclic)
+
+
 def test_normalized_seal_matches_general_seal_and_falls_back_for_tuples() -> None:
     document = {"payload": {"items": [1, 2, 3]}, "activation": False}
     expected = io.sealed_document(document)

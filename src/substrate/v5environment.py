@@ -15,6 +15,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
 
+from substrate import v5io as io
 from substrate.v5sensorium import Modality, SensoriumError, Vec3
 
 
@@ -23,8 +24,7 @@ class EnvironmentError(ValueError):
 
 
 def _digest(*parts: object) -> str:
-    payload = json.dumps(parts, sort_keys=True, separators=(",", ":"), default=str).encode()
-    return hashlib.sha256(payload).hexdigest()
+    return hashlib.sha256(io.stable_json(parts)).hexdigest()
 
 
 def _assert_no_hidden_ids(value: object) -> None:
