@@ -19,6 +19,17 @@ from typing import Any, cast
 
 from substrate import evidence as v1
 
+try:
+    from json.encoder import c_make_encoder, encode_basestring
+except ImportError:  # pragma: no cover - the fallback is for non-CPython runtimes.
+    _CANONICAL_JSON_ENCODER = None
+else:
+    _CANONICAL_JSON_ENCODER = (
+        c_make_encoder(None, None, encode_basestring, None, ":", ",", True, False, False)
+        if c_make_encoder is not None
+        else None
+    )
+
 ROOT = v1.ROOT
 EVIDENCE = ROOT / "evidence" / "substrate" / "v5"
 RUNS = ROOT / "runs" / "substrate" / "v5"
@@ -74,16 +85,28 @@ def canonical_json(value: Any) -> bytes:
     """
 
     try:
-        return (
-            json.dumps(
+        if _CANONICAL_JSON_ENCODER is not None:
+            try:
+                encoded = "".join(_CANONICAL_JSON_ENCODER(value, 0))
+            except RecursionError:
+                # The no-marker C fast path does not detect cycles early. Let
+                # the reference encoder preserve its ValueError refusal.
+                encoded = json.dumps(
+                    value,
+                    allow_nan=False,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                )
+        else:
+            encoded = json.dumps(
                 value,
                 allow_nan=False,
                 ensure_ascii=False,
                 separators=(",", ":"),
                 sort_keys=True,
             )
-            + "\n"
-        ).encode("utf-8")
+        return (encoded + "\n").encode("utf-8")
     except (TypeError, ValueError) as error:
         raise Refused(f"value is not finite canonical JSON: {error}") from error
 

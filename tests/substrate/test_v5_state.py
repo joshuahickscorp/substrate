@@ -87,6 +87,13 @@ def test_v5_canonical_json_keeps_legacy_bytes_and_rejects_nonfinite_values() -> 
         io.canonical_json({"not_a_number": math.nan})
 
 
+def test_v5_canonical_json_fast_encoder_preserves_cycle_refusal() -> None:
+    cyclic = {}
+    cyclic["self"] = cyclic
+    with pytest.raises(io.Refused, match="finite canonical JSON"):
+        io.canonical_json(cyclic)
+
+
 def test_normalized_seal_matches_general_seal_and_falls_back_for_tuples() -> None:
     document = {"payload": {"items": [1, 2, 3]}, "activation": False}
     expected = io.sealed_document(document)
