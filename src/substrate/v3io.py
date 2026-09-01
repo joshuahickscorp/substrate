@@ -52,12 +52,23 @@ def commit() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
+def _source_paths(roots: tuple[Path, ...]) -> list[Path]:
+    paths = []
+    for source_root in roots:
+        for directory, dirnames, filenames in os.walk(source_root):
+            paths.extend(
+                Path(directory) / name
+                for name in (*dirnames, *filenames)
+                if name.endswith(".py")
+            )
+    return sorted(paths)
+
+
 def source_inventory() -> dict[str, str]:
     roots = (ROOT / "src" / "substrate", ROOT / "tests" / "substrate")
     return {
         path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-        for source_root in roots
-        for path in sorted(source_root.rglob("*.py"))
+        for path in _source_paths(roots)
     }
 
 
