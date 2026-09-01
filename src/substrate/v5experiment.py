@@ -512,25 +512,26 @@ def _sensor_event(
     return event
 
 
-def _environment_trace(
+@lru_cache(maxsize=4096)
+def _environment_trace_cached(
     history_seed: int,
     phase_index: int,
-    arm: str,
+    active_perception_enabled: bool,
+    depth_enabled: bool,
 ) -> dict[str, Any]:
     modalities = PHASE_MODALITIES[phase_index]
-    disabled = ARM_DISABLED[arm]
     seed = history_seed * 100 + phase_index
     if "depth" in modalities or "three_d" in modalities or "body" in modalities:
         environment = environments.Simulator3DEnvironment(seed)
         observation = environment.observe()
         action = "wait"
-        if "active_perception" not in disabled and phase_index == 9:
+        if active_perception_enabled and phase_index == 9:
             observation, receipt = environment.step(
                 "rotate_view",
                 {"degrees": 20.0},
             )
             action = receipt.action
-        elif "depth" not in disabled and ("depth" in modalities or "three_d" in modalities):
+        elif depth_enabled and ("depth" in modalities or "three_d" in modalities):
             observation, receipt = environment.step("request_depth")
             action = receipt.action
         checkpoint = environment.checkpoint()
@@ -555,6 +556,22 @@ def _environment_trace(
         "action": receipt.action,
         "activation": False,
     }
+
+
+def _environment_trace(
+    history_seed: int,
+    phase_index: int,
+    arm: str,
+) -> dict[str, Any]:
+    disabled = ARM_DISABLED[arm]
+    return dict(
+        _environment_trace_cached(
+            history_seed,
+            phase_index,
+            "active_perception" not in disabled,
+            "depth" not in disabled,
+        )
+    )
 
 
 @lru_cache(maxsize=256)
