@@ -2154,6 +2154,34 @@ def _independent_expected(
     )
 
 
+def _independent_expected_group(
+    arguments: tuple[
+        tuple[
+            P.WorkUnit,
+            Mapping[str, Any] | None,
+            tuple[str, str] | None,
+        ],
+        ...,
+    ],
+) -> tuple[tuple[dict[str, Any], dict[str, Any]], ...]:
+    """Regenerate one shard's arms together to maximize deterministic reuse.
+
+    Arms in a history share the public task stream and most immutable artifact
+    identities. Keeping that fan-out in one process lets the existing bounded
+    caches share those values without changing the arm-specific execution or
+    the predecessor checkpoint supplied by the parent verifier.
+    """
+
+    return tuple(
+        _independent_execute_unit(
+            unit,
+            predecessor,
+            source_identity=source_identity,
+        )
+        for unit, predecessor, source_identity in arguments
+    )
+
+
 def _load_independent_artifact(
     unit: P.WorkUnit,
 ) -> tuple[
@@ -2295,30 +2323,51 @@ def raw(
             ]
             if not jobs:
                 continue
-            expected_results = (
-                executor.map(_independent_expected, jobs, chunksize=32)
-                if executor is not None
-                else map(_independent_expected, jobs)
-            )
-            for job, (expected_receipt, expected_checkpoint) in zip(
-                jobs,
-                expected_results,
-                strict=True,
-            ):
-                unit, predecessor, _ = job
-                receipt, checkpoint = loaded[unit.identity]
-                errors = _pair_errors(
-                    receipt,
-                    checkpoint,
-                    unit,
-                    expected_receipt,
-                    expected_checkpoint,
-                    predecessor,
-                    validated_entity=validated_entities.get(unit.identity),
+            if executor is None:
+                expected_groups = ((job, _independent_expected(job)) for job in jobs)
+            else:
+                # One worker owns all arms for one history/shard. This preserves
+                # the shard wave while keeping shared deterministic task,
+                # environment, request, and sensor caches hot across arms.
+                grouped: dict[tuple[str, int], list[tuple[P.WorkUnit, Mapping[str, Any] | None, tuple[str, str] | None]]] = {}
+                for job in jobs:
+                    unit = job[0]
+                    grouped.setdefault((unit.split, unit.history_seed), []).append(job)
+                expected_groups = (
+                    (job_group, expected_results)
+                    for job_group, expected_results in zip(
+                        grouped.values(),
+                        executor.map(
+                            _independent_expected_group,
+                            tuple(tuple(group) for group in grouped.values()),
+                            chunksize=1,
+                        ),
+                        strict=True,
+                    )
                 )
-                pair_results[unit.identity] = (receipt, checkpoint, errors)
-                if not errors:
-                    predecessors[(unit.split, unit.history_seed, unit.arm)] = checkpoint
+            for job_group, expected_results in expected_groups:
+                if executor is None:
+                    job_group = (job_group,)
+                    expected_results = (expected_results,)
+                for job, (expected_receipt, expected_checkpoint) in zip(
+                    job_group,
+                    expected_results,
+                    strict=True,
+                ):
+                    unit, predecessor, _ = job
+                    receipt, checkpoint = loaded[unit.identity]
+                    errors = _pair_errors(
+                        receipt,
+                        checkpoint,
+                        unit,
+                        expected_receipt,
+                        expected_checkpoint,
+                        predecessor,
+                        validated_entity=validated_entities.get(unit.identity),
+                    )
+                    pair_results[unit.identity] = (receipt, checkpoint, errors)
+                    if not errors:
+                        predecessors[(unit.split, unit.history_seed, unit.arm)] = checkpoint
     finally:
         if executor is not None:
             executor.shutdown()
