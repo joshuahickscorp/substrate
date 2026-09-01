@@ -197,6 +197,11 @@ Representative local profiles for the pass were:
   regenerated receipts and valid checkpoint chains, versus a 53.2-second
   pre-fast-path profile; this is a local wall-clock observation, not a hardware
   throughput claim.
+- Independent v5 unit regeneration now creates one fresh model registry per
+  five-phase unit instead of one per phase, reducing that construction boundary
+  5× while keeping module call counts isolated between units. A post-change
+  full raw audit still regenerated 5,760/5,760 units exactly with valid chains;
+  wall-clock comparisons remain host-dependent.
 - The Nous Closure pilot now disables the terminal v4-retention probe when its
   candidate-history reducer discards that field; the `phase_result` default
   remains enabled for callers that consume it. The representative pilot moved

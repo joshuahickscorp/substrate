@@ -1236,9 +1236,10 @@ def _independent_phase_result(
     arm: str,
     phase_index: int,
     development_state: Mapping[str, Any] | None = None,
+    registry: VM.ModelRegistry | None = None,
 ) -> dict[str, Any]:
     state = dict(development_state or {})
-    registry = VM.default_model_registry()
+    registry = registry or VM.default_model_registry()
     rows = [
         _independent_episode(
             split=split,
@@ -1631,6 +1632,7 @@ def _independent_execute_unit(
         )
     )
     development_state = dict(predecessor["state"].get("development_state", {})) if predecessor else {}
+    registry = VM.default_model_registry()
     phases = []
     for index in phase_indices:
         phase = _independent_phase_result(
@@ -1639,6 +1641,7 @@ def _independent_execute_unit(
             arm=unit.arm,
             phase_index=index,
             development_state=development_state,
+            registry=registry,
         )
         phases.append(phase)
         development_state = dict(phase["development_update"])
