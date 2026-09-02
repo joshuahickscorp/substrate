@@ -219,6 +219,22 @@ def test_v5_io_is_atomic_content_addressed_and_fail_closed(
     with pytest.raises(io.Refused, match="outside"):
         io.publish_json(tmp_path / "escape.json", {"activation": False})
 
+    nested_active = {
+        "program": io.PROGRAM,
+        "source_commit": "0" * 40,
+        "source_digest": "0" * 64,
+        "activation": False,
+        "payload": {"activation": True},
+    }
+    nested_active["sha256"] = io.sha_obj(
+        {key: value for key, value in nested_active.items() if key != "sha256"}
+    )
+    nested_active_path = root / "receipts" / "nested-active.json"
+    nested_active_path.parent.mkdir(parents=True, exist_ok=True)
+    nested_active_path.write_bytes(io.canonical_json(nested_active))
+    with pytest.raises(io.Refused, match="activation"):
+        io.load_json(nested_active_path)
+
     corrupt = copy.deepcopy(loaded)
     corrupt["value"].append(9)
     io.atomic_write(path, io.canonical_json(corrupt).decode())

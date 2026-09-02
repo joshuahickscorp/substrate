@@ -425,6 +425,11 @@ def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     for key, value in pairs:
         if key in result:
             raise Refused(f"duplicate JSON key {key!r}")
+        if key == "activation" and value is not False:
+            # object_pairs_hook visits every object while the parser is
+            # already constructing it. Enforce the recursive activation
+            # boundary here so load_json does not need a second full-tree walk.
+            raise Refused("v5 activation must remain exactly false")
         result[key] = value
     return result
 
@@ -446,7 +451,11 @@ def load_json(path: Path) -> dict[str, JSONValue]:
     # once just to rediscover facts guaranteed by this parser boundary.
     if not isinstance(value, dict):
         raise Refused("sealed JSON is not an object")
-    return _validate_normalized_seal(value)
+    # The parser hook has already checked every activation key, including
+    # nested keys, while also rejecting duplicate object members. Skip the
+    # now-redundant recursive activation traversal; seal and source identity
+    # validation remain unchanged.
+    return _validate_normalized_seal(value, check_activation=False)
 
 
 def seal(name: str, document: dict[str, Any], *, artifact: bool = False) -> Path:
