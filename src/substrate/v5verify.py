@@ -891,6 +891,29 @@ def _independent_v4_retention(
     return dict(_independent_v4_retention_cached(split, history_seed))
 
 
+@lru_cache(maxsize=1)
+def _independent_default_model_registry() -> VM.ModelRegistry:
+    """Reuse the stateless deterministic model fabric within one verifier process."""
+
+    return VM.default_model_registry()
+
+
+def _independent_forced_model_request(request: VM.ModelRequest) -> VM.ModelRequest:
+    """Use the universal independent role when bypassing the router."""
+
+    return VM.ModelRequest(
+        request.task_id,
+        request.operation,
+        request.modality,
+        request.payload,
+        VM.ModelRole.INDEPENDENT_PERFORMER,
+        request.minimum_confidence,
+        request.maximum_cost,
+        request.maximum_latency_ms,
+        request.privacy,
+    )
+
+
 @lru_cache(maxsize=256)
 def _independent_commit_plan(
     arm: str,
@@ -970,32 +993,15 @@ def _independent_commit(
         if "model_fabric" in disabled:
             output = registry.invoke(
                 "cross_modal_binder",
-                VM.ModelRequest(
-                    request.task_id,
-                    request.operation,
-                    request.modality,
-                    request.payload,
-                    maximum_cost=10.0,
-                    maximum_latency_ms=100.0,
-                ),
+                _independent_forced_model_request(request),
             )
         elif arm == "largest_model_always":
             output = registry.invoke(
                 "evidence_verifier",
-                VM.ModelRequest(
-                    request.task_id,
-                    request.operation,
-                    request.modality,
-                    request.payload,
-                    maximum_cost=10.0,
-                    maximum_latency_ms=100.0,
-                ),
+                _independent_forced_model_request(request),
             )
         elif "model_routing" in disabled:
-            output = registry.invoke(
-                _MODEL_FOR_MODALITY[modality],
-                request,
-            )
+            output = registry.invoke(_MODEL_FOR_MODALITY[modality], request)
         else:
             routing, output = registry.execute_routed(request)
             routing_inputs.update(routing.inputs_used)
@@ -1632,12 +1638,13 @@ def _independent_project_phase(
         )
 
 
-def _independent_execute_unit(
+def _independent_execute_unit_internal(
     unit: P.WorkUnit,
     predecessor: Mapping[str, Any] | None = None,
     *,
     source_identity: tuple[str, str] | None = None,
-) -> tuple[dict[str, Any], dict[str, Any]]:
+    predecessor_entity: VST.PermanentEntity | None = None,
+) -> tuple[dict[str, Any], dict[str, Any], VST.PermanentEntity]:
     phase_indices = tuple(
         range(
             unit.shard * P.PHASES_PER_SHARD,
@@ -1645,7 +1652,7 @@ def _independent_execute_unit(
         )
     )
     development_state = dict(predecessor["state"].get("development_state", {})) if predecessor else {}
-    registry = VM.default_model_registry()
+    registry = _independent_default_model_registry()
     phases = []
     for index in phase_indices:
         phase = _independent_phase_result(
@@ -1658,7 +1665,11 @@ def _independent_execute_unit(
         )
         phases.append(phase)
         development_state = dict(phase["development_update"])
-    entity = _independent_restore_entity(unit, predecessor)
+    entity = (
+        predecessor_entity
+        if predecessor_entity is not None and unit.arm != "fresh_reset"
+        else _independent_restore_entity(unit, predecessor)
+    )
     for phase in phases:
         _independent_project_phase(entity, unit, phase)
     if predecessor is None:
@@ -1765,6 +1776,22 @@ def _independent_execute_unit(
         "permanent_entity_checkpoint_sha256": entity_checkpoint["sha256"],
         "activation": False,
     }
+    return receipt, checkpoint, entity
+
+
+def _independent_execute_unit(
+    unit: P.WorkUnit,
+    predecessor: Mapping[str, Any] | None = None,
+    *,
+    source_identity: tuple[str, str] | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Regenerate one unit while retaining the historical two-result API."""
+
+    receipt, checkpoint, _entity = _independent_execute_unit_internal(
+        unit,
+        predecessor,
+        source_identity=source_identity,
+    )
     return receipt, checkpoint
 
 
@@ -2226,12 +2253,132 @@ def _load_independent_artifact(
         if not isinstance(entity_checkpoint, Mapping):
             raise Refused("checkpoint entity seal is absent")
         if isinstance(entity_checkpoint, dict):
-            io._validate_normalized_seal(entity_checkpoint)  # noqa: SLF001
+            # load_json already validated the outer checkpoint seal and
+            # recursively enforced activation=False across the complete
+            # nested tree. The nested pass only needs to authenticate the
+            # entity's own digest; repeating its activation walk dominates
+            # artifact-load CPU for every checkpoint.
+            io._validate_normalized_seal(  # noqa: SLF001
+                entity_checkpoint,
+                check_activation=False,
+            )
         else:
             io.validate_normalized_seal(dict(entity_checkpoint))
     except (Refused, io.Refused, OSError) as error:
         return None, None, False, str(error)
     return sealed_receipt, sealed_checkpoint, False, None
+
+
+def _verify_independent_history_group(
+    arguments: tuple[tuple[P.WorkUnit, ...], tuple[str, str] | None],
+) -> tuple[tuple[str, str] | None, tuple[dict[str, Any], ...]]:
+    """Load and verify every selected shard in one independent history.
+
+    The parent verifier used to ship loaded artifacts to the parent process,
+    then ship independently regenerated expected trees back for comparison.
+    Keep those trees co-located with the file loads and return only the actual
+    sealed artifacts plus compact diagnostics. Shards remain sequential per
+    arm, and an invalid predecessor still prevents that arm from advancing.
+    """
+
+    group, principal_source = arguments
+    ordered = tuple(sorted(group, key=lambda unit: (unit.shard, unit.arm)))
+    group_source = principal_source
+    predecessors: dict[str, dict[str, Any]] = {}
+    predecessor_entities: dict[str, VST.PermanentEntity] = {}
+    results: list[dict[str, Any]] = []
+    for unit in ordered:
+        sealed_receipt, sealed_checkpoint, is_missing, load_error = _load_independent_artifact(unit)
+        if is_missing:
+            results.append(
+                {
+                    "identity": unit.identity,
+                    "receipt": None,
+                    "checkpoint": None,
+                    "missing": True,
+                    "seal_error": None,
+                    "errors": (),
+                    "source_identity": None,
+                }
+            )
+            continue
+        if load_error is not None or sealed_receipt is None or sealed_checkpoint is None:
+            results.append(
+                {
+                    "identity": unit.identity,
+                    "receipt": None,
+                    "checkpoint": None,
+                    "missing": False,
+                    "seal_error": load_error or "artifact loader returned an incomplete unit",
+                    "errors": (),
+                    "source_identity": None,
+                }
+            )
+            continue
+
+        try:
+            entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
+            if not isinstance(entity_checkpoint, Mapping):
+                raise Refused("checkpoint entity seal is absent")
+            sealed_entity = entity_checkpoint
+            identities = {
+                _source_identity(sealed_receipt),
+                _source_identity(sealed_checkpoint),
+                _source_identity(sealed_entity),
+            }
+            if group_source is None:
+                if len(identities) != 1:
+                    raise Refused("raw source identities disagree")
+                group_source = sorted(identities)[0]
+            elif identities != {group_source}:
+                raise Refused("raw source identity disagrees with principal authority")
+            receipt = _strip_loaded_seal(sealed_receipt)
+            checkpoint = _strip_loaded_seal(sealed_checkpoint)
+        except (Refused, io.Refused, OSError) as error:
+            results.append(
+                {
+                    "identity": unit.identity,
+                    "receipt": None,
+                    "checkpoint": None,
+                    "missing": False,
+                    "seal_error": str(error),
+                    "errors": (),
+                    "source_identity": None,
+                }
+            )
+            continue
+
+        predecessor = predecessors.get(unit.arm)
+        expected_receipt, expected_checkpoint, expected_entity = _independent_execute_unit_internal(
+            unit,
+            predecessor,
+            source_identity=group_source,
+            predecessor_entity=predecessor_entities.get(unit.arm),
+        )
+        errors = _pair_errors(
+            receipt,
+            checkpoint,
+            unit,
+            expected_receipt,
+            expected_checkpoint,
+            predecessor,
+            validated_entity=sealed_entity,
+        )
+        results.append(
+            {
+                "identity": unit.identity,
+                "receipt": receipt,
+                "checkpoint": checkpoint,
+                "missing": False,
+                "seal_error": None,
+                "errors": tuple(errors),
+                "source_identity": group_source,
+            }
+        )
+        if not errors:
+            predecessors[unit.arm] = checkpoint
+            predecessor_entities[unit.arm] = expected_entity
+    return group_source, tuple(results)
 
 
 def raw(
@@ -2255,8 +2402,15 @@ def raw(
     invalid: dict[str, list[str]] = {}
     seal_errors: dict[str, str] = {}
     principal_source = _principal_source_identity()
-    loaded: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
-    validated_entities: dict[str, Mapping[str, Any]] = {}
+    pair_results: dict[str, tuple[dict[str, Any], dict[str, Any], list[str]]] = {}
+
+    for unit in selected:
+        receipt_path = io.RUNS / _relative(unit, "units")
+        checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
+        paths[unit.identity] = {
+            "receipt": receipt_path.relative_to(io.ROOT).as_posix(),
+            "checkpoint": checkpoint_path.relative_to(io.ROOT).as_posix(),
+        }
 
     # Explicit unit selections remain sequential for small tests and reviewer
     # probes. The complete default audit already pays for isolated processes to
@@ -2273,19 +2427,55 @@ def raw(
             max_workers=min(12, os.cpu_count() or 1),
         )
 
-    try:
-        artifact_results = (
-            executor.map(_load_independent_artifact, selected, chunksize=32)
-            if executor is not None
-            else map(_load_independent_artifact, selected)
-        )
+    if executor is not None:
+        grouped: dict[tuple[str, int], list[P.WorkUnit]] = {}
+        for unit in selected:
+            grouped.setdefault((unit.split, unit.history_seed), []).append(unit)
+        try:
+            history_results = executor.map(
+                _verify_independent_history_group,
+                tuple(
+                    (tuple(group), principal_source)
+                    for group in grouped.values()
+                ),
+                chunksize=1,
+            )
+            for group_source, artifacts in history_results:
+                if principal_source is None and group_source is not None:
+                    principal_source = group_source
+                for artifact in artifacts:
+                    identity = str(artifact["identity"])
+                    if artifact["missing"]:
+                        missing.append(identity)
+                        continue
+                    if artifact["seal_error"] is not None:
+                        seal_errors[identity] = str(artifact["seal_error"])
+                        continue
+                    source_identity = artifact["source_identity"]
+                    if principal_source is None or source_identity != principal_source:
+                        seal_errors[identity] = (
+                            "raw source identities disagree"
+                            if principal_source is None
+                            else "raw source identity disagrees with principal authority"
+                        )
+                        continue
+                    receipt = artifact["receipt"]
+                    checkpoint = artifact["checkpoint"]
+                    if not isinstance(receipt, dict) or not isinstance(checkpoint, dict):
+                        seal_errors[identity] = "artifact verifier returned an incomplete unit"
+                        continue
+                    pair_results[identity] = (
+                        receipt,
+                        checkpoint,
+                        list(artifact["errors"]),
+                    )
+        finally:
+            executor.shutdown()
+    else:
+        loaded: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+        validated_entities: dict[str, Mapping[str, Any]] = {}
+        artifact_results = map(_load_independent_artifact, selected)
         for unit, artifact in zip(selected, artifact_results, strict=True):
-            receipt_path = io.RUNS / _relative(unit, "units")
-            checkpoint_path = io.RUNS / _relative(unit, "checkpoints")
-            paths[unit.identity] = {
-                "receipt": receipt_path.relative_to(io.ROOT).as_posix(),
-                "checkpoint": checkpoint_path.relative_to(io.ROOT).as_posix(),
-            }
             sealed_receipt, sealed_checkpoint, is_missing, load_error = artifact
             if is_missing:
                 missing.append(unit.identity)
@@ -2300,9 +2490,6 @@ def raw(
                 entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
                 if not isinstance(entity_checkpoint, Mapping):
                     raise Refused("checkpoint entity seal is absent")
-                # The worker has already performed the normalized-seal check;
-                # retain that validated mapping without walking the large
-                # entity tree again in the parent.
                 sealed_entity = entity_checkpoint
                 identities = {
                     _source_identity(sealed_receipt),
@@ -2321,22 +2508,12 @@ def raw(
                 seal_errors[unit.identity] = str(error)
                 continue
             loaded[unit.identity] = (receipt, checkpoint)
-            # The worker has already validated the nested entity seal. Carry
-            # that exact parser-normalized mapping into the parent so the
-            # invariant pass does not hash and walk the same tree a second
-            # time; mutation paths without this evidence still revalidate.
             validated_entities[unit.identity] = sealed_entity
-    except BaseException:
-        if executor is not None:
-            executor.shutdown()
-        raise
 
-    # Shards in one history are sequential because each expected receipt must
-    # consume the prior *validated* checkpoint. Different histories and arms
-    # are independent, so verify each shard wave in bounded isolated processes.
-    predecessors: dict[tuple[str, int, str], dict[str, Any]] = {}
-    pair_results: dict[str, tuple[dict[str, Any], dict[str, Any], list[str]]] = {}
-    try:
+        # Explicit unit selections retain the original shard-wave verifier. It
+        # keeps the reviewer/test path small and preserves its exact behavior
+        # when a preceding selected artifact is invalid.
+        predecessors: dict[tuple[str, int, str], dict[str, Any]] = {}
         for shard in range(P.SHARDS):
             jobs = [
                 (
@@ -2347,56 +2524,22 @@ def raw(
                 for unit in selected
                 if unit.shard == shard and unit.identity in loaded
             ]
-            if not jobs:
-                continue
-            if executor is None:
-                expected_groups = ((job, _independent_expected(job)) for job in jobs)
-            else:
-                # One worker owns all arms for one history/shard. This preserves
-                # the shard wave while keeping shared deterministic task,
-                # environment, request, and sensor caches hot across arms.
-                grouped: dict[tuple[str, int], list[tuple[P.WorkUnit, Mapping[str, Any] | None, tuple[str, str] | None]]] = {}
-                for job in jobs:
-                    unit = job[0]
-                    grouped.setdefault((unit.split, unit.history_seed), []).append(job)
-                expected_groups = (
-                    (job_group, expected_results)
-                    for job_group, expected_results in zip(
-                        grouped.values(),
-                        executor.map(
-                            _independent_expected_group,
-                            tuple(tuple(group) for group in grouped.values()),
-                            chunksize=1,
-                        ),
-                        strict=True,
-                    )
+            for job in jobs:
+                unit, predecessor, _ = job
+                receipt, checkpoint = loaded[unit.identity]
+                expected_receipt, expected_checkpoint = _independent_expected(job)
+                errors = _pair_errors(
+                    receipt,
+                    checkpoint,
+                    unit,
+                    expected_receipt,
+                    expected_checkpoint,
+                    predecessor,
+                    validated_entity=validated_entities.get(unit.identity),
                 )
-            for job_group, expected_results in expected_groups:
-                if executor is None:
-                    job_group = (job_group,)
-                    expected_results = (expected_results,)
-                for job, (expected_receipt, expected_checkpoint) in zip(
-                    job_group,
-                    expected_results,
-                    strict=True,
-                ):
-                    unit, predecessor, _ = job
-                    receipt, checkpoint = loaded[unit.identity]
-                    errors = _pair_errors(
-                        receipt,
-                        checkpoint,
-                        unit,
-                        expected_receipt,
-                        expected_checkpoint,
-                        predecessor,
-                        validated_entity=validated_entities.get(unit.identity),
-                    )
-                    pair_results[unit.identity] = (receipt, checkpoint, errors)
-                    if not errors:
-                        predecessors[(unit.split, unit.history_seed, unit.arm)] = checkpoint
-    finally:
-        if executor is not None:
-            executor.shutdown()
+                pair_results[unit.identity] = (receipt, checkpoint, errors)
+                if not errors:
+                    predecessors[(unit.split, unit.history_seed, unit.arm)] = checkpoint
 
     # Preserve the historical deterministic insertion order in the report even
     # though computation was scheduled by shard wave.
