@@ -17,6 +17,7 @@ import gzip
 import hashlib
 import json
 import os
+import pickle
 import shutil
 import statistics
 import struct
@@ -2381,6 +2382,39 @@ def _verify_independent_history_group(
     return group_source, tuple(results)
 
 
+def _verify_independent_history_group_packed(
+    arguments: tuple[tuple[P.WorkUnit, ...], tuple[str, str] | None],
+) -> bytes:
+    """Return one history result compressed for the process-pool transport.
+
+    The result is an ephemeral local IPC payload, never an evidence format.
+    ProcessPoolExecutor already uses pickle for this boundary; compressing that
+    same in-memory value prevents the large checkpoint trees from occupying the
+    pipe uncompressed without changing the verifier's data or authority.
+    """
+
+    result = _verify_independent_history_group(arguments)
+    return gzip.compress(
+        pickle.dumps(result, protocol=pickle.HIGHEST_PROTOCOL),
+        compresslevel=1,
+        mtime=0,
+    )
+
+
+def _unpack_independent_history_group(payload: bytes) -> tuple[tuple[str, str] | None, tuple[dict[str, Any], ...]]:
+    """Decode the private local IPC payload produced by the worker above."""
+
+    result = pickle.loads(gzip.decompress(payload))  # noqa: S301 - local ProcessPool transport only
+    if (
+        not isinstance(result, tuple)
+        or len(result) != 2
+        or (result[0] is not None and not isinstance(result[0], tuple))
+        or not isinstance(result[1], tuple)
+    ):
+        raise Refused("independent history worker returned an invalid transport payload")
+    return result
+
+
 def raw(
     units: Iterable[P.WorkUnit] | None = None,
 ) -> dict[str, Any]:
@@ -2434,14 +2468,15 @@ def raw(
             grouped.setdefault((unit.split, unit.history_seed), []).append(unit)
         try:
             history_results = executor.map(
-                _verify_independent_history_group,
+                _verify_independent_history_group_packed,
                 tuple(
                     (tuple(group), principal_source)
                     for group in grouped.values()
                 ),
                 chunksize=1,
             )
-            for group_source, artifacts in history_results:
+            for payload in history_results:
+                group_source, artifacts = _unpack_independent_history_group(payload)
                 if principal_source is None and group_source is not None:
                     principal_source = group_source
                 for artifact in artifacts:
