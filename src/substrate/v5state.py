@@ -331,6 +331,22 @@ class CognitiveEvent:
             "activation": False,
         }
 
+    def _checkpoint_dict_internal(self) -> dict[str, Any]:
+        """Project an event for the private owned-checkpoint fast path."""
+
+        return {
+            "schema": self.schema,
+            "sequence": self.sequence,
+            "event_time": self.event_time,
+            "source_timestamp": self.source_timestamp,
+            "temporal_uncertainty": self.temporal_uncertainty,
+            "kind": self.kind,
+            "payload": self.payload,
+            "previous_sha256": self.previous_sha256,
+            "event_sha256": self.event_sha256,
+            "activation": False,
+        }
+
     def validate(self) -> None:
         if self.schema != EVENT_SCHEMA:
             raise Refused("unsupported cognitive event schema")
@@ -1771,7 +1787,24 @@ class PermanentEntity:
         """Return an owned sealed tree for internal code that will not mutate it."""
 
         with self._lock:
-            return self._checkpoint_document_locked()
+            # The independent verifier consumes this tree synchronously and
+            # never exposes it. Keep the entity's already-normalized state and
+            # event payloads in place, avoiding a full history copy and the
+            # second recursive sealability walk used by the public snapshot.
+            state = self._state
+            document = {
+                "schema": CHECKPOINT_SCHEMA,
+                "schema_version": int(state["schema_version"]),
+                "owned_identity": self.entity_id,
+                "events": [event._checkpoint_dict_internal() for event in self._events],
+                "event_chain_head": (
+                    self._events[-1].event_sha256 if self._events else None
+                ),
+                "state": state,
+                "state_sha256": self.state_identity(),
+                "activation": False,
+            }
+            return io._seal_trusted_normalized_document(document)  # noqa: SLF001
 
     def checkpoint(self) -> dict[str, Any]:
         with self._lock:

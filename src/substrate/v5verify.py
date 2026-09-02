@@ -2421,10 +2421,11 @@ def raw(
     executor: concurrent.futures.ProcessPoolExecutor | None = None
     if parallel:
         executor = concurrent.futures.ProcessPoolExecutor(
-            # Twelve is the measured knee on the current host; cap rather than
-            # scaling with every logical core so verification remains bounded
-            # on high-core machines and keeps memory pressure predictable.
-            max_workers=min(12, os.cpu_count() or 1),
+            # The private checkpoint fast path moved the measured knee to the
+            # low twenties on the current host. Bound the fan-out rather than
+            # scaling with every logical core so high-core machines keep
+            # predictable memory pressure for the same verification gain.
+            max_workers=min(24, os.cpu_count() or 1),
         )
 
     if executor is not None:

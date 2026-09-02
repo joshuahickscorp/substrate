@@ -364,6 +364,7 @@ def test_knowledge_admission_requires_registered_distinct_authorities_and_eviden
 def test_checkpoint_restore_is_exact_and_rejects_state_or_event_corruption() -> None:
     entity = populated_entity()
     checkpoint = entity.checkpoint()
+    assert entity._checkpoint_internal() == checkpoint  # noqa: SLF001
     restored = S.PermanentEntity.restore(checkpoint)
     assert restored.checkpoint() == checkpoint
     assert restored.state_identity() == checkpoint["state_sha256"]

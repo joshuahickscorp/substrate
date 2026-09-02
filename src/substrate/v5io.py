@@ -320,6 +320,22 @@ def _sealed_normalized_document(document: dict[str, Any]) -> dict[str, JSONValue
         raise Refused("a sealed document must be a JSON object")
     if not _is_sealable_normalized_json(document):
         return sealed_document(document)
+    return _seal_trusted_normalized_document(document)
+
+
+def _seal_trusted_normalized_document(document: dict[str, Any]) -> dict[str, JSONValue]:
+    """Seal an internally owned normalized tree without rewalking its children.
+
+    This is a private checkpoint-construction primitive. Its callers must own a
+    tree assembled exclusively from already validated JSON primitives and must
+    not expose the returned nested containers for mutation. Public seal paths
+    continue through ``_sealed_normalized_document`` and retain full validation.
+    """
+
+    if not isinstance(document, dict):
+        raise Refused("a sealed document must be a JSON object")
+    if document.get("activation", ACTIVATION) is not ACTIVATION:
+        raise Refused("v5 activation must remain exactly false")
     normal = {key: value for key, value in document.items() if key != "sha256"}
     normal.setdefault("program", PROGRAM)
     normal.setdefault("source_commit", commit())
