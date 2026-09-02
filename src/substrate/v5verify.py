@@ -357,6 +357,8 @@ def _copy_normalized(value: Any) -> Any:
         return {key: _copy_normalized(child) for key, child in value.items()}
     if value_type is list:
         return [_copy_normalized(child) for child in value]
+    if value_type is tuple:
+        return tuple(_copy_normalized(child) for child in value)
     # Loaded v5 documents take the exact built-in path above. Preserve the
     # previous defensive behavior for custom containers and non-JSON callers.
     return copy.deepcopy(value)
@@ -2863,8 +2865,8 @@ def _mutation_base(
             try:
                 rows.append(
                     (
-                        copy.deepcopy(receipts[unit.identity]),
-                        copy.deepcopy(checkpoints[unit.identity]),
+                        _copy_normalized(receipts[unit.identity]),
+                        _copy_normalized(checkpoints[unit.identity]),
                         unit,
                     )
                 )
@@ -2878,8 +2880,8 @@ def _mutation_base(
         try:
             split_samples.append(
                 (
-                    copy.deepcopy(receipts[unit.identity]),
-                    copy.deepcopy(checkpoints[unit.identity]),
+                    _copy_normalized(receipts[unit.identity]),
+                    _copy_normalized(checkpoints[unit.identity]),
                     unit,
                 )
             )
@@ -2888,12 +2890,17 @@ def _mutation_base(
     return {
         "chains": chains,
         "split_samples": split_samples,
-        "principal_source": copy.deepcopy(raw_report.get("principal_source")),
+        "principal_source": _copy_normalized(raw_report.get("principal_source")),
         "activation": False,
     }
 
 
-def _mutation_issues(fixture: Mapping[str, Any]) -> list[str]:
+def _mutation_issues(
+    fixture: Mapping[str, Any],
+    *,
+    expected_by_identity: Mapping[str, tuple[dict[str, Any], dict[str, Any]]] | None = None,
+    baseline_predecessors: Mapping[str, Mapping[str, Any] | None] | None = None,
+) -> list[str]:
     issues: list[str] = []
     if fixture.get("activation") is not False:
         issues.append("activation")
@@ -2907,11 +2914,16 @@ def _mutation_issues(fixture: Mapping[str, Any]) -> list[str]:
         predecessor = None
         if unit.shard:
             predecessor = fixture["chains"][unit.arm][unit.shard - 1][1]
-        expected_receipt, expected_checkpoint = _independent_execute_unit(
-            unit,
-            predecessor,
-            source_identity=source_identity,
-        )
+        cached_expected = expected_by_identity.get(unit.identity) if expected_by_identity is not None else None
+        cached_predecessor = baseline_predecessors.get(unit.identity) if baseline_predecessors is not None else None
+        if cached_expected is not None and predecessor == cached_predecessor:
+            expected_receipt, expected_checkpoint = cached_expected
+        else:
+            expected_receipt, expected_checkpoint = _independent_execute_unit(
+                unit,
+                predecessor,
+                source_identity=source_identity,
+            )
         issues.extend(
             f"{unit.arm}:{unit.shard}:{error}"
             for error in _pair_errors(
@@ -2964,6 +2976,34 @@ def _mutation_digest(fixture: Mapping[str, Any]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _mutation_fixture(
+    base: Mapping[str, Any],
+    *,
+    chain_rows: Sequence[tuple[str, int]] = (),
+    split_rows: Sequence[int] = (),
+) -> dict[str, Any]:
+    """Detach only rows a mutation can write while preserving fixture shape."""
+
+    changed = dict(base)
+    changed["chains"] = {arm: list(chain) for arm, chain in base["chains"].items()}
+    changed["split_samples"] = list(base["split_samples"])
+    for arm, shard in set(chain_rows):
+        receipt, checkpoint, unit = changed["chains"][arm][shard]
+        changed["chains"][arm][shard] = (
+            _copy_normalized(receipt),
+            _copy_normalized(checkpoint),
+            unit,
+        )
+    for index in set(split_rows):
+        receipt, checkpoint, unit = changed["split_samples"][index]
+        changed["split_samples"][index] = (
+            _copy_normalized(receipt),
+            _copy_normalized(checkpoint),
+            unit,
+        )
+    return changed
+
+
 def mutations(
     raw_report: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -2974,16 +3014,56 @@ def mutations(
     if raw_report.get("all_pass") is not True:
         raise Refused("mutation testing requires valid raw evidence")
     base = _mutation_base(raw_report)
-    if _mutation_issues(base):
+    # ``raw_report`` already passed the independent regeneration gate. Reuse
+    # that exact evidence as the baseline; each mutation still runs every
+    # detector, while only a changed predecessor triggers regeneration.
+    baseline_expected = {
+        unit.identity: (receipt, checkpoint)
+        for chain in base["chains"].values()
+        for receipt, checkpoint, unit in chain
+    }
+    baseline_expected.update(
+        {
+            unit.identity: (receipt, checkpoint)
+            for receipt, checkpoint, unit in base["split_samples"]
+        }
+    )
+    baseline_predecessors = {
+        unit.identity: (chain[index - 1][1] if index else None)
+        for chain in base["chains"].values()
+        for index, (_receipt, _checkpoint, unit) in enumerate(chain)
+    }
+    baseline_predecessors.update(
+        {unit.identity: None for _receipt, _checkpoint, unit in base["split_samples"]}
+    )
+    if _mutation_issues(
+        base,
+        expected_by_identity=baseline_expected,
+        baseline_predecessors=baseline_predecessors,
+    ):
         raise Refused("the unmutated mutation fixture is invalid")
     cases: list[dict[str, Any]] = []
 
-    def case(identity: str, alter: Callable[[dict[str, Any]], None]) -> None:
-        changed = copy.deepcopy(base)
+    def case(
+        identity: str,
+        alter: Callable[[dict[str, Any]], None],
+        *,
+        chain_rows: Sequence[tuple[str, int]] = (),
+        split_rows: Sequence[int] = (),
+    ) -> None:
+        changed = _mutation_fixture(
+            base,
+            chain_rows=chain_rows,
+            split_rows=split_rows,
+        )
         before = _mutation_digest(changed)
         alter(changed)
         after = _mutation_digest(changed)
-        issues = _mutation_issues(changed)
+        issues = _mutation_issues(
+            changed,
+            expected_by_identity=baseline_expected,
+            baseline_predecessors=baseline_predecessors,
+        )
         cases.append(
             {
                 "identity": identity,
@@ -3025,10 +3105,12 @@ def mutations(
     case(
         MUTATION_CLASSES[0],
         bind(lambda _row: phase()["integrity"]["sensory_metadata_keys"].append("target")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[1],
         bind(lambda _row: phase()["integrity"].update(object_source_name="frame-track_id-object_id-7.bin")),
+        chain_rows=(("full_v5", 2),),
     )
 
     def overlap(
@@ -3042,14 +3124,17 @@ def mutations(
     case(
         MUTATION_CLASSES[2],
         lambda row: overlap(row, "clip_identity", 1),
+        split_rows=(1,),
     )
     case(
         MUTATION_CLASSES[3],
         lambda row: overlap(row, "scene_identity", 2),
+        split_rows=(2,),
     )
     case(
         MUTATION_CLASSES[4],
         bind(lambda _row: phase()["integrity"].update(latest_available_frame=int(phase()["integrity"]["commitment_frame"]) + 1)),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[5],
@@ -3060,6 +3145,7 @@ def mutations(
                 alignment_accepted=True,
             )
         ),
+        chain_rows=(("full_v5", 1),),
     )
     case(
         MUTATION_CLASSES[6],
@@ -3069,28 +3155,33 @@ def mutations(
                 offset=4,
             )["integrity"].update(camera_motion_classification="object_or_static")
         ),
+        chain_rows=(("full_v5", 1),),
     )
     case(
         MUTATION_CLASSES[7],
         bind(lambda _row: checkpoint()["state"].pop("depth_state_digest")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[8],
         bind(lambda _row: checkpoint()["state"].pop("three_d_state_digest")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[9],
         bind(lambda _row: checkpoint()["state"].pop("body_state_digest")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[10],
         bind(lambda _row: checkpoint(shard=3)["state"].update(model_checkpoint_identity="builtin:vision-temporal-alpha")),
+        chain_rows=(("full_v5", 3),),
     )
 
     def reset_identity(_row: dict[str, Any]) -> None:
         checkpoint(shard=2)["state"]["entity_identity"] = "replacement-model-identity"
 
-    case(MUTATION_CLASSES[11], bind(reset_identity))
+    case(MUTATION_CLASSES[11], bind(reset_identity), chain_rows=(("full_v5", 2),))
     case(
         MUTATION_CLASSES[12],
         bind(
@@ -3099,24 +3190,32 @@ def mutations(
                 independently_verified=False,
             )
         ),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[13],
         bind(lambda _row: phase(shard=1, offset=4)["decisions"].update(active_perception_source="oracle_action")),
+        chain_rows=(("full_v5", 1),),
     )
     case(
         MUTATION_CLASSES[14],
         bind(lambda _row: phase(shard=2)["decisions"]["router_input_fields"].append("future_outcome")),
+        chain_rows=(("full_v5", 2),),
     )
 
     def reduce_largest_compute(_row: dict[str, Any]) -> None:
         full_cost = float(phase()["mean_cost"])
         phase("largest_model_always")["mean_cost"] = full_cost / 2.0
 
-    case(MUTATION_CLASSES[15], bind(reduce_largest_compute))
+    case(
+        MUTATION_CLASSES[15],
+        bind(reduce_largest_compute),
+        chain_rows=(("full_v5", 2), ("largest_model_always", 2)),
+    )
     case(
         MUTATION_CLASSES[16],
         bind(lambda _row: phase("transcript_replay")["mechanisms_active"].append("structured_state")),
+        chain_rows=(("transcript_replay", 2),),
     )
 
     def inherit_development(_row: dict[str, Any]) -> None:
@@ -3128,18 +3227,22 @@ def mutations(
     case(
         MUTATION_CLASSES[17],
         bind(inherit_development),
+        chain_rows=(("fresh_reset", 1),),
     )
     case(
         MUTATION_CLASSES[18],
         bind(lambda _row: phase()["integrity"]["sensory_metadata_keys"].remove("timestamp")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[19],
         bind(lambda _row: phase()["integrity"]["sensory_metadata_keys"].remove("coordinate_frame")),
+        chain_rows=(("full_v5", 2),),
     )
     case(
         MUTATION_CLASSES[20],
         bind(lambda _row: receipt().update(activation=not False)),
+        chain_rows=(("full_v5", 2),),
     )
     survived = [row["identity"] for row in cases if not row["detected"]]
     return {
