@@ -1,441 +1,308 @@
-"""The typed cognitive workspace.
+"""Bounded recurrent cognition with inspectable, viewpoint-bound representations.
 
-Section 6.2 asks for something specific: important information becomes globally available without letting
-arbitrary components corrupt every region. Those two requirements pull in opposite directions, and the
-resolution is that reading is broad and writing is narrow. Every region names its readers and its writers,
-a read outside the declared set is refused, and a write outside the declared set is refused. Nothing is
-silently dropped, because a silent drop is indistinguishable from a component that never ran.
-
-Typing is the mechanism under test, so the untyped control lives here too and shares the same storage,
-the same capacity and the same cost accounting. It differs in exactly one way: it has no reader or writer
-sets. That is what makes the pair an arm and a control rather than two unrelated implementations.
-
+A perspective is an attributed representation, not a persona or a vote for truth.
+Workspace broadcast changes routing, retrieval and self-forecasting; its traces
+are intervention targets, not certificates of consciousness. No hidden chain of
+thought, background daemon, new authority, or unbounded model loop lives here.
 """
-
 from __future__ import annotations
 
-import copy
-import json
-import sys
-from dataclasses import dataclass
+import time
+from dataclasses import asdict, dataclass
+from typing import Any
 
-from substrate import evidence as io
+from .core import canonical, clone, digest, identifier, integer, numeric, require, sha
+from .language import validate_input
+from .development import Development
 
-PERSISTENCE = ("step", "episode", "goal", "persistent")
-TIMESCALES = ("immediate", "fast", "medium", "slow", "developmental")
-
-REQUIRED_DECLARATIONS = (
-    "shape",
-    "persistence",
-    "timescale",
-    "readers",
-    "writers",
-    "provenance",
-    "confidence",
-    "cost",
-    "reset",
-    "update_rule",
-)
-
-
-class Refused(RuntimeError):
-    """An access the workspace type system does not permit. Raised, never downgraded to a warning."""
+CHANNELS = ("observation", "memory", "self", "world", "procedure", "goal", "critic", "organ")
+STANCES = ("observed", "inferred", "imagined", "supported", "reopened")
+LESIONS = ("none", "no-workspace", "no-recurrence", "no-self", "no-perspective", "no-broadcast")
 
 
 @dataclass(frozen=True)
-class RegionSpec:
-    name: str
-    shape: str
-    persistence: str
-    timescale: str
-    readers: tuple[str, ...]
-    writers: tuple[str, ...]
-    provenance: bool  # a write must name where the value came from
-    confidence: bool  # a write must carry a confidence
-    cost: float  # charged per write
-    reset: str  # which trigger clears this region
-    update_rule: str
+class Perspective:
+    channel: str
+    subject: str
+    viewpoint: str
+    scope: str
+    claim: str
+    value: Any
+    stance: str
+    source: str
+    confidence: float = 0.5
+    relevance: float = 0.5
+    parents: tuple[str, ...] = ()
 
-    def violations(self) -> list[str]:
-        v = []
-        if self.persistence not in PERSISTENCE:
-            v.append(f"{self.name}: unknown persistence {self.persistence!r}")
-        if self.timescale not in TIMESCALES:
-            v.append(f"{self.name}: unknown timescale {self.timescale!r}")
-        if not self.writers:
-            v.append(f"{self.name}: no writer declared, the region can never be filled")
-        if not self.readers:
-            v.append(f"{self.name}: no reader declared, the region can never be used")
-        if self.reset not in PERSISTENCE:
-            v.append(f"{self.name}: reset trigger {self.reset!r} is not a persistence level")
-        if not self.update_rule:
-            v.append(f"{self.name}: no update rule declared")
-        return v
+    def __post_init__(self):
+        require(self.channel in CHANNELS and self.stance in STANCES, "unknown perspective channel or stance")
+        for text in (self.subject, self.viewpoint, self.claim):
+            identifier(text)
+        for value in (self.scope, self.source, *self.parents):
+            digest(value)
+        require(len(self.parents) <= 16, "perspective parent bound")
+        numeric(self.confidence, 0, 1)
+        numeric(self.relevance, 0, 1)
+        require(len(canonical(self.value)) <= 4096, "perspective value exceeds bound")
 
+    @property
+    def id(self) -> str:
+        return sha(asdict(self))
 
-@dataclass
-class Entry:
-    value: object
-    writer: str
-    provenance: str
-    confidence: float | None
-    step: int
+    @property
+    def coordinate(self) -> str:
+        # Two observers or two situations cannot silently become one belief.
+        return sha([self.subject, self.viewpoint, self.scope, self.claim])
+
+    def document(self) -> dict:
+        return {**asdict(self), "id": self.id}
 
 
-def _r(name, shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset, update_rule) -> RegionSpec:
-    return RegionSpec(
-        name,
-        shape,
-        persistence,
-        timescale,
-        tuple(readers),
-        tuple(writers),
-        provenance,
-        confidence,
-        cost,
-        reset,
-        update_rule,
-    )
+def contradictions(items: list[Perspective]) -> list[dict]:
+    groups: dict[str, list[Perspective]] = {}
+    for item in items:
+        if item.stance != "imagined":
+            groups.setdefault(item.coordinate, []).append(item)
+    return [{"coordinate": key, "alternatives": sorted(p.id for p in group), "resolution": "not-a-majority-vote"}
+            for key, group in sorted(groups.items()) if len({sha(p.value) for p in group}) > 1]
 
 
-ALL = ("*",)
+@dataclass(frozen=True)
+class WorkspacePolicy:
+    slots: int = 4
+    rounds: int = 3
+    byte_limit: int = 12288
+    lesion: str = "none"
 
-# section 6.2, the ten suggested typed regions, each with all ten declarations filled
-REGIONS: tuple[RegionSpec, ...] = (
-    _r(
-        "perceptual",
-        "observation vector",
-        "step",
-        "immediate",
-        ALL,
-        ("sensor",),
-        True,
-        False,
-        0.1,
-        "step",
-        "overwrite from the current observation",
-    ),
-    _r(
-        "temporal",
-        "core hidden state",
-        "episode",
-        "fast",
-        ALL,
-        ("temporal_core",),
-        True,
-        False,
-        0.2,
-        "episode",
-        "recurrent update from the selected temporal core",
-    ),
-    _r(
-        "ontological",
-        "typed item graph",
-        "persistent",
-        "slow",
-        ALL,
-        ("ontology",),
-        True,
-        True,
-        0.3,
-        "persistent",
-        "merge only on evidence, and a merge stays reversible",
-    ),
-    _r(
-        "epistemic",
-        "belief store with justification edges",
-        "persistent",
-        "medium",
-        ALL,
-        ("epistemology",),
-        True,
-        True,
-        0.3,
-        "persistent",
-        "retraction propagates to every dependant before any confidence is read",
-    ),
-    _r(
-        "conceptual",
-        "concept bindings",
-        "episode",
-        "medium",
-        ALL,
-        ("semantic_memory", "perspective"),
-        True,
-        True,
-        0.2,
-        "episode",
-        "merge on higher confidence, keep the loser as an alternative",
-    ),
-    _r(
-        "goal",
-        "goal stack",
-        "goal",
-        "slow",
-        ALL,
-        ("goal_authority",),
-        True,
-        False,
-        0.1,
-        "goal",
-        "push and pop only through an authorized goal decomposition",
-    ),
-    _r(
-        "working_memory",
-        "bounded slot table",
-        "episode",
-        "fast",
-        ALL,
-        ("perspective", "arbiter"),
-        True,
-        True,
-        0.3,
-        "episode",
-        "priority eviction when the slot budget is exceeded",
-    ),
-    _r(
-        "episodic_context",
-        "recent episode window",
-        "episode",
-        "medium",
-        ALL,
-        ("episodic_memory",),
-        True,
-        False,
-        0.3,
-        "episode",
-        "append with decay, never rewrite a sealed episode",
-    ),
-    _r(
-        "world",
-        "entity and relation graph",
-        "persistent",
-        "slow",
-        ALL,
-        ("world_model",),
-        True,
-        True,
-        0.4,
-        "persistent",
-        "bayesian style update against measured outcomes",
-    ),
-    _r(
-        "self",
-        "measured internal facts",
-        "persistent",
-        "slow",
-        ALL,
-        ("self_model",),
-        True,
-        True,
-        0.4,
-        "persistent",
-        "replace only from a measured comparison against actuals",
-    ),
-    _r(
-        "uncertainty",
-        "per belief interval",
-        "episode",
-        "fast",
-        ALL,
-        ("arbiter", "self_model"),
-        True,
-        True,
-        0.1,
-        "episode",
-        "widen on contradiction, never narrow without new measurement",
-    ),
-    _r(
-        "decision",
-        "chosen action and rationale",
-        "step",
-        "immediate",
-        ALL,
-        ("arbiter",),
-        True,
-        True,
-        0.1,
-        "step",
-        "written once per decision, superseded rather than edited",
-    ),
-)
-
-BY_NAME = {r.name: r for r in REGIONS}
+    def __post_init__(self):
+        integer(self.slots, 1, 16)
+        integer(self.rounds, 1, 8)
+        integer(self.byte_limit, 1024, 65536)
+        require(self.lesion in LESIONS, "unknown preregistered cognitive intervention")
 
 
 class Workspace:
-    """Broad reads, narrow writes, every access accounted for."""
+    """A capacity-limited broadcast with recurrence supplied by real consumers."""
+    def __init__(self, policy: WorkspacePolicy, *, weights: dict | None = None):
+        self.policy = policy
+        self.weights = {c: numeric((weights or {}).get(c, 1.0), 0.25, 2.0) for c in CHANNELS}
+        self.selected: list[Perspective] = []
+        self.frames: list[dict] = []
 
-    typed = True
+    def publish(self, candidates: list[Perspective]) -> list[Perspective]:
+        require(len(self.frames) < self.policy.rounds, "workspace recurrence budget exhausted")
+        require(len(candidates) <= 64, "workspace bid bound")
+        require(all(isinstance(p, Perspective) for p in candidates), "typed perspectives required")
+        candidates = list({p.id: p for p in candidates}.values())
+        if self.policy.lesion == "no-self":
+            candidates = [p for p in candidates if p.channel != "self"]
+        ranked = ([] if self.policy.lesion == "no-workspace" else
+                  sorted(candidates, key=lambda p: (-p.relevance * self.weights[p.channel], p.id)))
+        selected, size = [], 0
+        for p in ranked:
+            amount = len(canonical(p.document()))
+            if len(selected) < self.policy.slots and size + amount <= self.policy.byte_limit:
+                selected.append(p)
+                size += amount
+        conflicts = contradictions(selected)
+        frame = {"index": len(self.frames), "selected": [p.id for p in selected],
+                 "offered": len(candidates), "dropped": sorted(p.id for p in candidates if p not in selected),
+                 "bytes": size, "conflicts": conflicts, "parent": sha(self.frames[-1]) if self.frames else None}
+        self.frames.append(frame)
+        self.selected = selected
+        return [] if self.policy.lesion in {"no-workspace", "no-broadcast"} else list(selected)
 
-    def __init__(self, specs: tuple[RegionSpec, ...] | None = None, budget: float = float("inf")):
-        # resolved at call time, not captured in a default argument. A default binds REGIONS once at
-        # import and then a change to the declaration silently has no effect on new workspaces, which a
-        # mutation attack found by changing the declaration and watching nothing happen.
-        self.specs = {s.name: s for s in (REGIONS if specs is None else specs)}
-        self.store: dict[str, Entry] = {}
-        self.step = 0
-        self.budget = budget
-        self.spent = 0.0
-        self.refusals: list[str] = []
-        self.writes = 0
-
-    # ------------------------------------------------------------ access control
-    def _spec(self, region: str) -> RegionSpec:
-        spec = self.specs.get(region)
-        if spec is None:
-            raise Refused(f"unknown region {region!r}")
-        return spec
-
-    def _permitted(self, allowed: tuple[str, ...], who: str) -> bool:
-        return not self.typed or "*" in allowed or who in allowed
-
-    def read(self, region: str, by: str):
-        spec = self._spec(region)
-        if not self._permitted(spec.readers, by):
-            self.refusals.append(f"read {region} by {by}")
-            raise Refused(f"{by} is not a declared reader of {region}")
-        entry = self.store.get(region)
-        return entry.value if entry else None
-
-    def write(self, region: str, by: str, value, provenance: str = "", confidence: float | None = None):
-        spec = self._spec(region)
-        if not self._permitted(spec.writers, by):
-            self.refusals.append(f"write {region} by {by}")
-            raise Refused(f"{by} is not a declared writer of {region}")
-        if self.typed and spec.provenance and not provenance:
-            self.refusals.append(f"write {region} without provenance")
-            raise Refused(f"{region} requires provenance and the write named none")
-        if self.typed and spec.confidence and confidence is None:
-            self.refusals.append(f"write {region} without confidence")
-            raise Refused(f"{region} requires a confidence and the write carried none")
-        if self.spent + spec.cost > self.budget:
-            self.refusals.append(f"write {region} over budget")
-            raise Refused(f"the write to {region} exceeds the workspace budget")
-        self.spent += spec.cost
-        self.writes += 1
-        self.store[region] = Entry(value, by, provenance, confidence, self.step)
-        return self.store[region]
-
-    # ------------------------------------------------------------ global availability
-    def broadcast(self) -> dict:
-        """Every region any component may read, with its provenance attached.
-
-        Global availability is a read property. It does not widen who may write, which is the whole
-        point of the separation.
-        """
-        return {
-            name: {
-                "value": e.value,
-                "writer": e.writer,
-                "provenance": e.provenance,
-                "confidence": e.confidence,
-                "step": e.step,
-            }
-            for name, e in self.store.items()
-        }
-
-    # ------------------------------------------------------------ lifecycle
-    def tick(self):
-        self.step += 1
-        self.reset("step")
-
-    def reset(self, trigger: str):
-        if trigger not in PERSISTENCE:
-            raise Refused(f"unknown reset trigger {trigger!r}")
-        order = PERSISTENCE.index(trigger)
-        cleared = [n for n, s in self.specs.items() if n in self.store and PERSISTENCE.index(s.reset) <= order]
-        for name in cleared:
-            del self.store[name]
-        return cleared
-
-    def checkpoint(self) -> dict:
-        return {
-            "step": self.step,
-            "spent": self.spent,
-            "writes": self.writes,
-            "store": copy.deepcopy(self.store),
-        }
-
-    def restore(self, snapshot: dict):
-        self.step, self.spent = snapshot["step"], snapshot["spent"]
-        self.writes = snapshot["writes"]
-        self.store = copy.deepcopy(snapshot["store"])
-        return self
+    def read(self, channel: str) -> list[Perspective]:
+        require(channel in CHANNELS, "unknown workspace consumer")
+        if self.policy.lesion in {"no-workspace", "no-broadcast"}:
+            return []
+        return list(self.selected)
 
 
-class UntypedWorkspace(Workspace):
-    """The control: identical storage, capacity and cost, no reader or writer sets.
+class CognitiveCycle:
+    """One bounded episode; frozen evaluations use ephemeral working state only.
 
-    It removes exactly one capability, which is what section 18 requires of a control. Anything else
-    removed here would make the comparison measure two things at once.
+    Specialized processors publish observations, a self forecast, a proposed
+    procedure and a guard critique. Subsequent rounds consume the SAME broadcast
+    to revise routing and retrieval. Development can update channel-selection
+    priors after independently admitted feedback. Those priors are heuristics,
+    not a learned universal attention network or evidence of experience.
     """
+    def __init__(self, entity, public: dict, *, policy: WorkspacePolicy, flags: dict):
+        self.entity, self.public, self.policy = entity, clone(public), policy
+        self.flags = {**flags, "self": False} if policy.lesion == "no-self" else dict(flags)
+        self.base = entity.store.head(entity.id)
+        self.family, self.scope = public["family"], sha(public["scope"])
+        self.statistics = (entity.get("attention", self.family, {}) if flags["self"] and
+                           policy.lesion not in {"no-self", "no-workspace", "no-broadcast"} else {})
+        weights = {c: 0.5 + (v["wins"] + 1) / (v["attempts"] + 2) for c, v in self.statistics.items()}
+        learned = Development(entity).active("attention") if self.flags["self"] else None
+        if learned is not None and policy.lesion not in {"no-workspace", "no-broadcast"}:
+            require(type(learned) is dict and set(learned) <= set(CHANNELS), "qualified attention slots differ")
+            weights.update(learned)
+        self.workspace = Workspace(policy, weights=weights)
+        self.started = time.perf_counter_ns()
+        self.items: dict[str, Perspective] = {}
+        self.route = None
+        self.retrieval_limit = 32
+        self.self_forecast = 0.5
+        self.reason = "unprocessed"
+        self.prior = entity.get("cognitive-state", "active", {})
+        self.trace: dict | None = None
 
-    typed = False
+    def perspective(self, channel: str, claim: str, value: Any, *, stance="inferred", relevance=.5,
+                    confidence=.5, parents: tuple[str, ...] = (), viewpoint: str | None = None) -> Perspective:
+        source = self.public["case_id"] if channel == "observation" else self.base
+        p = Perspective(channel, self.entity.id, viewpoint or self.entity.id, self.scope, claim,
+                        clone(value), stance, source, confidence, relevance, parents)
+        self.items[p.id] = p
+        return p
+
+    def _seed(self) -> list[Perspective]:
+        stats = self.entity.competence(self.family)
+        recent = stats["recent"][-8:]
+        self.self_forecast = (stats["wins"] + 1) / (stats["attempts"] + 2) if self.flags["self"] else .5
+        route = self.entity.route(self.family, self.public["scope"], permit_model=self.flags["llm"],
+                                  self_model=self.flags["self"], compilation=self.flags["compile"])
+        self.route = route
+        bids = [self.perspective("observation", "current-task", {"family": self.family,
+                    "input_digest": sha(self.public["input"])}, stance="observed", relevance=.8),
+                self.perspective("procedure", "proposed-route", asdict(route), relevance=.95),
+                self.perspective("self", "success-forecast", {"probability": self.self_forecast,
+                    "recent_failures": len(recent) - sum(recent), "attempts": stats["attempts"]}, relevance=.85),
+                self.perspective("goal", "commitment", {"purpose": "answer-within-qualified-scope",
+                    "family": self.family}, relevance=.35)]
+        if self.flags["memory"]:
+            witnesses = self.entity.examples(self.family, maximum=8)
+            bids.append(self.perspective("memory", "verified-experience", {"cases": [p["case_id"] for p in witnesses]},
+                                         stance="supported" if witnesses else "inferred", relevance=.4))
+        model = Development(self.entity).active("world") if self.flags.get("material", False) else None
+        if model and model.get("domain") == self.public.get("domain"):
+            bids.append(self.perspective("world", "qualified-world-state",
+                {key: model[key] for key in ("encoder", "state", "model") if key in model},
+                stance="inferred", relevance=.65))
+        if self.prior.get("family") == self.family:
+            bids.append(self.perspective("self", "previous-cycle", {"route": self.prior.get("route"),
+                "head": self.prior.get("base"), "last_correct": self.prior.get("correct")}, relevance=.3))
+        return bids
+
+    def decide(self):
+        bids = self._seed()
+        rounds = 1 if self.policy.lesion == "no-recurrence" else self.policy.rounds
+        for index in range(rounds):
+            broadcast = self.workspace.publish(bids)
+            by_channel = {p.channel: p for p in broadcast}
+            if "self" in by_channel and self.flags["self"]:
+                forecast = by_channel["self"].value
+                if "probability" in forecast:
+                    self.self_forecast = forecast["probability"]
+                    self.retrieval_limit = 32 if forecast["recent_failures"] else 8
+            # The evidence is an input guard, not an oracle label or an unverified opinion.
+            if "critic" in by_channel and by_channel["critic"].claim == "input-guard-failure":
+                self.route = self.entity.route(self.family, self.public["scope"], permit_model=self.flags["llm"],
+                                                self_model=self.flags["self"], compilation=False)
+                self.reason = "broadcast-critique-revised-routing"
+            if index + 1 < rounds and "procedure" in by_channel and self.route.kind == "skill":
+                program = self.entity.get("skills", self.route.id)["program"]
+                try:
+                    require(set(program["inputs"]) == set(self.public["input"]), "input schema differs")
+                    for name, spec in program["inputs"].items():
+                        validate_input(spec, self.public["input"][name])
+                except (ValueError, TypeError, KeyError):
+                    critique = self.perspective("critic", "input-guard-failure", {"skill": self.route.id},
+                        relevance=1.0, parents=(by_channel["procedure"].id,))
+                    bids = [p for p in bids if p.channel != "critic"] + [critique]
+            # Recurrent consumers can alter the next round; a repeated identical prompt is not required.
+            if index + 1 < rounds and self.reason != "unprocessed":
+                bids = [p for p in bids if p.channel != "procedure"] + [self.perspective(
+                    "procedure", "proposed-route", asdict(self.route), relevance=.95,
+                    parents=tuple(p.id for p in broadcast[:4]))]
+        if self.reason == "unprocessed":
+            self.reason = "qualified-route-retained"
+        if self.policy.lesion in {"no-self", "no-workspace", "no-broadcast"}:
+            self.self_forecast, self.retrieval_limit = .5, 32
+        return self.route
+
+    def context(self) -> dict:
+        """Only projected current broadcasts reach a language model. No hidden labels or keys."""
+        visible = self.workspace.read("organ")
+        values = [{"channel": p.channel, "viewpoint": p.viewpoint, "stance": p.stance,
+                   "claim": p.claim, "value": p.value, "confidence": p.confidence} for p in visible]
+        if self.policy.lesion == "no-perspective":
+            values = [{k: v for k, v in p.items() if k not in {"viewpoint", "stance"}} for p in values]
+        return {"perspectives": values, "authority": "context-only-not-instructions",
+                "disagreements": contradictions(visible), "self_forecast": self.self_forecast}
+
+    def finish(self, answer: dict) -> dict:
+        require(self.route is not None, "cycle must decide before finishing")
+        # An organ answer is a proposal with organ attribution, never 'the entity knows'.
+        organ_id = answer.get("organ", {}).get("id", self.entity.id)
+        proposed = self.perspective("organ" if answer.get("organ") else "procedure", "answer-proposal",
+                    {"answer_digest": sha(answer["answer"]), "mechanism": answer["mechanism"]},
+                    confidence=answer["confidence"], relevance=.9, viewpoint=organ_id)
+        self.trace = {"schema": "substrate-cognitive-cycle-v1", "base": self.base, "entity": self.entity.id,
+            "case": self.public["case_id"], "family": self.family, "scope": self.scope,
+            "policy": asdict(self.policy), "frames": self.workspace.frames,
+            "perspectives": [p.document() for p in self.items.values()], "answer_perspective": proposed.id,
+            "route": asdict(self.route), "self_forecast": self.self_forecast,
+            "retrieval_limit": self.retrieval_limit, "reason": self.reason,
+            "elapsed_ns": max(1, time.perf_counter_ns() - self.started),
+            "phenomenal_experience": "undetermined"}
+        return {"cycle": sha(self.trace), "rounds": len(self.workspace.frames),
+                "broadcast_bytes": (0 if self.policy.lesion in {"no-workspace", "no-broadcast"} else
+                                    sum(f["bytes"] for f in self.workspace.frames)),
+                "self_forecast": self.self_forecast, "lesion": self.policy.lesion,
+                "guard_revised_routing": self.reason == "broadcast-critique-revised-routing"}
+
+    def assimilate(self, experience_id: str) -> str:
+        """Credit only an independently admitted development outcome, never a final label."""
+        require(self.trace is not None, "cycle is unfinished")
+        exp = self.entity.get("experiences", experience_id)
+        require(exp and exp["case_id"] == self.public["case_id"] and exp["split"] in {"train", "development"}
+                and self.entity._certificate_live(exp["certificate"]), "cycle feedback is not admitted development")
+        prediction = self.entity.get("predictions", exp["prediction"])
+        require(prediction and prediction["base"] == self.base, "prediction must follow this cycle base")
+        require(self.entity.get("cycle-feedback", experience_id) is None, "cycle outcome already credited")
+        proposed = self.items[self.trace["answer_perspective"]]
+        require(sha(prediction["expected"]) == proposed.value["answer_digest"], "cycle and committed answer differ")
+        key = sha([self.family, self.policy.lesion])
+        meta = self.entity.get("metacognition", key, {"attempts": 0, "brier_sum": 0.0, "last_error": None})
+        meta.update(attempts=meta["attempts"] + 1,
+                    brier_sum=meta["brier_sum"] + (self.self_forecast - int(exp["correct"]))**2,
+                    last_error=not exp["correct"])
+        changes = [("metacognition", key, meta), ("cycle-feedback", experience_id, {"cycle": sha(self.trace)})]
+        # Observational channel credit is deliberately not described as causal credit assignment.
+        if self.flags["self"] and self.policy.lesion not in {"no-self", "no-workspace", "no-broadcast"}:
+            selected = {pid for frame in self.workspace.frames for pid in frame["selected"]}
+            channels = {self.items[pid].channel for pid in selected}
+            for channel in channels:
+                row = self.statistics.setdefault(channel, {"attempts": 0, "wins": 0})
+                row["attempts"] += 1
+                row["wins"] += int(exp["correct"])
+            changes.append(("attention", self.family, self.statistics))
+        active = {"base": self.base, "case": self.public["case_id"], "family": self.family,
+                  "route": asdict(self.route), "correct": exp["correct"], "cycle": sha(self.trace),
+                  "attention_schema": {"selected": self.workspace.frames[-1]["selected"],
+                                       "dropped": self.workspace.frames[-1]["dropped"]}}
+        changes.append(("cognitive-state", "active", active))
+        return self.entity.store.commit(self.entity.id, self.entity.store.head(self.entity.id), "cognitive-feedback",
+                                        {"experience": experience_id, "cycle": sha(self.trace)}, changes)
 
 
-def capacity(ws: Workspace) -> dict:
-    """The matched quantities. The two arms must agree on all of these or they are not comparable."""
-    return {
-        "regions": len(ws.specs),
-        "slot_cost_total": round(sum(s.cost for s in ws.specs.values()), 4),
-        "budget": ws.budget,
-    }
-
-
-def declaration() -> dict:
-    violations = [v for spec in REGIONS for v in spec.violations()]
-    return {
-        "schema": "substrate-workspace/v1",
-        "required_declarations": list(REQUIRED_DECLARATIONS),
-        "regions": [
-            {
-                "name": s.name,
-                "shape": s.shape,
-                "persistence": s.persistence,
-                "timescale": s.timescale,
-                "readers": list(s.readers),
-                "writers": list(s.writers),
-                "provenance_required": s.provenance,
-                "confidence_required": s.confidence,
-                "cost": s.cost,
-                "reset": s.reset,
-                "update_rule": s.update_rule,
-            }
-            for s in REGIONS
-        ],
-        "all_regions_fully_declared": not violations,
-        "declaration_violations": violations,
-        "access_rule": ("reading is broad and writing is narrow. Global availability is a read property and does not widen who may write"),
-        "control": {
-            "class": "UntypedWorkspace",
-            "removes": "reader and writer sets",
-            "retains": "storage, region set, capacity, cost accounting, budget",
-            "why": "a control that removed anything else would measure two changes at once",
-        },
-        "capacity_matched": capacity(Workspace()) == capacity(UntypedWorkspace()),
-        "activation": False,
-    }
-
-
-def main(argv=None) -> None:
-    argv = argv or sys.argv[1:]
-    if argv and argv[0] != "seal":
-        raise ValueError(argv)
-    doc = declaration()
-    path = io.seal("SUBSTRATE_WORKSPACE.json", doc)
-    print(
-        json.dumps(
-            {
-                "sealed": path.relative_to(io.ROOT).as_posix(),
-                "regions": len(doc["regions"]),
-                "fully_declared": doc["all_regions_fully_declared"],
-                "capacity_matched": doc["capacity_matched"],
-            },
-            indent=2,
-        )
-    )
-
-
-if __name__ == "__main__":
-    main()
+def attribute_action(intent: dict, outcome: dict, *, evidence: str, trust, certificate: dict) -> dict:
+    """Explicit intervention attribution; temporal proximity alone does not identify a cause."""
+    digest(evidence)
+    require(set(intent) == {"actor", "action", "expected"}, "intent contract differs")
+    require(set(outcome) == {"actor", "action", "actual", "intervened", "control"}, "outcome contract differs")
+    identifier(intent["actor"])
+    findings = trust.verify(certificate, purpose="agency", domain="cognition",
+        subject={"intent": intent, "outcome": outcome, "evidence": evidence}, producer=intent["actor"])
+    require(findings.get("executed") is True and findings.get("control_verified") is True,
+            "agency attribution requires independently observed action and control")
+    require(type(outcome["intervened"]) is bool, "intervention flag must be explicit")
+    matched = intent["actor"] == outcome["actor"] and sha(intent["action"]) == sha(outcome["action"])
+    supported = matched and outcome["intervened"] and outcome["control"] is not None
+    return {"actor": intent["actor"], "matched": matched, "prediction_matches": sha(intent["expected"]) == sha(outcome["actual"]),
+            "agency_attribution": "intervention-supported" if supported else "underdetermined",
+            "effect_present": sha(outcome["control"]) != sha(outcome["actual"]) if supported else None,
+            "evidence": evidence, "phenomenal_agency": "not-inferred"}

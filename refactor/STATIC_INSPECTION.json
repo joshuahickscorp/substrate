@@ -1,0 +1,278 @@
+{
+  "authored_file_count": 53,
+  "authored_lines_excluding_historical_evidence": 9462,
+  "call_review": {
+    "calls_present": 5454,
+    "errors": [],
+    "resolved_calls_inspected": 2243,
+    "scope": "AST-only direct functions/constructors and self/class methods; no runtime/type or external API proof"
+  },
+  "errors": [],
+  "file_inventory": [
+    {
+      "bytes": 56,
+      "path": ".dockerignore",
+      "physical_lines": 5,
+      "sha256": "196468d86f8404e85b3e29bb1b4fb62889febce5c7387058d1d945e580a9b870"
+    },
+    {
+      "bytes": 464,
+      "path": ".github/workflows/static.yml",
+      "physical_lines": 16,
+      "sha256": "38f5d83b422b4750b161561476568582fd65af6fb43fec333cc0f5de2047dd89"
+    },
+    {
+      "bytes": 483,
+      "path": ".gitignore",
+      "physical_lines": 37,
+      "sha256": "87a50e3582c952b8423ab5a1bcb60ca098a62df9e85b42b6146cc4cf6cb55275"
+    },
+    {
+      "bytes": 646,
+      "path": "Dockerfile",
+      "physical_lines": 12,
+      "sha256": "bac6143f27d55c525073ed78db88dc2c9948ff94ca2fe258f1d5785c1e560ee3"
+    },
+    {
+      "bytes": 231,
+      "path": "Makefile",
+      "physical_lines": 9,
+      "sha256": "4071a761619878c34dd4dfc3039bb1cd8fdd5ab5c89fce6dc12631dd7b3d70d5"
+    },
+    {
+      "bytes": 428,
+      "path": "configs/bindings.example.json",
+      "physical_lines": 21,
+      "sha256": "aa6242cf7a3ead925238b6e1d1491b9734a99506085f05369b71024442d7d840"
+    },
+    {
+      "bytes": 2029,
+      "path": "configs/main.json",
+      "physical_lines": 21,
+      "sha256": "63617ef43e900ca3f0f91bc4fbd9a01e7dd204f1b52e7343611a6dcad3e6eca7"
+    },
+    {
+      "bytes": 3149,
+      "path": "configs/odyssey.json",
+      "physical_lines": 17,
+      "sha256": "0bfde54516bbd5c6561e94b42ec9e8da6bbfa19fef1aa4fa85b2b0386437f99c"
+    },
+    {
+      "bytes": 392,
+      "path": "configs/organ.example.json",
+      "physical_lines": 19,
+      "sha256": "30f651500b72d293b639e3a2beb92fc9ba240081535ed8e5085ddfdb4eede4c9"
+    },
+    {
+      "bytes": 1617,
+      "path": "configs/pilot.json",
+      "physical_lines": 21,
+      "sha256": "dabad7b0a18cc4b3ba0ff53d96679490a6aa1b9ffc63d54024db2bd00334312b"
+    },
+    {
+      "bytes": 11339,
+      "path": "configs/research_frontier.json",
+      "physical_lines": 32,
+      "sha256": "ea86dafa6312b5ccbef3d7a56c93e9f95e11ee67ac41240251636ece0a430d4d"
+    },
+    {
+      "bytes": 52,
+      "path": "configs/trust.example.json",
+      "physical_lines": 4,
+      "sha256": "8d5e50fb4d417169c79da0f16a6b96c5b40de30d877eb84bf805ff74c856fa50"
+    },
+    {
+      "bytes": 626,
+      "path": "pyproject.toml",
+      "physical_lines": 26,
+      "sha256": "71732472b7f192e8d6ef99a6c381f3f57548a3a48c90b2e842dd44fe6e2fb4fc"
+    },
+    {
+      "bytes": 1069,
+      "path": "src/substrate/HAWKING_LICENSE.txt",
+      "physical_lines": 21,
+      "sha256": "a2a8fc660f50ec58e13658ca66a6aef142187f29386923b3c63f44d28ab10f28"
+    },
+    {
+      "bytes": 100,
+      "path": "src/substrate/__init__.py",
+      "physical_lines": 2,
+      "sha256": "d917df4406feaad75ba91353ba9e389196369e229c97958bc08850a8ff554c68"
+    },
+    {
+      "bytes": 22004,
+      "path": "src/substrate/cli.py",
+      "physical_lines": 373,
+      "sha256": "6895903a1246640f2487081b07903cb2497788fc95f407dc4b579429214395bb"
+    },
+    {
+      "bytes": 34888,
+      "path": "src/substrate/cognition.py",
+      "physical_lines": 541,
+      "sha256": "b3d5e046842f45c0ad6c905353e41f3e28226f94f1988c823d2849055ef91c90"
+    },
+    {
+      "bytes": 12756,
+      "path": "src/substrate/core.py",
+      "physical_lines": 322,
+      "sha256": "10e65f738e5b5c8228b3b36f502b998f5c98a0d6f93ca6a42293b36b48481602"
+    },
+    {
+      "bytes": 17900,
+      "path": "src/substrate/development.py",
+      "physical_lines": 293,
+      "sha256": "70088b7aa24e94cfbd6011b7a494779bc2de4c23221ac4cf4bb2b8ca8b997025"
+    },
+    {
+      "bytes": 6193,
+      "path": "src/substrate/exchange.py",
+      "physical_lines": 88,
+      "sha256": "0a5473fb0104a73604a81ea652bd7e039b38def6376b3804b7dd5b63a64620f1"
+    },
+    {
+      "bytes": 32350,
+      "path": "src/substrate/handoff.py",
+      "physical_lines": 499,
+      "sha256": "948eed8bfc979d51d115b0d269c9c0dfaf541fedf46a03a46bd0e69ed26d917a"
+    },
+    {
+      "bytes": 20684,
+      "path": "src/substrate/hawking.py",
+      "physical_lines": 316,
+      "sha256": "a3eee1c9017091ae6aad4516da777d3f6efb7a15b175536485cd3447f8ae2fb1"
+    },
+    {
+      "bytes": 21435,
+      "path": "src/substrate/language.py",
+      "physical_lines": 490,
+      "sha256": "cf325fb7a3bcf9c116bd9673acc26208ae9df3f2ed4069c085f51860a66018eb"
+    },
+    {
+      "bytes": 38798,
+      "path": "src/substrate/local.py",
+      "physical_lines": 570,
+      "sha256": "3e2c493b3fdfd01868547b9c1313fad504d33ae30526e3c4d89436fbb6654c70"
+    },
+    {
+      "bytes": 36508,
+      "path": "src/substrate/odyssey.py",
+      "physical_lines": 537,
+      "sha256": "22929fc1019fa8624ff2ea62ea0b4fe43304c66177bd46cb857f988120b2e09d"
+    },
+    {
+      "bytes": 15584,
+      "path": "src/substrate/organs.py",
+      "physical_lines": 261,
+      "sha256": "ce7a6b21f0eeb65f035855c060a465322ca247d13d28eb83210321b27b7eabad"
+    },
+    {
+      "bytes": 15985,
+      "path": "src/substrate/research.py",
+      "physical_lines": 226,
+      "sha256": "a62024e63137a67c766da906044fa7d4a29bc528316b6ab9ce1c9ecd7ea040df"
+    },
+    {
+      "bytes": 7440,
+      "path": "src/substrate/sandbox.py",
+      "physical_lines": 153,
+      "sha256": "f503c1588c1520cb2302b6d8b27ebe86e0b2974c5e855a0ed979392f4383eb85"
+    },
+    {
+      "bytes": 9249,
+      "path": "src/substrate/statistics.py",
+      "physical_lines": 152,
+      "sha256": "89a1fa4c5d99e217131de98cede2707235d50782ca16148d24f1672f4346842c"
+    },
+    {
+      "bytes": 31264,
+      "path": "src/substrate/store.py",
+      "physical_lines": 540,
+      "sha256": "778568548813c72fe91dd107c1e7b43095796dcc453040a0f9e050c84287e1d5"
+    },
+    {
+      "bytes": 18668,
+      "path": "src/substrate/workspace.py",
+      "physical_lines": 308,
+      "sha256": "46e461af844b04da5540a0e78c6854b0baad91947adf7f909ad3421053bb73d6"
+    },
+    {
+      "bytes": 21261,
+      "path": "src/substrate/worlds.py",
+      "physical_lines": 334,
+      "sha256": "afcf0e0ebd522231c9e6c8e93bf5b8da32697ae7acf377fbacab1020f9b18d35"
+    },
+    {
+      "bytes": 3294,
+      "path": "tests/conftest.py",
+      "physical_lines": 65,
+      "sha256": "24439ac10314d8489eb3dac1136671c2a1d015625637c86fcfb79ad9deb0ec20"
+    },
+    {
+      "bytes": 10485,
+      "path": "tests/test_entity.py",
+      "physical_lines": 226,
+      "sha256": "a644b87c605a6adba86df63ab5a1a2b96edbab236527ba7cb750494b571ce547"
+    },
+    {
+      "bytes": 15173,
+      "path": "tests/test_freeze.py",
+      "physical_lines": 336,
+      "sha256": "945f1cc019ce35f4451f92ba8df03470e0d2e24c75332f8344280045ce96e0fc"
+    },
+    {
+      "bytes": 13552,
+      "path": "tests/test_integration.py",
+      "physical_lines": 274,
+      "sha256": "e01385a1a96346a3d40fc271576fc1ee2331048094cf06989e2d1278cb489de6"
+    },
+    {
+      "bytes": 14820,
+      "path": "tests/test_kernel.py",
+      "physical_lines": 390,
+      "sha256": "5816a76a8603c797191c0bb8b6d9a32daabca7522c9a1f54f11cef24bc3cf995"
+    },
+    {
+      "bytes": 4373,
+      "path": "tests/test_migration.py",
+      "physical_lines": 86,
+      "sha256": "b492826005e5f4a2962866cc4910f178db9dadc79df1be7748f8295fceac2d93"
+    },
+    {
+      "bytes": 12756,
+      "path": "tests/test_odyssey.py",
+      "physical_lines": 285,
+      "sha256": "ed6075bf85b45c6072c8c48d437b6e880e67a01b9def1d2922d2f5a02aba271d"
+    },
+    {
+      "bytes": 13936,
+      "path": "tools/static_check.py",
+      "physical_lines": 246,
+      "sha256": "f2a811e90bd9915e32c11dcfd7a653264352fb980403d67b2796d9c084b17ea2"
+    }
+  ],
+  "inspector_python": "3.14.6",
+  "limits": [
+    "No behavioral equivalence, type-system soundness or test pass is inferred",
+    "No dynamic import, dependency installation, SQL execution or service exercise",
+    "Internal imports and simple global bindings inspected; not a complete linter or type checker"
+  ],
+  "model_calls": 0,
+  "odyssey_runs": 0,
+  "physical_lines_by_category": {
+    ".github": 16,
+    "configs": 135,
+    "operational": 89,
+    "src": 6026,
+    "tests": 1662,
+    "tools": 246
+  },
+  "physical_runtime_lines": 8174,
+  "python_files_parsed_and_compiled_not_executed": 26,
+  "runtime_bytes": 474037,
+  "runtime_file_count": 40,
+  "schema": "substrate-static-inspection-v3",
+  "status": "source-inspection-clean",
+  "test_definitions_present_not_collected": 173,
+  "tests_collected": 0,
+  "tests_run": 0
+}

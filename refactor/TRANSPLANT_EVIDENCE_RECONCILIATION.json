@@ -1,0 +1,91 @@
+{
+  "compact_pack": {
+    "manifest": {
+      "bytes": {
+        "canonical_json_bytes_all": 1387340685,
+        "canonical_json_unique": 7368,
+        "raw_preserved": 174009042,
+        "source_json": 1803616633,
+        "source_total": 1977498553
+      },
+      "counts": {
+        "canonical_json": 7613,
+        "duplicate_canonical_json": 245,
+        "files": 10081,
+        "json": 7617,
+        "non_json": 2464,
+        "raw_json": 4
+      },
+      "format": "substrate-compact-evidence/v1",
+      "integrity": "source_sha256 remains recorded for every source file; canonicalization is semantic, not byte-preserving for JSON whitespace/key order",
+      "representation": {
+        "index": "source path to canonical blob mapping with original byte size and SHA-256",
+        "json": "canonical sorted compact JSON blobs, content-addressed by canonical SHA-256",
+        "raw": "non-JSON and non-canonical JSON bytes preserved in raw-files.tar.zst"
+      },
+      "source": "evidence/"
+    },
+    "source_to_target": {
+      "extra_target_files": [],
+      "matched": 10081,
+      "mismatch": [],
+      "missing": [],
+      "source_entries": 10081
+    }
+  },
+  "external_data_link": {
+    "path": "data",
+    "target": "/Volumes/corpdrive/substrate/data"
+  },
+  "freeze_distribution_manifest": {
+    "expected": 119,
+    "matched": 119,
+    "mismatch": [],
+    "missing": []
+  },
+  "freeze_version": "4.0.0a1",
+  "freeze_zip_sha256": "8a273818f41fc7a2ace01ac092986bbc0dcc7e0f010e295fe832c5cc4d48bd32",
+  "historical_storage_left_local": [
+    {
+      "bytes": 1977498553,
+      "path": "evidence"
+    },
+    {
+      "bytes": 137442414,
+      "path": "evidence-compact"
+    },
+    {
+      "bytes": 5655376452,
+      "path": "artifacts"
+    },
+    {
+      "bytes": 1315103663,
+      "path": "runs"
+    },
+    {
+      "bytes": 0,
+      "path": "archive"
+    },
+    {
+      "bytes": 215299824,
+      "path": ".venv"
+    },
+    {
+      "bytes": 308194,
+      "path": "logs"
+    }
+  ],
+  "pre_transplant_inventory_summary": {
+    "HISTORICAL_TEST_OBLIGATION": 96,
+    "REPLACED": 12,
+    "RETIRED": 366
+  },
+  "qualification": "Evidence hashes reconcile; evidence remains historical and does not qualify the frozen unexecuted source.",
+  "schema": "substrate-transplant-evidence-reconciliation-v1",
+  "selected_freeze_evidence": {
+    "expected": 114,
+    "matched": 114,
+    "mismatch": [],
+    "missing": []
+  }
+}

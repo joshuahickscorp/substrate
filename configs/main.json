@@ -1,0 +1,21 @@
+{
+  "schema": "odyssey-plan-v2",
+  "status": "draft",
+  "kind": "main",
+  "world": "micro-worlds-2",
+  "units": ["history-000", "history-001", "history-002", "history-003", "history-004", "history-005", "history-006", "history-007", "history-008", "history-009", "history-010", "history-011", "history-012", "history-013", "history-014", "history-015"],
+  "arms": ["model-only", "memory-only", "cache-only", "native-only", "developed", "no-self-model", "no-compilation", "no-material", "no-teacher", "no-workspace", "no-recurrence", "no-perspective", "no-broadcast"],
+  "families": ["affine", "queue", "logic", "sequence", "composed", "causal"],
+  "episodes": {"train": 12, "evaluation": 8, "transfer": 8, "retention": 8, "shift": 8, "organ_swap": 0},
+  "qualification_cases": 16,
+  "qualification_attempts": 3,
+  "compile_every": 4,
+  "induction_candidates": 5000,
+  "induction_seconds": 0.25,
+  "budget": {"calls": 500, "tokens": 1000000, "wall_seconds": 3600, "retained_bytes": 268435456, "workers": 2},
+  "successful_trace_every": 32,
+  "primary_contrast": ["developed", "memory-only"],
+  "preregistration": {"question": "Does verified experience become reusable entity-owned structure?", "primary_outcome": "evaluation_accuracy", "sample_size_rationale": null, "independent_unit": "developmental-history", "analysis": "fixed-horizon-paired-history-bootstrap", "source_license_review": false, "oracle_review": false, "isolation_review": false, "model_prior_disclosure": null, "stopping": "complete fixed matrix or report incomplete, not an efficacy claim"},
+  "cognition": {"enabled": true, "program": "substrate-odyssey", "target": "locally-owned-general-intelligence-and-consciousness-research", "chapter": "mechanisms", "workspace": {"slots": 4, "rounds": 3, "byte_limit": 12288, "lesion": "none"}},
+  "development": {"enabled": true, "policy": {"native_after": 4, "neural_after": 24, "replay_per_family": 24, "replay_limit": 256, "consolidate_every": 32, "learning_rate": 0.01}, "neural_jobs": "separately-authorized"}
+}

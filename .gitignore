@@ -1,90 +1,37 @@
-# Local agent/tool state; never a second published source tree.
-.claude/
-.worktrees/
-
-# Serena symbol index: local tool cache, regenerated on demand.
-.serena/
-
-# G10 isolation probe: a live runtime tree whose whole point is that it is
-# owned by nobody and unreadable by the operator. Not committable, and git
-# cannot descend into it.
-artifacts/substrate/odyssey/isolation-probe/
-
-# Private key material must never enter the index.  Commit 6dc1e066 added sixteen
-# unencrypted Ed25519 verifier private keys explicitly, so an ignore rule alone would
-# not have stopped it -- tests/substrate/test_no_private_keys_tracked.py is the enforcement.
-*.private
-*.pem
-**/keys/verifier.ed25519.private
-
-# Odyssey tool sandboxes: regenerable Lean toolchain copies and content-addressed
-# tool cache. 9.42 GiB, bound by no receipt, and the cache held private verifier keys.
-artifacts/substrate/odyssey7d/tool-work/
-artifacts/substrate/odyssey7d/tool-cache/
-
-# Unsealed Odyssey rehearsal workspaces are disposable local runs. Their
-# reviewable conclusions must be copied into evidence/ before publication.
-artifacts/substrate/odyssey7d/refresh-*/
-artifacts/substrate/odyssey7d/two-wave-v1/
-artifacts/substrate/odyssey7d/g06-dc/work/
-
-# Tangible Sandbox evaluator answer keys are generated from the supplied corpus;
-# they are not source, executor-visible traces, or retained evidence.
-artifacts/substrate/tangible_sandbox/corpus/**/evaluator_only/**/answers/
-
-# Finder metadata
-.DS_Store
-
-# Local credentials and environment overrides; never commit populated values.
-.env
-.env.*
-
-# --- from main ---
-.venv/
-*.pyc
 __pycache__/
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
+*.pyc
+.DS_Store
+.venv/
+build/
+dist/
 *.egg-info/
-/data
-*.npy
-*.memmap
-reports/telegram_notifier/
-logs/
-# This retained supervisor log is an input to the active real-session authority.
-# Keep disposable logs private, but carry this one source into clean clones.
-!/docs/archive/pre-substrate-event-horizon/logs/
-/docs/archive/pre-substrate-event-horizon/logs/*
-!/docs/archive/pre-substrate-event-horizon/logs/supervisor.detached.log
-/runs/
-*.pt
-*.pth
-*.safetensors
-*.bin
-GO.md
-.collapse/
-artifacts/substrate/execution-forge/.benchmark-*/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.pem
+*.key
+.env
+runs/
+private/
+*.substrate.zip
 
-# The tracked checkout has one canonical home for each maintained concern.
-# These root-level compatibility/runtime namespaces may still exist in a
-# developer's working directory, but they are local-only and must not become a
-# second published source tree.
+# Historical evidence and local runtime storage remain on disk but are not
+# parallel published implementations of the frozen source tree.
 /archive/
 /artifacts/
-/configs/
+/data
+/inputs/
 /native/
 /operations/
 /plans/
 /proof/
-/tools/
-/code/
-/inputs/
 /project/
 /protocol/
 /run/
-
-# Local evidence scratch copies are preserved on disk but are not authorities.
 /evidence/archive
 /evidence/proof
 /evidence/r2
+/logs/

@@ -1,0 +1,21 @@
+{
+  "schema": "odyssey-bindings-v2",
+  "host": null,
+  "organ": null,
+  "replacement": null,
+  "evaluator": {
+    "endpoint": "http://127.0.0.1:8091/",
+    "token_env": "SUBSTRATE_ORACLE_TOKEN"
+  },
+  "sandbox": {
+    "mode": "native",
+    "image": null,
+    "runtime": "/usr/bin/docker",
+    "memory_mb": 256,
+    "cpus": 1.0,
+    "pids": 32,
+    "wall_seconds": 10.0,
+    "output_bytes": 1048576
+  },
+  "qualifications": []
+}

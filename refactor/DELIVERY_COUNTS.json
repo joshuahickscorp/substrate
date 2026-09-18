@@ -1,0 +1,21 @@
+{
+  "schema": "substrate-freeze-counts-v1",
+  "version": "4.0.0a1",
+  "authored_files": 53,
+  "all_authored_physical_lines": 9190,
+  "source_modules": 18,
+  "source_python_lines": 6005,
+  "runtime_lines": 8130,
+  "python_files": 26,
+  "test_definitions": 173,
+  "retained_test_definitions": 143,
+  "new_unrun_test_definitions": 30,
+  "historical_evidence_files": 119,
+  "historical_evidence_bytes": 139163029,
+  "counts_include_comments_and_blanks": true,
+  "tests_executed": 0,
+  "tests_collected": 0,
+  "odyssey_runs": 0,
+  "model_calls": 0,
+  "source_inspection_not_behavioral_validation": true
+}

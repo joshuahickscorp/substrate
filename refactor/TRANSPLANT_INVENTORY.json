@@ -1,0 +1,3804 @@
+{
+  "freeze_version": "4.0.0a1",
+  "records": [
+    {
+      "bytes": 7807,
+      "lines": 189,
+      "new_owner": ".github/workflows/static.yml",
+      "path": ".github/workflows/substrate.yml",
+      "sha256": "0e7b4fa6fb9b2e38321df7ed59de3ed45a87b51aa543656185946a206ac6a317",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2662,
+      "lines": 91,
+      "new_owner": ".gitignore",
+      "path": ".gitignore",
+      "sha256": "19b04c040ee3ba606abcf420dd49d8fc6b1e2b689bf09975a64691cb8d0cd89f",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 1167,
+      "lines": 55,
+      "new_owner": "Makefile",
+      "path": "Makefile",
+      "sha256": "07bc983da39f1fb821c7d06d4088979975d6b8726adfb65b3710ae1fad6c4ca8",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 25561,
+      "lines": 397,
+      "new_owner": "README.md",
+      "path": "README.md",
+      "sha256": "e451704d7beaf1bbeaf7695296a81e31122312663fedbbe443784184315722fe",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 782,
+      "lines": 24,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/SEED_INDEX.json",
+      "sha256": "e9f9f38719a88cbbc9eab96f5ffd3d7093cbdb4c251f0f61dd50909f1cb372ee",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1418,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_active_camera_v1.json",
+      "sha256": "a5643b121d1035b0a01dfec2b9d8271193b78fd0f3bd37dda31d0b39848043a9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1418,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_depth_ordering_v1.json",
+      "sha256": "f330aa31210c246d2865eb47528c98fb67bfad2ada55ae923a7b0485e36e9669",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1517,
+      "lines": 107,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_object_permanence_v1.json",
+      "sha256": "8da230509ac0e6b05494f9e299280c93ccb22a24945c05d3f0f77d07ea76231d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1414,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_occlusion_v1.json",
+      "sha256": "11b63ba9ed9146d14efc59534283edb08d0c6ab114145c1abcab456927de15e1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1684,
+      "lines": 118,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_relative_position_v1.json",
+      "sha256": "280a4bac9f06e8b000394ae016d04a4c6073e31589908080d576d6a6d7e65091",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2017,
+      "lines": 139,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_support_containment_v1.json",
+      "sha256": "58688b05b34dd51436ad14f958b90e43fdc7620b57aad074faa4693d62d3bd4f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1419,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/canary_viewpoint_change_v1.json",
+      "sha256": "9be8a345db10b42f4b512c023dcad3102eb89c99f75e35026e3cca89a74bbe9d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 435,
+      "lines": 12,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_active_camera_v1/answer_state.json",
+      "sha256": "3c9c517c2aedd15ee3015072bf780913e24099f4bc7ade51324e5697e0f513b0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 411,
+      "lines": 13,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_depth_ordering_v1/answer_state.json",
+      "sha256": "07ba4cdd3fc2d637d7460693701bfdbea79fbe43cd42390939a57c0e025b0e65",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 482,
+      "lines": 19,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_object_permanence_v1/answer_state.json",
+      "sha256": "f634dc35b9d305360fae94fef023aefb95e28b38419c5f81f8d3274fed1258cb",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 521,
+      "lines": 17,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_occlusion_v1/answer_state.json",
+      "sha256": "998b1f4b02738728840870e8f9be49a9d61696423fd77213a581bc544a6f9750",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 509,
+      "lines": 15,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_relative_position_v1/answer_state.json",
+      "sha256": "c7e7188cbf7054e2bd73133bfbb03bb254b0640e3a01460abc105cf977c3b993",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 519,
+      "lines": 17,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_support_containment_v1/answer_state.json",
+      "sha256": "68cadd87d975a8afaea5b9e2536dcfd8e86421fb5e52d9d3ff7390939a944ef2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 430,
+      "lines": 15,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/spatial3d/seeds/evaluator/canary_viewpoint_change_v1/answer_state.json",
+      "sha256": "4e454f53108ddde4fe9e96580e603d3d7e1194a61d09e516542b2b499b40bda9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 951,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ADAPTER_CONTRACT.sealed.json",
+      "sha256": "b4c49b683d9daa4786114134879ac96e2167d6d3fae80be2b1d16c62dd43be3b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3063,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/BLIND_SHADOW_DESIGN.draft.json",
+      "sha256": "083a35c45e32e8d719fded20ff7acb8401aac9f61b8f08c84a47e2c5dd5700e3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1788,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/DATASET_ADOPTION_REGISTER.draft.json",
+      "sha256": "5c8d94da28ccd4b100d9272778180ac5184cc2a35ed19fd343659293c6defda4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3841,
+      "lines": 100,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/FRONTIER_LATTICE.draft.json",
+      "sha256": "b17320076a425e1d7da2ace3d69a4dd9ec32faf29466557a0197a505082664b0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 191825,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/LIBRISPEECH_CLIP_INDEX.json",
+      "sha256": "438c1f10fd3e9c69e39959ce079910ec4de0fcc6f2b7f978385c87eae2088da3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2202,
+      "lines": 62,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/MEASUREMENT_DENSITY.draft.json",
+      "sha256": "dbd22d7f61aa15e29e8e9504701684b58b2e45b3ebc2d99ace3b14bf57c9e75b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3756,
+      "lines": 94,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/MULTI_BLIND_FABRIC_85GB.draft.json",
+      "sha256": "462d44de7b8401fef5df06d795af47a73a852e8657a12067f5a852da59932b33",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1431,
+      "lines": 54,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.canaries.json",
+      "sha256": "e543d248e682ccef5025281ca21de39519b96250da07ef5cbb8d3f7e44c537b6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2122,
+      "lines": 64,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.detachment.template.json",
+      "sha256": "ec18de32aba87f1c8a016e21f8e87eb2487c49840245c98450d950480cf02f29",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5248,
+      "lines": 81,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.draft.json",
+      "sha256": "6428d8774c7bb67169ab485e7ebd3464e5a8162931ed9a1d24d0bda37e133ac0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9351,
+      "lines": 318,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.hardened.draft.json",
+      "sha256": "03ab01a754c8fe51a8286aace0988172b86edecfb73f575f111dff52a2ae35a9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1056,
+      "lines": 30,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_7D.telegram.launchd.template.plist",
+      "sha256": "f0c08ea8a6912f5d7d38c4db291920040bdb1d52c84eca02d03907bf2bbb8475",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13744,
+      "lines": 263,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_CONTINUATION_PREFLIGHT.a7761bdc.json",
+      "sha256": "fc75d3470c34ef5fb7163dd4e40d72a4f55332e87eacf8720bae1481b31efc50",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 17857,
+      "lines": 478,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_CORPUS_ACQUISITION.json",
+      "sha256": "21fff5a6730b2b4c20cefbf8b9def095bdb633290bdb4b9799b16a073c914859",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3648,
+      "lines": 17,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_FRONTIER_TASK_CONTRACTS.frozen.json",
+      "sha256": "06b384cc55136ac7e52380ce17c0d7089b673ebc6d2ad07101a841230d2fb852",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3956,
+      "lines": 71,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_FROZEN_BUILD.json",
+      "sha256": "ca254ccf2922ff1d9981c2173c87bc832df6b4312077f2026bcdad70dea7d482",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4712,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_HUMAN_EVIDENCE_PACK.template.json",
+      "sha256": "337513ec0d55ded410b5c2af4f44717ff40b2cd4d3cb0614fa7215265cfc8ed2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3654,
+      "lines": 99,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_OPERATOR_INPUTS.template.json",
+      "sha256": "c9f332141e3dc9604ba22469e633fd02e4ee5d2f33d0c9d6ba72ec3da371f91b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1209,
+      "lines": 34,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_PREFLIGHT.telegram.launchd.plist",
+      "sha256": "b9753c5cf0b77d5d469a8f1e1053e007755b0149897764a13a2301f11843ce0a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4125,
+      "lines": 40,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_PUBLIC_MODEL_CANARY.template.json",
+      "sha256": "1770b1738aa8bff92e969c60c797f29f020bc4f846d385305e2e00cc85510b6a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1141,
+      "lines": 14,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_R2_TRANSITION.launchd.template.plist",
+      "sha256": "db81159f03a91adb0167763493c91ffabd3d9dce73a4e6d0e638623800206351",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5180,
+      "lines": 60,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_SHARED_STORAGE_RESERVE.draft.json",
+      "sha256": "ecb228c1f779c01512d11e46e5bd8abc942587426648c5a09066fbe88f6867f6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8711,
+      "lines": 175,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.draft.json",
+      "sha256": "80ac2ff61604135e7d7491268e1469cec651775a92725d11830f41b9b71a4f8e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9388,
+      "lines": 188,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.sealed.json",
+      "sha256": "ef0e9ab22685fa2304d6b0d7559f6702b87c57bd3315cfd458684509b34ac1b4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8631,
+      "lines": 176,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.sealed.v2.json",
+      "sha256": "85f1fc99d646ee230d3bcfa5a0b022cc92f6e5f561bf3e9c719afce672f8bd68",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2907,
+      "lines": 98,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_SOURCE_SELECTION.template.json",
+      "sha256": "3a3a7a7e8c8ebbea294b55ae94f18b7809846040ec10efc20fbbe5c7e5e2b8f3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4346,
+      "lines": 53,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_TASK_BANK_MANIFEST.draft.json",
+      "sha256": "203152a45ed04f3b7e4c2c550072b910c361be74e86148952110910596b2b4a9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10844,
+      "lines": 123,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/ODYSSEY_TOOL_PANEL_INVENTORY.json",
+      "sha256": "76c7ccc9ad80c1182c184c8ee721e6d213ad817bc4dcd27777873f8dc312041c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2760,
+      "lines": 54,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/PEDAGOGY_COMPRESSION.draft.json",
+      "sha256": "23180b8f77ba790f01d27b4b19fc4d9081d0a14b88086d9e60fb743b36ada60c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1488,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/PIVOT_POLICY.sealed.json",
+      "sha256": "ec972f424f53cedecbe56851d34a657ac0fe653f3a4d28503b9c9a97a46c57f7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1357,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/POST_R2_REVIEW.json",
+      "sha256": "191f4ce2c048d6d3e86345f7ada3f039399d691b8dc97a3893066d0744983f39",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2538,
+      "lines": 40,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/R2_REMEDIATION_ODYSSEY_BRIDGE.draft.json",
+      "sha256": "9df5e0d353faf4e0bfbe2ec60f64ff3d227ea242c24e3455a92c97821dfadb95",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2409,
+      "lines": 31,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/R2_TO_ODYSSEY_AUTOPIVOT_POLICY.sealed.json",
+      "sha256": "cbe6539741ec69a7e2446ec0969e2ed7e2dd7c1eb280a286c39f965d8d0445bc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1180,
+      "lines": 33,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/RESOURCE_CALIBRATION_SPEC.draft.json",
+      "sha256": "962802404bcda67d00b4201e08dfa637bdecef8b9c5d732bd55c28372c5343ed",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 22753,
+      "lines": 568,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/SUBSTRATE_PORTABILITY_MANIFEST.json",
+      "sha256": "e2b18914c620a10e1712460cdfc06e52bf0ff97c9e6be14a7db28532420a380e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1399,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/A_integrated_continuity.manifest.template.json",
+      "sha256": "0a4c5063325728750359e2bfcfe8988c511689555325536de557a2ec70b8bb5b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1338,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/B_formal_mathematics.manifest.template.json",
+      "sha256": "af0acf970fc427cfc708a1d1a3eddd1575a4e7189fb83f5969e1cf49147f313f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 487,
+      "lines": 27,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/CALIBRATION.template.json",
+      "sha256": "0fe29b6d493fcd56ce50c255cab455ec6ca0100db82c099504c32416afdfb89d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1373,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/C_formal_logic.manifest.template.json",
+      "sha256": "6227b7c890555bba368f15ec962f63433526d592588296c9470fff0f8f32fc12",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1347,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/D_software.manifest.template.json",
+      "sha256": "842a4f96adb53453e3bcf8e29d9a8a8445c0db68c2b5e1abfd8b00411ac7e3b0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1480,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/E_philosophy_self_model.manifest.template.json",
+      "sha256": "720399fe68ccef9626b742b3dabf03c5fbda90946a1778104f5acee260f4dd03",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3470,
+      "lines": 29,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/FRONTIER_BUILD_INDEX.json",
+      "sha256": "9f60d68d9cfd35ede1806f10e39422d20db59f125a01315df43704a229496416",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1384,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/F_sound_speech.manifest.template.json",
+      "sha256": "025771997e0e055cd94ca923cc4b453f9b1a45f68e33d18c784e91f9739b93b1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1453,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/G_vision_spatial_embodied.manifest.template.json",
+      "sha256": "3a207656360003fb07a018ab91fde25fa308b0f60137e49211fa3dd105062ec7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1397,
+      "lines": 49,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/H_science_multimodal.manifest.template.json",
+      "sha256": "8732d74c307279e21bc15eeb731571b9050a25ce25a569346f25f290b0f30c92",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 148627,
+      "lines": 8071,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/SCHEDULE.template.json",
+      "sha256": "390bb84bcbc9a5a43a11550ab6dd88ab421c9551db7e9899e768c8d5f6853ee4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 386,
+      "lines": 18,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/STORAGE_REHEARSAL.template.json",
+      "sha256": "f190aa41ebf6dd8d9ceaf63a60a331d4554d500daa48f1832bf93e8c62aeaeb4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/A.custodian.template.json",
+      "sha256": "ecefb152e9175b20731d53041f7f0077239434f3beb8d60c2bb00356c52e62e0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/B.custodian.template.json",
+      "sha256": "e58a29fa2acebedc48b383e5e1f150b0309936094931df1e20fe468580fb4dd8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/C.custodian.template.json",
+      "sha256": "ec30b989d5ee0cb9bd4ce0fb9d5b6a23d7aaa16fa00a6c98645fe8d8903a1c78",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/D.custodian.template.json",
+      "sha256": "e260ab33185bc39ca227c94a159bcc02e021f65b6e3aa1279a9509ee733b0965",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 402,
+      "lines": 19,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/DAY7_TWO_CUSTODIAN_REVEAL.template.json",
+      "sha256": "f5df10a4689d57edc6a83b4130aecc1d95fdb63c531ca6ce1f557b95448f133c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/E.custodian.template.json",
+      "sha256": "e94d2e8587f351d87f882ba2e851aee7436d13636287726202f479b5204483b9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/F.custodian.template.json",
+      "sha256": "30f3c2d800c4cda991964824d1074ea78e62521454200e7d77cc33099cfbdc17",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/G.custodian.template.json",
+      "sha256": "8d1b890a22e478ad847d9d616bad975e3217c477162fb237a482419762abb94a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 610,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/frontiers/custody/H.custodian.template.json",
+      "sha256": "de005d7813abf251dd720ce9f254062ebf518724a2057b420df69e7827bcec43",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 656,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G01.template.json",
+      "sha256": "9935265a6ab0abf537153920caebbe0a957d426a377a4a9c50ec228ec7cfcfd5",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 639,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G02.template.json",
+      "sha256": "dd03235943d395fa1b1f44377e660e431285d3801f4e6bfc7cc12a44e39266b7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 647,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G03.template.json",
+      "sha256": "55496069d891bd852b93c8108d544a6790bc3975878cb22a10a180b6af8aa8f7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 648,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G04.template.json",
+      "sha256": "72d1a396f04aafe057b7f5c27ff1c89d08f4ff357b8be40ae949783292545b40",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 640,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G05.template.json",
+      "sha256": "2a1c485a6a5203a06acce47b7b27690110f5ce91fb777a68a6c18c35b3cf3807",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 634,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G06.template.json",
+      "sha256": "87bf44cf7ab2a2ab2598c38f701b4ba22b9c972d26d7ac81348baa5370426439",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 649,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G07.template.json",
+      "sha256": "786f8e0ef08581f745bc47d4ee18e1ec5e69164adaeca541584a2836deddfcc2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 644,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G08.template.json",
+      "sha256": "5b3dfb78ef82df24b82fb84969e8b1d875aa4843ebd370028f0e16394d60e878",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 656,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G09.template.json",
+      "sha256": "528c8384e016d4aabd9da4b5918f3c69a6b67daa84c819116faa5d2776c48991",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 656,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G10.template.json",
+      "sha256": "7af47474bea5ea9938a5e67a39d1442e22d0f48e0bd85b15df9cff11e5182951",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 652,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G11.template.json",
+      "sha256": "18ff3cdf80d32b3abfe77a15c4d832b29a9347f7b426938b68cbcf3e2680d384",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 645,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G12.template.json",
+      "sha256": "a6ecc947425f2309fab3923690a4371756a188978d3e511f28adb942b950c7b8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 634,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G13.template.json",
+      "sha256": "109ba409a783a834e16f6b3b79b36ae5bbd63fe8c499f952c8546cdc2443d786",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 632,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G14.template.json",
+      "sha256": "75c511fe47f9d9a877ef70e0c3fa84440c6b9663beae9019da4c3d751428a6a6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 647,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/gate-templates/G15.template.json",
+      "sha256": "9db5c00599a45505faabff1deec7df2a8a7f1afac2394ab46fb6914364942cda",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2068,
+      "lines": 24,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/A_stsc1_executor_visible.rights.json",
+      "sha256": "e89303f56ec12bb837e20eed86d55a60c9e7832f4168ca7b278b43e3989da40a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1479,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/B_hendrycks_math.rights.json",
+      "sha256": "abc4d04e5cf00db9879b9212bef53549eedc3a9102ff84a08aaa2846fe74dffe",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1202,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/B_mathlib4.rights.json",
+      "sha256": "92c036dde4595ff2801cd094f8bf6e63355d18956524ef5707500c6a9926c630",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2181,
+      "lines": 25,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/D_swe_bench_multimodal.rights.json",
+      "sha256": "45952aeb22278ccbb7ded7937051f0b4b447a114100339df57b330adf9bcad14",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1816,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/F_fsd50k.rights.json",
+      "sha256": "e70556752397acebc1313d021edb8ce2b733e020ce1300e707b57c84edaff691",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1530,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/F_librispeech.rights.json",
+      "sha256": "1af54975aa3a5d820c32cc4c43acd2f50461da511982ba414e5891e10450eb11",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1938,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/G_clevr_v1.rights.json",
+      "sha256": "e196b2250981aa4241833c9b04791596664e0195632cc57f219178c90af28ccd",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2244,
+      "lines": 26,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/G_movi_a_128.rights.json",
+      "sha256": "a16ad89b8d583e032877471162b52197e733be365f67fd21f0f0df768ee0e01b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1843,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/H_ai2_arc.rights.json",
+      "sha256": "a4be5cc1d26fbfa47f726279683f51e588eb7d269e2503a8d8ace381e4dd841b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 898,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/clevr_questions_only.json",
+      "sha256": "d4000c5a0a86a1c211f0e07574f87a022be9c6f810fc7828c31d793cfe808bfe",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 856,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/esc50.json",
+      "sha256": "89393e3ef3c4094f5f591867ba63cb09e18671b2611abc282aeb7cea0a40ed85",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 819,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/ethics.json",
+      "sha256": "44d7813178d74690d9286b41dad49e9a0cd4e2fd646016246d18b3a878e191f6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 836,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/gpqa.json",
+      "sha256": "95f0020ad4f4fc0d0ba0772e8ae69fc63c2d88896e890252b6ba853f4217aa5a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 731,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/gsm8k.json",
+      "sha256": "a622bc01cf8b0dfb666087204cf35ad88a725924e66a9b730dbb1f7a8eb03819",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 915,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/gutenberg_philosophy.json",
+      "sha256": "56164cf3aa651d579a76cfb576ccdf1b4e1bc7929a0f05f95e2085910bf89141",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 827,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/humaneval.json",
+      "sha256": "13068ba40f45c19632d1e274f6d115c4c17b3ab58073662d7318b94cd568adf7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 766,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/librispeech_dev_clean.json",
+      "sha256": "a7975872234ba4068a61cc3ad5ad84e63ec4bd696ae25ead9c0fcf209947c091",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 893,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/librispeech_train_clean_100.json",
+      "sha256": "095122798938f444b79cc8178fa3397afdb3b9d6fbef6dd190629e6c76685884",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 932,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/longbench.json",
+      "sha256": "2b7f434a3849c26d06140414cb6b5a485477ce2515b45ee0bd497bf8a341274c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 896,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/mbpp.json",
+      "sha256": "e91e0ef14862ca08d648f8563957bf83690243d76b4d01f2108dde3b0f6f34a3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 786,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/minif2f.json",
+      "sha256": "11b8423c5612a5fccdb41c313f610db80324b1e2ea9ff768856915c7822aea3f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 783,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/openbookqa.json",
+      "sha256": "445e0a669b8c3179e3970325416418ce1933f05025756f44126de095f8b6c2f3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 950,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/prontoqa.json",
+      "sha256": "02dccfe96d8e19721e7a0baf6a08d4c1cbe9e5e9b85cf139c42d9167c8091c05",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 751,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/proofnet.json",
+      "sha256": "f80f6cadc57672aa6d5831e2d0342d732b04413b4a0d32a1cfef7d560a49c7de",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 752,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/sciq.json",
+      "sha256": "fd409f6a150f2a99e93b38039ac3981904f7b1072181e79b8f8f59b88510cd2d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 825,
+      "lines": 21,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/rights/speech_commands_v0_02.json",
+      "sha256": "dd53ce98ac28ee02f1f2b28fec5525aa203f7b4d72a2a1880b87e8a1dad50f00",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 12445,
+      "lines": 352,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE.authority.draft.json",
+      "sha256": "419f46a353a435591c4f0dc80ac365ceac2eb0e7695243b5653d35b7dba01ac9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9627,
+      "lines": 294,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_DAG.json",
+      "sha256": "55c7c67adf54566f1986114d6db41c2c89b42b1c494a3de6021420245b77206f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8512,
+      "lines": 218,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_FAILURE_POLICY.json",
+      "sha256": "df2bd46154e066a275a329e2a81b8ccc2778e6c927b1ab292036e322053cd0a6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7932,
+      "lines": 209,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_RESOURCE_PLAN.json",
+      "sha256": "8ddc64590ffa43311e7a99c9f4b1f7ad252cddde29b56b311d657c8a259c5000",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6845,
+      "lines": 185,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/plans/substrate/tangible_next_launch/two-wave/ODYSSEY_7D_TWO_WAVE_STATISTICS.json",
+      "sha256": "4fe3949db8e540a5c05413b037a020a086d477eedf4616aafc8b0934c5da471f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1090,
+      "lines": 20,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/APPRENTICESHIP.md",
+      "sha256": "0127a303521e4fba69278f4d87b8b1e8e862578682371c478c64fb74b2facb69",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6952,
+      "lines": 128,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/ARCHITECTURE.md",
+      "sha256": "48219797416cb683c11caf460d9c09f47f7e893be6b1b2df8e2a0fe533d9e12a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 879,
+      "lines": 23,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/ASSIMILATION.md",
+      "sha256": "66b839c03eee876e8d0b62c13cdd8d3dd5e5f47418e6323c29da4f0d408cec0f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5087,
+      "lines": 106,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/CAPABILITY_PACKS.md",
+      "sha256": "3aae32bb367e54c5366c7d0fbe34bea09c63a7f22f863c0f228d36336c4c54d2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7659,
+      "lines": 146,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/CONTINUATION_PREFLIGHT.json",
+      "sha256": "2fb7978ba9228eb4053ce0030e35bee42be2ca9f08d56a56d72a9be50fb6c586",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1079,
+      "lines": 26,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/ENTITY_FORMAT.md",
+      "sha256": "e95af1568babd81c0942e1f30ef073897e04c51ba67ec67cde2700d3a6ae3a78",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 740,
+      "lines": 17,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/GO_SYSTEMS_DEMO.md",
+      "sha256": "5dc81722af43b59251125e6e4f7d5a2c3be47a041ea1894568266dacd74e640f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 615,
+      "lines": 14,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/MARKETPLACE.md",
+      "sha256": "fb99aab1cb851452db0981dd6591bdc2776a289ea44564df11ea32927cbb60ce",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2009,
+      "lines": 67,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/ODYSSEY_TOOL_BEARING.md",
+      "sha256": "34457a92d12e1efa3fe3becd58a8afae105c49ea57dfce05807bf37dd4cbba9a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 749,
+      "lines": 17,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/ORGANS.md",
+      "sha256": "dfba66cc7dedd8a69630342ff710de3e2d0877d6b051a6875aa82c282057251b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4929,
+      "lines": 146,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/PORTABILITY.md",
+      "sha256": "5d6f0f7bd83d14558237d5d0621b5069bd88caa843861d6c2db326fe2ffe8cbd",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 712,
+      "lines": 14,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/RAMANUJAN_SUBSTRATE.md",
+      "sha256": "f437a334917d9f6bcfd38d57483b50ec9f19068aadb7fa2fc8aa2b8ee0bebe2c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4971,
+      "lines": 108,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/SANDBOX.md",
+      "sha256": "10be36d441c96bb6885ff2ac7b028c23bc733f1071107502090b635efb77e9db",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3403,
+      "lines": 59,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/SECURITY.md",
+      "sha256": "d21f3208f73f8d6fbfbfecaebec5f1e8af8bf7877dd2cbc5171ff060b101358b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7056,
+      "lines": 132,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "docs/product/SOURCE_ADAPTERS.md",
+      "sha256": "5e9cb1c4f07df2de3b5653392d3fddd0a8cd0e1f80e4855badd84dd850241f00",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 102,
+      "lines": 7,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/device/cpu.yaml",
+      "sha256": "2c134d8d271d448d4524e7fdf4bbf6b3d22172fc9f8607b35ad0551e3553bbd3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 338,
+      "lines": 9,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/device/cuda.yaml",
+      "sha256": "dbc64569d4835720c3caf84f0a3d736b0f5f40ac55bc3319fc9a54898dd49282",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 893,
+      "lines": 12,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/device/mps.yaml",
+      "sha256": "a63ea989228c40c7bc8fa8faf96e1c04c9704fabeedadd1720a8110dadca8fde",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 942,
+      "lines": 22,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/encoder/vjepa2_vitl_fpc64_256.yaml",
+      "sha256": "8d8a676c5480e8773e70826f6222791bbd6d2313a758f66f7fe82ac5911f6336",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 94,
+      "lines": 7,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/config.json",
+      "sha256": "0a972811b138cf2a33d28b946a5c1fe81673bb40e7ccb1d37c597f20f5555f50",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 17655,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/genesis/frozen_configuration.json",
+      "sha256": "8eac53271deecd359ea9f89b1047a78fbf67bcf06b80d6eb90827ac72f60fb87",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25392,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/genesis2/frozen_configuration.json",
+      "sha256": "8ce28359db989fe377f44d2631ee115d9dbc24701f98027b41c69e306542d883",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9449,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/nous_closure/frozen_configuration.json",
+      "sha256": "d6525b0b9a1a2302af9d8c16723461f433aa67159a4f0c423c9399daea274e85",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13659,
+      "lines": 439,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v2/frozen_configuration.json",
+      "sha256": "436b09b1c1d15aecc45941a2c4040e76373bb0936e55bfafa62dbf5efe1ca914",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 15060,
+      "lines": 385,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v2/principal_manifest.json",
+      "sha256": "cb0c53fa15534fed85093c82bdc2eb32361711c20b32fbba6fdd325f56c2c4b1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10215,
+      "lines": 443,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v3/frozen_configuration.json",
+      "sha256": "d4cbb7133586252bfa1d1d4a465c6f81169106bceda9de1584a17cf5d2bb608e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2523102,
+      "lines": 63667,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v3/principal_manifest.json",
+      "sha256": "ff9682f7704aa5604e02c681feb908c759d7d6b7feffe6e7c65531ed629331d9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1984,
+      "lines": 146,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v3/split_manifest.json",
+      "sha256": "ea713e25a4db41bba8fceed621d0b973cc540e22e9f26137f83c0abf2b20c1d4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 998,
+      "lines": 30,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v4/candidate_ladder.json",
+      "sha256": "05895b52b83fccbbde68e12d27d3b3f6c823a52d884f123a0cf4367421c67fb1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8910,
+      "lines": 385,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v4/frozen_configuration.json",
+      "sha256": "b9a188c4b8de0064ce2bd3f6f1f2d75304d61fea684ce95704ee04d282fcaef1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5486261,
+      "lines": 128179,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v4/principal_manifest.json",
+      "sha256": "40f8db0980073ab24885452e67c87f7e37ab77400e1b4463a56d85635b27cb82",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2214,
+      "lines": 150,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v4/split_manifest.json",
+      "sha256": "86c936ef3b67d4f20bb419f5aa1c998789ed808a8a155386e93a0dda02375436",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10888,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/09/090c30d82be4d4489f101a50befe6a174135fc1cbeb514933d5a16e32234a14c.json",
+      "sha256": "c83af5f26f3cba13b7d4f4c4b010cb875031ef6979b6db5c3ce07bda9a1cb808",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 991,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/33/334e2733188b920f910ab9ebf0b291d8cf3cb7102fd108f6e95328a4561caaf6.json",
+      "sha256": "bea6a3bd6946fc36ec1ba0281955f27b8f27885a89c95769eb563343a277c8ee",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10566,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/42/42c74bd65e39512be58cbdb9e5c7806951ee201b20c1126b19f632b25290fc4e.json",
+      "sha256": "cf072bc769d2227a09a567b84d741ba16074a21a798ca125dfa6395ca41853a6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1133,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/4e/4e23f3a5c6baa575dce4a8874a0869a3795cb793690639c64e8731c51981ad5c.json",
+      "sha256": "c6983e2435ba01789d21ea278a414ba9f0359cab798d1827cfb1c4bc92f4cd79",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7965974,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/96/96c2e8ed206198b3307696a59752726febe7914623bb8d18305ddc9bd74d0f38.json",
+      "sha256": "5490906175981561fb73b2ca422881d50a7f2d7a2b45ad1ad012f1c601c5a96f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7965974,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/.objects/9a/9aa2e846fe4d7f60cc1010d189c8cdd7d623c86759c7880d2f42bd5f08314875.json",
+      "sha256": "616caf4dd60d9098d9a9553beca595dc83c8c5dfa2a42aa4aa27550936fe07aa",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1133,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/candidate_ladders.json",
+      "sha256": "fe3ccee76774b5413a51e730f90c8dc3b1d16eddea4ee50b876eb42419350608",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10888,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/frozen_configuration.json",
+      "sha256": "9c98552a4bde4d2e08e5002f4700f8abdcc4992b6a9755828b0f3c8b64d2c88f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7965974,
+      "lines": 2,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/configs/substrate/v5/principal_manifest.json",
+      "sha256": "89fc7a238be852ad251aee112cb49213978c315dedf80ee7654cd982d2fd5f84",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 52962,
+      "lines": 1101,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_HUMAN_EVIDENCE_PACK.0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639.template.json",
+      "sha256": "4b7812b6e4b97ab84a455a43568aeb297120abb667c829737c4820ae4648ecf1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 51161,
+      "lines": 1077,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_HUMAN_EVIDENCE_PACK.062aa8bf.template.json",
+      "sha256": "a1ee95f1924b2c387466b26cd4603a54b6e75e938da6baf76d37618a61248bb7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 52962,
+      "lines": 1101,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_HUMAN_EVIDENCE_PACK.b91a326d4c817758f1cc160d7fe1c1c2644d1eec3d506e90994aef055038fd3e.template.json",
+      "sha256": "8768325ca7794d1eeb43093c7968c04578d35129503475f24fb6e4ab05433327",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 52962,
+      "lines": 1101,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_HUMAN_EVIDENCE_PACK.caaa05662fd40252d13c9f6eafea9395803a10900f967724549ac967a7d0a64e.template.json",
+      "sha256": "45abcfb0f4dc728fd5755eb0e6ec03284058e2732b777e367c91c0d5262b8169",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 12635,
+      "lines": 149,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_MACHINE_PREFLIGHT_DOCKET.0050eb29fdded3db95a43df50be114874446df48fc1b5eadbaa5a2caeffb3639.json",
+      "sha256": "86355b686c6fc48e16404d205b2dc097985da9374c65194248f9185396e8cdf7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5568,
+      "lines": 116,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_OPERATOR_DECISION_2026-08-03.json",
+      "sha256": "28e5bca2dffd0fa91d153de1ef11c15cdf777ba90e8b2e5141ecf54eb179dbbc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 23618,
+      "lines": 548,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/operations/odyssey/ODYSSEY_OPERATOR_INPUTS.sealed.json",
+      "sha256": "45e98f7e45e3868b9b22113fdcd2c62029767e31d18974238ea1e14d7236db9b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1992,
+      "lines": 53,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/test-tiers.json",
+      "sha256": "42d70d12a7165a387e3afd14e6f70a972d6b9be58b3dbe1122a591380f24de85",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 20568,
+      "lines": 527,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/execution_forge.py",
+      "sha256": "337ee9b3f5b477c76d055ac107b4691945e90b4124ea519f5cc20076f2652427",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 31088,
+      "lines": 613,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/execution_forge_reports.py",
+      "sha256": "5c43b8584f64a54de7fc545aa8fd0d1b0aa9b73b415ab8cf9d1ddf1b20e8e146",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 39816,
+      "lines": 879,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/odyssey7d_telegram_notifier.py",
+      "sha256": "07764aa1daee13102f0175a4acec70ae955ecf1419eaf19c1d2b2590d103d62b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8360,
+      "lines": 229,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/stsc_assets/build_docx.py",
+      "sha256": "8043ee1064d791729d3ff77b72ff851b3a079a49534740d9ea4825e57c10ca7c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11532,
+      "lines": 316,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/stsc_assets/build_office.mjs",
+      "sha256": "1c7e4b3d6bc3bede8f5e6a6b15234fb499373a9a0fa812693799ddf627aae8ee",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9587,
+      "lines": 222,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/substrate_doctor.py",
+      "sha256": "9e087ff0391a13f14c96df87fb8c0d0cecf4a70581f7c6b532a00b74c108022b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26962,
+      "lines": 632,
+      "new_owner": "freeze docs/configs/source contracts",
+      "path": "ops/tools/three_second_seal.py",
+      "sha256": "fb31952e6b0329902dce8c7bc4e5fb37b7752b45416d89e352b13e062abf9bb6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 1410,
+      "lines": 54,
+      "new_owner": "pyproject.toml",
+      "path": "pyproject.toml",
+      "sha256": "be301f2df0f7ebcd563c849e6e72572cf573d1d9c1cbf5fbf4e40bf46cd286d3",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 9,
+      "lines": 2,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/.gitignore",
+      "sha256": "306fd52e74fca6746e12acc750f232de15e71da917756a1270d74c91f5eb7368",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 161,
+      "lines": 8,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/Cargo.lock",
+      "sha256": "594b7117c005343772615d7dbb8b663a88406f6fb8d2fff28e04cbad5cee8ee2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 296,
+      "lines": 15,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/Cargo.toml",
+      "sha256": "9105a89576e571936adab47b0f21aa460c6eaedc8b1267d1b3bc89b6cc22a61b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2562,
+      "lines": 81,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/README.md",
+      "sha256": "b95febf4563fcaf5c4f1f6288a860b84578f5c91f7ca980892b1afb5f5377ac8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 32503,
+      "lines": 966,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/src/lib.rs",
+      "sha256": "5bc234cd7f1dfa9009009f84e363798d5ab1e3859995ee663fdb16cf9c7e05d9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6610,
+      "lines": 226,
+      "new_owner": "substrate.sandbox / substrate.handoff",
+      "path": "src/native/substrate-sandbox/tests/body_policy.rs",
+      "sha256": "65e1423edd0e20ff4474c69525be5b93b14311ba7266e1eb2e9c65efa36d601e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 362,
+      "lines": 8,
+      "new_owner": "src/substrate/__init__.py",
+      "path": "src/substrate/__init__.py",
+      "sha256": "0742fe38c81c08bc1aad78390c0fdfc8ac98f4b758c96d8159cca0d29b9a879d",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 4276,
+      "lines": 108,
+      "new_owner": null,
+      "path": "src/substrate/admission.py",
+      "sha256": "bccf3bb3fecc20f1aa1403a6543e21d6c170e760396dd505cd45ca886a7be0bf",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11589,
+      "lines": 294,
+      "new_owner": null,
+      "path": "src/substrate/audit.py",
+      "sha256": "6c59c649423da8dee08f17bbaf5eec6b896aba53894af869a99d0b9b0ede367e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11393,
+      "lines": 284,
+      "new_owner": null,
+      "path": "src/substrate/authority.py",
+      "sha256": "06b35c940a2cec564612a56830397d590710e08884742787206c5ccd4216eb6c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26650,
+      "lines": 695,
+      "new_owner": null,
+      "path": "src/substrate/batteries.py",
+      "sha256": "14bee91705b38f88dcd199f731fcf2382d0aad69db9384ca31ae3e4333b36cf6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 12011,
+      "lines": 323,
+      "new_owner": null,
+      "path": "src/substrate/bodies.py",
+      "sha256": "8356f8a227e369aa4304d599812f64d7f6e6a8e36bfcd575f70ce8e30bae1023",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5464,
+      "lines": 151,
+      "new_owner": null,
+      "path": "src/substrate/body.py",
+      "sha256": "48fbd924645205d437a1e95c2382b7858a1b6f36ee4c51f1b4d3e7e364a844d1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 18625,
+      "lines": 426,
+      "new_owner": null,
+      "path": "src/substrate/certify.py",
+      "sha256": "c5df0a84144074ea5a2366db5379a4c0e6876db88a1abf29ee7df32e6b4f4e72",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10383,
+      "lines": 243,
+      "new_owner": null,
+      "path": "src/substrate/cleanclone.py",
+      "sha256": "d3b37e71a5f681caf106ed3c46e5874f8bf2cec04bf4161dcdfb9035017c4656",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3667,
+      "lines": 134,
+      "new_owner": "src/substrate/cli.py",
+      "path": "src/substrate/cli.py",
+      "sha256": "e13028162b153cecb300d60dbe637a48355d0065da010f099a77dc6526edbe2d",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 1022,
+      "lines": 29,
+      "new_owner": null,
+      "path": "src/substrate/config.py",
+      "sha256": "251dd07891ffe5ab8508d271c1ed08844e878e5c21583fc679f47f3e6f0f0f0f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13679,
+      "lines": 325,
+      "new_owner": null,
+      "path": "src/substrate/data.py",
+      "sha256": "1a5b9cf8c9c4d6a124ece1127a5759e7d9c37d2ba8065d78efdad8d2cdd73e38",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 41981,
+      "lines": 973,
+      "new_owner": null,
+      "path": "src/substrate/deliverables.py",
+      "sha256": "5ebe4a2ef58e8363830b44506370ed699873788aeca3d45b315f5a9ee18ce11c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6959,
+      "lines": 180,
+      "new_owner": null,
+      "path": "src/substrate/divergence.py",
+      "sha256": "612d9b8d105415d480c30f84f9a7d75c28f6d86ddc81c3b9c4036df05890bb6c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 30097,
+      "lines": 755,
+      "new_owner": null,
+      "path": "src/substrate/epistemology.py",
+      "sha256": "e8f9c812ade84aa7ce1e5a6c5dd5bcb077c8cf46baae2a2e7cc3f035906a6a39",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 16454,
+      "lines": 386,
+      "new_owner": null,
+      "path": "src/substrate/evidence.py",
+      "sha256": "fc48312e8d866b9a26c6bb7d0236f58514a19ecba4bd1567452288115d41ade4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 82642,
+      "lines": 2078,
+      "new_owner": null,
+      "path": "src/substrate/execution.py",
+      "sha256": "4b85ecb58d2343d0b439d2531db4d78f9237c4e8d38f18e4ec0277df96e8f268",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 57221,
+      "lines": 1368,
+      "new_owner": null,
+      "path": "src/substrate/experiments.py",
+      "sha256": "32b833bb62378f262140df4ba2b4a22268a8bcee96e7ba98e80ed824c21dbe84",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9951,
+      "lines": 227,
+      "new_owner": null,
+      "path": "src/substrate/final_revision.py",
+      "sha256": "6e42ecbfd6502c89ba2c0aa3ac0f7deb8819688b471c2423f38dd927f821287e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 140691,
+      "lines": 3056,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_campaign.py",
+      "sha256": "a8ce6997c4810672ee62b7efcbfb503c666be94e09af2c477abc679ae9781f41",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4332,
+      "lines": 111,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_cleanclone.py",
+      "sha256": "073ab7c282bf6cb47a99769a818aa3f28f57d7eaae3e60c26ae750728d515d1b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13675,
+      "lines": 387,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_config.py",
+      "sha256": "abf52ff934179fc3919c2fcb62d57c95cf379b7a2fe8d10db84a564c05a1e2bc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7040,
+      "lines": 176,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_continuity.py",
+      "sha256": "94fca4bf28ca74e45ac08d6cb1e47e24ea134ad9414e5bd5d9d8a3417fa973bd",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 71673,
+      "lines": 1521,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_experiment.py",
+      "sha256": "a11ac47093ddfdfcc485139f560bfd31267c56cd8588f8b68ff73891fc6723aa",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 173587,
+      "lines": 4117,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_field.py",
+      "sha256": "e76fd95915e0084bd9eb0eba1b7b26b9d1be6f70f3db44afddae03f4f61fd116",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 48486,
+      "lines": 1034,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_field_campaign.py",
+      "sha256": "2d00c1820b9fe0e338386269fd64eb2b7cca0e6fd1b62f9e97d79f31276ca866",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14258,
+      "lines": 305,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_grok.py",
+      "sha256": "8f75c53abef4866e4a6ef37ae511d432db552d634a36cfcfc6e14294b286197d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5828,
+      "lines": 172,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_io.py",
+      "sha256": "207cae40b144796e98c06a68f98228717bb677c2e799876078d974ebf4faf587",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 40063,
+      "lines": 876,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_kernel.py",
+      "sha256": "c0d85f521c12691d660d2c57f9fca53e4fba24e4b1f5a4505679757151f67d7b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5528,
+      "lines": 172,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_readiness.py",
+      "sha256": "5d13c609ea07bd2eaefcb21f71918da23a5b24eef85db0fc08e6300913f21751",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 19030,
+      "lines": 403,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_sensorium.py",
+      "sha256": "9ca81e9f0ae12423d89c38aeb111b1d5dec7f3657cdd29e412e5ace53ee9080b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26367,
+      "lines": 551,
+      "new_owner": null,
+      "path": "src/substrate/final_revision_verification.py",
+      "sha256": "1cd58f4a3e110f5b397aa0e7462bb749ea2174753a7950b21832063697dd0dc2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2614,
+      "lines": 77,
+      "new_owner": null,
+      "path": "src/substrate/genesis.py",
+      "sha256": "d21b44bc8ec2b9f3a9a33acacb8688eac5dfdce297e27fee5b7b1fc83e2a1cff",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 45041,
+      "lines": 1120,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_campaign.py",
+      "sha256": "e4fe74f86d1d8c544546cdcdce4d3ee7d32ab536416545b21a26ce884b841752",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13387,
+      "lines": 345,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_canaries.py",
+      "sha256": "5d26c077d4bbb08678f92332472a989081d81040d3287f8907fcb8cf8829f5d3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8511,
+      "lines": 238,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_clean_clone.py",
+      "sha256": "34615c071e028a5c027b913f3da64c38d7b9c64534df1f62e0fc1b69dbc8b9bb",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 46215,
+      "lines": 1260,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_config.py",
+      "sha256": "b5f06d0b75674072ebd23a389e802463e6a4c65a48158d8090ccabd8c05195b2",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13255,
+      "lines": 297,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_continuity.py",
+      "sha256": "98d7952cff1b1d35d95b798f284ab131b658adb57dcee1d757caf1669b94b769",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3627,
+      "lines": 99,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_controls.py",
+      "sha256": "2166a741e50560177625fac9b796026cc7ba035a38f40f4a27ed4e2b54ae8683",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6675,
+      "lines": 180,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_grok.py",
+      "sha256": "cb592dca89fa05503dcc24efcbbba47108e55c3c976102b061128a314dcdc0ed",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14529,
+      "lines": 383,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_harness.py",
+      "sha256": "c18190f524b0fc84e4292b4445eb512b263f134ed8104f6bb88956ddf250ec0f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2943,
+      "lines": 109,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_io.py",
+      "sha256": "6a067612f5e2ffe1f18d79a8f5c36cf5fec4b424074318e20e9d7b81a93f3132",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13271,
+      "lines": 328,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_ledger.py",
+      "sha256": "eb2ef3ef5d709a4b8de85c0d279a02e21c8ed400bc73050ef7706925ac3d5077",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 55601,
+      "lines": 1210,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_material.py",
+      "sha256": "aca40e2ee82406fa466f0b26292933163c262555e74516227bd17168c6383866",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 28684,
+      "lines": 731,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_microstore.py",
+      "sha256": "146de1287d03bd10131bb7a6ee8dc85be6541726fd42f3758084ebb0652ce4c1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10004,
+      "lines": 268,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_mutations.py",
+      "sha256": "fb5c08363cd7b307c27fb7f2b840d7e1c0818f6d8c37c72708bbf68f0042350b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13058,
+      "lines": 318,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_publication.py",
+      "sha256": "6d4be603ba4f883117836d3485907450cdaa2d33dfc0926800102761329e557b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11246,
+      "lines": 331,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_run.py",
+      "sha256": "5dedbb25a00d408c0a49371dc950153b190c4a888143a683498ed14afe217315",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6917,
+      "lines": 192,
+      "new_owner": null,
+      "path": "src/substrate/genesis2_statistics.py",
+      "sha256": "af335710075cb899a18c4f35287ce370814779f871b6020889bf3443d0afd3e3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13185,
+      "lines": 321,
+      "new_owner": null,
+      "path": "src/substrate/genesis_campaign.py",
+      "sha256": "ca459080f10520e83cee88569aab9bb2c47732339e9b6d8715c3e41ab4365a5c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 55903,
+      "lines": 1353,
+      "new_owner": null,
+      "path": "src/substrate/genesis_canaries.py",
+      "sha256": "5a2d6d70703227c2a1485a5f8ce07c38e466f5f00be2c77f241ee8bdfd5498a9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 37805,
+      "lines": 925,
+      "new_owner": null,
+      "path": "src/substrate/genesis_challenge.py",
+      "sha256": "ad09c2e0996dfe634e9488d68e36974cb6e16728a12c488b80d4803c911bfac5",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9050,
+      "lines": 218,
+      "new_owner": null,
+      "path": "src/substrate/genesis_claims.py",
+      "sha256": "002e97ced1dfad28c0fccab849b64575a59935cb795941bf2f213f92eb33f82b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 30109,
+      "lines": 788,
+      "new_owner": null,
+      "path": "src/substrate/genesis_config.py",
+      "sha256": "bdef6fc2276decfcd74c3e3d991c84b1ca64b64287810c3e6db67ea403cd0b82",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13046,
+      "lines": 316,
+      "new_owner": null,
+      "path": "src/substrate/genesis_continuity.py",
+      "sha256": "1053493a0bda82800bb86e4dbb6cbd9d9ed4f5881f2c5946d527a615602032e5",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 76783,
+      "lines": 1858,
+      "new_owner": null,
+      "path": "src/substrate/genesis_controls.py",
+      "sha256": "df891fa14a61ed729fa406530e060855ec933824c53463bc50b94ae0a30301c0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6288,
+      "lines": 164,
+      "new_owner": null,
+      "path": "src/substrate/genesis_evaluator.py",
+      "sha256": "d98511943b380962ca25b9af9ec8130893265a28354f02764bdf5f11e2b1e267",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11643,
+      "lines": 259,
+      "new_owner": null,
+      "path": "src/substrate/genesis_grok.py",
+      "sha256": "0f2b66cdddd58e9802f15b3b5829de1ff3c79fb4168ee9201790b9dea1ef0472",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14309,
+      "lines": 366,
+      "new_owner": null,
+      "path": "src/substrate/genesis_harness.py",
+      "sha256": "37cf5d3ad62288b6fd350b45351beb7740a3ba9901058ba06d14e00bb5028f1b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14818,
+      "lines": 356,
+      "new_owner": null,
+      "path": "src/substrate/genesis_history.py",
+      "sha256": "48ca66a10451715e427806196afbc5a54d6cffeae3415d3a0b5ff5db0a962b5b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3254,
+      "lines": 120,
+      "new_owner": null,
+      "path": "src/substrate/genesis_io.py",
+      "sha256": "10788dafee43dd1f96023bae61b4c1b93090e480f2642f6d28a76a3dfd3802da",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 65327,
+      "lines": 1433,
+      "new_owner": null,
+      "path": "src/substrate/genesis_k_advanced.py",
+      "sha256": "c1f8b87c25e089dbc3a1ab3d78053c8571b3c8521d61749560051394a0fe1f39",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 43900,
+      "lines": 1037,
+      "new_owner": null,
+      "path": "src/substrate/genesis_k_basic.py",
+      "sha256": "d5e2da6e58a92ce0e4c442cd8607f5aa74e9f1157672c29472f5518d42534c7a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 67771,
+      "lines": 1466,
+      "new_owner": null,
+      "path": "src/substrate/genesis_k_structural.py",
+      "sha256": "b3ec47c00a41e4459eda5da0571882fb2d9cedaa6e57558bf1a7a1baa987fd82",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 19168,
+      "lines": 545,
+      "new_owner": null,
+      "path": "src/substrate/genesis_material.py",
+      "sha256": "100e0e9c33a7b0b4488c2261f1ebc479a4fecd69615305bee0f6edb8f134bd7d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 48590,
+      "lines": 1212,
+      "new_owner": null,
+      "path": "src/substrate/genesis_mutations.py",
+      "sha256": "4c873844c24daf1cb47fa147ce3ca54c63358f85d987c610f22e0eed7eabcedf",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 23883,
+      "lines": 543,
+      "new_owner": null,
+      "path": "src/substrate/genesis_parity.py",
+      "sha256": "65a7f68093bbb4767b75a23f9eacc4ef31b8171d38c67a291855a302c6ca85f8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8180,
+      "lines": 212,
+      "new_owner": null,
+      "path": "src/substrate/genesis_publication.py",
+      "sha256": "275044b5f99adfd2e53624ea42ad0cad0320e236c54bceead5c326157ab6114a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 28248,
+      "lines": 680,
+      "new_owner": null,
+      "path": "src/substrate/genesis_reference.py",
+      "sha256": "dfb99f4fdbd88bb266a1a90da97a2cd6d85cf2d9084922f64121a7e37d164a0c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11798,
+      "lines": 302,
+      "new_owner": null,
+      "path": "src/substrate/genesis_run.py",
+      "sha256": "06dee4469ff75fc1d2cc4233487b51d7d77ab1dc05cec19d7d0977d49ffb00b1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13398,
+      "lines": 324,
+      "new_owner": null,
+      "path": "src/substrate/genesis_statistics.py",
+      "sha256": "c315800738b277b41751db56aec3121daf805bed43c69fbb8fb1be129759bc16",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 16553,
+      "lines": 390,
+      "new_owner": null,
+      "path": "src/substrate/genesis_tournament.py",
+      "sha256": "75aedba5996051ce46b188652e794ba6fe9c941a3f1cf697b1c40d1f3c307e38",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10005,
+      "lines": 249,
+      "new_owner": null,
+      "path": "src/substrate/genesis_verification.py",
+      "sha256": "6816bb6a8f10debf393bfc73f891ddf139f7c49b98e0bf4eb2c1971280c5af6f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10377,
+      "lines": 292,
+      "new_owner": null,
+      "path": "src/substrate/goals.py",
+      "sha256": "42205bbd6b46c19a0c7c8a95828795a4e9ad51560d64abaa862d39c9c5da296b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 20701,
+      "lines": 561,
+      "new_owner": null,
+      "path": "src/substrate/graph.py",
+      "sha256": "be15127cd530c2774b26ee230b39be7ef6af3a0cb0a4c279161d69c0b3558911",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 6921,
+      "lines": 183,
+      "new_owner": null,
+      "path": "src/substrate/grounding.py",
+      "sha256": "3a53f86b49f2817a24de6c3d1ae315cf136a63f40b8c7e6fda69bc5d1524d632",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3553,
+      "lines": 108,
+      "new_owner": null,
+      "path": "src/substrate/historical.py",
+      "sha256": "000e8c150d45124f56443d8614179c16b9d33c4001e168058462c03a6239cf2d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 16993,
+      "lines": 473,
+      "new_owner": null,
+      "path": "src/substrate/memory.py",
+      "sha256": "8cbd2b89cb63b20a0f5f4e9b4b883f03973c15a7f482ef857a81872b12a1fe88",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 19930,
+      "lines": 516,
+      "new_owner": null,
+      "path": "src/substrate/metacog.py",
+      "sha256": "598f2fb46a48700cea31772b19cbd6a46d2f3c3b68dc4d2c25ad5e4085fa8e17",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 513,
+      "lines": 13,
+      "new_owner": "src/substrate/__init__.py",
+      "path": "src/substrate/method/__init__.py",
+      "sha256": "c36cace04f39914f09bbd71da7233b6ae04d893c490c069b62ef676a2fab89ed",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 12005,
+      "lines": 359,
+      "new_owner": null,
+      "path": "src/substrate/method/contracts.py",
+      "sha256": "823f96d08705afc3ace7953974aa02d499d0782e695269d4688678375032dab1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8517,
+      "lines": 223,
+      "new_owner": null,
+      "path": "src/substrate/method/gate.py",
+      "sha256": "10666afd7c31a08424ec918e7418dc14cc3b7ac1e388aa39452437e515c539db",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7533,
+      "lines": 174,
+      "new_owner": null,
+      "path": "src/substrate/method/graph.py",
+      "sha256": "adae00d1503c8ac583e3e4bdf7596872f8097126501a97f98449464d035d81a8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4309,
+      "lines": 98,
+      "new_owner": null,
+      "path": "src/substrate/method/voi.py",
+      "sha256": "85da992e57c5706f8a8f315294964f774fdcbe8731e15a062ee57da2929332fc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 27724,
+      "lines": 635,
+      "new_owner": null,
+      "path": "src/substrate/nous.py",
+      "sha256": "82588731d7c6513e27d6e2422a12c53f293eecf798bc5aa04b821acdb3376b2c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3602,
+      "lines": 90,
+      "new_owner": null,
+      "path": "src/substrate/nous_closure.py",
+      "sha256": "d35d8599ccf79d5e48a615741a20281dd416efb6fa14f4ece263d1cc8f9c2bd9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 96588,
+      "lines": 2139,
+      "new_owner": null,
+      "path": "src/substrate/nous_closure_campaign.py",
+      "sha256": "750f6108a1379925dd5be3259d83858202f3bcef8b5d5969895c63b6b0c1bad9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14671,
+      "lines": 346,
+      "new_owner": null,
+      "path": "src/substrate/nous_closure_config.py",
+      "sha256": "4953d5e243357bfb2def7364a50fd3231b4f1c6f0f83b60b12c9919559b1221c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25589,
+      "lines": 616,
+      "new_owner": null,
+      "path": "src/substrate/nous_closure_experiment.py",
+      "sha256": "d7f54ba715661989c8ba159d5cd17ffab080b80f59e23a7227584aade6f4a6e3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5645,
+      "lines": 179,
+      "new_owner": null,
+      "path": "src/substrate/nous_closure_io.py",
+      "sha256": "fdefd240a1bc08b7985cb469d553781bf4c1dea98d604dfeef0edd90541e106b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 69741,
+      "lines": 1572,
+      "new_owner": null,
+      "path": "src/substrate/odyssey7d.py",
+      "sha256": "9f5c99bbc9bb4ec99c641bb89173d2cff17bf012beca42272a83e2a82f1a5e72",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 63615,
+      "lines": 1483,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_arms.py",
+      "sha256": "02bc487cbf92030e1154e477ebbd15db44ee8d5a8383d7661b4ec5d8af196a85",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 203486,
+      "lines": 4017,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_authority.py",
+      "sha256": "b7436f8680c513384ed26b4ff7c9603932c343ed602454ec0bfbe306a6eeb8e6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 12912,
+      "lines": 317,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_clean_clone.py",
+      "sha256": "3bd14f5ace65742d2d8b3c2669deea7d166286190084a3280028c874b87a0f12",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 35218,
+      "lines": 988,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_density.py",
+      "sha256": "6cdfcf7bfc320be7c2ce407ab2b54fb90ce2ba1b4e93b026ea9a3888c175a028",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 35775,
+      "lines": 806,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_detachment.py",
+      "sha256": "d97c3fbc62015526f9ac511a607699619bdf314ddae69c601b75b49d088d4c26",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 33183,
+      "lines": 772,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_g06_dc.py",
+      "sha256": "443c332827d7b2f361468689741bd3bbc8793de8b7fb38909f7078d8acddb09c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 44091,
+      "lines": 1028,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_machine_subjects.py",
+      "sha256": "117ced821c8ac26c61daafa70041106f3f829beac501c58d64802954e1b9eb11",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 20404,
+      "lines": 432,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_manifest_materializer.py",
+      "sha256": "13f7bf8bf12a9acb1adcfe1a512d320d90a5ea15bef3cde85105e5887cf5daa9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 28218,
+      "lines": 633,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_model_canary.py",
+      "sha256": "bc639d8a448ab194e1fc932dbf59ab340b98263d54241c597e27f30eaa07eaf9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 74217,
+      "lines": 1712,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_mutations.py",
+      "sha256": "13783e9087697e59df65f7392b2e6637b782a6d627ed00a81a267cd33eb55765",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 135865,
+      "lines": 3146,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_rehearsal.py",
+      "sha256": "24d38b800e84983308b2a91d1f35b93d9003932d2f20d9202ee6efa7d4da6a67",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 47960,
+      "lines": 1055,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_task_bank.py",
+      "sha256": "77860946a9b952527e4b82777e5e7294de201b1ad32ce8cb48dfc8b3e292c643",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4587,
+      "lines": 107,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_telegram_probe.py",
+      "sha256": "c2f00a076d84f439624aaba0ad492c3342ac32c3c9c06462f2d713f6c8d86554",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 103537,
+      "lines": 2368,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_tools.py",
+      "sha256": "7b7739fdb510d3a6eb9be1378bff7185311b352893bb02a6f699750848132423",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25821,
+      "lines": 484,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_transition.py",
+      "sha256": "f7db3f807742413021537c92ed4cfd42860af7a439f4a92b2e0adf479fa8cd7c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 86458,
+      "lines": 1964,
+      "new_owner": null,
+      "path": "src/substrate/odyssey_worker.py",
+      "sha256": "b955adb23bb831cc3ddcc33dd90e7769aa4aafa9b5cc2f73e5ec9e6c1bb24e04",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25939,
+      "lines": 638,
+      "new_owner": null,
+      "path": "src/substrate/ontology.py",
+      "sha256": "7b44c49c25bad2c3d0b18c2d8a6d26256f38b0212e5300da14e11c2349d35c0c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 30294,
+      "lines": 819,
+      "new_owner": null,
+      "path": "src/substrate/perspectives.py",
+      "sha256": "72801b1ab03f0a325debe3ce68668a823bc84a5b300c13235f550b49da22c1b0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 19008,
+      "lines": 531,
+      "new_owner": null,
+      "path": "src/substrate/plasticity.py",
+      "sha256": "f076dbe10318f86f0d6907373cd088cf9e9e3b046151df5067dd87b73a2d69d0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 53786,
+      "lines": 1398,
+      "new_owner": null,
+      "path": "src/substrate/portability.py",
+      "sha256": "1bb9464fe9333fb43c88bcb1340b9b3e19af1f07cee3ffbb68bd0d3de1b3a3aa",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 406,
+      "lines": 11,
+      "new_owner": "src/substrate/__init__.py",
+      "path": "src/substrate/product/__init__.py",
+      "sha256": "ae62d65ffab251e3d625f824effb11d84f2cf7aea4ee000907d52a8c46182c93",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 13531,
+      "lines": 288,
+      "new_owner": null,
+      "path": "src/substrate/product/apprenticeship.py",
+      "sha256": "37abc1f0ad8a71f7ad20adb6b7e0c721aa280a77590c455f12be2e4286be8702",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26022,
+      "lines": 561,
+      "new_owner": null,
+      "path": "src/substrate/product/backends.py",
+      "sha256": "de29b1e1d197a67cb407831f5b0d60f0fc701331fa538c2ac5db5ed82278ea1e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 84075,
+      "lines": 1730,
+      "new_owner": null,
+      "path": "src/substrate/product/cache.py",
+      "sha256": "cad794c66871fa839358da3a27bcbbc997afe97aadcbf9f1fe75ef36840bb75b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 21239,
+      "lines": 406,
+      "new_owner": "src/substrate/cli.py",
+      "path": "src/substrate/product/cli.py",
+      "sha256": "ca86fddf6682889f6de7334d5d1e77167b768ba21aec36bd32d27bf05c1d15b4",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 5747,
+      "lines": 156,
+      "new_owner": null,
+      "path": "src/substrate/product/codec.py",
+      "sha256": "0061fa6f29788a2a65dd9c62ac14ee1f53d03c967735c6f34cc2e4d3b5537b1f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25714,
+      "lines": 546,
+      "new_owner": null,
+      "path": "src/substrate/product/contracts.py",
+      "sha256": "9936aa653adc3b9766a3a772b1d18718287607346b0c83de0356bfdf8065eb94",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 21290,
+      "lines": 480,
+      "new_owner": null,
+      "path": "src/substrate/product/entity.py",
+      "sha256": "eb421ede81d3a400ca0471a59d527cf58bdf8e586c7562eaacdd5f878dc1fae6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 38593,
+      "lines": 814,
+      "new_owner": null,
+      "path": "src/substrate/product/pack_artifacts.py",
+      "sha256": "75219342324d2fa87ca094c5f59b7149988bcfd9f1ce55044ccc6b07f8bc3d78",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11219,
+      "lines": 239,
+      "new_owner": null,
+      "path": "src/substrate/product/packs.py",
+      "sha256": "a9cddc37c5812c5d104d67cddf1f3ebb0a5c314ec095edbb13cdc6c904533e10",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 21602,
+      "lines": 472,
+      "new_owner": null,
+      "path": "src/substrate/product/source_adapters.py",
+      "sha256": "e4739fa8f3c74333cbde774fcc0ce6cbcffbb41dbb09b7ff3e16b497ca9dc511",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 5738,
+      "lines": 142,
+      "new_owner": null,
+      "path": "src/substrate/product/sources.py",
+      "sha256": "57934535114cc36c917df251f084f6ce13897c4f706dcb9308de44cb0eb041e7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 19527,
+      "lines": 443,
+      "new_owner": null,
+      "path": "src/substrate/product/tool_bundles.py",
+      "sha256": "c6a5448f9b107225f9357c9adc4fd86152cdf0e8756d235300279e46950f47b1",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 65628,
+      "lines": 1553,
+      "new_owner": null,
+      "path": "src/substrate/program.py",
+      "sha256": "b06b4cdd4e5ffe37e2f851b7eb5d8d24123a7ebd3da99eaf6997d3892b122e45",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14983,
+      "lines": 319,
+      "new_owner": null,
+      "path": "src/substrate/r2_continuity_verifier.py",
+      "sha256": "0c5afbe66ea25f4df1677ddbd047fa7d080d05b51108620b1dee649b6459a55a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8611,
+      "lines": 221,
+      "new_owner": null,
+      "path": "src/substrate/r2_provenance_verifier.py",
+      "sha256": "9e72a1670a0c813380f7cc2e6af30f6d1b06fd0e6bcc20327bafd85e140daf2c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 37403,
+      "lines": 856,
+      "new_owner": null,
+      "path": "src/substrate/runtime.py",
+      "sha256": "35d613cf3d8c6b218f520178f97d0dfdef8f3eb603da8a789c35333fda39d81e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8919,
+      "lines": 250,
+      "new_owner": null,
+      "path": "src/substrate/safety.py",
+      "sha256": "776ad13b247943ce8ff859296c662eb4805f83a63ce5b875afebf7c65084b097",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4917,
+      "lines": 137,
+      "new_owner": "src/substrate/sandbox.py",
+      "path": "src/substrate/sandbox.py",
+      "sha256": "f45b96d609b31da1856410fdffd2d37d131743aa7fd35b4be022e88286cb3154",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 99271,
+      "lines": 2686,
+      "new_owner": null,
+      "path": "src/substrate/sandbox_campaign.py",
+      "sha256": "593b70e416a23e35ad20f76f5907c22e83ce6b49e26fbee69a975a82f481e840",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26156,
+      "lines": 698,
+      "new_owner": null,
+      "path": "src/substrate/sandbox_config.py",
+      "sha256": "df50b382da1fc46b0da7c07e48cd4bb0989a1f6edb1acf9de203fb7130f715e6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 162746,
+      "lines": 4160,
+      "new_owner": null,
+      "path": "src/substrate/sandbox_execution.py",
+      "sha256": "a9fcc837c45cb8d6e94b240caa9dcb332089b6ddbcc348d5ddc19117adc14ce9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 38958,
+      "lines": 951,
+      "new_owner": null,
+      "path": "src/substrate/sandbox_readiness.py",
+      "sha256": "48ba0e8ab1d7bc810d8e3eacf2ced56ee3b3955044e62e945b56c7be70d2f08f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 27077,
+      "lines": 705,
+      "new_owner": null,
+      "path": "src/substrate/sandbox_storage.py",
+      "sha256": "272511220e3fd4ee6beeecf42cbb3b8b7658d907d78b27fae5aa52279219cf15",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8504,
+      "lines": 239,
+      "new_owner": null,
+      "path": "src/substrate/selfmodel.py",
+      "sha256": "896a3b74633ce2aa1685130b518180bf6365aa90808cca77177ed12f4aec8405",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8683,
+      "lines": 235,
+      "new_owner": null,
+      "path": "src/substrate/sessions.py",
+      "sha256": "0c8073bd3a11e80c216328aa70751598aa458a2ca3bdbb924105f6eb9a9f26ca",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 70958,
+      "lines": 1865,
+      "new_owner": null,
+      "path": "src/substrate/spatial3d.py",
+      "sha256": "86a3570e89cf8a2c764636b9b8aeae221ff10c82f0573c91c99c4c332659a4fc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10520,
+      "lines": 241,
+      "new_owner": null,
+      "path": "src/substrate/sx2.py",
+      "sha256": "91a2b421360d79e5bcaa0f01c0ac0ce4daedb1e841da303cee31e3b49cac9078",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 71899,
+      "lines": 1508,
+      "new_owner": null,
+      "path": "src/substrate/tangible_next.py",
+      "sha256": "80fb20648f7f9f9b3f5a9b97deff44a8ae53e2fa337df40d6d9b84cfd70ccfde",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 9686,
+      "lines": 253,
+      "new_owner": null,
+      "path": "src/substrate/temporal_link.py",
+      "sha256": "fe7cdc54d3b05cea04bb15763e20979809899ea02491c19811ee672569929996",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 22427,
+      "lines": 562,
+      "new_owner": null,
+      "path": "src/substrate/v2.py",
+      "sha256": "713955f44a63f492675717a7019df7469a6838731d052b0c1d374f69d77fe68f",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 46145,
+      "lines": 1083,
+      "new_owner": null,
+      "path": "src/substrate/v2canary.py",
+      "sha256": "b99b5365b7d2275ee074c20ceab6f872c0b769a9506be97cefaa976c72fdcfd7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 15091,
+      "lines": 381,
+      "new_owner": null,
+      "path": "src/substrate/v2config.py",
+      "sha256": "8edd1dab31670c434f065fe5ac074f71a9f7a48e7dbd28e5ea3d0d7bc1288901",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4021,
+      "lines": 120,
+      "new_owner": null,
+      "path": "src/substrate/v2executor.py",
+      "sha256": "eedacc52164718b0038fed6554e3057a9e6219241bb25aedbeeef916a77f0e32",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8969,
+      "lines": 231,
+      "new_owner": null,
+      "path": "src/substrate/v2fabric.py",
+      "sha256": "f446d044c23dbc4bddd6421287649b9ffa97ec87770662016c787942ff8298b7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3681,
+      "lines": 109,
+      "new_owner": null,
+      "path": "src/substrate/v2io.py",
+      "sha256": "a036bc426415ef1476e63f18dd7b512b1432c24af5c137ed9b6d5c91bbd36334",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 24150,
+      "lines": 642,
+      "new_owner": null,
+      "path": "src/substrate/v2principal.py",
+      "sha256": "66a5e33c229e815a4c34972553e4480247c86c4e42fc250a2c752df19608c9b3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 16471,
+      "lines": 361,
+      "new_owner": null,
+      "path": "src/substrate/v2rehearsal.py",
+      "sha256": "7760d4d28e81209ccff6e20c7051add3ddae34fbba3276b53e76e7ea1e1ba4aa",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 41637,
+      "lines": 1043,
+      "new_owner": null,
+      "path": "src/substrate/v2state.py",
+      "sha256": "bb9bc8fb5c68d9027b9c28c40848087d8f1a7e3980129c10478e540d8941661d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 2745,
+      "lines": 82,
+      "new_owner": null,
+      "path": "src/substrate/v2stats.py",
+      "sha256": "f976781045f3a2e36e7c7397ac0ae4f17701c327695b8ffb400d7febe0504de4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 39842,
+      "lines": 963,
+      "new_owner": null,
+      "path": "src/substrate/v2verify.py",
+      "sha256": "5101b34a3014ca6f7de5af58be56881c337b8f44779624f335cb9e00059b0de6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4742,
+      "lines": 123,
+      "new_owner": null,
+      "path": "src/substrate/v3.py",
+      "sha256": "5ea74e93e52e37c6e741b6970d9c1904b2d203549bb7c8eaf5a8ab49478c96c6",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26817,
+      "lines": 588,
+      "new_owner": null,
+      "path": "src/substrate/v3campaign.py",
+      "sha256": "b0faa8f55dfc389daab17258490490c85768d5ca0685d4f7bae46897d1aaae61",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 43552,
+      "lines": 1077,
+      "new_owner": null,
+      "path": "src/substrate/v3canary.py",
+      "sha256": "af2fcd03a4e83db8e58d40d78f8419a87d492ead6a166c7352d51183f244e95b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 11644,
+      "lines": 274,
+      "new_owner": null,
+      "path": "src/substrate/v3config.py",
+      "sha256": "39cd0512f4cfe41fa74778354b0b4516fbdc950c97e00f0c0acbcdc45e2d16cc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 18425,
+      "lines": 449,
+      "new_owner": null,
+      "path": "src/substrate/v3fabric.py",
+      "sha256": "542dbf209d5480e91c5aa2609df6f2345a4eb1892931feefba063aab5e58824a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4543,
+      "lines": 138,
+      "new_owner": null,
+      "path": "src/substrate/v3io.py",
+      "sha256": "2580aff8b225bd83d8a7a606fd1fb1895c883005e9a13c1ea15489ea2a66851e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 12530,
+      "lines": 307,
+      "new_owner": null,
+      "path": "src/substrate/v3pilot.py",
+      "sha256": "4c697e93b4458ba081ce8a9f98479eff8984e963174a779aa159496fe72c9f8b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26782,
+      "lines": 593,
+      "new_owner": null,
+      "path": "src/substrate/v3principal.py",
+      "sha256": "0856083e6c43c486613b696e8671b1617b80d062bd4f56d541bb38a944d46998",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 21220,
+      "lines": 429,
+      "new_owner": null,
+      "path": "src/substrate/v3state.py",
+      "sha256": "d4d3e1428b9f209c1db0930cc19304facc2fb5125e229276c4e57ebb359077bc",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 35122,
+      "lines": 835,
+      "new_owner": null,
+      "path": "src/substrate/v3verify.py",
+      "sha256": "486d248d13ca4dc005d7746e35aa6274a27d19e803143663bef2fb80eb18f659",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4049,
+      "lines": 96,
+      "new_owner": null,
+      "path": "src/substrate/v4.py",
+      "sha256": "731fd0fb63398607a2442b925ac5cd2e82276472c31ce3486026ea9cf8117d92",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26413,
+      "lines": 588,
+      "new_owner": null,
+      "path": "src/substrate/v4campaign.py",
+      "sha256": "17abd65873db5309249db7f380f242771380c4d848b2b667efa4ea5e73e06af3",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 42439,
+      "lines": 1067,
+      "new_owner": null,
+      "path": "src/substrate/v4canary.py",
+      "sha256": "6346f0ca96c64a76cca7af662d60b16688146ca40abf735fdab135e3164c9ff4",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10812,
+      "lines": 305,
+      "new_owner": null,
+      "path": "src/substrate/v4config.py",
+      "sha256": "a1fa3f1d1abc2383ee09e1fe9c198f6cdf3acc1cd262f536d9833288a59b60ad",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 18906,
+      "lines": 467,
+      "new_owner": null,
+      "path": "src/substrate/v4fabric.py",
+      "sha256": "958c19aa34bc61026b56193120f205e2f39272d33b93a7f70b43df9b506152d0",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3520,
+      "lines": 103,
+      "new_owner": null,
+      "path": "src/substrate/v4io.py",
+      "sha256": "6eae6d0040b90e94b362b1a69fe3541bf83318b4ee0ffd6d48da99ec2bccf008",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14520,
+      "lines": 365,
+      "new_owner": null,
+      "path": "src/substrate/v4pilot.py",
+      "sha256": "3342264454787ddc68d43832fcfb9f5dad41efab6fb630368d8aeab6bc8cf2c5",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 25687,
+      "lines": 623,
+      "new_owner": null,
+      "path": "src/substrate/v4principal.py",
+      "sha256": "ebcc2c6e2f5684752a7f2ef42909231bf8d5fc01168cbfa408e6fc23ea63201c",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 41778,
+      "lines": 901,
+      "new_owner": null,
+      "path": "src/substrate/v4verify.py",
+      "sha256": "c3a4b2cd66745601fc02ce02d90df6e039577389e9abcac44e50c845fe0466d7",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 10325,
+      "lines": 254,
+      "new_owner": null,
+      "path": "src/substrate/v5.py",
+      "sha256": "5e2e8cf19787459c88cc2ee694adc8fc4a19286d6fad446cd637b31793cd7727",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 7460,
+      "lines": 226,
+      "new_owner": null,
+      "path": "src/substrate/v5analysis.py",
+      "sha256": "4e0a7b77d73ec5141dafe06d68adb18d5d700dc1c2169b0166661e347e607fb9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 23739,
+      "lines": 486,
+      "new_owner": null,
+      "path": "src/substrate/v5authorities.py",
+      "sha256": "3fca3a4ef9f54c682892f86353dd84eb7b6c241d5f08ecdc646f82ee3d6d1dd9",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 42501,
+      "lines": 1123,
+      "new_owner": null,
+      "path": "src/substrate/v5campaign.py",
+      "sha256": "5914db41b30e896fe89c5ce0b84fb0d4c07974cbd0370750a73701c503860355",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 80963,
+      "lines": 2271,
+      "new_owner": null,
+      "path": "src/substrate/v5canary.py",
+      "sha256": "6d571463e68b19744235079a2fc2ebe0a452c29c42145995b358a3fc094bd3ad",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 18954,
+      "lines": 471,
+      "new_owner": null,
+      "path": "src/substrate/v5config.py",
+      "sha256": "f6f777a2f4811722727c59a6f524c30b7f87d5780760ef0e9c743abd1624dc9e",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 32160,
+      "lines": 788,
+      "new_owner": null,
+      "path": "src/substrate/v5environment.py",
+      "sha256": "8e82a4f5bca040e8b593f52950b9e6fb1faa01b98f5359747b03fbf038c7edeb",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 42757,
+      "lines": 1312,
+      "new_owner": null,
+      "path": "src/substrate/v5experiment.py",
+      "sha256": "fc541422b149e2fe07691253c745b0f793ab654b7967238613841089ceaf11ff",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 17795,
+      "lines": 501,
+      "new_owner": null,
+      "path": "src/substrate/v5io.py",
+      "sha256": "450144cc788e03e1cdd39672abf3be88c313d8d2946f7ad53d0a354db59a1594",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 14160,
+      "lines": 389,
+      "new_owner": null,
+      "path": "src/substrate/v5kernels.py",
+      "sha256": "be045085eda5a98f3b8006e11ae488810cbf66e44603f0d744f6cde12f9c6dbb",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 26532,
+      "lines": 687,
+      "new_owner": null,
+      "path": "src/substrate/v5models.py",
+      "sha256": "ef9c15e926c3c56aa9fb840307b2565a99fc114ea9924d2fd8967004e341490b",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 53634,
+      "lines": 1412,
+      "new_owner": null,
+      "path": "src/substrate/v5pilot.py",
+      "sha256": "50617d4fc34f82aaab5338deb7d009ed0eff4cf6cda2d7cf5b1ed77953ab26ff",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 32594,
+      "lines": 922,
+      "new_owner": null,
+      "path": "src/substrate/v5principal.py",
+      "sha256": "bfcedb7b8fedbe8d3039304726a7da47e3cabdeb82fb10810711a71563cd53fa",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 51687,
+      "lines": 1284,
+      "new_owner": null,
+      "path": "src/substrate/v5sensorium.py",
+      "sha256": "aebb7d9a76c43058c0a7f65e8ec0578eb0224a5f954833b80e142740eb0c4e42",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 82463,
+      "lines": 2134,
+      "new_owner": null,
+      "path": "src/substrate/v5state.py",
+      "sha256": "d9b9886b52a596c450e95f6111adcf157bc581a263f04d8d6579ecf7f67475be",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 4948,
+      "lines": 147,
+      "new_owner": null,
+      "path": "src/substrate/v5stats.py",
+      "sha256": "2d2a61cb783f4f3576107e46d4eadd24948590aa19b589d4085a8e47247035e8",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 152394,
+      "lines": 4029,
+      "new_owner": null,
+      "path": "src/substrate/v5verify.py",
+      "sha256": "d0e152438b481ab1467c480ea787dbb6d5b11c286508ca3826ddb41cd7b2f13a",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 23808,
+      "lines": 556,
+      "new_owner": null,
+      "path": "src/substrate/verification.py",
+      "sha256": "b84cef8dc4b32f8fda04c8e5c098bcdae31937983d31c286cbf25705ad3b492d",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 13453,
+      "lines": 442,
+      "new_owner": "src/substrate/workspace.py",
+      "path": "src/substrate/workspace.py",
+      "sha256": "81c2f15256b971c5318c0ef263a77c0c0a1fa061afd23d69128aa2500c4ac3f0",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 52015,
+      "lines": 1144,
+      "new_owner": null,
+      "path": "src/substrate/world.py",
+      "sha256": "75aa16cf3db63b4d601b5dbf8443a8d16df1a3171f5b28c59c7f59217b817947",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 8384,
+      "lines": 211,
+      "new_owner": null,
+      "path": "src/substrate/worldbed.py",
+      "sha256": "2989632bb6dba8d3ad0c43f9d6cb526c662e87d42f05f02b0dd68fcc53637600",
+      "status": "RETIRED"
+    },
+    {
+      "bytes": 3376,
+      "lines": 128,
+      "new_owner": "tests/conftest.py",
+      "path": "tests/conftest.py",
+      "sha256": "d1d58aa01c330e4716a4c6a57934253d5af873b16cdd6531e5ea928c64cafbfc",
+      "status": "REPLACED"
+    },
+    {
+      "bytes": 2159,
+      "lines": 47,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/librispeech_audio_fixture.py",
+      "sha256": "1e44e5b46743f71716ba6b906aa1499ba38c3c943ee5a4e8e4bb77ec589063f8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6969,
+      "lines": 174,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_admission.py",
+      "sha256": "99ad8a81112b97b84f63b833e6fae85d9fed1e5c8ab0a57fe9f836422a882fad",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4338,
+      "lines": 103,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_baseline_health.py",
+      "sha256": "fcc125c945104dc86081b201273bd4e955f60adb9449c87a18cf09743cc603ce",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6357,
+      "lines": 146,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_batteries.py",
+      "sha256": "ab0bef4cae2220024344a9bbac784ac229ac3275ccb2d567223e3b86c1357992",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 1966,
+      "lines": 51,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_body.py",
+      "sha256": "0102b043308f67f3464e60e1eb3b149fc2806f2d583a4634240bd1e68f6fb672",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8083,
+      "lines": 197,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_certification.py",
+      "sha256": "3c2439c8460c2d1b1b3fa4db7efd8243fe05dfa900cc870fe10993834fdd9007",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3381,
+      "lines": 85,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_entity_integrity.py",
+      "sha256": "12715b4849c03b3387a7e3c2bfbee3ab9620b47a61a09bdeed50434b8d59f8d8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8419,
+      "lines": 190,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_epistemology.py",
+      "sha256": "1057507efbeb7f7cb60c4360c5454f84b78431c0c1af7f5215862a5229192bf8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2316,
+      "lines": 57,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_event_horizon_contracts.py",
+      "sha256": "566c2065219e1a7db830cfc2eb57b60b31c5a7501f5ba0d4e99034231c67cfb2",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 844,
+      "lines": 31,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_evidence.py",
+      "sha256": "7acf7ccb4a3a4b8c3bdcdc7258177d4ab0a13b8ff2c68bd06dbe845e3a8498ae",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 10215,
+      "lines": 262,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_execution.py",
+      "sha256": "47fdb2061d2922b21f804424b0dcad25654c31f7319df7f74e47bdbf4046872e",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8048,
+      "lines": 164,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_experiments.py",
+      "sha256": "4a6d3e5fc0ccd2f8ad1c8df05374be5f81d69c7f8c8639d976f3dccd6ee31948",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 9707,
+      "lines": 259,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_final_program.py",
+      "sha256": "c6241ffcca8f184d86925f69d1a8407a1fcc2e0a7d998bb22920e6013c1ac4f5",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 22126,
+      "lines": 493,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_final_revision.py",
+      "sha256": "73961cfc8b9880b9bd3c07fb27edf50171ea45497d651a859c52cd7dc049b2d3",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 17992,
+      "lines": 385,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_final_revision_field.py",
+      "sha256": "293b3f6d16aadfc50349619728661ba3f7453eb6df0719d3159da54083fe2072",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8051,
+      "lines": 206,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_final_revision_terminal_gate.py",
+      "sha256": "d22e419ca576c71bc67d0de37484ea2bb5949c4b0a3da0ae80d106ce50edc04a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 16563,
+      "lines": 364,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_final_revision_terminal_harden.py",
+      "sha256": "00a33080d1384894ee93ed080644c11b1abe2352ee1610736b2e2786e34ea792",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6491,
+      "lines": 173,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis2_core.py",
+      "sha256": "7d11ee192daf69e710c4994f34c2bc5ae5ce650bec9d9be0e40edabe9b8fd70f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 21921,
+      "lines": 551,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_canaries.py",
+      "sha256": "a7a93bb163144b0d273a63e53f8513ed6256c349aa33f15e749429182053c379",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 11137,
+      "lines": 258,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_challenge.py",
+      "sha256": "f0f349b7138c9aa1380e79f7d1cce1fc8fff9abf9b82f13eb17e4f5dc7596f81",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 9713,
+      "lines": 220,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_controls.py",
+      "sha256": "26389897a6056b615c5ab70da0686ebc554578dfd686da76e00c75cbb3cde7a8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 14972,
+      "lines": 389,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_core.py",
+      "sha256": "75c6ab9eb0bd45503280530007b3bc66fdbd6356959d5fa5576d857c79fe6587",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 15131,
+      "lines": 381,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_k_advanced.py",
+      "sha256": "8ac2d3ffe17e30995d595fca5b32a8b57ddcacdd128298349a0b9255ca1aac5c",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 13448,
+      "lines": 353,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_k_basic.py",
+      "sha256": "fd09b735b7c77aa0293dd26d4264663b71201e96cad3f7024caebb103820d1ab",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 24923,
+      "lines": 630,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_k_structural.py",
+      "sha256": "d0f550ce5742ddbc71c4b4091895171ebfb5b74325d4c9ec589122b50ba81c84",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 15155,
+      "lines": 384,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_parity.py",
+      "sha256": "016311a06e422798ffea0d6796cfd6bc60821c36b38d4bbc4eb8301f37fc39cc",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8985,
+      "lines": 196,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_genesis_reference.py",
+      "sha256": "9aa866811deacd916bf9e70d1172150c904474623a5fc6ae49f829cfed51f413",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7329,
+      "lines": 191,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_memory.py",
+      "sha256": "0227ea667ec1dd37722d63e572a621efc43e94564c74a3de53791a391da261a1",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4139,
+      "lines": 115,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_metacog.py",
+      "sha256": "da93cbad1f10e383bef8c9b171ada3fa8d2d0e94ce4b44e9c2d6957b09b58015",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3396,
+      "lines": 90,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_no_private_keys_tracked.py",
+      "sha256": "4c2c280f52d038261071a25a156cc83b5d3e164bd611ba5e8e0d8c3f8f01b08b",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4801,
+      "lines": 107,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_nous.py",
+      "sha256": "b959d276aec30898a91f3151cc5a3f24cd93135bba40bca28a5c16adae5c587d",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4470,
+      "lines": 105,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_nous_closure.py",
+      "sha256": "050221967f37bb2944dff2d257e31bf2c04dd872f2e7454ad3a7ec44a0b3eb5f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 35908,
+      "lines": 758,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey7d.py",
+      "sha256": "d6805c489a30a184292fbea19edddec65c75cb73095c880513bb7eebca719b61",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 14968,
+      "lines": 351,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey7d_telegram_notifier.py",
+      "sha256": "1f24a1dbfee9dca61546bc67d1ec61d50a12077dad299be32c5115327f1a63c8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 14616,
+      "lines": 372,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_arms.py",
+      "sha256": "1f327905cb14b0ccd5711c400926c863e30fe550161e1302588200afadd77dfc",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 83159,
+      "lines": 1840,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_authority.py",
+      "sha256": "e2e0f72fca04efd8da3782d330f9254837ce1ff7aa3aacc922dd4a40fadbff7f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3297,
+      "lines": 71,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_clean_clone.py",
+      "sha256": "5526ecfcd247a0d9fa6bcccf5747392cde43bc5dcd98ec6fddaeb9d67c805066",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8032,
+      "lines": 190,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_density.py",
+      "sha256": "5f3450725fb87fcc473c0d03cc11cd425ebc836628b48b5c71fe5242dc05215d",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 14077,
+      "lines": 308,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_detachment.py",
+      "sha256": "d132b23a174e343b6b0c6f6a415adda2af964fe2fb403f406c76bfdf32df2803",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 15726,
+      "lines": 387,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_g06_dc.py",
+      "sha256": "af98b4b07531dee898197cac6e1d82560673d95f1cfed81730ca788baa57d1c5",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 19293,
+      "lines": 438,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_machine_subjects.py",
+      "sha256": "d1a0452bcf6e41d95f4a757d7bc4f9fae5abb6f625a85ecd25d4c29c2cea3c14",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8884,
+      "lines": 227,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_manifest_materializer.py",
+      "sha256": "993ada4200e71806b65474a9a9f796786b425bcb21257380affc93aed9287009",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3985,
+      "lines": 97,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_model_canary.py",
+      "sha256": "3db4c9a26bfce451a2280b4cd66c620f72fc093e475fa22d7f2d6f3f97519410",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 12442,
+      "lines": 235,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_mutations.py",
+      "sha256": "a018b49b64ca93116a68cf9f857fbf02255ae95c5909fc2b64abd41c2f56529f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 11934,
+      "lines": 341,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_rehearsal.py",
+      "sha256": "679fde8606fa626be2b4eb97d30ee2edf077d143ce863ed3468838a020238bce",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 11985,
+      "lines": 295,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_task_bank.py",
+      "sha256": "0e47f2ff5ad99c7cf71fed46f0cbcb3b7ef8b28db328c708a80debe248b4daff",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2242,
+      "lines": 60,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_telegram_probe.py",
+      "sha256": "9345126e1db76a4c1c49e14dcdc59d355c88039d2a97484effdc07deadaa7dc6",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 15600,
+      "lines": 403,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_tools.py",
+      "sha256": "a6e9ed7bbbd56723e966ce04fbe5e8d9e0ca077e15817280ff4dc9ad3e92438e",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 23709,
+      "lines": 555,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_odyssey_worker.py",
+      "sha256": "7c254849b51a414492b8f5bb20ff99816e5e70a2c4e0f94d2a362815f4fba9fb",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7095,
+      "lines": 170,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_ontology.py",
+      "sha256": "25f9b624a58683d613e8c932e9a292960d27b41846573bd648fadfd2f65a5fa0",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6570,
+      "lines": 157,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_perspectives.py",
+      "sha256": "492a7711df36dd943b76638c3223502a6a788330339afe7c9d971cbd2dafc724",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6787,
+      "lines": 144,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_plasticity.py",
+      "sha256": "7f4fd2e32def91b854d4a931e65327aa4a8460aea3d2a5b979753445695456f3",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 9659,
+      "lines": 242,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_portability.py",
+      "sha256": "73ba3126276a25da6761891eafd2e10d56656f98cfc6ee9d806d0d85ec25213e",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 10398,
+      "lines": 248,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_product_assimilation_hardening.py",
+      "sha256": "6771926e25e9662cc403a8e092e6f8c9db2690438cce748b86d38c5300d8760b",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 28872,
+      "lines": 689,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_product_pack_cache.py",
+      "sha256": "68d7cb82e647f66202e4b573ca347df96653f5fd2e16b79dc72751aed82cca3a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 31306,
+      "lines": 765,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_product_scaffold.py",
+      "sha256": "673a74deca7a5c2698481b4a23bf15c34a23d7490e879266205d49d11ea6e78e",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7862,
+      "lines": 221,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_product_tool_bundles.py",
+      "sha256": "052acba652aeda1a125edc89b025dda32f9257a32c7dd58b4693d8aa26465d28",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 9655,
+      "lines": 215,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_program.py",
+      "sha256": "bd58cb881f090b6436dd9e47de5b4ad5e25375a1dd64400b353f555f9c3bda2c",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7335,
+      "lines": 166,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_r2_continuity_verifier.py",
+      "sha256": "20b9f8eddd8b767fd9cc8fce13e50a01f12ce508c71d7920b111c0d6eec4878f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3898,
+      "lines": 101,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_r2_provenance_verifier.py",
+      "sha256": "b4590ca853d1e1352e267aa423115c6f8a27a1d896f8af61d545e56959acd7e7",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2019,
+      "lines": 43,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_repository_layout.py",
+      "sha256": "0c28266128bf5b62b2cb45b33bd1922e2ffb915907fec82dfab4288ea60eca46",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6808,
+      "lines": 163,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_runtime.py",
+      "sha256": "9622dc15b3382f7e5304acc0a72a143c59c814e001289b143b892fcfcf70f2c5",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4722,
+      "lines": 115,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_safety.py",
+      "sha256": "f1def25880adc9b49f1a66e8e3fd027e0164f5a373f4e019d0e83dd63d58e0e4",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 13590,
+      "lines": 352,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_sandbox_r2.py",
+      "sha256": "6754d19f18004527b76ad8fd13100bd461ec744cb3fc95ccd07c2ba112d7a0aa",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 11088,
+      "lines": 335,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_sandbox_readiness.py",
+      "sha256": "19af0bd7e84d92e5e03f589635d36d0b7b4d0bd3ae9f7fc2fd2d5699099e64ca",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3162,
+      "lines": 79,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_selfmodel.py",
+      "sha256": "4e45a5e2b5e4982c1cf51141b649c7c61e30ea917a1eec46c7a09ffbb850c647",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 11534,
+      "lines": 277,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_source_adapters.py",
+      "sha256": "9aa3a71bad2bedd8e5a75e1ceca6922a5e019d1a3eeae8d775555b37cce39e41",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 9271,
+      "lines": 264,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_spatial3d.py",
+      "sha256": "f9b7a05bb2133ba26065a0ae3a01af4efd94474fce6a5d207a23e50149412e2f",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4229,
+      "lines": 91,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_sx5.py",
+      "sha256": "597a1be6100fddf93ff9b458b903d87388ccaddfaa7e4a7e7dba64f3bea931cf",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 8791,
+      "lines": 230,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_tangible_next.py",
+      "sha256": "ac0722e28517b5f80050e71aa4a3a946ee0a25dfe45830af3d0ce20a44534e5a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2199,
+      "lines": 55,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v2_executor.py",
+      "sha256": "4e4e3a924e5a57e6260193a919927e4141c2b63bf2a8b616915ba0b7790be85b",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2154,
+      "lines": 52,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v2_fabric.py",
+      "sha256": "39816fcc7a7a76550857a6e9bc85cedd6d0b693810107cb95300da42a7dee6c9",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3180,
+      "lines": 76,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v2_principal.py",
+      "sha256": "1e4c47444143e96427c2e17418c626af89ca3c27b9c9755f91153a4899bfe3e3",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 6771,
+      "lines": 174,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v2_state.py",
+      "sha256": "43eae8742e1758cb6187ed54f7d803cdd9ae0bc03e793e4a518cf6fff97b1a2c",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2247,
+      "lines": 58,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v2_verification.py",
+      "sha256": "3c30994dad88411b774768f8ca0d7dc45bcd61309998d64694454ab54a3807d8",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7084,
+      "lines": 206,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v3_campaign.py",
+      "sha256": "d3fcb32893726c432587f0022b053a5a26535f6ebe472140671b384794c8a557",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 5204,
+      "lines": 136,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v3_mechanisms.py",
+      "sha256": "b5f3c87b862672bb38e4b3d3cf1826790256e185d1f74b3496500aa3bfc4ca3a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4223,
+      "lines": 119,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v3_verifier.py",
+      "sha256": "cdfb43ffe2a4efe03595ed30c3515d9b77a64a931939e27b734add92c28d9dee",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7329,
+      "lines": 191,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v4_mechanisms.py",
+      "sha256": "397a0272e684cc6b18b8a5bbfa897a50ba13594792143a689a4b3e10a6b6bcff",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 512,
+      "lines": 16,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_analysis.py",
+      "sha256": "5f4be0ada38e0dc216b12b4f2b8b2fef92820577be688d749f87b7c283fa0f85",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 682,
+      "lines": 14,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_authorities.py",
+      "sha256": "190d24bce83ad802a93ad3785aa5fa4ab535ebb0e0f04b60d11cde0da955a8f6",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 13406,
+      "lines": 373,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_campaign.py",
+      "sha256": "c29b5db002af6ac0ff46fd30449aac8a44298f92d0cc95177c1ecc9fb202eaca",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3547,
+      "lines": 124,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_canary.py",
+      "sha256": "8f4a84053a201278be4419396be5effaaa506e9258da59bff2772e4af7b6706a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 7542,
+      "lines": 252,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_cli.py",
+      "sha256": "decf69348b05d56f5a3e97813ede2aa8f0423f7a953e0722a1aaba5a292622d5",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4517,
+      "lines": 145,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_experiment.py",
+      "sha256": "03aaf9d3688cbc48a4b390b0e19eb26c3d83d9a400be1b0b5abcd4cd25050529",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 2748,
+      "lines": 71,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_kernels.py",
+      "sha256": "b8d5369663c194764290cc0846527c2911c708e66d65ac675799dd6df40d72ca",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 5002,
+      "lines": 115,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_pilot.py",
+      "sha256": "8a142d319959bd55ed285633b8a23d49aa4385c74ccb204b058e8dd34ac43788",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3189,
+      "lines": 89,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_principal.py",
+      "sha256": "eb2191e803797028acb675639d01f76d52bb528b05b87d8bbe037a235bc1621d",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 19512,
+      "lines": 509,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_sensorium.py",
+      "sha256": "a7c94beac782383de728c32dce39c6cb7472f1a075bcfd2e69dc5dcb5cdf2f13",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 23590,
+      "lines": 632,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_state.py",
+      "sha256": "ec83ec75c88056a7a49f104d720d5c173761d1e35e4202a4d9eaa90fb65e812d",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 1778,
+      "lines": 57,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_stats.py",
+      "sha256": "729e6b861d2df1c9688e67bde87a882306b7343713d9628fefedf864da601c1c",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 18011,
+      "lines": 552,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_v5_verify.py",
+      "sha256": "496d16f8238484c7dc6f1c2f4b8a951fffa30f0bd59271f3a55a1592da9f35df",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 5315,
+      "lines": 128,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_verification.py",
+      "sha256": "3a3c7fbbeb92a60eeea77b45801130c6e98e2865f9601010a0b513980aa35b45",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 4669,
+      "lines": 116,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_workspace.py",
+      "sha256": "ee8db6274d8a1d91e4fc2fcf1b164bcb3bddef786ab7bfa9c34409f551912f11",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 5719,
+      "lines": 153,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_world.py",
+      "sha256": "5e4cb1aa55886060c37cc3a657a4823d099412bcdd3fd29df0da0d2601fa967a",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 3149,
+      "lines": 91,
+      "new_owner": "refactor/TRANSPLANT_INVENTORY.json",
+      "path": "tests/substrate/test_worldbed.py",
+      "sha256": "1060ed1469d2d24869e6e6f35be9e52f36bc61b61197df9247f03e43b1897416",
+      "status": "HISTORICAL_TEST_OBLIGATION"
+    },
+    {
+      "bytes": 134896,
+      "lines": 602,
+      "new_owner": "pyproject.toml (freeze has no lockfile)",
+      "path": "uv.lock",
+      "sha256": "a19dea483d29e326f25d644a153a76e74619b9148c1b36955b3febbc6af53cca",
+      "status": "RETIRED"
+    }
+  ],
+  "schema": "substrate-transplant-inventory-v1",
+  "summary": {
+    "HISTORICAL_TEST_OBLIGATION": 96,
+    "REPLACED": 12,
+    "RETIRED": 366
+  },
+  "target_head": "7087786e5f8ad77703df838f739c0a705b3024c1"
+}

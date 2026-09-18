@@ -1,0 +1,6 @@
+{
+  "calls_present": 5452,
+  "errors": [],
+  "resolved_calls_inspected": 2243,
+  "scope": "AST-only direct functions/constructors and self/class methods; no runtime/type or external API proof"
+}

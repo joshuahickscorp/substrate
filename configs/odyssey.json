@@ -1,0 +1,17 @@
+{
+  "schema": "substrate-one-odyssey-v2",
+  "id": "substrate-odyssey",
+  "target": "locally-owned-general-intelligence-and-consciousness-research",
+  "status": "draft",
+  "chapters": {"mechanisms": {"requires": [], "axes": ["development", "economics"]}, "integration": {"requires": ["mechanisms"], "axes": ["integration", "recurrence", "perspective", "metacognition"]}, "apprenticeship": {"requires": ["mechanisms"], "axes": ["generality", "agency", "development"]}, "plasticity": {"requires": ["apprenticeship"], "axes": ["development", "economics", "continuity"]}, "continuity": {"requires": ["integration", "apprenticeship"], "axes": ["continuity", "agency"]}, "closure": {"requires": ["plasticity", "continuity"], "axes": ["generality", "development", "integration", "recurrence", "perspective", "metacognition", "agency", "continuity", "economics"]}},
+  "axes": {"generality": "Acquire and transfer skills across independently designed unfamiliar domains", "development": "Verified history changes abstractions, procedures and subsequent learning efficiency", "integration": "Selective broadcast causally connects perception, memory, self-monitoring and action", "recurrence": "Recurrent processing carries task-relevant state; lesions expose what is lost", "perspective": "Track scoped first-person, other-agent, organ and counterfactual representations without conflation", "metacognition": "Prospective self forecasts are calibrated and alter appropriate actions", "agency": "Distinguish intended, executed, externally imposed and counterfactually controlled outcomes", "continuity": "Projects and earned competence survive sleep, replacement and qualified migration", "economics": "Acquisition and execution utility survive complete storage, compute and model accounting"},
+  "phenomenal_question": "Whether this organization has any subjective experience remains an empirical and theoretical question",
+  "not_redefined_as": ["fluent self-report", "memory database", "small-world success", "architecture labels"],
+  "theory_profiles": ["global-workspace", "recurrent-processing", "higher-order", "attention-schema", "predictive-processing", "biological-naturalist-challenge"],
+  "required_controls": ["same-organ", "memory-only", "exact-cache", "equal-acquisition-budget", "no-workspace", "no-recurrence", "no-self", "no-perspective", "no-broadcast"],
+  "default_workspace": {"slots": 4, "rounds": 3, "byte_limit": 12288, "lesion": "none"},
+  "prohibited_shortcuts": ["counting-passing-indicators-as-consciousness", "training-on-final-labels", "unmeasured-size-as-intelligence", "self-report-as-verification"],
+  "review_policy": {"phenomenal_claims": "independent-theory-aware-review", "welfare": "review-before-scaled-agentic-experiments", "synthetic_distress_objective": false, "shutdown_evasion_objective": false},
+  "completion": "Complete outcome coverage and independent interpretation of all target axes, not merely completed jobs",
+  "consciousness_target": "Full consciousness is investigated without presuming phenomenology from capability, labels, or self-report; theory-specific support and counterevidence remain separate"
+}

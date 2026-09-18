@@ -1,0 +1,19 @@
+{
+  "id": "reasoning-organ",
+  "model": null,
+  "artifact": null,
+  "endpoint": "http://127.0.0.1:8080/v1/chat/completions",
+  "roles": [
+    "reasoner",
+    "teacher"
+  ],
+  "representation": "model",
+  "max_input_bytes": 24000,
+  "max_output_tokens": 1024,
+  "context_tokens": 32768,
+  "token_env": "SUBSTRATE_MODEL_TOKEN",
+  "timeout": 60,
+  "temperature": 0,
+  "nr": null,
+  "nx": null
+}
