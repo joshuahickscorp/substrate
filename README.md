@@ -1,53 +1,92 @@
-# Substrate · one Odyssey
+# Substrate
 
-**Target: semi-conscious general intelligence in a persistent developmental entity.** Intelligence belongs to the continuing organization, not one model. There is one Odyssey, with internal studies for mechanisms, integration, apprenticeship, plasticity, continuity and full-target interpretation.
+> **Source-frozen research baseline · v4.0.0a1 · unexecuted**
 
-This drop adds actual recurrent workspace processing, attributed perspectives, behavioral self-monitoring, acquired program-template reuse and whole-entity manifestation. It does not equate those implementations with consciousness or general intelligence. **No tests, test collection, Odyssey, model calls, training jobs or containers were run.** Static source inspection is reported separately.
+Substrate is a research architecture for one persistent developmental entity.
+Its source connects recurrent workspace processing, scoped perspectives,
+predictive memory, program-template reuse, provenance-aware local data,
+candidate adaptation, and whole-organization export/restore. It is a frozen
+baseline for further qualification—not a trained entity, completed Odyssey,
+qualified runtime, or claim of consciousness or general intelligence.
 
-## Start here
+## Status at the freeze
 
-Read [research and the target](docs/RESEARCH.md), [operating protocol](docs/ODYSSEY.md), [architecture and physical forms](docs/ARCHITECTURE.md), and [migration](docs/MIGRATION.md). `configs/odyssey.json` is the one-program charter. `configs/research_frontier.json` links implemented symbols to remaining evidence obligations. Exact counts and limitations are in `refactor/REPORT.md` and `refactor/STATIC_INSPECTION.json`.
+| Surface | Status |
+| --- | --- |
+| Source baseline and integration contracts | Frozen |
+| Tests and collection for this delivery | Not run (`0`) |
+| Model calls, training jobs, services, and containers | Not run (`0`) |
+| Odyssey runs and behavioral pass claims | Not run / not claimed (`0`) |
+| Static source inspection | Reported; not runtime qualification |
+
+The complete release record is [FREEZE.json](FREEZE.json). The frozen source
+contains 173 test definitions and 119 historical evidence payloads, but their
+presence is not presented as an execution result for v4.0.0a1.
+
+## What the source connects
 
 ```text
-                         ONE SUBSTRATE ENTITY
-    identity · lineage · constitution · projects · epistemic state
-                                  │
-    observation / memory / self / world / procedure / goal / critic
-                                  │
-              viewpoint-bound, capacity-limited workspace
-                    select → broadcast → reconsider
-                                  │
-               qualified native procedure / neural organ
-                                  │
-          prospective prediction → independent verified outcome
-                                  │
-      belief revision · competence · self forecast · acquired templates
-                                  │
-        one Odyssey: development, interventions and target evidence
+identity · lineage · constitution · projects · epistemic state
+                              │
+observation / memory / self / world / procedure / goal / critic
+                              │
+        scoped, capacity-limited recurrent workspace
+                 select → broadcast → reconsider
+                              │
+  native procedure or explicitly qualified candidate neural organ
+                              │
+ prospective prediction → independently verified outcome → revision
+                              │
+one Odyssey charter: development, interventions, and target evidence
 ```
 
-The existing LLM broker receives a projected workspace, verified examples and candidate material. Neural output remains a proposal. Known qualified tasks can use the entity's native procedure without a model call. Four additional arms remove workspace, recurrence, perspective labels or broadcast; the previous nine arms remain.
+- `CognitiveCycle` is wired into the worker path. Broadcast can affect
+  retrieval depth and revise routing after a native-input guard fails.
+- Verified development outcomes can update calibration and attention-selection
+  statistics with replay protection; frozen evaluation does not assimilate its
+  final labels.
+- Candidate templates can be consolidated from distinct qualified program
+  structures, then still require fresh witnesses and independent
+  qualification. This is not a claim of general abstraction learning.
+- Local corpus ingest preserves source, licence, group, rights, and
+  content-addressed history. Ingestion does not promote material to truth.
+- Optional local MLX LoRA fitting is an explicit, pinned subprocess path. A
+  candidate adapter cannot silently become the active entity.
+- Whole-organization export/restore, closed-program capsules, and Hawking
+  capability metadata are integration contracts with explicit authority and
+  fidelity limits.
 
-## What is connected
+## What remains outside the claim
 
-`CognitiveCycle` is on the actual worker path, not an unused demonstration. Its broadcast can change retrieval depth and revise routing when a native input guard fails. Independently admitted development outcomes update calibration and attention-selection statistics, with replay protection. Frozen evaluation does not assimilate final labels or mutate the entity.
+Substrate does not claim a completed study, a learned consciousness
+architecture, general semantic learning, a qualified neural recurrence, a
+working provider service, a GUI or marketplace, verified unlearning, or a
+sentience determination. Real-world apprenticeship dispatchers, broad
+multimodal/perception work, deeper recurrence, executed fidelity checks, and
+longitudinal effectiveness remain future work.
 
-Acquired numeric templates are mined from distinct qualified program structures. A bounded search tries those templates before primitive enumeration. Every resulting skill still needs new verified witnesses and independent qualification. This is not a general abstraction learner or neural wake-sleep implementation.
+The source allows preparation and inspection of plans, organization packages,
+training inputs, and contracts. Those operations do not launch a campaign.
+Any worker, evaluator, fitting, or external-runtime use requires an explicit
+operator decision and its own source/plan/host-bound permit and qualification
+gates.
 
-The one-Odyssey ledger keeps signed chapter evidence, supporting findings, counterevidence and missing target axes distinct. The current six-world runner is an initial mechanism instrument inside the full program—not the full general-intelligence environment. External apprenticeship has bounded prospective instrument/action contracts; actual repository/formal/perception dispatchers and broader study instruments remain explicit work.
+## Read the record
 
-## Size and physical manifestation
+- [Research target and open evidence obligations](docs/RESEARCH.md)
+- [One-Odyssey protocol](docs/ODYSSEY.md)
+- [Architecture and physical forms](docs/ARCHITECTURE.md)
+- [Migration and integration boundary](docs/MIGRATION.md)
+- [Source-only refactor report](refactor/REPORT.md)
+- [Static inspection](refactor/STATIC_INSPECTION.json)
 
-Source LOC, acquired organization, retained evidence, neural assets and resident memory are different quantities. `phenotype` counts the entity's reachable current/history payload; `growth` compares snapshots without declaring an intelligence delta. Unmeasured model bytes, device residency and energy stay unknown.
+The source baseline contains 53 authored files and 9,190 authored physical
+lines under the freeze's count policy. Historical evidence is retained in the
+baseline archive; it is distinct from the unexecuted source release.
 
-`organization-export` writes a frozen whole-entity package with an NR-like representation manifest, complete entity bundle, optional actual statistics in Safetensors and explicitly supplied content-addressed assets. `organization-restore` verifies the package and restores it frozen without inheriting host authority. The runtime and unavailable neural dependencies remain explicitly listed.
+## Documentation amendment
 
-`native-lower` prepares serialized closed-DAG regions bound to the source NR, runtime and host. `NativeImage` requires independent fidelity qualification before execution. This is a bounded interpreter image, not a fabricated whole-model/Hawking/FPGA executable. The intended Hawking port may eventually encompass the whole relevant organization; this first lowering implementation does not impose a permanent partial-port cap.
-
-## Operational interface
-
-Preparation/inspection commands include `odyssey-charter`, `plan`, `body`, `preflight`, `phenotype`, `growth`, `tensor-inspect`, `organization-export`, `native-lower`, `prepare-training` and `hawking-request`. Persistent ledger commands are `program-init`, `program-admit` and `program-assess`. Export and ledger commands write only explicitly named local artifacts/state; they do not launch a campaign.
-
-Workers and evaluator services require the existing source/plan/host-bound operator permit and independent gates. There are no real provider bindings or passing qualification receipts in this delivery. Main/pilot configurations remain drafts. Test execution is an explicit later operator decision, not a default hook; `make` and the manually triggered CI perform source inspection only.
-
-The active tree is kept below 10,000 authored text lines, including tests, documentation and inventories; unchanged historical evidence is excluded and retained byte-for-byte in the full archive. No predecessor code is hidden in a generated executable payload. The v2 source remains separately preserved; current v2 test definitions are retained, and new contracts are unrun.
+This README is a post-freeze status and navigation amendment. It does not
+change the frozen source baseline or upgrade any evidence into a behavioral
+claim. The original README remains preserved in the freeze archive, and the
+amendment is recorded in [FREEZE.json](FREEZE.json).
